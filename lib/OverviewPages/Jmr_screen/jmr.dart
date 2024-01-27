@@ -40,11 +40,15 @@ class _JmrState extends State<Jmr> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            title: Text('${widget.cityName} / ${widget.depoName} / JMR',
-            style: appFontSize,
+            title: Text(
+              '${widget.cityName} / ${widget.depoName} / JMR',
+              style: appFontSize,
             ),
-            
-            backgroundColor: blue,
+            backgroundColor: white,
+            flexibleSpace: Container(
+              height: 55,
+              color: blue,
+            ),
             actions: [
               Container(
                 padding: const EdgeInsets.all(5.0),
@@ -152,9 +156,10 @@ class _JmrState extends State<Jmr> {
                 setState(() {});
                 generateAllJmrList();
               },
-              labelColor: white,
+              labelColor: blue,
+
               labelStyle: buttonWhite,
-              unselectedLabelColor: Colors.black,
+              unselectedLabelColor: tabbarColor,
 
               //indicatorSize: TabBarIndicatorSize.label,
               indicator: MaterialIndicator(

@@ -156,10 +156,14 @@ class _DetailedEngtState extends State<DetailedEng>
       initialIndex: 0,
       child: Scaffold(
         appBar: AppBar(
-            backgroundColor: blue,
+            backgroundColor: white,
             title: Text(
               '${widget.cityName} / ${widget.depoName} / Detailed Engineering',
               style: appFontSize,
+            ),
+            flexibleSpace: Container(
+              height: 55,
+              color: blue,
             ),
             actions: [
               Container(
@@ -262,6 +266,8 @@ class _DetailedEngtState extends State<DetailedEng>
                       ))),
             ],
             bottom: TabBar(
+              unselectedLabelColor: tabbarColor,
+              labelColor: blue,
               onTap: (value) {
                 _selectedIndex = value;
               },
@@ -489,7 +495,7 @@ class _DetailedEngtState extends State<DetailedEng>
       body: Column(children: [
         Expanded(
             child: SfDataGridTheme(
-          data: SfDataGridThemeData(headerColor: blue),
+          data: SfDataGridThemeData(gridLineColor: blue),
           child: StreamBuilder(
             stream: _stream,
             builder: (context, snapshot) {
@@ -913,7 +919,7 @@ class _DetailedEngtState extends State<DetailedEng>
       body: Column(children: [
         Expanded(
             child: SfDataGridTheme(
-          data: SfDataGridThemeData(headerColor: blue),
+          data: SfDataGridThemeData(gridLineColor: blue),
           child: StreamBuilder(
               stream: _stream1,
               builder: (context, snapshot) {
@@ -1358,7 +1364,7 @@ class _DetailedEngtState extends State<DetailedEng>
       body: Column(children: [
         Expanded(
             child: SfDataGridTheme(
-          data: SfDataGridThemeData(headerColor: blue),
+          data: SfDataGridThemeData(gridLineColor: blue),
           child: StreamBuilder(
             stream: _stream2,
             builder: (context, snapshot) {

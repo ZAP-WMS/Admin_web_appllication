@@ -8,14 +8,15 @@ Color almostWhite = const Color(0xffffffff).withOpacity(0.87);
 Color blue = const Color.fromARGB(255, 9, 83, 161);
 Color lightblue = const Color(0xff009eff);
 Color white = const Color(0xffffffff);
-Color borderColor = Color(0xFF2651A1);
+Color borderColor = const Color(0xFF2651A1);
+Color tabbarColor = Colors.grey;
 
 TextStyle formtext = const TextStyle(
   fontSize: 13,
   fontWeight: FontWeight.bold,
 );
 TextStyle columnStyle =
-    TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: white);
+    TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: blue);
 
 TextStyle columnText = const TextStyle(fontSize: 12);
 
@@ -24,10 +25,8 @@ TextStyle tableheaderwhitecolor = TextStyle(
   fontSize: 14,
   color: white,
 );
-TextStyle tableheader = const TextStyle(
-  fontWeight: FontWeight.bold,
-  fontSize: 14,
-);
+TextStyle tableheader =
+    TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: blue);
 
 TextStyle appFontSize = const TextStyle(fontSize: 14);
 TextStyle bodyText2 = GoogleFonts.ibmPlexSans(

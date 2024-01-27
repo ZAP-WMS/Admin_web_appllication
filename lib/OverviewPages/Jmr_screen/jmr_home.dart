@@ -14,6 +14,7 @@ import 'package:web_appllication/OverviewPages/quality_checklist.dart';
 import '../../components/Loading_page.dart';
 import '../../datasource/jmr_datasource.dart';
 import '../../model/jmr.dart';
+import '../../style.dart';
 import '../../widgets/custom_appbar.dart';
 import '../../widgets/nodata_available.dart';
 import 'package:intl/intl.dart';
@@ -230,7 +231,7 @@ class _JMRPageState extends State<JMRPage> {
                           _jmrDataSource = JmrDataSource(jmrtable);
                           _dataGridController = DataGridController();
                           return SfDataGridTheme(
-                            data: SfDataGridThemeData(headerColor: Colors.blue),
+                            data: SfDataGridThemeData(gridLineColor: blue),
                             child: SfDataGrid(
                               source: _jmrDataSource,
                               //key: key,
@@ -256,10 +257,7 @@ class _JMRPageState extends State<JMRPage> {
                                     alignment: Alignment.center,
                                     child: Text('Sr No',
                                         overflow: TextOverflow.values.first,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            color: Colors.white)),
+                                        style: tableheader),
                                   ),
                                 ),
                                 GridColumn(
@@ -272,10 +270,7 @@ class _JMRPageState extends State<JMRPage> {
                                     alignment: Alignment.center,
                                     child: Text('Description of items',
                                         overflow: TextOverflow.values.first,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            color: Colors.white)),
+                                        style: tableheader),
                                   ),
                                 ),
                                 GridColumn(
@@ -301,10 +296,7 @@ class _JMRPageState extends State<JMRPage> {
                                     alignment: Alignment.center,
                                     child: Text('BOQ RefNo',
                                         overflow: TextOverflow.values.first,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            color: Colors.white)),
+                                        style: tableheader),
                                   ),
                                 ),
                                 GridColumn(
@@ -317,10 +309,7 @@ class _JMRPageState extends State<JMRPage> {
                                     alignment: Alignment.center,
                                     child: Text('Abstract of JMR',
                                         overflow: TextOverflow.values.first,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            color: Colors.white)),
+                                        style: tableheader),
                                   ),
                                 ),
                                 GridColumn(
@@ -333,10 +322,7 @@ class _JMRPageState extends State<JMRPage> {
                                     alignment: Alignment.center,
                                     child: Text('UOM',
                                         overflow: TextOverflow.values.first,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            color: Colors.white)),
+                                        style: tableheader),
                                   ),
                                 ),
                                 GridColumn(
@@ -349,10 +335,7 @@ class _JMRPageState extends State<JMRPage> {
                                     alignment: Alignment.center,
                                     child: Text('Rate',
                                         overflow: TextOverflow.values.first,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            color: Colors.white)),
+                                        style: tableheader),
                                   ),
                                 ),
                                 GridColumn(
@@ -365,10 +348,7 @@ class _JMRPageState extends State<JMRPage> {
                                     alignment: Alignment.center,
                                     child: Text('Total Qty',
                                         overflow: TextOverflow.values.first,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            color: Colors.white)),
+                                        style: tableheader),
                                   ),
                                 ),
                                 GridColumn(
@@ -380,10 +360,7 @@ class _JMRPageState extends State<JMRPage> {
                                     alignment: Alignment.center,
                                     child: Text('Amount',
                                         overflow: TextOverflow.values.first,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            color: Colors.white)),
+                                        style: tableheader),
                                   ),
                                 ),
                                 GridColumn(
@@ -399,10 +376,7 @@ class _JMRPageState extends State<JMRPage> {
                                     alignment: Alignment.center,
                                     child: Text('Delete Row',
                                         overflow: TextOverflow.values.first,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            color: Colors.white)
+                                        style: tableheader
                                         //    textAlign: TextAlign.center,
                                         ),
                                   ),
@@ -416,7 +390,8 @@ class _JMRPageState extends State<JMRPage> {
                           _dataGridController = DataGridController();
 
                           return SfDataGridTheme(
-                            data: SfDataGridThemeData(headerColor: Colors.blue),
+                            data:
+                                SfDataGridThemeData(gridLineColor: Colors.blue),
                             child: SfDataGrid(
                               source: _jmrDataSource,
                               //key: key,
@@ -446,10 +421,7 @@ class _JMRPageState extends State<JMRPage> {
                                     alignment: Alignment.center,
                                     child: Text('Sr No',
                                         overflow: TextOverflow.values.first,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            color: Colors.white)),
+                                        style: tableheader),
                                   ),
                                 ),
                                 GridColumn(
@@ -462,10 +434,7 @@ class _JMRPageState extends State<JMRPage> {
                                     alignment: Alignment.center,
                                     child: Text('Description of items',
                                         overflow: TextOverflow.values.first,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            color: Colors.white)),
+                                        style: tableheader),
                                   ),
                                 ),
                                 GridColumn(
@@ -474,12 +443,8 @@ class _JMRPageState extends State<JMRPage> {
                                   label: Container(
                                     padding: const EdgeInsets.all(8.0),
                                     alignment: Alignment.center,
-                                    child: const Text('Activity Details',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: Colors.white,
-                                        )),
+                                    child:  Text('Activity Details',
+                                        style: tableheader),
                                   ),
                                 ),
                                 GridColumn(
@@ -492,10 +457,7 @@ class _JMRPageState extends State<JMRPage> {
                                     alignment: Alignment.center,
                                     child: Text('BOQ RefNo',
                                         overflow: TextOverflow.values.first,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            color: Colors.white)),
+                                        style: tableheader),
                                   ),
                                 ),
                                 GridColumn(
@@ -508,10 +470,7 @@ class _JMRPageState extends State<JMRPage> {
                                     alignment: Alignment.center,
                                     child: Text('Abstract of JMR',
                                         overflow: TextOverflow.values.first,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            color: Colors.white)),
+                                        style: tableheader),
                                   ),
                                 ),
                                 GridColumn(
@@ -524,10 +483,7 @@ class _JMRPageState extends State<JMRPage> {
                                     alignment: Alignment.center,
                                     child: Text('UOM',
                                         overflow: TextOverflow.values.first,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            color: Colors.white)),
+                                        style: tableheader),
                                   ),
                                 ),
                                 GridColumn(
@@ -540,10 +496,7 @@ class _JMRPageState extends State<JMRPage> {
                                     alignment: Alignment.center,
                                     child: Text('Rate',
                                         overflow: TextOverflow.values.first,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            color: Colors.white)),
+                                        style: tableheader),
                                   ),
                                 ),
                                 GridColumn(
@@ -556,10 +509,7 @@ class _JMRPageState extends State<JMRPage> {
                                     alignment: Alignment.center,
                                     child: Text('Total Qty',
                                         overflow: TextOverflow.values.first,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            color: Colors.white)),
+                                        style: tableheader),
                                   ),
                                 ),
                                 GridColumn(
@@ -571,10 +521,7 @@ class _JMRPageState extends State<JMRPage> {
                                     alignment: Alignment.center,
                                     child: Text('Amount',
                                         overflow: TextOverflow.values.first,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            color: Colors.white)),
+                                        style: tableheader),
                                   ),
                                 ),
                                 GridColumn(
@@ -590,10 +537,7 @@ class _JMRPageState extends State<JMRPage> {
                                     alignment: Alignment.center,
                                     child: Text('Delete Row',
                                         overflow: TextOverflow.values.first,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            color: Colors.white)
+                                        style: tableheader
                                         //    textAlign: TextAlign.center,
                                         ),
                                   ),

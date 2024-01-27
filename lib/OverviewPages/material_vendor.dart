@@ -101,7 +101,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
             : Column(children: [
                 Expanded(
                     child: SfDataGridTheme(
-                  data: SfDataGridThemeData(headerColor: blue),
+                  data: SfDataGridThemeData(gridLineColor: blue),
                   child: StreamBuilder(
                     stream: _stream,
                     builder: (context, snapshot) {
