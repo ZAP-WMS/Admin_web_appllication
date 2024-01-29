@@ -36,6 +36,7 @@ class ElectricalQualityChecklist extends StatefulWidget {
 
 class _ElectricalQualityChecklistState
     extends State<ElectricalQualityChecklist> {
+  int currentIndex = 0;
   List<String> completeTabForElectrical = [
     'PSS',
     'RMU',
@@ -152,23 +153,27 @@ class _ElectricalQualityChecklistState
             child: Scaffold(
               appBar: AppBar(
                 automaticallyImplyLeading: false,
+                backgroundColor: white,
                 toolbarHeight: 20,
                 bottom: TabBar(
-                  labelColor: Colors.yellow,
+                  labelColor: currentIndex == _selectedIndex ? white : blue,
                   labelStyle: buttonWhite,
-                  unselectedLabelColor: white,
-
-//indicatorSize: TabBarIndicatorSize.label,
-
-                  indicator: MaterialIndicator(
-                    horizontalPadding: 24,
-                    bottomLeftRadius: 8,
-                    bottomRightRadius: 8,
-                    color: almostblack,
-                    paintingStyle: PaintingStyle.fill,
+                  unselectedLabelColor: blue,
+                  //indicatorSize: TabBarIndicatorSize.label,
+                  indicator: BoxDecoration(
+                    color:
+                        blue, // Set the background color of the selected tab label
                   ),
+                  // MaterialIndicator(
+                  //   horizontalPadding: 24,
+                  //   bottomLeftRadius: 8,
+                  //   bottomRightRadius: 8,
+                  //   color: almostblack,
+                  //   paintingStyle: PaintingStyle.fill,
+                  // ),
                   onTap: (value) {
                     _selectedIndex = value;
+                    currentIndex = value;
                     setState(() {
                       rowList;
                     });
@@ -185,6 +190,10 @@ class _ElectricalQualityChecklistState
                     Tab(text: "CHARGER"),
                     Tab(text: "EARTH PIT"),
                   ],
+                ),
+                flexibleSpace: Container(
+                  height: 55,
+                  color: white,
                 ),
               ),
               body: _isloading

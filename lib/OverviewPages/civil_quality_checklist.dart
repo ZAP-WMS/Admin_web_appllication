@@ -65,9 +65,13 @@ class CivilQualityChecklist extends StatefulWidget {
   State<CivilQualityChecklist> createState() => _CivilQualityChecklistState();
 }
 
-class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
+class _CivilQualityChecklistState extends State<CivilQualityChecklist>
+    with SingleTickerProviderStateMixin {
   bool enablePdfLoading = false;
+  late TabController _tabController;
+  int currentIndex = 0;
   //Quality Project Row List for view summary
+
   List<List<dynamic>> rowList = [];
 
   CollectionReference? _collectionReference;
@@ -150,6 +154,9 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: 12, vsync: this);
+    _tabController.index = _selectedIndex!.toInt();
+
     getUserId().whenComplete(() {
       initializeStream();
       _isloading = false;
@@ -160,30 +167,42 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
 
   @override
   Widget build(BuildContext context) {
+    // _tabController.addListener(() {
+    //   setState(() {
+    //     index = _tabController.index;
+    //     print(index);
+    //   });
+    // });
     return enablePdfLoading
         ? LoadingPage()
         : DefaultTabController(
             length: 12,
             child: Scaffold(
               appBar: AppBar(
+                backgroundColor: white,
                 automaticallyImplyLeading: false,
                 toolbarHeight: 20,
                 bottom: TabBar(
-                  labelColor: Colors.yellow,
+                  // controller: _tabController,
+                  labelColor: currentIndex == _selectedIndex ? white : blue,
+                  // _selectedIndex ? white :
+
                   labelStyle: buttonWhite,
-                  unselectedLabelColor: white,
-
-                  //indicatorSize: TabBarIndicatorSize.label,
-
-                  indicator: MaterialIndicator(
-                    horizontalPadding: 24,
-                    bottomLeftRadius: 8,
-                    bottomRightRadius: 8,
-                    color: almostblack,
-                    paintingStyle: PaintingStyle.fill,
+                  unselectedLabelColor: blue,
+                  indicator: BoxDecoration(
+                    color:
+                        blue, // Set the background color of the selected tab label
                   ),
+                  // MaterialIndicator(
+                  //   horizontalPadding: 24,
+                  //   bottomLeftRadius: 8,
+                  //   bottomRightRadius: 8,
+                  //   color: almostblack,
+                  //   paintingStyle: PaintingStyle.fill,
+                  // ),
                   onTap: (value) {
                     _selectedIndex = value;
+                    currentIndex = value;
                     setState(() {
                       rowList;
                     });
@@ -202,6 +221,10 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                     Tab(text: "WC&R"),
                     Tab(text: "Proofing"),
                   ],
+                ),
+                flexibleSpace: Container(
+                  height: 55,
+                  color: white,
                 ),
               ),
               body: _isloading
@@ -313,9 +336,12 @@ class _CivilQualityChecklistState extends State<CivilQualityChecklist> {
                               ),
                               columnSpacing: 150.0,
                               headingRowColor: MaterialStateColor.resolveWith(
-                                  (states) => Colors.blue[800]!),
-                              headingTextStyle:
-                                  const TextStyle(color: Colors.white),
+                                  (states) => white
+                                  //   Colors.blue[800]!
+                                  ),
+                              headingTextStyle: TextStyle(color: blue
+                                  // Colors.white
+                                  ),
                               columns: const [
                                 DataColumn(
                                     label: Text(

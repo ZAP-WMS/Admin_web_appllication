@@ -49,6 +49,7 @@ class _DetailedEngtState extends State<DetailedEng>
   bool _isloading = true;
   dynamic userId;
   String? companyName;
+  int currentIndex = 0;
 
   List id = [];
 
@@ -267,9 +268,14 @@ class _DetailedEngtState extends State<DetailedEng>
             ],
             bottom: TabBar(
               unselectedLabelColor: tabbarColor,
-              labelColor: blue,
+              labelColor: currentIndex == _selectedIndex ? white : blue,
+              indicator: BoxDecoration(
+                color:
+                    blue, // Set the background color of the selected tab label
+              ),
               onTap: (value) {
                 _selectedIndex = value;
+                currentIndex = value;
               },
               tabs: const [
                 Tab(text: "RFC Drawings of Civil Activities"),

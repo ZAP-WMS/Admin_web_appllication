@@ -27,6 +27,7 @@ class _JmrState extends State<Jmr> {
   List<String> title = ['R1', 'R2', 'R3', 'R4', 'R5'];
   List<String> tabName = ['Civil', 'Electrical'];
   TextEditingController selectedDepoController = TextEditingController();
+  int currentIndex = 0;
 
   @override
   void initState() {
@@ -41,7 +42,7 @@ class _JmrState extends State<Jmr> {
         child: Scaffold(
           appBar: AppBar(
             title: Text(
-              '${widget.cityName} / ${widget.depoName} / JMR',
+              '${widget.cityName}/${widget.depoName}/JMR',
               style: appFontSize,
             ),
             backgroundColor: white,
@@ -152,22 +153,24 @@ class _JmrState extends State<Jmr> {
             bottom: TabBar(
               onTap: (value) {
                 _selectedIndex = value;
+                currentIndex = value;
                 isLoading = true;
                 setState(() {});
                 generateAllJmrList();
               },
-              labelColor: blue,
+              labelColor: currentIndex == _selectedIndex ? white : blue,
 
               labelStyle: buttonWhite,
               unselectedLabelColor: tabbarColor,
 
               //indicatorSize: TabBarIndicatorSize.label,
-              indicator: MaterialIndicator(
-                  horizontalPadding: 24,
-                  bottomLeftRadius: 8,
-                  bottomRightRadius: 8,
-                  color: white,
-                  paintingStyle: PaintingStyle.fill),
+              indicator: BoxDecoration(color: blue),
+              //  MaterialIndicator(
+              //     horizontalPadding: 24,
+              //     bottomLeftRadius: 8,
+              //     bottomRightRadius: 8,
+              //     color: white,
+              //     paintingStyle: PaintingStyle.fill),
               tabs: const [
                 Tab(text: 'Civil Engineer'),
                 Tab(text: 'Electrical Engineer'),

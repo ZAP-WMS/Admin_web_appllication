@@ -42,6 +42,7 @@ dynamic empName,
 
 dynamic alldata;
 int? _selectedIndex = 0;
+
 dynamic userId;
 TextEditingController selectedCityController = TextEditingController();
 
@@ -76,8 +77,10 @@ List<String> civil_title = [
 
 // Main
 class _QualityChecklistState extends State<QualityChecklist> {
+  int currentIndex = 0;
   @override
   void initState() {
+    // _tabController.index = _selectedIndex!.toInt();
     getUserId().whenComplete(() {});
 
     super.initState();
@@ -97,8 +100,13 @@ class _QualityChecklistState extends State<QualityChecklist> {
             appBar: AppBar(
               automaticallyImplyLeading:
                   widget.isHeader! ? widget.isHeader! : false,
-              backgroundColor: blue,
-              
+              backgroundColor: white,
+
+              flexibleSpace: Container(
+                height: 55,
+                color: blue,
+              ),
+
               actions: [
                 Container(
                   padding: const EdgeInsets.all(5.0),
@@ -199,28 +207,35 @@ class _QualityChecklistState extends State<QualityChecklist> {
                         ))),
               ],
               title: Text(
-                  '${widget.cityName} / ${widget.depoName} / Quality Checklist' , style: appFontSize,),
+                '${widget.cityName}/${widget.depoName}/Quality Checklist',
+                style: appFontSize,
+              ),
               // leading:
               bottom: PreferredSize(
                 preferredSize: const Size(double.infinity, 50),
                 child: Column(
                   children: [
                     TabBar(
-                      labelColor: white,
+                      labelColor: currentIndex == _selectedIndex ? white : blue,
                       labelStyle: buttonWhite,
                       unselectedLabelColor: Colors.black,
-                      indicator: MaterialIndicator(
-                          horizontalPadding: 24,
-                          bottomLeftRadius: 8,
-                          bottomRightRadius: 8,
-                          color: white,
-                          paintingStyle: PaintingStyle.fill),
+                      indicator: BoxDecoration(
+                        color:
+                            blue, // Set the background color of the selected tab label
+                      ),
+                      // MaterialIndicator(
+                      //     horizontalPadding: 24,
+                      //     bottomLeftRadius: 8,
+                      //     bottomRightRadius: 8,
+                      //     color: white,
+                      //     paintingStyle: PaintingStyle.fill),
                       tabs: const [
                         Tab(text: 'Civil Engineer'),
                         Tab(text: 'Electrical Engineer'),
                       ],
                       onTap: (value) {
                         _selectedIndex = value;
+                        currentIndex = value;
                         setState(() {});
                       },
                     ),

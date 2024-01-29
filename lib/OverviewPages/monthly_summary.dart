@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
 import 'package:web_appllication/components/Loading_page.dart';
+import '../style.dart';
 import '../widgets/custom_appbar.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:flutter/widgets.dart' as widgets;
@@ -123,10 +124,11 @@ class _MonthlySummaryState extends State<MonthlySummary> {
                               ),
                             ),
                             columnSpacing: 150.0,
-                            headingRowColor: MaterialStateColor.resolveWith(
-                                (states) => Colors.blue[800]!),
-                            headingTextStyle:
-                                const TextStyle(color: Colors.white),
+                            headingRowColor:
+                                MaterialStateColor.resolveWith((states) => white
+                                    // Colors.blue[800]!
+                                    ),
+                            headingTextStyle: TextStyle(color: blue),
                             columns: const [
                               DataColumn(
                                 label: Text(
@@ -166,6 +168,7 @@ class _MonthlySummaryState extends State<MonthlySummary> {
                                 ),
                               ),
                             ],
+                            dividerThickness: 3.0,
                             rows: data.map(
                               (rowData) {
                                 return DataRow(

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:web_appllication/OverviewPages/closure_summary.dart';
 import 'package:web_appllication/components/Loading_page.dart';
+import 'package:web_appllication/style.dart';
 import '../widgets/custom_appbar.dart';
 
 class ClosureSummaryTable extends StatefulWidget {
@@ -92,9 +93,11 @@ class _ClosureSummaryTableState extends State<ClosureSummaryTable> {
                         ),
                       ),
                       columnSpacing: 150.0,
-                      headingRowColor: MaterialStateColor.resolveWith(
-                          (states) => Colors.blue[800]!),
-                      headingTextStyle: const TextStyle(color: Colors.white),
+                      headingRowColor:
+                          MaterialStateColor.resolveWith((states) => white
+                              // Colors.blue[800]!
+                              ),
+                      headingTextStyle: TextStyle(color: blue),
                       columns: const [
                         DataColumn(
                             label: Text(
@@ -112,6 +115,7 @@ class _ClosureSummaryTableState extends State<ClosureSummaryTable> {
                                   fontSize: 15,
                                 ))),
                       ],
+                      dividerThickness: 3.0,
                       rows: data.map(
                         (rowData) {
                           return DataRow(

@@ -267,7 +267,7 @@ class _EnergyManagementState extends State<EnergyManagement> {
                     return Column(
                       children: [
                         SfDataGridTheme(
-                            data: SfDataGridThemeData(headerColor: blue),
+                            data: SfDataGridThemeData(gridLineColor: blue),
                             child: SfDataGrid(
                               source: _energydatasource,
                               allowEditing: true,
@@ -298,7 +298,7 @@ class _EnergyManagementState extends State<EnergyManagement> {
                                     alignment: Alignment.center,
                                     child: Text('Sr No',
                                         overflow: TextOverflow.values.first,
-                                        style: tableheaderwhitecolor
+                                        style: tableheader
                                         //    textAlign: TextAlign.center,
                                         ),
                                   ),
@@ -311,7 +311,7 @@ class _EnergyManagementState extends State<EnergyManagement> {
                                     alignment: Alignment.center,
                                     child: Text('Depot Name',
                                         overflow: TextOverflow.values.first,
-                                        style: tableheaderwhitecolor),
+                                        style: tableheader),
                                   ),
                                 ),
                                 GridColumn(
@@ -323,7 +323,7 @@ class _EnergyManagementState extends State<EnergyManagement> {
                                     alignment: Alignment.center,
                                     child: Text('Veghicle No',
                                         textAlign: TextAlign.center,
-                                        style: tableheaderwhitecolor),
+                                        style: tableheader),
                                   ),
                                 ),
                                 GridColumn(
@@ -333,8 +333,7 @@ class _EnergyManagementState extends State<EnergyManagement> {
                                   label: Container(
                                     padding: const EdgeInsets.all(8.0),
                                     alignment: Alignment.center,
-                                    child: Text('PSS No',
-                                        style: tableheaderwhitecolor),
+                                    child: Text('PSS No', style: tableheader),
                                   ),
                                 ),
                                 GridColumn(
@@ -345,7 +344,7 @@ class _EnergyManagementState extends State<EnergyManagement> {
                                     alignment: Alignment.center,
                                     child: Text('Charger ID',
                                         overflow: TextOverflow.values.first,
-                                        style: tableheaderwhitecolor),
+                                        style: tableheader),
                                   ),
                                 ),
                                 GridColumn(
@@ -356,7 +355,7 @@ class _EnergyManagementState extends State<EnergyManagement> {
                                     alignment: Alignment.center,
                                     child: Text('Start SOC',
                                         overflow: TextOverflow.values.first,
-                                        style: tableheaderwhitecolor),
+                                        style: tableheader),
                                   ),
                                 ),
                                 GridColumn(
@@ -369,7 +368,7 @@ class _EnergyManagementState extends State<EnergyManagement> {
                                     alignment: Alignment.center,
                                     child: Text('End SOC',
                                         overflow: TextOverflow.values.first,
-                                        style: tableheaderwhitecolor),
+                                        style: tableheader),
                                   ),
                                 ),
                                 GridColumn(
@@ -380,7 +379,7 @@ class _EnergyManagementState extends State<EnergyManagement> {
                                     alignment: Alignment.center,
                                     child: Text('Start Date & Time',
                                         overflow: TextOverflow.values.first,
-                                        style: tableheaderwhitecolor),
+                                        style: tableheader),
                                   ),
                                 ),
                                 GridColumn(
@@ -395,7 +394,7 @@ class _EnergyManagementState extends State<EnergyManagement> {
                                       alignment: Alignment.center,
                                       child: Text('End Date & Time',
                                           overflow: TextOverflow.values.first,
-                                          style: tableheaderwhitecolor),
+                                          style: tableheader),
                                     ),
                                   ),
                                 ),
@@ -407,7 +406,7 @@ class _EnergyManagementState extends State<EnergyManagement> {
                                     alignment: Alignment.center,
                                     child: Text('Total time of Charging',
                                         overflow: TextOverflow.values.first,
-                                        style: tableheaderwhitecolor),
+                                        style: tableheader),
                                   ),
                                 ),
                                 GridColumn(
@@ -421,7 +420,7 @@ class _EnergyManagementState extends State<EnergyManagement> {
                                     child: Text('Engery Consumed (inkW)',
                                         overflow: TextOverflow.values.first,
                                         textAlign: TextAlign.center,
-                                        style: tableheaderwhitecolor),
+                                        style: tableheader),
                                   ),
                                 ),
                                 GridColumn(
@@ -432,7 +431,7 @@ class _EnergyManagementState extends State<EnergyManagement> {
                                     alignment: Alignment.center,
                                     child: Text('Interval',
                                         overflow: TextOverflow.values.first,
-                                        style: tableheaderwhitecolor),
+                                        style: tableheader),
                                   ),
                                 ),
                                 GridColumn(
@@ -447,7 +446,7 @@ class _EnergyManagementState extends State<EnergyManagement> {
                                     alignment: Alignment.center,
                                     child: Text('Add Row',
                                         overflow: TextOverflow.values.first,
-                                        style: tableheaderwhitecolor
+                                        style: tableheader
                                         //    textAlign: TextAlign.center,
                                         ),
                                   ),
@@ -464,7 +463,7 @@ class _EnergyManagementState extends State<EnergyManagement> {
                                     alignment: Alignment.center,
                                     child: Text('Delete Row',
                                         overflow: TextOverflow.values.first,
-                                        style: tableheaderwhitecolor
+                                        style: tableheader
                                         //    textAlign: TextAlign.center,
                                         ),
                                   ),
@@ -497,7 +496,7 @@ class _EnergyManagementState extends State<EnergyManagement> {
                   padding: const EdgeInsets.only(top: 25),
                   child: BarChart(
                     swapAnimationCurve: Curves.linear,
-                     swapAnimationDuration: const Duration(milliseconds: 1000),
+                    swapAnimationDuration: const Duration(milliseconds: 1000),
                     BarChartData(
                       backgroundColor: white,
                       barTouchData: BarTouchData(
