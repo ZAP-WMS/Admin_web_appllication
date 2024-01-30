@@ -5,11 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_appllication/Authentication/reset_password.dart';
-import 'package:web_appllication/OverviewPages/quality_checklist.dart';
-import 'package:web_appllication/OverviewPages/sidebar_nav/nav_screen.dart';
-import 'package:web_appllication/Planning/cities.dart';
-import 'package:web_appllication/components/loading_page.dart';
-import 'package:web_appllication/screen/split_dashboard/split_dashboard.dart';
+import '../components/Loading_page.dart';
 import '../style.dart';
 
 class SignInPage extends StatefulWidget {
@@ -281,12 +277,6 @@ class _SignInPageState extends State<SignInPage> {
           _sharedPreferences.setString('employeeId', _id).then((_) {
             Navigator.pushReplacementNamed(context, 'login/EVDashboard',
                 arguments: {'userId': _id});
-
-            // Navigator.pushReplacement(
-            //     context,
-            //     MaterialPageRoute(
-            //       builder: (context) => NavigationPage(userId: _id),
-            //     ));
           });
         } else if (_pass == snap.docs[0]['Password'] &&
             _id == snap.docs[0]['Employee Id'] &&
@@ -303,6 +293,7 @@ class _SignInPageState extends State<SignInPage> {
         } else {
           // ignore: use_build_context_synchronously
           Navigator.pop(context);
+          // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Password is not correct')));
         }

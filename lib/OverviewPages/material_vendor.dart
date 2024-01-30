@@ -108,7 +108,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                       if (!snapshot.hasData || snapshot.data.exists == false) {
                         return SfDataGrid(
                             source: _materialDatasource,
-                            allowEditing: true,
+                            allowEditing: false,
                             frozenColumnsCount: 2,
                             gridLinesVisibility: GridLinesVisibility.both,
                             headerGridLinesVisibility: GridLinesVisibility.both,
@@ -122,8 +122,8 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                 columnName: 'cityName',
                                 autoFitPadding:
                                     const EdgeInsets.symmetric(horizontal: 16),
-                                allowEditing: true,
-                                width: 100,
+                                allowEditing: false,
+                                width: 130,
                                 label: Container(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),
@@ -139,7 +139,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                               GridColumn(
                                 columnName: 'details',
                                 width: 250,
-                                allowEditing: true,
+                                allowEditing: false,
                                 label: Container(
                                   padding: const EdgeInsets.all(8.0),
                                   alignment: Alignment.center,
@@ -152,7 +152,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                 columnName: 'olaNo',
                                 autoFitPadding:
                                     const EdgeInsets.symmetric(horizontal: 16),
-                                allowEditing: true,
+                                allowEditing: false,
                                 width: 130,
                                 label: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -168,7 +168,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                 columnName: 'vendorName',
                                 autoFitPadding:
                                     const EdgeInsets.symmetric(horizontal: 16),
-                                allowEditing: true,
+                                allowEditing: false,
                                 width: 130,
                                 label: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -186,7 +186,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                 columnName: 'oemApproval',
                                 autoFitPadding:
                                     const EdgeInsets.symmetric(horizontal: 16),
-                                allowEditing: true,
+                                allowEditing: false,
                                 width: 150,
                                 label: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -203,7 +203,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                 columnName: 'oemClearance',
                                 autoFitPadding:
                                     const EdgeInsets.symmetric(horizontal: 16),
-                                allowEditing: true,
+                                allowEditing: false,
                                 width: 250,
                                 label: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -221,7 +221,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                 columnName: 'croPlacement',
                                 autoFitPadding:
                                     const EdgeInsets.symmetric(horizontal: 16),
-                                allowEditing: true,
+                                allowEditing: false,
                                 width: 250,
                                 label: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -239,7 +239,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                 columnName: 'croVendor',
                                 autoFitPadding:
                                     const EdgeInsets.symmetric(horizontal: 16),
-                                allowEditing: true,
+                                allowEditing: false,
                                 width: 250,
                                 label: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -256,7 +256,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                 columnName: 'croNumber',
                                 autoFitPadding:
                                     const EdgeInsets.symmetric(horizontal: 16),
-                                allowEditing: true,
+                                allowEditing: false,
                                 width: 120,
                                 label: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -273,7 +273,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                 columnName: 'unit',
                                 autoFitPadding:
                                     const EdgeInsets.symmetric(horizontal: 16),
-                                allowEditing: true,
+                                allowEditing: false,
                                 width: 120,
                                 label: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -290,7 +290,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                 columnName: 'qty',
                                 autoFitPadding:
                                     const EdgeInsets.symmetric(horizontal: 16),
-                                allowEditing: true,
+                                allowEditing: false,
                                 width: 120,
                                 label: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -308,16 +308,17 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                 autoFitPadding:
                                     const EdgeInsets.symmetric(horizontal: 16),
                                 allowEditing: false,
-                                width: 250,
+                                width: 150,
                                 label: Container(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),
                                   alignment: Alignment.center,
-                                  child: Text('Receipt of Material at site',
-                                      overflow: TextOverflow.values.first,
-                                      style: columnStyle
-                                      //    textAlign: TextAlign.center,
-                                      ),
+                                  child: Text(
+                                    'Receipt of Material at site',
+                                    overflow: TextOverflow.values.first,
+                                    style: columnStyle,
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
                             ]);
@@ -337,7 +338,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                         });
                         return SfDataGrid(
                             source: _materialDatasource,
-                            allowEditing: true,
+                            allowEditing: false,
                             frozenColumnsCount: 2,
                             gridLinesVisibility: GridLinesVisibility.both,
                             headerGridLinesVisibility: GridLinesVisibility.both,
@@ -351,8 +352,8 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                 columnName: 'cityName',
                                 autoFitPadding:
                                     const EdgeInsets.symmetric(horizontal: 16),
-                                allowEditing: true,
-                                width: 100,
+                                allowEditing: false,
+                                width: 130,
                                 label: Container(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),
@@ -368,7 +369,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                               GridColumn(
                                 columnName: 'details',
                                 width: 250,
-                                allowEditing: true,
+                                allowEditing: false,
                                 label: Container(
                                   padding: const EdgeInsets.all(8.0),
                                   alignment: Alignment.center,
@@ -381,7 +382,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                 columnName: 'olaNo',
                                 autoFitPadding:
                                     const EdgeInsets.symmetric(horizontal: 16),
-                                allowEditing: true,
+                                allowEditing: false,
                                 width: 130,
                                 label: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -397,7 +398,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                 columnName: 'vendorName',
                                 autoFitPadding:
                                     const EdgeInsets.symmetric(horizontal: 16),
-                                allowEditing: true,
+                                allowEditing: false,
                                 width: 130,
                                 label: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -415,7 +416,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                 columnName: 'oemApproval',
                                 autoFitPadding:
                                     const EdgeInsets.symmetric(horizontal: 16),
-                                allowEditing: true,
+                                allowEditing: false,
                                 width: 150,
                                 label: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -432,7 +433,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                 columnName: 'oemClearance',
                                 autoFitPadding:
                                     const EdgeInsets.symmetric(horizontal: 16),
-                                allowEditing: true,
+                                allowEditing: false,
                                 width: 250,
                                 label: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -450,7 +451,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                 columnName: 'croPlacement',
                                 autoFitPadding:
                                     const EdgeInsets.symmetric(horizontal: 16),
-                                allowEditing: true,
+                                allowEditing: false,
                                 width: 250,
                                 label: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -468,7 +469,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                 columnName: 'croVendor',
                                 autoFitPadding:
                                     const EdgeInsets.symmetric(horizontal: 16),
-                                allowEditing: true,
+                                allowEditing: false,
                                 width: 250,
                                 label: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -485,7 +486,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                 columnName: 'croNumber',
                                 autoFitPadding:
                                     const EdgeInsets.symmetric(horizontal: 16),
-                                allowEditing: true,
+                                allowEditing: false,
                                 width: 120,
                                 label: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -502,7 +503,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                 columnName: 'unit',
                                 autoFitPadding:
                                     const EdgeInsets.symmetric(horizontal: 16),
-                                allowEditing: true,
+                                allowEditing: false,
                                 width: 120,
                                 label: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -519,7 +520,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                 columnName: 'qty',
                                 autoFitPadding:
                                     const EdgeInsets.symmetric(horizontal: 16),
-                                allowEditing: true,
+                                allowEditing: false,
                                 width: 120,
                                 label: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -534,19 +535,20 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                               ),
                               GridColumn(
                                 columnName: 'materialSite',
-                                autoFitPadding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
+                                // autoFitPadding:
+                                //     const EdgeInsets.symmetric(horizontal: 16),
                                 allowEditing: false,
-                                width: 250,
+                                width: 100,
                                 label: Container(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),
                                   alignment: Alignment.center,
-                                  child: Text('Receipt of Material at site',
-                                      overflow: TextOverflow.values.first,
-                                      style: columnStyle
-                                      //    textAlign: TextAlign.center,
-                                      ),
+                                  child: Text(
+                                    'Receipt of Material at site',
+                                    overflow: TextOverflow.values.first,
+                                    style: columnStyle,
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
                             ]);

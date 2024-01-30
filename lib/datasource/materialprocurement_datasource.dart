@@ -63,70 +63,74 @@ class MaterialDatasource extends DataGridSource {
         child: (dataGridCell.columnName == 'materialSite')
             ? Row(
                 children: [
-                  IconButton(
-                    onPressed: () {
-                      showDialog(
-                          context: mainContext,
-                          builder: (context) => AlertDialog(
-                                title: const Text('All Date'),
-                                content: Container(
-                                    height: 400,
-                                    width: 500,
-                                    child: SfDateRangePicker(
-                                      view: DateRangePickerView.month,
-                                      showTodayButton: true,
-                                      onSelectionChanged:
-                                          (DateRangePickerSelectionChangedArgs
-                                              args) {
-                                        if (args.value is PickerDateRange) {
-                                          rangeStartDate = args.value.startDate;
-                                          rangeEndDate = args.value.endDate;
-                                        } else {
-                                          // final List<PickerDateRange>
-                                          //     selectedRanges = args.value;
-                                        }
-                                      },
-                                      selectionMode:
-                                          DateRangePickerSelectionMode.single,
-                                      showActionButtons: true,
-                                      onSubmit: ((value) {
-                                        date = DateTime.parse(value.toString());
-                                        date1 =
-                                            DateTime.parse(value.toString());
-                                        // date2 = DateTime.parse(
-                                        //     value.toString());
+                  // IconButton(
+                  //   onPressed: () {
+                  //     showDialog(
+                  //         context: mainContext,
+                  //         builder: (context) => AlertDialog(
+                  //               title: const Text('All Date'),
+                  //               content: Container(
+                  //                   height: 400,
+                  //                   width: 500,
+                  //                   child: SfDateRangePicker(
+                  //                     view: DateRangePickerView.month,
+                  //                     showTodayButton: true,
+                  //                     onSelectionChanged:
+                  //                         (DateRangePickerSelectionChangedArgs
+                  //                             args) {
+                  //                       if (args.value is PickerDateRange) {
+                  //                         rangeStartDate = args.value.startDate;
+                  //                         rangeEndDate = args.value.endDate;
+                  //                       } else {
+                  //                         // final List<PickerDateRange>
+                  //                         //     selectedRanges = args.value;
+                  //                       }
+                  //                     },
+                  //                     selectionMode:
+                  //                         DateRangePickerSelectionMode.single,
+                  //                     showActionButtons: true,
+                  //                     onSubmit: ((value) {
+                  //                       date = DateTime.parse(value.toString());
+                  //                       date1 =
+                  //                           DateTime.parse(value.toString());
+                  //                       // date2 = DateTime.parse(
+                  //                       //     value.toString());
 
-                                        final int dataRowIndex =
-                                            dataGridRows.indexOf(row);
-                                        if (dataRowIndex != null) {
-                                          final int dataRowIndex =
-                                              dataGridRows.indexOf(row);
-                                          dataGridRows[dataRowIndex]
-                                                  .getCells()[11] =
-                                              DataGridCell<String>(
-                                                  columnName: 'Date',
-                                                  value:
-                                                      DateFormat('dd-MM-yyyy')
-                                                          .format(date!));
-                                          _material[dataRowIndex].materialSite =
-                                              DateFormat('dd-MM-yyyy')
-                                                  .format(date!);
+                  //                       final int dataRowIndex =
+                  //                           dataGridRows.indexOf(row);
+                  //                       if (dataRowIndex != null) {
+                  //                         final int dataRowIndex =
+                  //                             dataGridRows.indexOf(row);
+                  //                         dataGridRows[dataRowIndex]
+                  //                                 .getCells()[11] =
+                  //                             DataGridCell<String>(
+                  //                                 columnName: 'Date',
+                  //                                 value:
+                  //                                     DateFormat('dd-MM-yyyy')
+                  //                                         .format(date!));
+                  //                         _material[dataRowIndex].materialSite =
+                  //                             DateFormat('dd-MM-yyyy')
+                  //                                 .format(date!);
 
-                                          notifyListeners();
+                  //                         notifyListeners();
 
-                                          Navigator.pop(context);
-                                        }
-                                      }),
-                                    )),
-                              ));
-                    },
-                    icon: const Icon(Icons.calendar_today),
-                  ),
-                  Text(dataGridCell.value.toString())
+                  //                         Navigator.pop(context);
+                  //                       }
+                  //                     }),
+                  //                   )),
+                  //             ));
+                  //   },
+                  //   icon: const Icon(Icons.calendar_today),
+                  // ),
+                  Text(
+                    dataGridCell.value.toString(),
+                    textAlign: TextAlign.center,
+                  )
                 ],
               )
             : Text(
                 dataGridCell.value.toString(),
+                textAlign: TextAlign.center,
               ),
       );
     }).toList());
@@ -270,7 +274,7 @@ class MaterialDatasource extends DataGridSource {
         textAlign: isNumericType ? TextAlign.right : TextAlign.left,
         autocorrect: false,
         decoration: const InputDecoration(
-          contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 16.0),
+          contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 16.0),
         ),
         inputFormatters: <TextInputFormatter>[
           FilteringTextInputFormatter.allow(regExp),

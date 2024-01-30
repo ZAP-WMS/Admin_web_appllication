@@ -7,6 +7,7 @@ import 'package:web_appllication/provider/All_Depo_Select_Provider.dart';
 import 'package:web_appllication/provider/assigned_user_provider.dart';
 import 'package:web_appllication/provider/demandEnergyProvider.dart';
 import 'package:web_appllication/provider/energy_provider.dart';
+import 'package:web_appllication/provider/hover_provider.dart';
 import 'package:web_appllication/provider/internet_provider.dart';
 import 'package:web_appllication/provider/key_provider.dart';
 import 'package:web_appllication/provider/menuUserPageProvider.dart';
@@ -53,7 +54,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => KeyProvider()),
         ChangeNotifierProvider(create: (context) => SelectedRowIndexModel()),
         ChangeNotifierProvider(create: (context) => AllDepoSelectProvider()),
-        ChangeNotifierProvider(create: (context) => EnergyProvider())
+        ChangeNotifierProvider(create: (context) => EnergyProvider()),
+        ChangeNotifierProvider(create: (context) => HoverProvider())
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,

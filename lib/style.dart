@@ -10,6 +10,7 @@ Color lightblue = const Color(0xff009eff);
 Color white = const Color(0xffffffff);
 Color borderColor = const Color(0xFF2651A1);
 Color tabbarColor = Colors.grey;
+Color folderColor = Colors.yellow;
 
 TextStyle formtext = const TextStyle(
   fontSize: 13,

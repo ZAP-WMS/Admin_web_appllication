@@ -191,7 +191,9 @@ class Flurorouter {
         final depoName = modelRoute['depoName'];
 
         return DepotOverview(
-            userid: userId, cityName: cityName, depoName: depoName);
+            // userid: userId,
+            cityName: cityName,
+            depoName: depoName);
       } else {
         return FutureBuilder<Map<String, dynamic>?>(
             future: _getCityDataFromSharedPreferences(),
@@ -206,7 +208,9 @@ class Flurorouter {
                 print('CityName: $cityName, DepotName: $depotName');
                 if (userId != 'null') {
                   return DepotOverview(
-                      userid: userId, cityName: cityName, depoName: depotName);
+                      //  userid: userId,
+                      cityName: cityName,
+                      depoName: depotName);
                 } else {
                   // User is not logged in, navigate to login screen
                   return LoginRegister();

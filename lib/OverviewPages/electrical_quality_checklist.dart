@@ -279,9 +279,10 @@ class _ElectricalQualityChecklistState
                               ),
                               columnSpacing: 150.0,
                               headingRowColor: MaterialStateColor.resolveWith(
-                                  (states) => Colors.blue[800]!),
-                              headingTextStyle:
-                                  const TextStyle(color: Colors.white),
+                                  (states) => white
+                                  //Colors.blue[800]!
+                                  ),
+                              headingTextStyle: TextStyle(color: blue),
                               columns: const [
                                 DataColumn(
                                     label: Text(

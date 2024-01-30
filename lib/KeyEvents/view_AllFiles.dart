@@ -39,7 +39,12 @@ class _ViewAllPdfState extends State<ViewAllPdf> {
   void initState() {
     futureFiles = FirebaseApi.listAll(
         '${widget.title}/${widget.cityName}/${widget.depoName}/null/${widget.docId}');
-
+    if (widget.title == '/BOQSurvey' ||
+        widget.title == '/BOQElectrical' ||
+        widget.title == '/BOQCivil') {
+      futureFiles = FirebaseApi.listAll(
+          '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.docId}');
+    }
     getrefdata().whenComplete(() {
       for (int i = 0; i < drawingRef.length; i++) {
         if (widget.title == 'Overview Page') {
