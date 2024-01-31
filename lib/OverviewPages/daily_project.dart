@@ -244,7 +244,11 @@ class _DailyProjectState extends State<DailyProject> {
                     } else if (!snapshot.hasData ||
                         snapshot.data.exists == false) {
                       return SfDataGridTheme(
-                        data: SfDataGridThemeData(gridLineColor: blue),
+                        data: SfDataGridThemeData(
+                            gridLineStrokeWidth: 2,
+                            gridLineColor: blue,
+                            frozenPaneLineColor: blue,
+                            frozenPaneLineWidth: 4),
                         child: SfDataGrid(
                             source: _dailyDataSource,
                             allowEditing: true,

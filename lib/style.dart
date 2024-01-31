@@ -17,7 +17,7 @@ TextStyle formtext = const TextStyle(
   fontWeight: FontWeight.bold,
 );
 TextStyle columnStyle =
-    TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: blue);
+    TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: blue);
 
 TextStyle columnText = const TextStyle(fontSize: 12);
 

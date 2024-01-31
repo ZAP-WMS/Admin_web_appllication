@@ -215,9 +215,10 @@ class _DepotOverviewState extends State<DepotOverview> {
                     if (!snapshot.hasData || snapshot.data.exists == false) {
                       return SfDataGridTheme(
                         data: SfDataGridThemeData(
-                          headerColor: white,
-                          gridLineColor: blue,
-                        ),
+                            gridLineStrokeWidth: 2,
+                            gridLineColor: blue,
+                            frozenPaneLineColor: blue,
+                            frozenPaneLineWidth: 4),
                         child: SfDataGrid(
                           source: _employeeDataSource,
                           allowEditing: true,
@@ -260,6 +261,7 @@ class _DepotOverviewState extends State<DepotOverview> {
                                   'Risk On Date',
                                   overflow: TextOverflow.values.first,
                                   style: tableheader,
+                                  textAlign: TextAlign.center,
                                 ),
                               ),
                             ),
@@ -482,9 +484,10 @@ class _DepotOverviewState extends State<DepotOverview> {
                       });
                       return SfDataGridTheme(
                         data: SfDataGridThemeData(
-                          headerColor: white,
-                          gridLineColor: blue,
-                        ),
+                            gridLineStrokeWidth: 2,
+                            gridLineColor: blue,
+                            frozenPaneLineColor: blue,
+                            frozenPaneLineWidth: 4),
                         child: SfDataGrid(
                           source: _employeeDataSource,
                           allowEditing: isEdit,

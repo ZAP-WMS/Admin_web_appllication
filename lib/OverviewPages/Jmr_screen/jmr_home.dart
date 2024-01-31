@@ -231,7 +231,10 @@ class _JMRPageState extends State<JMRPage> {
                           _jmrDataSource = JmrDataSource(jmrtable);
                           _dataGridController = DataGridController();
                           return SfDataGridTheme(
-                            data: SfDataGridThemeData(gridLineColor: blue),
+                            data: SfDataGridThemeData(   gridLineStrokeWidth: 2,
+                      gridLineColor: blue,
+                      frozenPaneLineColor: blue,
+                      frozenPaneLineWidth: 4),
                             child: SfDataGrid(
                               source: _jmrDataSource,
                               //key: key,
@@ -391,7 +394,10 @@ class _JMRPageState extends State<JMRPage> {
 
                           return SfDataGridTheme(
                             data:
-                                SfDataGridThemeData(gridLineColor: Colors.blue),
+                                SfDataGridThemeData(   gridLineStrokeWidth: 2,
+                      gridLineColor: blue,
+                      frozenPaneLineColor: blue,
+                      frozenPaneLineWidth: 4),
                             child: SfDataGrid(
                               source: _jmrDataSource,
                               //key: key,

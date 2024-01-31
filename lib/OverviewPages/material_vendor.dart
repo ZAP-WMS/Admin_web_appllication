@@ -101,7 +101,11 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
             : Column(children: [
                 Expanded(
                     child: SfDataGridTheme(
-                  data: SfDataGridThemeData(gridLineColor: blue),
+                  data: SfDataGridThemeData(
+                      gridLineStrokeWidth: 2,
+                      gridLineColor: blue,
+                      frozenPaneLineColor: blue,
+                      frozenPaneLineWidth: 4),
                   child: StreamBuilder(
                     stream: _stream,
                     builder: (context, snapshot) {
@@ -128,12 +132,12 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),
                                   alignment: Alignment.center,
-                                  child: Text('City Name',
-                                      overflow: TextOverflow.values.first,
-                                      textAlign: TextAlign.center,
-                                      style: columnStyle
-                                      //    textAlign: TextAlign.center,
-                                      ),
+                                  child: Text(
+                                    'City Name',
+                                    overflow: TextOverflow.values.first,
+                                    textAlign: TextAlign.center,
+                                    style: columnStyle,
+                                  ),
                                 ),
                               ),
                               GridColumn(
@@ -143,9 +147,11 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                 label: Container(
                                   padding: const EdgeInsets.all(8.0),
                                   alignment: Alignment.center,
-                                  child: Text('Details Item Description',
-                                      textAlign: TextAlign.center,
-                                      style: columnStyle),
+                                  child: Text(
+                                    'Details Item Description',
+                                    textAlign: TextAlign.center,
+                                    style: columnStyle,
+                                  ),
                                 ),
                               ),
                               GridColumn(
@@ -158,10 +164,12 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),
                                   alignment: Alignment.center,
-                                  child: Text('OLA No',
-                                      textAlign: TextAlign.center,
-                                      overflow: TextOverflow.values.first,
-                                      style: columnStyle),
+                                  child: Text(
+                                    'OLA No',
+                                    textAlign: TextAlign.center,
+                                    overflow: TextOverflow.values.first,
+                                    style: columnStyle,
+                                  ),
                                 ),
                               ),
                               GridColumn(
@@ -174,12 +182,12 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),
                                   alignment: Alignment.center,
-                                  child: Text('Vendor Name',
-                                      textAlign: TextAlign.center,
-                                      overflow: TextOverflow.values.first,
-                                      style: columnStyle
-                                      //    textAlign: TextAlign.center,
-                                      ),
+                                  child: Text(
+                                    'Vendor Name',
+                                    textAlign: TextAlign.center,
+                                    overflow: TextOverflow.values.first,
+                                    style: columnStyle,
+                                  ),
                                 ),
                               ),
                               GridColumn(
@@ -192,11 +200,12 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),
                                   alignment: Alignment.center,
-                                  child: Text('OEM Drawing Approval by Engg',
-                                      overflow: TextOverflow.values.first,
-                                      style: columnStyle
-                                      //    textAlign: TextAlign.center,
-                                      ),
+                                  child: Text(
+                                    'OEM Drawing Approval by Engg',
+                                    overflow: TextOverflow.values.first,
+                                    style: columnStyle,
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
                               GridColumn(
@@ -210,11 +219,11 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                       horizontal: 8.0),
                                   alignment: Alignment.center,
                                   child: Text(
-                                      'Manufacturing clearance Given to OEM',
-                                      overflow: TextOverflow.values.first,
-                                      style: columnStyle
-                                      //    textAlign: TextAlign.center,
-                                      ),
+                                    'Manufacturing Clearance Given to OEM',
+                                    overflow: TextOverflow.values.first,
+                                    style: columnStyle,
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
                               GridColumn(
@@ -228,11 +237,11 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                       horizontal: 8.0),
                                   alignment: Alignment.center,
                                   child: Text(
-                                      'Delivery time line after Placement of CRO',
-                                      overflow: TextOverflow.values.first,
-                                      style: columnStyle
-                                      //    textAlign: TextAlign.center,
-                                      ),
+                                    'Delivery time line after Placement of CRO',
+                                    overflow: TextOverflow.values.first,
+                                    style: columnStyle,
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
                               GridColumn(
@@ -245,11 +254,12 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),
                                   alignment: Alignment.center,
-                                  child: Text('CRO release to Vendor',
-                                      overflow: TextOverflow.values.first,
-                                      style: columnStyle
-                                      //    textAlign: TextAlign.center,
-                                      ),
+                                  child: Text(
+                                    'CRO release to Vendor',
+                                    overflow: TextOverflow.values.first,
+                                    style: columnStyle,
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
                               GridColumn(
@@ -262,11 +272,12 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),
                                   alignment: Alignment.center,
-                                  child: Text('CRO Number ',
-                                      overflow: TextOverflow.values.first,
-                                      style: columnStyle
-                                      //    textAlign: TextAlign.center,
-                                      ),
+                                  child: Text(
+                                    'CRO Number ',
+                                    overflow: TextOverflow.values.first,
+                                    style: columnStyle,
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
                               GridColumn(
@@ -279,11 +290,12 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),
                                   alignment: Alignment.center,
-                                  child: Text('Unit',
-                                      overflow: TextOverflow.values.first,
-                                      style: columnStyle
-                                      //    textAlign: TextAlign.center,
-                                      ),
+                                  child: Text(
+                                    'Unit',
+                                    overflow: TextOverflow.values.first,
+                                    style: columnStyle,
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
                               GridColumn(
@@ -296,11 +308,12 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),
                                   alignment: Alignment.center,
-                                  child: Text('Qty',
-                                      overflow: TextOverflow.values.first,
-                                      style: columnStyle
-                                      //    textAlign: TextAlign.center,
-                                      ),
+                                  child: Text(
+                                    'Qty',
+                                    overflow: TextOverflow.values.first,
+                                    style: columnStyle,
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
                               GridColumn(
@@ -358,12 +371,12 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),
                                   alignment: Alignment.center,
-                                  child: Text('City Name',
-                                      overflow: TextOverflow.values.first,
-                                      textAlign: TextAlign.center,
-                                      style: columnStyle
-                                      //    textAlign: TextAlign.center,
-                                      ),
+                                  child: Text(
+                                    'City Name',
+                                    overflow: TextOverflow.values.first,
+                                    textAlign: TextAlign.center,
+                                    style: columnStyle,
+                                  ),
                                 ),
                               ),
                               GridColumn(
@@ -373,9 +386,11 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                 label: Container(
                                   padding: const EdgeInsets.all(8.0),
                                   alignment: Alignment.center,
-                                  child: Text('Details Item Description',
-                                      textAlign: TextAlign.center,
-                                      style: columnStyle),
+                                  child: Text(
+                                    'Details Item Description',
+                                    textAlign: TextAlign.center,
+                                    style: columnStyle,
+                                  ),
                                 ),
                               ),
                               GridColumn(
@@ -388,10 +403,12 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),
                                   alignment: Alignment.center,
-                                  child: Text('OLA No',
-                                      textAlign: TextAlign.center,
-                                      overflow: TextOverflow.values.first,
-                                      style: columnStyle),
+                                  child: Text(
+                                    'OLA No',
+                                    textAlign: TextAlign.center,
+                                    overflow: TextOverflow.values.first,
+                                    style: columnStyle,
+                                  ),
                                 ),
                               ),
                               GridColumn(
@@ -404,12 +421,12 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),
                                   alignment: Alignment.center,
-                                  child: Text('Vendor Name',
-                                      textAlign: TextAlign.center,
-                                      overflow: TextOverflow.values.first,
-                                      style: columnStyle
-                                      //    textAlign: TextAlign.center,
-                                      ),
+                                  child: Text(
+                                    'Vendor Name',
+                                    textAlign: TextAlign.center,
+                                    overflow: TextOverflow.values.first,
+                                    style: columnStyle,
+                                  ),
                                 ),
                               ),
                               GridColumn(
@@ -422,11 +439,12 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),
                                   alignment: Alignment.center,
-                                  child: Text('OEM Drawing Approval by Engg',
-                                      overflow: TextOverflow.values.first,
-                                      style: columnStyle
-                                      //    textAlign: TextAlign.center,
-                                      ),
+                                  child: Text(
+                                    'OEM Drawing Approval by Engg',
+                                    overflow: TextOverflow.values.first,
+                                    style: columnStyle,
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
                               GridColumn(
@@ -440,11 +458,11 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                       horizontal: 8.0),
                                   alignment: Alignment.center,
                                   child: Text(
-                                      'Manufacturing clearance Given to OEM',
-                                      overflow: TextOverflow.values.first,
-                                      style: columnStyle
-                                      //    textAlign: TextAlign.center,
-                                      ),
+                                    'Manufacturing Clearance Given to OEM',
+                                    overflow: TextOverflow.values.first,
+                                    style: columnStyle,
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
                               GridColumn(
@@ -458,11 +476,11 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                       horizontal: 8.0),
                                   alignment: Alignment.center,
                                   child: Text(
-                                      'Delivery time line after Placement of CRO',
-                                      overflow: TextOverflow.values.first,
-                                      style: columnStyle
-                                      //    textAlign: TextAlign.center,
-                                      ),
+                                    'Delivery time line after Placement of CRO',
+                                    overflow: TextOverflow.values.first,
+                                    style: columnStyle,
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
                               GridColumn(
@@ -475,11 +493,12 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),
                                   alignment: Alignment.center,
-                                  child: Text('CRO release to Vendor',
-                                      overflow: TextOverflow.values.first,
-                                      style: columnStyle
-                                      //    textAlign: TextAlign.center,
-                                      ),
+                                  child: Text(
+                                    'CRO release to Vendor',
+                                    overflow: TextOverflow.values.first,
+                                    style: columnStyle,
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
                               GridColumn(
@@ -492,11 +511,12 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),
                                   alignment: Alignment.center,
-                                  child: Text('CRO Number ',
-                                      overflow: TextOverflow.values.first,
-                                      style: columnStyle
-                                      //    textAlign: TextAlign.center,
-                                      ),
+                                  child: Text(
+                                    'CRO Number ',
+                                    overflow: TextOverflow.values.first,
+                                    style: columnStyle,
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
                               GridColumn(
@@ -509,11 +529,12 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),
                                   alignment: Alignment.center,
-                                  child: Text('Unit',
-                                      overflow: TextOverflow.values.first,
-                                      style: columnStyle
-                                      //    textAlign: TextAlign.center,
-                                      ),
+                                  child: Text(
+                                    'Unit',
+                                    overflow: TextOverflow.values.first,
+                                    style: columnStyle,
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
                               GridColumn(
@@ -526,11 +547,12 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),
                                   alignment: Alignment.center,
-                                  child: Text('Qty',
-                                      overflow: TextOverflow.values.first,
-                                      style: columnStyle
-                                      //    textAlign: TextAlign.center,
-                                      ),
+                                  child: Text(
+                                    'Qty',
+                                    overflow: TextOverflow.values.first,
+                                    style: columnStyle,
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
                               GridColumn(

@@ -267,7 +267,11 @@ class _EnergyManagementState extends State<EnergyManagement> {
                     return Column(
                       children: [
                         SfDataGridTheme(
-                            data: SfDataGridThemeData(gridLineColor: blue),
+                            data: SfDataGridThemeData(
+                                gridLineStrokeWidth: 2,
+                                gridLineColor: blue,
+                                frozenPaneLineColor: blue,
+                                frozenPaneLineWidth: 4),
                             child: SfDataGrid(
                               source: _energydatasource,
                               allowEditing: true,

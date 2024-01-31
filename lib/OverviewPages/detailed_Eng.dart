@@ -501,7 +501,11 @@ class _DetailedEngtState extends State<DetailedEng>
       body: Column(children: [
         Expanded(
             child: SfDataGridTheme(
-          data: SfDataGridThemeData(gridLineColor: blue),
+          data: SfDataGridThemeData(
+              gridLineStrokeWidth: 2,
+              gridLineColor: blue,
+              frozenPaneLineColor: blue,
+              frozenPaneLineWidth: 4),
           child: StreamBuilder(
             stream: _stream,
             builder: (context, snapshot) {
@@ -925,7 +929,11 @@ class _DetailedEngtState extends State<DetailedEng>
       body: Column(children: [
         Expanded(
             child: SfDataGridTheme(
-          data: SfDataGridThemeData(gridLineColor: blue),
+          data: SfDataGridThemeData(
+              gridLineStrokeWidth: 2,
+              gridLineColor: blue,
+              frozenPaneLineColor: blue,
+              frozenPaneLineWidth: 4),
           child: StreamBuilder(
               stream: _stream1,
               builder: (context, snapshot) {
@@ -1370,7 +1378,11 @@ class _DetailedEngtState extends State<DetailedEng>
       body: Column(children: [
         Expanded(
             child: SfDataGridTheme(
-          data: SfDataGridThemeData(gridLineColor: blue),
+          data: SfDataGridThemeData(
+              gridLineStrokeWidth: 2,
+              gridLineColor: blue,
+              frozenPaneLineColor: blue,
+              frozenPaneLineWidth: 4),
           child: StreamBuilder(
             stream: _stream2,
             builder: (context, snapshot) {

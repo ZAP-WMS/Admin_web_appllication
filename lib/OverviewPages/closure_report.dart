@@ -396,7 +396,11 @@ class _ClosureReportState extends State<ClosureReport> {
                     }
                     if (!snapshot.hasData || snapshot.data.exists == false) {
                       return SfDataGridTheme(
-                        data: SfDataGridThemeData(headerColor: blue),
+                        data: SfDataGridThemeData(
+                            gridLineStrokeWidth: 2,
+                            gridLineColor: blue,
+                            frozenPaneLineColor: blue,
+                            frozenPaneLineWidth: 4),
                         child: SfDataGrid(
                           source: _closeReportDataSource,
                           //key: key,
@@ -503,7 +507,11 @@ class _ClosureReportState extends State<ClosureReport> {
                       // qualitylisttable1.clear();
                       alldata.forEach((element) {});
                       return SfDataGridTheme(
-                        data: SfDataGridThemeData(headerColor: blue),
+                        data: SfDataGridThemeData(
+                            gridLineStrokeWidth: 2,
+                            gridLineColor: blue,
+                            frozenPaneLineColor: blue,
+                            frozenPaneLineWidth: 4),
                         child: SfDataGrid(
                           source: _closeReportDataSource,
                           //key: key,

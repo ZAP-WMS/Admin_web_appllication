@@ -215,57 +215,67 @@ class _JmrState extends State<Jmr> {
             itemCount: userList.length, //Length of user ID
             itemBuilder: (context, index) {
               // generateJmrListLen(userList[index]);
-              return Padding(
-                padding: const EdgeInsets.only(
-                    left: 10.0, right: 20.0, bottom: 3.0, top: 3.0),
-                child: ExpansionTile(
-                  backgroundColor: Colors.blue[500],
-                  trailing: const Icon(
-                    Icons.arrow_drop_down,
-                    color: Colors.white,
-                  ),
-                  collapsedBackgroundColor: Colors.blue[400],
-                  title: Text(
-                    'User ID - ${userList[index]}',
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                  children: [
-                    ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: 5,
-                        itemBuilder: (context, index2) {
-                          return Container(
-                            padding: const EdgeInsets.only(
-                                left: 15.0, right: 10.0, bottom: 10.0),
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    height: 32,
-                                    child: TextButton(
-                                        onPressed: () {},
-                                        style: ButtonStyle(
-                                            backgroundColor:
-                                                MaterialStateProperty.all(
-                                                    Colors.blue[900])),
-                                        child: Text(
-                                          title[index2],
-                                          style: const TextStyle(
-                                              color: Colors.white),
-                                        )),
-                                  ),
-                                  const SizedBox(
-                                    width: 30.0,
-                                  ),
-                                  jmrTabList(userList[index], index2, index),
-                                ],
+              return Container(
+                margin:
+                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.01),
+                decoration: BoxDecoration(
+                    border: Border.all(color: blue),
+                    borderRadius: const BorderRadius.only(
+                        topRight: Radius.elliptical(10, 10),
+                        topLeft: Radius.elliptical(10, 10))),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 10.0, right: 20.0, bottom: 3.0, top: 3.0),
+                  child: ExpansionTile(
+                    backgroundColor: white,
+                    trailing: Icon(
+                      Icons.arrow_drop_down,
+                      color: Colors.blue[900],
+                    ),
+                    collapsedBackgroundColor: white,
+                    title: Text(
+                      'User ID - ${userList[index]}',
+                      style: TextStyle(color: blue),
+                    ),
+                    children: [
+                      ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: 5,
+                          itemBuilder: (context, index2) {
+                            return Container(
+                              padding: const EdgeInsets.only(
+                                  left: 15.0, right: 10.0, bottom: 10.0),
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      height: 32,
+                                      child: TextButton(
+                                          onPressed: () {},
+                                          style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(
+                                                      white
+                                                      //Colors.blue[900]
+                                                      )),
+                                          child: Text(
+                                            title[index2],
+                                            style: TextStyle(color: blue),
+                                          )),
+                                    ),
+                                    const SizedBox(
+                                      width: 30.0,
+                                    ),
+                                    jmrTabList(userList[index], index2, index),
+                                  ],
+                                ),
                               ),
-                            ),
-                          );
-                        })
-                  ],
+                            );
+                          })
+                    ],
+                  ),
                 ),
               );
             },
