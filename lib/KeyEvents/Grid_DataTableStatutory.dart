@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import '../Authentication/login_register.dart';
+import '../authentication/login_register.dart';
 import '../components/loading_page.dart';
 import '../datasource/employee_statutory.dart';
 import '../model/employee_statutory.dart';

@@ -11,7 +11,7 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:web_appllication/OverviewPages/summary.dart';
 import 'package:web_appllication/widgets/nodata_available.dart';
-import '../Authentication/auth_service.dart';
+import '../authentication/auth_service.dart';
 import '../datasource/dailyproject_datasource.dart';
 import '../model/daily_projectModel.dart';
 import '../components/loading_page.dart';

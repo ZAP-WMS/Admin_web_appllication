@@ -43,7 +43,7 @@ class AuthService {
 
     FirebaseFirestore.instance
         .collection("Admin")
-        .doc(firebaseauth.currentUser!.displayName)
+        .doc('$firstname $lastname')
         .set({
       "FirstName": firstname,
       "LastName": lastname,

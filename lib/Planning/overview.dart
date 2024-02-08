@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:web_appllication/widgets/custom_appbar.dart';
 
-import '../Authentication/auth_service.dart';
+import '../authentication/auth_service.dart';
 
 class MyOverview extends StatefulWidget {
   String? userId;

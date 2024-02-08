@@ -16,6 +16,8 @@ TextStyle formtext = const TextStyle(
   fontSize: 13,
   fontWeight: FontWeight.bold,
 );
+TextStyle headlineblack = GoogleFonts.ibmPlexSans(
+    fontSize: 12, fontWeight: FontWeight.w400, letterSpacing: 0.4);
 TextStyle columnStyle =
     TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: blue);
 
@@ -51,9 +53,9 @@ TextStyle bodyText2red = GoogleFonts.ibmPlexSans(
     fontSize: 14, fontWeight: FontWeight.w400, letterSpacing: 0.25, color: red);
 TextStyle bodyText2White38 = GoogleFonts.ibmPlexSans(
     fontSize: 14,
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.bold,
     letterSpacing: 0.25,
-    color: black38);
+    color: black);
 TextStyle bodyText2White60 = GoogleFonts.ibmPlexSans(
     fontSize: 14,
     fontWeight: FontWeight.w400,

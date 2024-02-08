@@ -9,7 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import '../Authentication/auth_service.dart';
+import '../authentication/auth_service.dart';
 import '../FirebaseApi/firebase_api.dart';
 import '../KeyEvents/view_AllFiles.dart';
 import '../components/loading_page.dart';
@@ -432,6 +432,7 @@ class _DepotOverviewState extends State<DepotOverview> {
                             ),
                             GridColumn(
                               columnName: 'Add',
+                              visible: false,
                               autoFitPadding:
                                   const EdgeInsets.symmetric(horizontal: 16),
                               allowEditing: false,
@@ -452,6 +453,7 @@ class _DepotOverviewState extends State<DepotOverview> {
                             ),
                             GridColumn(
                               columnName: 'Delete',
+                              visible: false,
                               autoFitPadding:
                                   const EdgeInsets.symmetric(horizontal: 16),
                               allowEditing: false,
@@ -701,13 +703,14 @@ class _DepotOverviewState extends State<DepotOverview> {
                             ),
                             GridColumn(
                               columnName: 'Add',
+                              visible: false,
                               autoFitPadding:
                                   const EdgeInsets.symmetric(horizontal: 16),
                               allowEditing: false,
                               width: 110,
                               label: Container(
                                 padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                    const EdgeInsets.symmetric(horizontal: 8.0),    
                                 alignment: Alignment.center,
                                 child: Text('Add Row',
                                     overflow: TextOverflow.values.first,
@@ -718,6 +721,7 @@ class _DepotOverviewState extends State<DepotOverview> {
                             ),
                             GridColumn(
                               columnName: 'Delete',
+                              visible: false,
                               autoFitPadding:
                                   const EdgeInsets.symmetric(horizontal: 16),
                               allowEditing: false,

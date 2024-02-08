@@ -1,11 +1,7 @@
-import 'dart:html' as html;
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 bool _isLoading = false;
@@ -17,7 +13,7 @@ class ViewFile extends StatefulWidget {
   String? activity;
   dynamic userId;
   String? path;
-  ViewFile({super.key, this.cityName, this.depoName, this.activity, this.path});
+  ViewFile({super.key, this.cityName, this.depoName, this.activity, this.path}); 
 
   @override
   State<ViewFile> createState() => _ViewFileState();

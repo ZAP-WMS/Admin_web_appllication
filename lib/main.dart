@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_strategy/url_strategy.dart';
-import 'package:web_appllication/Authentication/login_register.dart';
+import 'package:web_appllication/authentication/login_register.dart';
 import 'package:web_appllication/provider/All_Depo_Select_Provider.dart';
 import 'package:web_appllication/provider/assigned_user_provider.dart';
 import 'package:web_appllication/provider/demandEnergyProvider.dart';
@@ -89,7 +89,7 @@ class MyApp extends StatelessWidget {
               labelStyle: bodyText2White60,
             ),
           ),
-          home: LoginRegister()),
+          home:const LoginRegister()),
     );
   }
 }

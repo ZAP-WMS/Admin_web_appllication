@@ -32,6 +32,7 @@ class ImagePage extends StatelessWidget {
                 final snackBar = SnackBar(
                   content: Text('Downloaded ${file.name}'),
                 );
+                // ignore: use_build_context_synchronously
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
               },
             ),

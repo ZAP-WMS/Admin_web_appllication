@@ -2,7 +2,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:web_appllication/Authentication/login_register.dart';
+import 'package:web_appllication/authentication/login_register.dart';
 import 'package:web_appllication/MenuPage/user.dart';
 import 'package:web_appllication/OverviewPages/depot_overview.dart';
 import 'package:web_appllication/OverviewPages/detailed_Eng.dart';

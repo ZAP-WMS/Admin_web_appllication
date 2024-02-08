@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:web_appllication/Authentication/reset_password.dart';
+import 'package:web_appllication/authentication/reset_password.dart';
 import '../components/Loading_page.dart';
 import '../style.dart';
 
@@ -17,7 +17,7 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   bool isloading = false;
-  String _companyName = '';
+  // String _companyName = '';
   String _id = "";
   String _pass = "";
   bool _isHidden = true;
@@ -265,37 +265,45 @@ class _SignInPageState extends State<SignInPage> {
           .collection('Admin')
           .where('Employee Id', isEqualTo: _id)
           .get();
-      print('Login Id: $_id');
 
       try {
-        if (_pass == snap.docs[0]['Password'] &&
-            _id == snap.docs[0]['Employee Id'] &&
-            snap.docs[0]['CompanyName'] == 'TATA POWER') {
-          _sharedPreferences = await SharedPreferences.getInstance();
-          _sharedPreferences.setString(
-              'companyName', snap.docs[0]['CompanyName']);
-          _sharedPreferences.setString('employeeId', _id).then((_) {
-            Navigator.pushReplacementNamed(context, 'login/EVDashboard',
-                arguments: {'userId': _id});
-          });
-        } else if (_pass == snap.docs[0]['Password'] &&
-            _id == snap.docs[0]['Employee Id'] &&
-            snap.docs[0]['CompanyName'] == 'TATA MOTOR') {
-          _sharedPreferences = await SharedPreferences.getInstance();
-          _sharedPreferences.setString(
-              'companyName', snap.docs[0]['CompanyName']);
-          _sharedPreferences.setString('employeeId', _id).then((_) {
-            Navigator.pushReplacementNamed(context, 'login/EVDashboard',
-                arguments: {'userId': _id});
-            // Navigator.pushReplacement(context,
-            //     MaterialPageRoute(builder: (context) => const CitiesPage()));
-          });
+        if (snap.docs.isNotEmpty) {
+          if (_pass == snap.docs[0]['Password'] &&
+              _id == snap.docs[0]['Employee Id'] &&
+              snap.docs[0]['CompanyName'] == 'TATA POWER') {
+            _sharedPreferences = await SharedPreferences.getInstance();
+            _sharedPreferences.setString(
+                'companyName', snap.docs[0]['CompanyName']);
+            _sharedPreferences.setString('employeeId', _id).then((_) {
+              Navigator.pushReplacementNamed(context, 'login/EVDashboard',
+                  arguments: {'userId': _id});
+            });
+          } else if (_pass == snap.docs[0]['Password'] &&
+              _id == snap.docs[0]['Employee Id'] &&
+              snap.docs[0]['CompanyName'] == 'TATA MOTOR') {
+            _sharedPreferences = await SharedPreferences.getInstance();
+            _sharedPreferences.setString(
+                'companyName', snap.docs[0]['CompanyName']);
+            _sharedPreferences.setString('employeeId', _id).then((_) {
+              Navigator.pushReplacementNamed(context, 'login/EVDashboard',
+                  arguments: {'userId': _id});
+              // Navigator.pushReplacement(context,
+              //     MaterialPageRoute(builder: (context) => const CitiesPage()));
+            });
+          } else {
+            // ignore: use_build_context_synchronously
+            Navigator.pop(context);
+            // ignore: use_build_context_synchronously
+            ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Password is not correct')));
+          }
         } else {
+          // Handle case when no documents are found
           // ignore: use_build_context_synchronously
           Navigator.pop(context);
           // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Password is not correct')));
+              const SnackBar(content: Text('Employee Id not found')));
         }
       } catch (e) {
         // ignore: use_build_context_synchronously
@@ -310,7 +318,9 @@ class _SignInPageState extends State<SignInPage> {
             error = 'Error occured!';
           });
         }
+        // ignore: use_build_context_synchronously
         Navigator.pop(context);
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(error),
           backgroundColor: blue,

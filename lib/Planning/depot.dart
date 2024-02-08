@@ -6,11 +6,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:web_appllication/OverviewPages/quality_checklist.dart';
 import 'package:web_appllication/Planning/overview.dart';
 import 'package:web_appllication/components/loading_page.dart';
 import 'package:web_appllication/style.dart';
-import '../Authentication/auth_service.dart';
+import '../authentication/auth_service.dart';
 import '../widgets/custom_appbar.dart';
 import '../widgets/custom_container.dart';
 

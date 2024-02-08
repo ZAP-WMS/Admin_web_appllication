@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import '../Authentication/auth_service.dart';
+import '../authentication/auth_service.dart';
 import '../components/loading_page.dart';
 import '../datasource/materialprocurement_datasource.dart';
 import '../model/material_vendor.dart';

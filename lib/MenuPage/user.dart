@@ -918,6 +918,7 @@ class _MenuUserPageState extends State<MenuUserPage> {
 
   getUserdata(String input) async {
     searchedList.clear();
+    _testList.clear();
     FirebaseFirestore.instance.collection('User').get().then((value) {
       value.docs.forEach((element) {
         var data = element['FirstName'];
@@ -926,6 +927,17 @@ class _MenuUserPageState extends State<MenuUserPage> {
         _testList.add('${data.toString().trim()} $data1');
       });
     });
+
+    QuerySnapshot adminQuery =
+        await FirebaseFirestore.instance.collection('Admin').get();
+
+    List<dynamic> adminList = adminQuery.docs.map((e) => e.id).toList();
+
+    print('admin - $adminList');
+
+    for (int j = 0; j < adminList.length; j++) {
+      _testList.add(adminList[j].toString());
+    }
 
     for (int i = 0; i < _testList.length; i++) {
       if (_testList[i].toUpperCase().startsWith(input.toUpperCase())) {

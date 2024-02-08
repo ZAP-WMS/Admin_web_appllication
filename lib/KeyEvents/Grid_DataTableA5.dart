@@ -9,7 +9,7 @@ import 'package:web_appllication/datasource/employee_statutory.dart';
 import 'package:web_appllication/components/loading_page.dart';
 import 'package:web_appllication/style.dart';
 import 'package:web_appllication/widgets/custom_appbar.dart';
-import '../Authentication/auth_service.dart';
+import '../authentication/auth_service.dart';
 import '../model/employee_statutory.dart';
 
 /// The home page of the application which hosts the datagrid.

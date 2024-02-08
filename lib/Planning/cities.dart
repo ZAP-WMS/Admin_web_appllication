@@ -10,7 +10,7 @@ import 'package:web_appllication/Planning/depot.dart';
 import 'package:web_appllication/Service/database_service.dart';
 import 'package:web_appllication/components/loading_page.dart';
 import 'package:web_appllication/style.dart';
-import '../Authentication/auth_service.dart';
+import '../authentication/auth_service.dart';
 import '../widgets/custom_container.dart';
 
 class CitiesPage extends StatefulWidget {

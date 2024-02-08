@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
-import 'package:web_appllication/Authentication/login.dart';
-import 'package:web_appllication/Authentication/register.dart';
+import 'package:web_appllication/authentication/login.dart';
+import 'package:web_appllication/authentication/register.dart';
 import 'package:web_appllication/style.dart';
 
 class LoginRegister extends StatefulWidget {

@@ -11,7 +11,7 @@ import 'package:web_appllication/model/employee.dart';
 import 'package:web_appllication/components/loading_page.dart';
 import 'package:web_appllication/style.dart';
 
-import '../Authentication/auth_service.dart';
+import '../authentication/auth_service.dart';
 import '../widgets/custom_appbar.dart';
 
 /// The home page of the application which hosts the datagrid.
