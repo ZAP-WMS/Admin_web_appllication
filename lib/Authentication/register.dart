@@ -282,21 +282,25 @@ class _RegisterPageState extends State<RegisterPage> {
                                       color: grey,
                                     )),
                         ),
+
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Password is required';
                           }
+
                           if (!RegExp(
-                                  r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
+                                  r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
                               .hasMatch(value)) {
-                            return 'Password should be 8 caharecter & contain alphabate , numbers & special character';
+                            return 'Password should contain alphabate , numbers & special character';
                           }
 
                           // if (value.length < 5 || value.length > 20) {
                           //   return 'Password must be betweem 5 and 20 characters';
                           // }
+
                           return null;
                         },
+
                         // key: ValueKey('password'),
                         obscureText: _isHidden,
                         style: bodyText2White60,
