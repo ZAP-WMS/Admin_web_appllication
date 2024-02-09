@@ -66,6 +66,7 @@ class _MyOverviewState extends State<MyOverview> {
   @override
   void initState() {
     setSharePrefence();
+    print(widget.userId);
     super.initState();
   }
 

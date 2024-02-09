@@ -28,7 +28,9 @@ class _SmallScreenState extends State<SmallScreen> {
         break;
       case EVDashboardScreen.id:
         setState(() {
-          selectedScreen = const EVDashboardScreen();
+          selectedScreen = EVDashboardScreen(
+            userId: '',
+          );
         });
         break;
       case ProjectPanning.id:

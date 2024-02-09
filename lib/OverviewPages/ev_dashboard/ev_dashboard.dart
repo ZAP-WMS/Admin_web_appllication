@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:web_appllication/KeyEvents/Grid_DataTable.dart';
 import 'package:web_appllication/components/Loading_page.dart';
 import 'package:web_appllication/provider/selected_row_index.dart';
 import 'package:web_appllication/style.dart';
@@ -16,9 +18,14 @@ import '../../authentication/auth_service.dart';
 List<dynamic> cityList = [];
 
 class EVDashboardScreen extends StatefulWidget {
+  String userId;
   final bool showAppBar;
   final Function? callbackFun;
-  const EVDashboardScreen({Key? key, this.callbackFun, this.showAppBar = false})
+  EVDashboardScreen(
+      {Key? key,
+      this.callbackFun,
+      this.showAppBar = false,
+      required this.userId})
       : super(key: key);
 
   static const String id = 'admin-page';
@@ -247,6 +254,7 @@ class _EVDashboardScreenState extends State<EVDashboardScreen> {
 
   @override
   void initState() {
+    print('userId - ${widget.userId}');
     getcompany();
     getCityName();
     fetchExcelData();
@@ -276,13 +284,36 @@ class _EVDashboardScreenState extends State<EVDashboardScreen> {
                   backgroundColor: blue,
                   title: const Text('EV Bus Project Analysis Dashboard'),
                   actions: [
-                    IconButton(
-                        onPressed: () {
-                          showSearch(
-                              context: context,
-                              delegate: CustomSearchDelegate());
-                        },
-                        icon: Icon(Icons.search))
+                    Padding(
+                        padding: const EdgeInsets.only(right: 15, left: 15),
+                        child: GestureDetector(
+                            onTap: () async {
+                              onWillPop(context);
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.remove('employeeId');
+                            },
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  'assets/logout.png',
+                                  height: 20,
+                                  width: 20,
+                                ),
+                                const SizedBox(width: 5),
+                                Text(
+                                  widget.userId ?? '',
+                                  style: const TextStyle(fontSize: 18),
+                                ),
+                              ],
+                            ))),
+                    // IconButton(
+                    //     onPressed: () {
+                    //       showSearch(
+                    //           context: context,
+                    //           delegate: CustomSearchDelegate());
+                    //     },
+                    //     icon: Icon(Icons.search)),
                   ],
                 ),
               )

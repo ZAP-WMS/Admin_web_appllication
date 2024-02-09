@@ -45,24 +45,32 @@ class _ViewAllPdfState extends State<ViewAllPdf> {
       futureFiles = FirebaseApi.listAll(
           '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.docId}');
     }
-    getrefdata().whenComplete(() {
-      for (int i = 0; i < drawingRef.length; i++) {
-        if (widget.title == 'Overview Page') {
-          print(
-              '${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}/${widget.docId}');
-          futureFiles = FirebaseApi.listAll(
-              '${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}/${widget.docId}');
-        }
-        for (int j = 0; j < drawingfullpath.length; j++) {
-          print('before ' + drawingfullpath[j]);
-          print(
-              'after  ${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}/${widget.docId}');
 
-          if (drawingfullpath[j] ==
-              '${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}/${widget.docId}') {
-            // futureFiles = FirebaseApi.listAll(
-            //     '${widget.title}/${widget.cityName}/${widget.depoName}/RM7292/${widget.docId}');
-            futureFiles = FirebaseApi.listAll(drawingfullpath[j]);
+    getrefdata().whenComplete(() {
+      if (widget.title == 'Daily Report') {
+        futureFiles = FirebaseApi.listAll(
+            '/Daily Report/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.docId}');
+        print(
+            '/Daily Report/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.date}/${widget.docId}');
+      } else {
+        for (int i = 0; i < drawingRef.length; i++) {
+          if (widget.title == 'Overview Page') {
+            print(
+                '${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}/${widget.docId}');
+            futureFiles = FirebaseApi.listAll(
+                '${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}/${widget.docId}');
+          }
+          for (int j = 0; j < drawingfullpath.length; j++) {
+            print('before ' + drawingfullpath[j]);
+            print(
+                'after  ${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}/${widget.docId}');
+
+            if (drawingfullpath[j] ==
+                '${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}/${widget.docId}') {
+              // futureFiles = FirebaseApi.listAll(
+              //     '${widget.title}/${widget.cityName}/${widget.depoName}/RM7292/${widget.docId}');
+              futureFiles = FirebaseApi.listAll(drawingfullpath[j]);
+            }
           }
         }
       }

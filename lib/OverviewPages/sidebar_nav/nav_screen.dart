@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:web_appllication/KeyEvents/Grid_DataTable.dart';
 import 'package:web_appllication/MenuPage/user.dart';
 import 'package:web_appllication/OverviewPages/ev_dashboard/ev_dashboard.dart';
 import 'package:web_appllication/OverviewPages/quality_checklist.dart';
@@ -8,8 +10,6 @@ import 'package:web_appllication/Planning/cities.dart';
 import 'package:web_appllication/provider/demandEnergyProvider.dart';
 import 'package:web_appllication/screen/demand%20energy%20management/demandScreen.dart';
 import 'package:web_appllication/style.dart';
-
-
 
 class NavigationPage extends StatefulWidget {
   String userId;
@@ -48,7 +48,7 @@ class _NavigationPageState extends State<NavigationPage> {
           case DrawerSection.evDashboard:
             showStartEndDatePanel = false;
             title = 'EV BUS Project Performance Analysis Dashboard';
-            container = EVDashboardScreen();
+            container = EVDashboardScreen(userId: widget.userId);
             //'login/EVDashboard';
             // Navigator.pushNamed(context, 'login/EVDashboard');
             break;
@@ -138,7 +138,31 @@ class _NavigationPageState extends State<NavigationPage> {
                         );
                       },
                     )
-                  : Container()
+                  : Container(),
+              Container(
+                margin: EdgeInsets.only(top: 8.0, bottom: 8.0, right: 20.0),
+                child: GestureDetector(
+                    onTap: () async {
+                      onWillPop(context);
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      prefs.remove('employeeId');
+                    },
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          'assets/logout.png',
+                          height: 20,
+                          width: 20,
+                        ),
+                        const SizedBox(width: 5),
+                        Text(
+                          widget.userId ?? '',
+                          style: const TextStyle(fontSize: 15),
+                        ),
+                      ],
+                    )),
+              ),
             ],
             title: Text(
               title,

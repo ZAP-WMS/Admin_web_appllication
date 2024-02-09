@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:web_appllication/OverviewPages/daily_project.dart';
 import '../KeyEvents/view_AllFiles.dart';
 import '../model/daily_projectModel.dart';
 
@@ -60,6 +61,8 @@ class DailyDataSource extends DataGridSource {
           child: (dataGridCell.columnName == 'View')
               ? ElevatedButton(
                   onPressed: () {
+                    print(
+                        'Abc - ${Pagetitle}  ${row.getCells()[0].value}/${row.getCells()[1].value}');
                     Navigator.push(
                         mainContext,
                         MaterialPageRoute(
@@ -67,7 +70,7 @@ class DailyDataSource extends DataGridSource {
                             title: Pagetitle,
                             cityName: cityName,
                             depoName: depoName,
-                            // userId: userId,
+                            userId: availableUserId[dataGridRows.indexOf(row)],
                             // date: row.getCells()[0].value.toString(),
                             docId:
                                 '${row.getCells()[0].value}/${row.getCells()[1].value}',

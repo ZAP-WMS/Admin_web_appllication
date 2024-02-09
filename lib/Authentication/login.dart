@@ -246,6 +246,10 @@ class _SignInPageState extends State<SignInPage> {
 
   login() async {
     if (_formkey.currentState!.validate()) {
+      bool isProjectManager = false;
+      String passWord = '';
+      String companyName = '';
+
       showCupertinoDialog(
         context: context,
         builder: (context) => const CupertinoAlertDialog(
@@ -266,57 +270,102 @@ class _SignInPageState extends State<SignInPage> {
           .where('Employee Id', isEqualTo: _id)
           .get();
 
+      List<dynamic> dataList = snap.docs.map((data) => data.data()).toList();
+      print(dataList);
+
       try {
-        if (snap.docs.isNotEmpty) {
-          if (_pass == snap.docs[0]['Password'] &&
-              _id == snap.docs[0]['Employee Id'] &&
-              snap.docs[0]['CompanyName'] == 'TATA POWER') {
-            _sharedPreferences = await SharedPreferences.getInstance();
-            _sharedPreferences.setString(
-                'companyName', snap.docs[0]['CompanyName']);
-            _sharedPreferences.setString('employeeId', _id).then((_) {
-              Navigator.pushReplacementNamed(context, 'login/EVDashboard',
-                  arguments: {'userId': _id});
-            });
-          } else if (_pass == snap.docs[0]['Password'] &&
-              _id == snap.docs[0]['Employee Id'] &&
-              snap.docs[0]['CompanyName'] == 'TATA MOTOR') {
-            _sharedPreferences = await SharedPreferences.getInstance();
-            _sharedPreferences.setString(
-                'companyName', snap.docs[0]['CompanyName']);
-            _sharedPreferences.setString('employeeId', _id).then((_) {
-              Navigator.pushReplacementNamed(context, 'login/EVDashboard',
-                  arguments: {'userId': _id});
-              // Navigator.pushReplacement(context,
-              //     MaterialPageRoute(builder: (context) => const CitiesPage()));
-            });
+        if (dataList.isEmpty) {
+          QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+              .collection('AssignedRole')
+              .where('userId', isEqualTo: _id)
+              .get();
+
+          List<dynamic> dataList2 =
+              querySnapshot.docs.map((e) => e.data()).toList();
+
+          String userName = dataList2[0]['username'];
+          List<dynamic> rolesList = dataList2[0]['roles'];
+
+          rolesList.every(
+            (element) {
+              if (element == 'Project Manager') {
+                isProjectManager = true;
+              }
+              return false;
+            },
+          );
+
+          // print('result - ${isProjectManager}');
+
+          if (isProjectManager == true) {
+            DocumentSnapshot pmData = await FirebaseFirestore.instance
+                .collection('User')
+                .doc(userName)
+                .get();
+
+            if (pmData.exists) {
+              Map<String, dynamic> mapData =
+                  pmData.data() as Map<String, dynamic>;
+              passWord = mapData['Password'];
+              companyName = 'TATA POWER';
+              // print('ProjectManager here ${passWord}');
+
+              _sharedPreferences = await SharedPreferences.getInstance();
+              _sharedPreferences.setString('companyName', companyName);
+              _sharedPreferences.setString('employeeId', _id).then((_) {
+                Navigator.pushReplacementNamed(context, 'login/EVDashboard',
+                    arguments: {'userId': _id});
+              });
+            }
+          }
+        } else {
+          if (snap.docs.isNotEmpty) {
+            if (_pass == snap.docs[0]['Password'] &&
+                _id == snap.docs[0]['Employee Id'] &&
+                snap.docs[0]['CompanyName'] == 'TATA POWER') {
+              _sharedPreferences = await SharedPreferences.getInstance();
+              _sharedPreferences.setString(
+                  'companyName', snap.docs[0]['CompanyName']);
+              _sharedPreferences.setString('employeeId', _id).then((_) {
+                Navigator.pushReplacementNamed(context, 'login/EVDashboard',
+                    arguments: {'userId': _id});
+              });
+            } else if (_pass == snap.docs[0]['Password'] &&
+                _id == snap.docs[0]['Employee Id'] &&
+                snap.docs[0]['CompanyName'] == 'TATA MOTOR') {
+              _sharedPreferences = await SharedPreferences.getInstance();
+              _sharedPreferences.setString(
+                  'companyName', snap.docs[0]['CompanyName']);
+              _sharedPreferences.setString('employeeId', _id).then((_) {
+                Navigator.pushReplacementNamed(context, 'login/EVDashboard',
+                    arguments: {'userId': _id});
+                // Navigator.pushReplacement(context,
+                //     MaterialPageRoute(builder: (context) => const CitiesPage()));
+              });
+            } else {
+              // ignore: use_build_context_synchronously
+              Navigator.pop(context);
+              // ignore: use_build_context_synchronously
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Password is not correct')));
+            }
           } else {
+            // Handle case when no documents are found
             // ignore: use_build_context_synchronously
             Navigator.pop(context);
             // ignore: use_build_context_synchronously
             ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Password is not correct')));
+                const SnackBar(content: Text('Employee Id not found')));
           }
-        } else {
-          // Handle case when no documents are found
-          // ignore: use_build_context_synchronously
-          Navigator.pop(context);
-          // ignore: use_build_context_synchronously
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Employee Id not found')));
         }
       } catch (e) {
         // ignore: use_build_context_synchronously
         String error = '';
         if (e.toString() ==
             'RangeError (index): Invalid value: Valid value range is empty: 0') {
-          setState(() {
-            error = 'Employee Id does not exist!';
-          });
+          error = 'Employee Id does not exist!';
         } else {
-          setState(() {
-            error = 'Error occured!';
-          });
+          error = 'Error occured!';
         }
         // ignore: use_build_context_synchronously
         Navigator.pop(context);

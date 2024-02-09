@@ -89,7 +89,7 @@ class MyApp extends StatelessWidget {
               labelStyle: bodyText2White60,
             ),
           ),
-          home:const LoginRegister()),
+          home: const LoginRegister()),
     );
   }
 }

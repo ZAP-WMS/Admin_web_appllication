@@ -293,7 +293,8 @@ class _MydepotsState extends State<Mydepots> {
                               MyOverview(
                                   depoName: snapshot.data!.docs[index]
                                       ['DepoName'],
-                                  cityName: widget.cityName!),
+                                  cityName: widget.cityName!,
+                                  userId: widget.userId),
                               index);
                     });
               } else {

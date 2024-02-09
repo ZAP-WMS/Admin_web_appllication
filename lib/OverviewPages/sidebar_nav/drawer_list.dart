@@ -20,12 +20,16 @@ class _MyDrawerListState extends State<MyDrawerList> {
   Widget build(BuildContext context) {
     return Material(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          getDrawerItem(Icons.dashboard_outlined, pageNames[0]),
-          getDrawerItem(Icons.dashboard_customize_sharp, pageNames[1]),
-          getDrawerItem(Icons.home_max, pageNames[2]),
-          getDrawerItem(Icons.verified_user, pageNames[3])
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              getDrawerItem(Icons.dashboard_outlined, pageNames[0]),
+              getDrawerItem(Icons.dashboard_customize_sharp, pageNames[1]),
+              getDrawerItem(Icons.home_max, pageNames[2]),
+              getDrawerItem(Icons.verified_user, pageNames[3])
+            ],
+          ),
         ],
       ),
     );

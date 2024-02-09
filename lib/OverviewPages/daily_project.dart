@@ -21,6 +21,8 @@ import 'package:printing/printing.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'dart:html' as html;
 
+List<dynamic> availableUserId = [];
+
 class DailyProject extends StatefulWidget {
   String? userId;
   String? cityName;
@@ -41,6 +43,7 @@ class _DailyProjectState extends State<DailyProject> {
   DateTime? startdate = DateTime.now();
   DateTime? enddate = DateTime.now();
   DateTime? rangestartDate;
+  Map<String, dynamic> useridWithData = {};
   DateTime? rangeEndDate;
   List<DailyProjectModel> DailyProject = <DailyProjectModel>[];
   late DailyDataSource _dailyDataSource;
@@ -54,7 +57,7 @@ class _DailyProjectState extends State<DailyProject> {
   dynamic alldata;
   List id = [];
   List<dynamic> chosenDateList = [];
-  List<dynamic> availableUserId = [];
+  List<Map<String, dynamic>> mapDataList = [];
 
   @override
   void initState() {
@@ -64,6 +67,7 @@ class _DailyProjectState extends State<DailyProject> {
     // DailyProject = getmonthlyReport();
     _dailyDataSource = DailyDataSource(
         DailyProject, context, widget.cityName!, widget.depoName!);
+
     _dataGridController = DataGridController();
 
     // _stream = FirebaseFirestore.instance
@@ -750,7 +754,7 @@ class _DailyProjectState extends State<DailyProject> {
     });
   }
 
-  Future<void> nestedTableData(docss) async {
+  Future<void> nestedTableData(List<dynamic> docss) async {
     dataForPdf.clear();
 
     setState(() {
@@ -767,10 +771,14 @@ class _DailyProjectState extends State<DailyProject> {
     //   ),
     // );
     for (int i = 0; i < docss.length; i++) {
-      Map<String, dynamic> useridWithData = {};
+      int num = 0;
+      useridWithData.clear();
       for (DateTime initialdate = startdate!;
-          initialdate.isBefore(enddate!.add(Duration(days: 1)));
+          initialdate.isBefore(enddate!.add(const Duration(days: 1)));
           initialdate = initialdate.add(const Duration(days: 1))) {
+        num++;
+        print(num);
+        useridWithData.clear();
         String temp = DateFormat.yMMMMd().format(initialdate);
         await FirebaseFirestore.instance
             .collection('DailyProjectReport2')
@@ -782,22 +790,30 @@ class _DailyProjectState extends State<DailyProject> {
             .get()
             .then((value) {
           if (value.data() != null) {
-            availableUserId.add(docss[i]);
-            chosenDateList.add(temp);
+            print(value.data()!['data']);
+
             String userId = docss[i];
             useridWithData[userId] = value.data()!['data'];
+            // print('useridWithData - $useridWithData');
             for (int j = 0; j < value.data()!['data'].length; j++) {
               DailyProject.add(
                   DailyProjectModel.fromjson(value.data()!['data'][j]));
-              // print(DailyProject);
+
+              availableUserId.add(docss[i]);
+
+              chosenDateList.add(temp);
+
+              // print(useridWithData);
             }
-            dataForPdf.add(useridWithData);
           }
         });
+        // dataForPdf.add(useridWithData);
+        // print('UserData - $dataForPdf');
       }
-
-      print(dataForPdf);
     }
+    // print('DailyProject - ${DailyProject.length}');
+    print(availableUserId);
+    print(chosenDateList);
 
     setState(() {
       _isLoading = false;
@@ -870,161 +886,153 @@ class _DailyProjectState extends State<DailyProject> {
                   style: pw.TextStyle(fontWeight: pw.FontWeight.bold)))),
     ]));
 
-    if (dataForPdf.isNotEmpty) {
+    if (DailyProject.isNotEmpty) {
       List<pw.Widget> imageUrls = [];
 
-      for (int i = 0; i < chosenDateList.length; i++) {
-        for (int j = 0; j < availableUserId.length; j++) {
-          final currentUserId = availableUserId[j];
-          for (Map<String, dynamic> mapData in dataForPdf) {
-            List<dynamic> userData = mapData[currentUserId];
+      // for (int i = 0; i < chosenDateList.length; i++) {
 
-            for (int k = 0; k < userData.length; k++) {
-              String imagesPath =
-                  '/Daily Report/${widget.cityName}/${widget.depoName}/${availableUserId[j]}/${chosenDateList[i]}/${userData[k]['SiNo']}';
-              print(imagesPath);
+      // for (int j = 0; j < availableUserId.length; j++) {
+      // final currentUserId = availableUserId[j];
 
-              ListResult result = await FirebaseStorage.instance
-                  .ref()
-                  .child(imagesPath)
-                  .listAll();
+      for (int i = 0; i < DailyProject.length; i++) {
+        String imagesPath =
+            '/Daily Report/${widget.cityName}/${widget.depoName}/${availableUserId[i]}/${chosenDateList[i]}/${DailyProject[i].siNo}';
+        // print(
+        //     '/Daily Report/${widget.cityName}/${widget.depoName}/${availableUserId[i]}/${chosenDateList[i]}/${DailyProject[i].siNo}');
+        // print(imagesPath);
+        ListResult result =
+            await FirebaseStorage.instance.ref().child(imagesPath).listAll();
 
-              if (result.items.isNotEmpty) {
-                for (var image in result.items) {
-                  String downloadUrl = await image.getDownloadURL();
-                  if (image.name.endsWith('.pdf')) {
-                    imageUrls.add(
-                      pw.Container(
-                          width: 60,
-                          alignment: pw.Alignment.center,
-                          padding:
-                              const pw.EdgeInsets.only(top: 8.0, bottom: 8.0),
-                          child: pw.UrlLink(
-                              child: pw.Text(image.name,
-                                  style: const pw.TextStyle(
-                                      color: PdfColors.blue)),
-                              destination: downloadUrl)),
-                    );
-                  } else {
-                    final myImage = await networkImage(downloadUrl);
-                    imageUrls.add(
-                      pw.Container(
-                          padding:
-                              const pw.EdgeInsets.only(top: 8.0, bottom: 8.0),
-                          width: 60,
-                          height: 80,
-                          child: pw.Center(
-                            child: pw.Image(myImage),
-                          )),
-                    );
-                  }
-                }
-
-                if (imageUrls.length < 2) {
-                  int imageLoop = 2 - imageUrls.length;
-                  for (int i = 0; i < imageLoop; i++) {
-                    imageUrls.add(
-                      pw.Container(
-                          padding:
-                              const pw.EdgeInsets.only(top: 8.0, bottom: 8.0),
-                          width: 60,
-                          height: 80,
-                          child: pw.Text('')),
-                    );
-                  }
-                } else {
-                  int imageLoop = 10 - imageUrls.length;
-                  for (int i = 0; i < imageLoop; i++) {
-                    imageUrls.add(
-                      pw.Container(
-                          padding:
-                              const pw.EdgeInsets.only(top: 8.0, bottom: 8.0),
-                          width: 80,
-                          height: 100,
-                          child: pw.Text('')),
-                    );
-                  }
-                }
-              } else {
-                for (int i = 0; i < 2; i++) {
-                  imageUrls.add(
-                    pw.Container(
-                        padding:
-                            const pw.EdgeInsets.only(top: 8.0, bottom: 8.0),
-                        width: 60,
-                        height: 80,
-                        child: pw.Text('')),
-                  );
-                }
-              }
-              result.items.clear();
-
-              //Text Rows of PDF Table
-              rows.add(pw.TableRow(children: [
+        if (result.items.isNotEmpty) {
+          for (var image in result.items) {
+            String downloadUrl = await image.getDownloadURL();
+            if (image.name.endsWith('.pdf')) {
+              imageUrls.add(
                 pw.Container(
-                    padding: const pw.EdgeInsets.all(3.0),
-                    child: pw.Center(
-                        child: pw.Text(userData[k]['SiNo'].toString(),
-                            style: const pw.TextStyle(fontSize: 14)))),
+                    width: 60,
+                    alignment: pw.Alignment.center,
+                    padding: const pw.EdgeInsets.only(top: 8.0, bottom: 8.0),
+                    child: pw.UrlLink(
+                        child: pw.Text(image.name,
+                            style: const pw.TextStyle(color: PdfColors.blue)),
+                        destination: downloadUrl)),
+              );
+            } else {
+              final myImage = await networkImage(downloadUrl);
+              imageUrls.add(
                 pw.Container(
-                    padding: const pw.EdgeInsets.all(2.0),
+                    padding: const pw.EdgeInsets.only(top: 8.0, bottom: 8.0),
+                    width: 60,
+                    height: 80,
                     child: pw.Center(
-                        child: pw.Text(userData[k]['Date'].toString(),
-                            style: const pw.TextStyle(fontSize: 14)))),
-                pw.Container(
-                    padding: const pw.EdgeInsets.all(2.0),
-                    child: pw.Center(
-                        child: pw.Text(userData[k]['TypeOfActivity'].toString(),
-                            style: const pw.TextStyle(fontSize: 14)))),
-                pw.Container(
-                    padding: const pw.EdgeInsets.all(2.0),
-                    child: pw.Center(
-                        child: pw.Text(
-                            userData[k]['ActivityDetails'].toString(),
-                            style: const pw.TextStyle(fontSize: 14)))),
-                pw.Container(
-                    padding: const pw.EdgeInsets.all(2.0),
-                    child: pw.Center(
-                        child: pw.Text(userData[k]['Progress'].toString(),
-                            style: const pw.TextStyle(fontSize: 14)))),
-                pw.Container(
-                    padding: const pw.EdgeInsets.all(2.0),
-                    child: pw.Center(
-                        child: pw.Text(userData[k]['Status'].toString(),
-                            style: const pw.TextStyle(fontSize: 14)))),
-                imageUrls[0],
-                imageUrls[1]
-              ]));
-
-              if (imageUrls.length - 2 > 0) {
-                //Image Rows of PDF Table
-                rows.add(pw.TableRow(children: [
-                  pw.Container(
-                      padding: const pw.EdgeInsets.only(top: 8.0, bottom: 8.0),
-                      child: pw.Text('')),
-                  pw.Container(
-                      padding: const pw.EdgeInsets.only(top: 8.0, bottom: 8.0),
-                      width: 60,
-                      height: 100,
-                      child: pw.Row(
-                          mainAxisAlignment: pw.MainAxisAlignment.spaceAround,
-                          children: [
-                            imageUrls[2],
-                            imageUrls[3],
-                          ])),
-                  imageUrls[4],
-                  imageUrls[5],
-                  imageUrls[6],
-                  imageUrls[7],
-                  imageUrls[8],
-                  imageUrls[9]
-                ]));
-              }
-              imageUrls.clear();
+                      child: pw.Image(myImage),
+                    )),
+              );
             }
           }
+
+          if (imageUrls.length < 2) {
+            int imageLoop = 2 - imageUrls.length;
+            for (int i = 0; i < imageLoop; i++) {
+              imageUrls.add(
+                pw.Container(
+                    padding: const pw.EdgeInsets.only(top: 8.0, bottom: 8.0),
+                    width: 60,
+                    height: 80,
+                    child: pw.Text('')),
+              );
+            }
+          } else {
+            int imageLoop = 10 - imageUrls.length;
+            for (int i = 0; i < imageLoop; i++) {
+              imageUrls.add(
+                pw.Container(
+                    padding: const pw.EdgeInsets.only(top: 8.0, bottom: 8.0),
+                    width: 80,
+                    height: 100,
+                    child: pw.Text('')),
+              );
+            }
+          }
+        } else {
+          for (int i = 0; i < 2; i++) {
+            imageUrls.add(
+              pw.Container(
+                  padding: const pw.EdgeInsets.only(top: 8.0, bottom: 8.0),
+                  width: 60,
+                  height: 80,
+                  child: pw.Text('')),
+            );
+          }
         }
+        result.items.clear();
+
+        //Text Rows of PDF Table
+        rows.add(pw.TableRow(children: [
+          pw.Container(
+              padding: const pw.EdgeInsets.all(3.0),
+              child: pw.Center(
+                  child: pw.Text('${i + 1}',
+                      style: const pw.TextStyle(fontSize: 14)))),
+          pw.Container(
+              padding: const pw.EdgeInsets.all(2.0),
+              child: pw.Center(
+                  child: pw.Text(DailyProject[i].date.toString(),
+                      style: const pw.TextStyle(fontSize: 14)))),
+          pw.Container(
+              padding: const pw.EdgeInsets.all(2.0),
+              child: pw.Center(
+                  child: pw.Text(DailyProject[i].typeOfActivity.toString(),
+                      style: const pw.TextStyle(fontSize: 14)))),
+          pw.Container(
+              padding: const pw.EdgeInsets.all(2.0),
+              child: pw.Center(
+                  child: pw.Text(DailyProject[i].activityDetails.toString(),
+                      style: const pw.TextStyle(fontSize: 14)))),
+          pw.Container(
+              padding: const pw.EdgeInsets.all(2.0),
+              child: pw.Center(
+                  child: pw.Text(DailyProject[i].progress.toString(),
+                      style: const pw.TextStyle(fontSize: 14)))),
+          pw.Container(
+              padding: const pw.EdgeInsets.all(2.0),
+              child: pw.Center(
+                  child: pw.Text(DailyProject[i].status.toString(),
+                      style: const pw.TextStyle(fontSize: 14)))),
+          imageUrls[0],
+          imageUrls[1]
+        ]));
+
+        if (imageUrls.length - 2 > 0) {
+          //Image Rows of PDF Table
+          rows.add(pw.TableRow(children: [
+            pw.Container(
+                padding: const pw.EdgeInsets.only(top: 8.0, bottom: 8.0),
+                child: pw.Text('')),
+            pw.Container(
+                padding: const pw.EdgeInsets.only(top: 8.0, bottom: 8.0),
+                width: 60,
+                height: 100,
+                child: pw.Row(
+                    mainAxisAlignment: pw.MainAxisAlignment.spaceAround,
+                    children: [
+                      imageUrls[2],
+                      imageUrls[3],
+                    ])),
+            imageUrls[4],
+            imageUrls[5],
+            imageUrls[6],
+            imageUrls[7],
+            imageUrls[8],
+            imageUrls[9]
+          ]));
+        }
+        imageUrls.clear();
+        // }
       }
+      // }
+
+      // }
     }
 
     final pdf = pw.Document(
@@ -1081,14 +1089,37 @@ class _DailyProjectState extends State<DailyProject> {
             pw.Row(
                 mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                 children: [
-                  pw.Text(
-                    'Place:  ${widget.cityName}/${widget.depoName}',
-                    textScaleFactor: 1.6,
-                  ),
-                  pw.Text(
-                    'Date: $startdate to $enddate ',
-                    textScaleFactor: 1.6,
-                  )
+                  pw.RichText(
+                      text: pw.TextSpan(children: [
+                    const pw.TextSpan(
+                        text: 'Place : ',
+                        style:
+                            pw.TextStyle(color: PdfColors.black, fontSize: 17)),
+                    pw.TextSpan(
+                        text: '${widget.cityName} / ${widget.depoName}',
+                        style: const pw.TextStyle(
+                            color: PdfColors.blue700, fontSize: 15))
+                  ])),
+                  pw.RichText(
+                      text: pw.TextSpan(children: [
+                    const pw.TextSpan(
+                        text: 'Date : ',
+                        style:
+                            pw.TextStyle(color: PdfColors.black, fontSize: 17)),
+                    pw.TextSpan(
+                        text:
+                            '${startdate?.day}-${startdate?.month}-${startdate?.year} to ${enddate?.day}-${enddate?.month}-${enddate?.year}',
+                        style: const pw.TextStyle(
+                            color: PdfColors.blue700, fontSize: 15))
+                  ])),
+                  // pw.RichText(
+                  //     text: pw.TextSpan(children: [
+                  //   pw.TextSpan(
+                  //       text: 'UserID : ${widget.userId}',
+                  //       style: const pw.TextStyle(
+                  //           color: PdfColors.blue700, fontSize: 15)
+                  //           ),
+                  // ])),
                 ]),
             pw.SizedBox(height: 20)
           ]),

@@ -380,7 +380,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                         stream: FirebaseFirestore.instance
                             .collection('DailyProjectReport')
                             .doc('${widget.depoName}')
-                            .collection('ZW3210')
+                            .collection(userId)
                             .doc(DateFormat.yMMMMd().format(DateTime.now()))
                             .snapshots(),
                         builder: (context, snapshot) {
