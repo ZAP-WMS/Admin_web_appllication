@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
@@ -109,6 +108,7 @@ class _JMRPageState extends State<JMRPage> {
       _isLoading = false;
       setState(() {});
     }
+    print('Hello Worlds');
   }
 
   @override
@@ -231,10 +231,11 @@ class _JMRPageState extends State<JMRPage> {
                           _jmrDataSource = JmrDataSource(jmrtable);
                           _dataGridController = DataGridController();
                           return SfDataGridTheme(
-                            data: SfDataGridThemeData(   gridLineStrokeWidth: 2,
-                      gridLineColor: blue,
-                      frozenPaneLineColor: blue,
-                      frozenPaneLineWidth: 4),
+                            data: SfDataGridThemeData(
+                                gridLineStrokeWidth: 2,
+                                gridLineColor: blue,
+                                frozenPaneLineColor: blue,
+                                frozenPaneLineWidth: 4),
                             child: SfDataGrid(
                               source: _jmrDataSource,
                               //key: key,
@@ -393,11 +394,11 @@ class _JMRPageState extends State<JMRPage> {
                           _dataGridController = DataGridController();
 
                           return SfDataGridTheme(
-                            data:
-                                SfDataGridThemeData(   gridLineStrokeWidth: 2,
-                      gridLineColor: blue,
-                      frozenPaneLineColor: blue,
-                      frozenPaneLineWidth: 4),
+                            data: SfDataGridThemeData(
+                                gridLineStrokeWidth: 2,
+                                gridLineColor: blue,
+                                frozenPaneLineColor: blue,
+                                frozenPaneLineWidth: 4),
                             child: SfDataGrid(
                               source: _jmrDataSource,
                               //key: key,
@@ -449,7 +450,7 @@ class _JMRPageState extends State<JMRPage> {
                                   label: Container(
                                     padding: const EdgeInsets.all(8.0),
                                     alignment: Alignment.center,
-                                    child:  Text('Activity Details',
+                                    child: Text('Activity Details',
                                         style: tableheader),
                                   ),
                                 ),
@@ -628,6 +629,7 @@ class _JMRPageState extends State<JMRPage> {
       await reader.onLoadEnd.first;
 
       final excel = Excel.decodeBytes(reader.result as List<int>);
+
       for (var table in excel.tables.keys) {
         final sheet = excel.tables[table];
         for (var rows in sheet!.rows.skip(1)) {

@@ -710,7 +710,7 @@ class _DepotOverviewState extends State<DepotOverview> {
                               width: 110,
                               label: Container(
                                 padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),    
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
                                 alignment: Alignment.center,
                                 child: Text('Add Row',
                                     overflow: TextOverflow.values.first,

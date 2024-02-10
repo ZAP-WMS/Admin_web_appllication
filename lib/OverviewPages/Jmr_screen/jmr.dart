@@ -19,10 +19,10 @@ class Jmr extends StatefulWidget {
 }
 
 class _JmrState extends State<Jmr> {
+  bool isDataAvailable = true;
   List<List<int>> jmrTabLen = [];
   int _selectedIndex = 0;
   bool isLoading = true;
-  bool isPageEmpty = false;
   TextEditingController selectedCityController = TextEditingController();
   List<String> title = ['R1', 'R2', 'R3', 'R4', 'R5'];
   List<String> tabName = ['Civil', 'Electrical'];
@@ -31,6 +31,7 @@ class _JmrState extends State<Jmr> {
 
   @override
   void initState() {
+    print('Jmr Page');
     generateAllJmrList();
     super.initState();
   }
@@ -38,6 +39,7 @@ class _JmrState extends State<Jmr> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
+        initialIndex: 0,
         length: 2,
         child: Scaffold(
           appBar: AppBar(
@@ -177,14 +179,12 @@ class _JmrState extends State<Jmr> {
               ],
             ),
           ),
-          body: isPageEmpty
-              ? const NodataAvailable()
-              : isLoading
-                  ? LoadingPage()
-                  : TabBarView(children: [
-                      customRowList('Civil'),
-                      customRowList('Electrical')
-                    ]),
+          body: isLoading
+              ? LoadingPage()
+              : TabBarView(children: [
+                  customRowList('Civil'),
+                  customRowList('Electrical')
+                ]),
         ));
   }
 
@@ -299,8 +299,8 @@ class _JmrState extends State<Jmr> {
           return Padding(
             padding: const EdgeInsets.only(left: 15.0),
             child: ElevatedButton(
-                style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.white)),
+                style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(blue)),
                 onPressed: () {
                   Navigator.push(
                       context,
@@ -320,7 +320,7 @@ class _JmrState extends State<Jmr> {
                 },
                 child: Text(
                   'JMR${index3 + 1}',
-                  style: TextStyle(color: Colors.blue[900]),
+                  style: TextStyle(color: white),
                 )),
           );
         },
@@ -331,6 +331,7 @@ class _JmrState extends State<Jmr> {
   // Function to calculate Length of JMR all components with ID
 
   Future<List<dynamic>> generateAllJmrList() async {
+    isDataAvailable = true;
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('JMRCollection')
         .doc(widget.depoName)
@@ -343,30 +344,18 @@ class _JmrState extends State<Jmr> {
         querySnapshot.docs.map((data) => data.id).toList();
 
     if (userListId.isEmpty) {
-      isPageEmpty = true;
-      isLoading = false;
-
-      setState(() {});
+      setState(() {
+        isDataAvailable = false;
+        isLoading = false;
+      });
       return jmrTabLen;
-    }
+    } else {
+      print('isDataAvailable:$isDataAvailable');
 
-    for (int i = 0; i < userListId.length; i++) {
-      List<int> tempList = [];
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection('JMRCollection')
-          .doc(widget.depoName)
-          .collection('Table')
-          .doc('${tabName[_selectedIndex]}JmrTable')
-          .collection('userId')
-          .doc(userListId[i])
-          .collection('jmrTabName')
-          .get();
-
-      List<dynamic> jmrTabList =
-          querySnapshot.docs.map((data) => data.id).toList();
-
-      for (int j = 0; j < jmrTabList.length; j++) {
-        QuerySnapshot jmrLen = await FirebaseFirestore.instance
+      isDataAvailable = false;
+      for (int i = 0; i < userListId.length; i++) {
+        List<int> tempList = [];
+        QuerySnapshot querySnapshot = await FirebaseFirestore.instance
             .collection('JMRCollection')
             .doc(widget.depoName)
             .collection('Table')
@@ -374,27 +363,42 @@ class _JmrState extends State<Jmr> {
             .collection('userId')
             .doc(userListId[i])
             .collection('jmrTabName')
-            .doc(jmrTabList[j])
-            .collection('jmrTabIndex')
             .get();
 
-        int jmrLength = jmrLen.docs.length;
+        List<dynamic> jmrTabList =
+            querySnapshot.docs.map((data) => data.id).toList();
 
-        tempList.add(jmrLength);
-      }
-      if (tempList.length < 5) {
-        int tempJmrLen = tempList.length;
-        int loop = 5 - tempJmrLen;
-        for (int k = 0; k < loop; k++) {
-          tempList.add(0);
+        for (int j = 0; j < jmrTabList.length; j++) {
+          QuerySnapshot jmrLen = await FirebaseFirestore.instance
+              .collection('JMRCollection')
+              .doc(widget.depoName)
+              .collection('Table')
+              .doc('${tabName[_selectedIndex]}JmrTable')
+              .collection('userId')
+              .doc(userListId[i])
+              .collection('jmrTabName')
+              .doc(jmrTabList[j])
+              .collection('jmrTabIndex')
+              .get();
+
+          int jmrLength = jmrLen.docs.length;
+
+          tempList.add(jmrLength);
         }
-      }
+        if (tempList.length < 5) {
+          int tempJmrLen = tempList.length;
+          int loop = 5 - tempJmrLen;
+          for (int k = 0; k < loop; k++) {
+            tempList.add(0);
+          }
+        }
 
-      jmrTabLen.add(tempList);
+        jmrTabLen.add(tempList);
+      }
+      setState(() {
+        isLoading = false;
+      });
     }
-    setState(() {
-      isLoading = false;
-    });
 
     return jmrTabLen;
   }

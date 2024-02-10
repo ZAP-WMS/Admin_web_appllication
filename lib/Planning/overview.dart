@@ -226,10 +226,10 @@ class _MyOverviewState extends State<MyOverview> {
           preferredSize: const Size.fromHeight(50)),
       body: GridView.count(
         crossAxisCount: 4,
-        childAspectRatio: 1.5,
+        childAspectRatio: 1.9,
         children: List.generate(desription.length, (index) {
           return Padding(
-            padding: const EdgeInsets.all(15),
+            padding: const EdgeInsets.only(top: 20.0),
             child: cards(desription[index], imagedata[index], index),
           );
         }),
@@ -244,30 +244,32 @@ class _MyOverviewState extends State<MyOverview> {
       }),
       child: Center(
         child: Container(
+          margin: const EdgeInsets.all(5.0),
           width: MediaQuery.of(context).size.width / 5,
           height: MediaQuery.of(context).size.height / 4,
           child: Card(
-            elevation: 25,
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 10),
-                  SizedBox(
-                    height: 60,
-                    width: 60,
-                    child: Image.asset(img, fit: BoxFit.cover),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
+            elevation: 10,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 10),
+                SizedBox(
+                  height: 60,
+                  width: 60,
+                  child: Image.asset(img, fit: BoxFit.cover),
+                ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.all(3.0),
+                  child: Text(
                     desc,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(fontWeight: FontWeight.w600),
-                  )
-                ],
-              ),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w600, fontSize: 12),
+                  ),
+                )
+              ],
             ),
           ),
         ),

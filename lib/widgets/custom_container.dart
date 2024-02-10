@@ -6,10 +6,9 @@ import '../style.dart';
 Widget cards(
     BuildContext context, String desc, String img, Widget toPage, int index) {
   late SharedPreferences _sharedPreferences;
-  return Padding(
-    padding: EdgeInsets.only(
-      top: MediaQuery.of(context).size.width * 0.03,
-    ),
+
+  return Container(
+    margin: const EdgeInsets.only(top: 20.0),
     child: Column(
       children: [
         Container(
@@ -57,8 +56,6 @@ Widget cards(
                 ),
                 const SizedBox(height: 10),
                 Container(
-                  padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).size.height * 0.01),
                   alignment: Alignment.bottomCenter,
                   child: Text(
                     desc,

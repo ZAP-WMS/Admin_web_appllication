@@ -140,7 +140,8 @@ class _NavigationPageState extends State<NavigationPage> {
                     )
                   : Container(),
               Container(
-                margin: EdgeInsets.only(top: 8.0, bottom: 8.0, right: 20.0),
+                margin:
+                    const EdgeInsets.only(top: 8.0, bottom: 8.0, right: 20.0),
                 child: GestureDetector(
                     onTap: () async {
                       onWillPop(context);
@@ -178,7 +179,46 @@ class _NavigationPageState extends State<NavigationPage> {
             child: Column(
               children: [
                 MyDrawerHeader(userId: widget.userId),
-                MyDrawerList(),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      MyDrawerList(),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 10),
+                        width: 120,
+                        padding: const EdgeInsets.all(5.0),
+                        decoration: BoxDecoration(
+                            color: blue,
+                            borderRadius: BorderRadius.circular(2.0)),
+                        child: InkWell(
+                          onTap: () async {
+                            onWillPop(context);
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            prefs.remove('employeeId');
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.power_settings_new_outlined,
+                                color: white,
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                'Logout',
+                                style: TextStyle(fontSize: 18, color: white),
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
               ],
             ),
           )),
@@ -211,6 +251,27 @@ class _NavigationPageState extends State<NavigationPage> {
           : Colors.transparent,
       child: InkWell(
         onTap: () {
+          Navigator.pop(context);
+          if (mounted) {
+            setState(() {
+              switch (id) {
+                case 1:
+                  currentPage = DrawerSection.evDashboard;
+                  break;
+                case 2:
+                  currentPage = DrawerSection.demandEnergy;
+                  break;
+                case 3:
+                  currentPage = DrawerSection.cities;
+                  break;
+                case 4:
+                  currentPage = DrawerSection.users;
+                  break;
+              }
+            });
+          }
+        },
+        onDoubleTap: () {
           Navigator.pop(context);
           if (mounted) {
             setState(() {

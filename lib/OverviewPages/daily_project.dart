@@ -70,13 +70,6 @@ class _DailyProjectState extends State<DailyProject> {
 
     _dataGridController = DataGridController();
 
-    // _stream = FirebaseFirestore.instance
-    //     .collection('DailyProjectReport')
-    //     .doc('${widget.depoName}')
-    //     // .collection(widget.userId!)
-    //     // .doc(DateFormat.yMMMMd().format(DateTime.now()))
-    //     .snapshots();
-
     super.initState();
     getAllData();
   }
@@ -139,7 +132,7 @@ class _DailyProjectState extends State<DailyProject> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
-                          width: 250,
+                          width: 200,
                           height: 40,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
@@ -209,29 +202,22 @@ class _DailyProjectState extends State<DailyProject> {
                       ],
                     ),
                     const SizedBox(width: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                          width: 250,
-                          height: 40,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              border: Border.all(color: blue)),
-                          child: Row(
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    DateFormat.yMMMMd().format(enddate!),
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                    Container(
+                      width: 200,
+                      height: 40,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(color: blue)),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            DateFormat.yMMMMd().format(enddate!),
+                            textAlign: TextAlign.center,
+                          )
+                        ],
+                      ),
                     ),
                   ],
                 ),

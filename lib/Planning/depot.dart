@@ -263,7 +263,7 @@ class _MydepotsState extends State<Mydepots> {
                     itemCount: snapshot.data!.docs.length,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 4, childAspectRatio: 1.0),
+                            crossAxisCount: 4, childAspectRatio: 1.3),
                     itemBuilder: (context, index) {
                       return
                           //GestureDetector(
