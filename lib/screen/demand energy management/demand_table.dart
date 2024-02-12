@@ -4,8 +4,7 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:provider/provider.dart';
-import 'package:web_appllication/OverviewPages/quality_checklist.dart';
-import 'package:web_appllication/components/loading_page.dart';
+import 'package:web_appllication/components/Loading_page.dart';
 import 'package:web_appllication/provider/All_Depo_Select_Provider.dart';
 import 'package:web_appllication/provider/demandEnergyProvider.dart';
 import 'package:web_appllication/style.dart';
@@ -15,6 +14,10 @@ class DemandTable extends StatefulWidget {
   final Future<dynamic> Function() getMonthlyData;
   final Future<dynamic> Function() getQuaterlyData;
   final Future<dynamic> Function() getYearlyData;
+  final Future<dynamic> Function() getAllDepoDayData;
+  final Future<dynamic> Function() getAllDepoMonthlyData;
+  final Future<dynamic> Function() getAllDepoQuarterlyData;
+  final Future<dynamic> Function() getAllDepoYearlyData;
   final List<dynamic> columns;
   final List<dynamic> rows;
 
@@ -26,6 +29,10 @@ class DemandTable extends StatefulWidget {
     required this.getMonthlyData,
     required this.getQuaterlyData,
     required this.getYearlyData,
+    required this.getAllDepoDayData,
+    required this.getAllDepoMonthlyData,
+    required this.getAllDepoQuarterlyData,
+    required this.getAllDepoYearlyData,
   });
 
   @override
@@ -40,7 +47,7 @@ class _DemandTableState extends State<DemandTable>
   List<dynamic> searchedDepoList = [];
   TextEditingController cityController = TextEditingController();
   TextEditingController selectedDepo = TextEditingController();
-  final tableHeadingColor = Colors.blue;
+  final tableHeadingColor = Colors.white;
   final tableRowColor = Colors.white;
   bool isDepoSelected = false;
   bool isCitySelected = false;
@@ -80,27 +87,47 @@ class _DemandTableState extends State<DemandTable>
             children: [
               //Type head for city name
               Container(
-                margin: const EdgeInsets.only(left: 30),
-                height: 40,
-                width: 200,
+                margin: const EdgeInsets.only(left: 10),
+                height: 30,
+                width: 130,
                 child: TypeAheadField(
-                  hideOnLoading: true,
-                  animationDuration: const Duration(milliseconds: 1000),
+                  debounceDuration: const Duration(milliseconds: 500),
+                  animationDuration: const Duration(milliseconds: 1500),
                   animationStart: 0,
+                  loadingBuilder: (BuildContext context) {
+                    return Container(
+                      height: 30,
+                      child: const Center(child: Text('Loading...')),
+                    );
+                  },
                   textFieldConfiguration: TextFieldConfiguration(
                     style: const TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.bold),
+                      decoration: TextDecoration.none,
+                      fontSize: 12,
+                    ),
                     controller: cityController,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: blue,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: blue,
+                        ),
+                      ),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 5.0),
                       labelText: 'Select a City',
-                      labelStyle: TextStyle(color: Colors.black, fontSize: 15),
-                      border: OutlineInputBorder(),
+                      labelStyle: const TextStyle(fontSize: 12),
                     ),
                   ),
                   itemBuilder: (context, suggestion) {
                     return ListTile(
                       title: Text(
                         suggestion.toString(),
+                        style: const TextStyle(fontSize: 11),
                       ),
                     );
                   },
@@ -121,26 +148,49 @@ class _DemandTableState extends State<DemandTable>
 
               Container(
                 margin: const EdgeInsets.all(5),
-                height: 40,
-                width: 260,
+                height: 30,
+                width: 150,
                 child: TypeAheadField(
-                  hideOnLoading: true,
-                  animationDuration: const Duration(milliseconds: 1000),
+                  debounceDuration: const Duration(milliseconds: 500),
+                  animationDuration: const Duration(milliseconds: 1500),
                   animationStart: 0,
+                  loadingBuilder: (BuildContext context) {
+                    return Container(
+                      height: 30,
+                      child: const Center(child: Text('Loading...')),
+                    );
+                  },
+                  noItemsFoundBuilder: (BuildContext context) {
+                    return Container(
+                        height: 30,
+                        child: const Center(child: Text('No Items Found!')));
+                  },
                   textFieldConfiguration: TextFieldConfiguration(
                     style: const TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.bold),
-                    controller: selectedDepo,
-                    decoration: const InputDecoration(
-                      labelText: 'Select a Depot',
-                      labelStyle: TextStyle(color: Colors.black, fontSize: 15),
-                      border: OutlineInputBorder(),
+                      fontSize: 11,
                     ),
+                    controller: selectedDepo,
+                    decoration: InputDecoration(
+                        labelText: 'Select a Depot',
+                        labelStyle: const TextStyle(fontSize: 11),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: blue,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: blue,
+                          ),
+                        ),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 5.0)),
                   ),
                   itemBuilder: (context, suggestion) {
                     return ListTile(
                       title: Text(
                         suggestion.toString(),
+                        style: const TextStyle(fontSize: 12),
                       ),
                     );
                   },
@@ -148,8 +198,17 @@ class _DemandTableState extends State<DemandTable>
                     isDepoSelected = true;
                     allDepoProvider.setCheckedBool(false);
                     selectedDepo.text = suggestion.toString();
-                    demandEnergyProvider.setDepoName(suggestion.toString());
-                    await widget.getDailyData();
+                    demandEnergyProvider.setDepoName(
+                      suggestion.toString(),
+                    );
+
+                    //Loading Table Data on Current selected tab (day,monthly,quarterly,yearly)
+                    demandEnergyProvider.setLoadingBarCandle(true);
+                    demandEnergyProvider.reloadWidget(true);
+                    demandEnergyProvider.setSelectedIndex(
+                        demandEnergyProvider.selectedIndex,
+                        allDepoProvider.isChecked);
+
                     demandEnergyProvider.reloadWidget(true);
                   },
                   suggestionsCallback: (String pattern) async {
@@ -157,6 +216,7 @@ class _DemandTableState extends State<DemandTable>
                       isDepoSelected = false;
                       allDepoProvider.reloadCheckbox();
                     }
+
                     return depoList;
                     // return await getDepoData(pattern);
                   },
@@ -165,50 +225,55 @@ class _DemandTableState extends State<DemandTable>
               Consumer<AllDepoSelectProvider>(
                 builder: (context, providerValue, child) {
                   return Container(
-                      height: 40,
-                      width: 150,
-                      child: CheckboxListTile(
-                        title: const Text(
-                          'All Depots',
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
-                        ),
-                        value: providerValue.isChecked,
-                        onChanged: isDepoSelected
-                            ? null
-                            : demandEnergyProvider.isLoadingBarCandle
-                                ? null
-                                : (value) async {
-                                    if (providerValue.isChecked == false &&
-                                        isCitySelected == true) {
-                                      providerValue
-                                          .setCheckedBool(value ?? false);
-                                      demandEnergyProvider.setLoadingBarCandle(
-                                          true); //Show loading bar
-                                      providerValue.reloadCheckbox();
-                                      // demandEnergyProvider
-                                      //     .setDepoList(depoList);
-                                      await demandEnergyProvider
-                                          .getAllDepoDailyData!();
-                                      demandEnergyProvider.setLoadingBarCandle(
-                                          false); //Stop loading bar
-                                      providerValue.reloadCheckbox();
-                                      demandEnergyProvider.reloadWidget(true);
-                                    } else if (isCitySelected == false) {
-                                      showCustomAlert();
-                                    } else {
-                                      providerValue
-                                          .setCheckedBool(value ?? false);
-                                    }
-                                  },
-                      ));
+                    height: 40,
+                    width: 120,
+                    child: CheckboxListTile(
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 5.0),
+                      title: const Text(
+                        'All Depots',
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.bold),
+                      ),
+                      value: providerValue.isChecked,
+                      onChanged: isDepoSelected
+                          ? null
+                          : demandEnergyProvider.isLoadingBarCandle
+                              ? null
+                              : (value) async {
+                                  if (providerValue.isChecked == false &&
+                                      isCitySelected == true) {
+                                    providerValue
+                                        .setCheckedBool(value ?? false);
+                                    demandEnergyProvider.setLoadingBarCandle(
+                                        true); //Show loading bar
+                                    providerValue.reloadCheckbox();
+                                    demandEnergyProvider
+                                        .setIsCheckboxChecked(value ?? false);
+                                    // demandEnergyProvider
+                                    //     .setDepoList(depoList);
+                                    await demandEnergyProvider
+                                        .getAllDepoDailyData!();
+                                    demandEnergyProvider.setLoadingBarCandle(
+                                        false); //Stop loading bar
+                                    providerValue.reloadCheckbox();
+                                    demandEnergyProvider.reloadWidget(true);
+                                  } else if (isCitySelected == false) {
+                                    showCustomAlert();
+                                  } else {
+                                    providerValue
+                                        .setCheckedBool(value ?? false);
+                                  }
+                                },
+                    ),
+                  );
                 },
-              )
+              ),
             ],
           ),
           Flexible(
             child: Container(
-              margin: const EdgeInsets.only(left: 30),
+              margin: const EdgeInsets.only(left: 10),
               height: 400,
               child: Consumer<AllDepoSelectProvider>(
                 builder: (context, value, child) {
@@ -217,50 +282,84 @@ class _DemandTableState extends State<DemandTable>
                       return demandEnergyProvider.isLoadingBarCandle
                           ? LoadingPage()
                           : DataTable2(
+                              horizontalMargin: 5.0,
                               columnSpacing: 15,
                               headingRowColor:
                                   MaterialStatePropertyAll(tableHeadingColor),
                               dataRowColor:
                                   MaterialStatePropertyAll(tableRowColor),
-                              border: TableBorder.all(),
+                              border: TableBorder.all(color: blue),
                               dividerThickness: 0,
-                              dataRowHeight: 40,
-                              headingRowHeight: 45,
-                              headingTextStyle: TextStyle(
-                                  color: white, fontWeight: FontWeight.bold),
-                              dataTextStyle: TextStyle(
-                                  fontWeight: FontWeight.bold, color: black),
+                              dataRowHeight: 35,
+                              headingRowHeight: 40,
+                              headingTextStyle: TextStyle(color: black),
                               columns: List.generate(
                                 widget.columns.length,
                                 (index) => DataColumn2(
                                   fixedWidth: index == 0
-                                      ? 50
+                                      ? 40
                                       : index == 1
-                                          ? 170
+                                          ? 140
                                           : index == 3
-                                              ? 140
+                                              ? 110
                                               : null,
                                   label: Text(
                                     widget.columns[index],
                                     textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 11,
+                                    ),
                                   ),
                                 ),
                               ),
-                              rows: List.generate(
-                                widget.rows.length,
-                                (rowNo) {
-                                  return DataRow2(
-                                    cells: List.generate(
-                                      widget.rows[0].length,
-                                      (cellNo) => DataCell(
-                                        Text(
-                                          widget.rows[rowNo][cellNo].toString(),
-                                        ),
-                                      ),
+                              rows: widget.rows.isEmpty
+                                  ?
+
+                                  //When Datatable is empty
+                                  List.generate(
+                                      1,
+                                      (rowNo) {
+                                        return DataRow2(
+                                            cells: List.generate(
+                                          4,
+                                          (cellNo) => DataCell(
+                                            Text(
+                                              cellNo == 0
+                                                  ? '0'
+                                                  : 'No Data Available',
+                                              style: TextStyle(
+                                                  color: cellNo == 3
+                                                      ? Colors.grey
+                                                      : black,
+                                                  fontSize: 10),
+                                            ),
+                                          ),
+                                        ));
+                                      },
+                                    )
+                                  : List.generate(
+                                      widget.rows.length,
+                                      (rowNo) {
+                                        return DataRow2(
+                                          cells: List.generate(
+                                            widget.rows[0].length,
+                                            (cellNo) => DataCell(
+                                              Text(
+                                                widget.rows[rowNo][cellNo]
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    color: cellNo == 3
+                                                        ? Colors.grey
+                                                        : black,
+                                                    fontSize: 11),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
                                     ),
-                                  );
-                                },
-                              ),
                             );
                     },
                   );

@@ -82,6 +82,7 @@ dependencies:
   tab_indicator_styler: ^2.0.0
   url_strategy: null
   pin_input_text_field: ^4.5.1
+  dropdown_button2:
 
 dev_dependencies:
   flutter_lints: ^2.0.0

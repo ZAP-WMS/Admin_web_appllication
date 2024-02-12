@@ -55,7 +55,9 @@ class _NavigationPageState extends State<NavigationPage> {
           case DrawerSection.demandEnergy:
             showStartEndDatePanel = true;
             title = 'EV Bus Depot Management System';
-            container = DemandEnergyScreen();
+            container = DemandEnergyScreen(
+              userId: widget.userId,
+            );
             break;
           case DrawerSection.cities:
             showStartEndDatePanel = false;
@@ -170,7 +172,7 @@ class _NavigationPageState extends State<NavigationPage> {
               style: TextStyle(color: white, fontSize: 15),
             ),
             backgroundColor: blue,
-            centerTitle: true,
+            // centerTitle: true,
           )),
       drawer: Drawer(
           width: 250,
