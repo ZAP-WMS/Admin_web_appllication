@@ -70,7 +70,7 @@ class DailyDataSource extends DataGridSource {
                             // userId: userId,
                             // date: row.getCells()[0].value.toString(),
                             docId:
-                                '${row.getCells()[0].value}/${row.getCells()[1].value}',
+                                '${row.getCells()[0].value}/${dataGridRows.indexOf(row)}',
                           ),
                         ));
                   },

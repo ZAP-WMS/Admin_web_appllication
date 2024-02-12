@@ -672,16 +672,16 @@ class _DailyProjectState extends State<DailyProject> {
   }
 
   void storeData() {
-    Map<String, dynamic> table_data = Map();
+    Map<String, dynamic> tableData = Map();
     for (var i in _dailyDataSource.dataGridRows) {
       for (var data in i.getCells()) {
         if (data.columnName != 'button') {
-          table_data[data.columnName] = data.value;
+          tableData[data.columnName] = data.value;
         }
       }
 
-      tabledata2.add(table_data);
-      table_data = {};
+      tabledata2.add(tableData);
+      tableData = {};
     }
 
     FirebaseFirestore.instance
