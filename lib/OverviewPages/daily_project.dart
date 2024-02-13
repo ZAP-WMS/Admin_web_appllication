@@ -77,14 +77,13 @@ class _DailyProjectState extends State<DailyProject> {
   getAllData() {
     DailyProject.clear();
     id.clear();
-    getTableData().whenComplete(() {
-      nestedTableData(id).whenComplete(() {
-        _dailyDataSource = DailyDataSource(
-            DailyProject, context, widget.cityName!, widget.depoName!);
-        _dataGridController = DataGridController();
-        _isLoading = false;
-        setState(() {});
-      });
+
+    nestedTableData().whenComplete(() {
+      _dailyDataSource = DailyDataSource(
+          DailyProject, context, widget.cityName!, widget.depoName!);
+      _dataGridController = DataGridController();
+      _isLoading = false;
+      setState(() {});
     });
   }
 
@@ -115,9 +114,6 @@ class _DailyProjectState extends State<DailyProject> {
                     userId: widget.userId,
                   ),
                 )),
-            store: () {
-              storeData();
-            },
           ),
           preferredSize: const Size.fromHeight(50)),
       body: _isLoading
@@ -448,196 +444,6 @@ class _DailyProjectState extends State<DailyProject> {
                       //   _dataGridController = DataGridController();
                       // });
                       return const NodataAvailable();
-                      // return Expanded(
-                      //   child: Column(
-                      //     children: [
-                      //       SfDataGridTheme(
-                      //         data: SfDataGridThemeData(headerColor: blue),
-                      //         child: SfDataGrid(
-                      //             source: _dailyDataSource,
-                      //             allowEditing: true,
-                      //             frozenColumnsCount: 2,
-                      //             gridLinesVisibility: GridLinesVisibility.both,
-                      //             headerGridLinesVisibility:
-                      //                 GridLinesVisibility.both,
-                      //             selectionMode: SelectionMode.single,
-                      //             navigationMode: GridNavigationMode.cell,
-                      //             columnWidthMode: ColumnWidthMode.auto,
-                      //             editingGestureType: EditingGestureType.tap,
-                      //             controller: _dataGridController,
-                      //             columns: [
-                      //               GridColumn(
-                      //                 columnName: 'SiNo',
-                      //                 autoFitPadding:
-                      //                     const EdgeInsets.symmetric(
-                      //                         horizontal: 16),
-                      //                 allowEditing: true,
-                      //                 width: 70,
-                      //                 label: Container(
-                      //                   padding: const EdgeInsets.symmetric(
-                      //                       horizontal: 8.0),
-                      //                   alignment: Alignment.center,
-                      //                   child: Text('SI No.',
-                      //                       overflow: TextOverflow.values.first,
-                      //                       textAlign: TextAlign.center,
-                      //                       style: TextStyle(
-                      //                           fontWeight: FontWeight.bold,
-                      //                           fontSize: 16,
-                      //                           color: white)
-                      //                       //    textAlign: TextAlign.center,
-                      //                       ),
-                      //                 ),
-                      //               ),
-                      //               // GridColumn(
-                      //               //   columnName: 'Date',
-                      //               //   autoFitPadding:
-                      //               //       const EdgeInsets.symmetric(
-                      //               //           horizontal: 16),
-                      //               //   allowEditing: false,
-                      //               //   width: 160,
-                      //               //   label: Container(
-                      //               //     padding: const EdgeInsets.symmetric(
-                      //               //         horizontal: 8.0),
-                      //               //     alignment: Alignment.center,
-                      //               //     child: Text('Date',
-                      //               //         textAlign: TextAlign.center,
-                      //               //         overflow: TextOverflow.values.first,
-                      //               //         style: TextStyle(
-                      //               //             fontWeight: FontWeight.bold,
-                      //               //             fontSize: 16,
-                      //               //             color: white)),
-                      //               //   ),
-                      //               // ),
-                      //               // GridColumn(
-                      //               //   visible: false,
-                      //               //   columnName: 'State',
-                      //               //   autoFitPadding:
-                      //               //       const EdgeInsets.symmetric(horizontal: 16),
-                      //               //   allowEditing: true,
-                      //               //   width: 120,
-                      //               //   label: Container(
-                      //               //     padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      //               //     alignment: Alignment.center,
-                      //               //     child: Text('State',
-                      //               //         textAlign: TextAlign.center,
-                      //               //         overflow: TextOverflow.values.first,
-                      //               //         style: TextStyle(
-                      //               //             fontWeight: FontWeight.bold,
-                      //               //             fontSize: 16,
-                      //               //             color: white)
-                      //               //         //    textAlign: TextAlign.center,
-                      //               //         ),
-                      //               //   ),
-                      //               // ),
-                      //               // GridColumn(
-                      //               //   visible: false,
-                      //               //   columnName: 'DepotName',
-                      //               //   autoFitPadding:
-                      //               //       const EdgeInsets.symmetric(horizontal: 16),
-                      //               //   allowEditing: true,
-                      //               //   width: 150,
-                      //               //   label: Container(
-                      //               //     padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      //               //     alignment: Alignment.center,
-                      //               //     child: Text('Depot Name',
-                      //               //         overflow: TextOverflow.values.first,
-                      //               //         style: TextStyle(
-                      //               //             fontWeight: FontWeight.bold,
-                      //               //             fontSize: 16,
-                      //               //             color: white)
-                      //               //         //    textAlign: TextAlign.center,
-                      //               //         ),
-                      //               //   ),
-                      //               // ),
-                      //               GridColumn(
-                      //                 columnName: 'TypeOfActivity',
-                      //                 autoFitPadding:
-                      //                     const EdgeInsets.symmetric(
-                      //                         horizontal: 16),
-                      //                 allowEditing: true,
-                      //                 width: 200,
-                      //                 label: Container(
-                      //                   padding: const EdgeInsets.symmetric(
-                      //                       horizontal: 8.0),
-                      //                   alignment: Alignment.center,
-                      //                   child: Text('Type of Activity',
-                      //                       overflow: TextOverflow.values.first,
-                      //                       style: TextStyle(
-                      //                           fontWeight: FontWeight.bold,
-                      //                           fontSize: 16,
-                      //                           color: white)
-                      //                       //    textAlign: TextAlign.center,
-                      //                       ),
-                      //                 ),
-                      //               ),
-                      //               GridColumn(
-                      //                 columnName: 'ActivityDetails',
-                      //                 autoFitPadding:
-                      //                     const EdgeInsets.symmetric(
-                      //                         horizontal: 16),
-                      //                 allowEditing: true,
-                      //                 width: 220,
-                      //                 label: Container(
-                      //                   padding: const EdgeInsets.symmetric(
-                      //                       horizontal: 8.0),
-                      //                   alignment: Alignment.center,
-                      //                   child: Text('Activity Details',
-                      //                       overflow: TextOverflow.values.first,
-                      //                       style: TextStyle(
-                      //                           fontWeight: FontWeight.bold,
-                      //                           fontSize: 16,
-                      //                           color: white)
-                      //                       //    textAlign: TextAlign.center,
-                      //                       ),
-                      //                 ),
-                      //               ),
-                      //               GridColumn(
-                      //                 columnName: 'Progress',
-                      //                 autoFitPadding:
-                      //                     const EdgeInsets.symmetric(
-                      //                         horizontal: 16),
-                      //                 allowEditing: true,
-                      //                 width: 320,
-                      //                 label: Container(
-                      //                   padding: const EdgeInsets.symmetric(
-                      //                       horizontal: 8.0),
-                      //                   alignment: Alignment.center,
-                      //                   child: Text('Progress',
-                      //                       overflow: TextOverflow.values.first,
-                      //                       style: TextStyle(
-                      //                           fontWeight: FontWeight.bold,
-                      //                           fontSize: 16,
-                      //                           color: white)
-                      //                       //    textAlign: TextAlign.center,
-                      //                       ),
-                      //                 ),
-                      //               ),
-                      //               GridColumn(
-                      //                 columnName: 'Status',
-                      //                 autoFitPadding:
-                      //                     const EdgeInsets.symmetric(
-                      //                         horizontal: 16),
-                      //                 allowEditing: true,
-                      //                 width: 320,
-                      //                 label: Container(
-                      //                   padding: const EdgeInsets.symmetric(
-                      //                       horizontal: 8.0),
-                      //                   alignment: Alignment.center,
-                      //                   child: Text('Remark / Status',
-                      //                       overflow: TextOverflow.values.first,
-                      //                       style: TextStyle(
-                      //                           fontWeight: FontWeight.bold,
-                      //                           fontSize: 16,
-                      //                           color: white)
-                      //                       //    textAlign: TextAlign.center,
-                      //                       ),
-                      //                 ),
-                      //               ),
-                      //             ]),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // );
                     }
                   },
                 ),
@@ -659,36 +465,6 @@ class _DailyProjectState extends State<DailyProject> {
       //       _dailyDataSource.updateDatagridSource();
       //     })),
     );
-  }
-
-  void storeData() {
-    Map<String, dynamic> tableData = Map();
-    for (var i in _dailyDataSource.dataGridRows) {
-      for (var data in i.getCells()) {
-        if (data.columnName != 'button') {
-          tableData[data.columnName] = data.value;
-        }
-      }
-
-      tabledata2.add(tableData);
-      tableData = {};
-    }
-
-    FirebaseFirestore.instance
-        .collection('DailyProjectReport')
-        .doc('${widget.depoName}')
-        .collection(widget.userId!)
-        .doc(DateFormat.yMMMMd().format(DateTime.now()))
-        .set({
-      'data': tabledata2,
-    }).whenComplete(() {
-      tabledata2.clear();
-      // Navigator.pop(context);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: const Text('Data are synced'),
-        backgroundColor: blue,
-      ));
-    });
   }
 
   // List<DailyProjectModel> getmonthlyReport() {
@@ -724,82 +500,48 @@ class _DailyProjectState extends State<DailyProject> {
     }
   }
 
-  Future getTableData() async {
-    await FirebaseFirestore.instance
-        .collection('DailyProjectReport2')
-        .doc(widget.depoName!)
-        .collection('userId')
-        .get()
-        .then((value) {
-      value.docs.forEach((element) {
-        String documentId = element.id;
-        id.add(documentId);
-        print('userId - $id');
-        // nestedTableData(docss);
-      });
-    });
-  }
-
-  Future<void> nestedTableData(List<dynamic> docss) async {
-    dataForPdf.clear();
-
+  Future<void> nestedTableData() async {
     setState(() {
       _isLoading = true;
     });
-    // showCupertinoDialog(
-    //   context: context,
-    //   builder: (context) => CupertinoAlertDialog(
-    //     content: SizedBox(
-    //       // height: 50,
-    //       // width: 50,
-    //       child: Center(child: LoadingPage()),
-    //     ),
-    //   ),
-    // );
-    for (int i = 0; i < docss.length; i++) {
-      int num = 0;
+
+    useridWithData.clear();
+    for (DateTime initialdate = startdate!;
+        initialdate.isBefore(enddate!.add(const Duration(days: 1)));
+        initialdate = initialdate.add(const Duration(days: 1))) {
       useridWithData.clear();
-      for (DateTime initialdate = startdate!;
-          initialdate.isBefore(enddate!.add(const Duration(days: 1)));
-          initialdate = initialdate.add(const Duration(days: 1))) {
-        num++;
-        print(num);
-        useridWithData.clear();
-        String temp = DateFormat.yMMMMd().format(initialdate);
+
+      String nextDate = DateFormat.yMMMMd().format(initialdate);
+
+      QuerySnapshot userIdQuery = await FirebaseFirestore.instance
+          .collection('DailyProject3')
+          .doc(widget.depoName!)
+          .collection(nextDate)
+          .get();
+
+      List<dynamic> userList = userIdQuery.docs.map((e) => e.id).toList();
+
+      for (int i = 0; i < userList.length; i++) {
         await FirebaseFirestore.instance
-            .collection('DailyProjectReport2')
+            .collection('DailyProject3')
             .doc(widget.depoName!)
-            .collection('userId')
-            .doc(docss[i])
-            .collection('date')
-            .doc(temp)
+            .collection(nextDate)
+            .doc(userList[i])
             .get()
             .then((value) {
-          if (value.data() != null) {
-            print(value.data()!['data']);
-
-            String userId = docss[i];
-            useridWithData[userId] = value.data()!['data'];
-            // print('useridWithData - $useridWithData');
-            for (int j = 0; j < value.data()!['data'].length; j++) {
-              DailyProject.add(
-                  DailyProjectModel.fromjson(value.data()!['data'][j]));
-
-              availableUserId.add(docss[i]);
-
-              chosenDateList.add(temp);
-
-              // print(useridWithData);
+          if (value.exists) {
+            List<dynamic> userData = value.data()!['data'];
+            useridWithData[userList[i]] = userData;
+            for (int j = 0; j < userData.length; j++) {
+              DailyProject.add(DailyProjectModel.fromjson(userData[j]));
+              availableUserId.add(userList[i]);
+              chosenDateList.add(nextDate);
             }
           }
+          return value;
         });
-        // dataForPdf.add(useridWithData);
-        // print('UserData - $dataForPdf');
       }
     }
-    // print('DailyProject - ${DailyProject.length}');
-    print(availableUserId);
-    print(chosenDateList);
 
     setState(() {
       _isLoading = false;
@@ -874,15 +616,12 @@ class _DailyProjectState extends State<DailyProject> {
 
     if (DailyProject.isNotEmpty) {
       List<pw.Widget> imageUrls = [];
-
-      // for (int i = 0; i < chosenDateList.length; i++) {
-
-      // for (int j = 0; j < availableUserId.length; j++) {
+      // for (int i = 0; i < chosenDateList.length; i++){
+      // for (int j = 0; j < availableUserId.length; j++){
       // final currentUserId = availableUserId[j];
-
       for (int i = 0; i < DailyProject.length; i++) {
         String imagesPath =
-            '/Daily Report/${widget.cityName}/${widget.depoName}/${availableUserId[i]}/${chosenDateList[i]}/${DailyProject[i].siNo}';
+            '/Daily Report/${widget.cityName}/${widget.depoName}/${availableUserId[i]}/${chosenDateList[i]}/${i + 1}';
         // print(
         //     '/Daily Report/${widget.cityName}/${widget.depoName}/${availableUserId[i]}/${chosenDateList[i]}/${DailyProject[i].siNo}');
         // print(imagesPath);

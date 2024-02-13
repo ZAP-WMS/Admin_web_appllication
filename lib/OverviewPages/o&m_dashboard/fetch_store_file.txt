@@ -1,0 +1,71 @@
+  Future<void> fetchAllDepoData() async {
+    QuerySnapshot allDepoQuery = await FirebaseFirestore.instance
+        .collection('DailyProjectReport2')
+        .get();
+
+    List<dynamic> allDepoList =
+        allDepoQuery.docs.map((data) => data.id).toList();
+    print('DepoList - ${allDepoList}');
+
+    //First For Loop
+
+    for (int i = 0; i < allDepoList.length; i++) {
+      QuerySnapshot userIdInDepoQuery = await FirebaseFirestore.instance
+          .collection('DailyProjectReport2')
+          .doc(allDepoList[i])
+          .collection('userId')
+          .get();
+      List<dynamic> usersIdInDepoList =
+          userIdInDepoQuery.docs.map((data) => data.id).toList();
+
+      // print('userId - $usersIdInDepoList');
+
+      //Second For Loop
+
+      for (int j = 0; j < usersIdInDepoList.length; j++) {
+        QuerySnapshot dateInDepoQuery = await FirebaseFirestore.instance
+            .collection('DailyProjectReport2')
+            .doc(allDepoList[i])
+            .collection('userId')
+            .doc(usersIdInDepoList[j])
+            .collection('date')
+            .get();
+        List<dynamic> dateInDepoList =
+            dateInDepoQuery.docs.map((data) => data.id).toList();
+
+        // print('Date123 - $dateInDepoList');
+
+        for (int k = 0; k < dateInDepoList.length; k++) {
+          DocumentSnapshot mapDataSnap = await FirebaseFirestore.instance
+              .collection('DailyProjectReport2')
+              .doc(allDepoList[i])
+              .collection('userId')
+              .doc(usersIdInDepoList[j])
+              .collection('date')
+              .doc(dateInDepoList[k])
+              .get();
+
+          if (mapDataSnap.exists) {
+            Map<String, dynamic> mapData =
+                mapDataSnap.data() as Map<String, dynamic>;
+
+            StoreDataInDailyProject(allDepoList[i], usersIdInDepoList[j],
+                dateInDepoList[k], mapData);
+
+            // print('mapData123 - ${mapData['data']}');
+          }
+        }
+      }
+    }
+    print('Data Stored Successfully');
+  }
+
+  void StoreDataInDailyProject(String currentDepoName, String currentUserId,
+      String currentDate, Map<String, dynamic> currentMapData) async {
+    FirebaseFirestore.instance
+        .collection('DailyProject3')
+        .doc(currentDepoName)
+        .collection(currentDate)
+        .doc(currentUserId)
+        .set({'data': currentMapData['data']});
+  }
