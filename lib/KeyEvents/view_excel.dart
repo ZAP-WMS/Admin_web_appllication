@@ -4,6 +4,7 @@ import 'package:excel/excel.dart' as exp;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import '../style.dart';
@@ -69,7 +70,11 @@ class _ViewExcelState extends State<ViewExcel> {
       for (var row in excel.tables[table]!.rows) {
         List rows = [];
         for (var cell in row) {
-          rows.add(cell!.value);
+          if (cell != null && cell.value != null) {
+            rows.add(cell.value);
+          } else {
+            rows.add('');
+          }
         }
         columns.add(rows);
       }

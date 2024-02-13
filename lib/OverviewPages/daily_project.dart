@@ -701,19 +701,7 @@ class _DailyProjectState extends State<DailyProject> {
     });
   }
 
-  // List<DailyProjectModel> getmonthlyReport() {
-  //   return [
-  //     DailyProjectModel(
-  //         siNo: 1,
-  //         // date: DateFormat().add_yMd().format(DateTime.now()),
-  //         // state: "Maharashtra",
-  //         // depotName: 'depotName',
-  //         typeOfActivity: 'Electrical Infra',
-  //         activityDetails: "Initial Survey of DEpot",
-  //         progress: '',
-  //         status: '')
-  //   ];
-  // }
+
 
   Future<void> getUserId() async {
     await AuthService().getCurrentUserId().then((value) {
