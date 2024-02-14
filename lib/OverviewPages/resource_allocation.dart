@@ -94,6 +94,22 @@ class _ResourceAllocationState extends State<ResourceAllocation> {
   @override
   void dispose() {
     _textEditingController!.dispose();
+    _textEditingController2!.dispose();
+    _textEditingController3!.dispose();
+    _textEditingController4!.dispose();
+    _textEditingController5!.dispose();
+    _textEditingController6!.dispose();
+    _textEditingController7!.dispose();
+    _textEditingController71!.dispose();
+    _textEditingController72!.dispose();
+    _textEditingController8!.dispose();
+    _textEditingController9!.dispose();
+    _textEditingController10!.dispose();
+    _textEditingController101!.dispose();
+    _textEditingController102!.dispose();
+    _textEditingController11!.dispose();
+    _textEditingController12!.dispose();
+
     super.dispose();
   }
 

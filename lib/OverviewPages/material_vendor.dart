@@ -72,8 +72,7 @@ class _MaterialProcurementState extends State<MaterialProcurement> {
               userId: widget.userId,
               depoName: widget.depoName,
               cityName: widget.cityName,
-              text:
-                  ' ${widget.cityName}/ ${widget.depoName} / Material Procurement',
+              text: 'Material Procurement',
               haveSummary: false,
               // onTap: () => Navigator.push(
               //     context,

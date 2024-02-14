@@ -372,7 +372,8 @@ class _KeyEvents2State extends State<KeyEvents2> {
                       showDepoBar: false,
                       toPlanning: false,
                       cityName: widget.cityName,
-                      text: '${widget.cityName}/${widget.depoName}',
+                      depoName: widget.depoName,
+                      text: 'Planning Page',
                       haveSynced: true,
                       store: () {
                         _showDialog(context);

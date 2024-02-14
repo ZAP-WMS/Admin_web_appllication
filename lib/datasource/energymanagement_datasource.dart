@@ -13,8 +13,8 @@ class EnergyManagementDatasource extends DataGridSource {
   String? cityName;
   String? depoName;
 
-  EnergyManagementDatasource(this._energyManagement, this.mainContext,
-      this.cityName, this.depoName) {
+  EnergyManagementDatasource(
+      this._energyManagement, this.mainContext, this.cityName, this.depoName) {
     buildDataGridRows();
   }
   void buildDataGridRows() {
@@ -34,6 +34,13 @@ class EnergyManagementDatasource extends DataGridSource {
   /// Help to control the editable text in [TextField] widget.
   TextEditingController editingController = TextEditingController();
   final DataGridController _dataGridController = DataGridController();
+
+  @override
+  void dispose() {
+    editingController.dispose();
+    _dataGridController.dispose();
+    super.dispose();
+  }
 
   @override
   List<DataGridRow> get rows => dataGridRows;
@@ -103,7 +110,7 @@ class EnergyManagementDatasource extends DataGridSource {
 
       return Container(
           alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+          padding: const EdgeInsets.symmetric(horizontal: 5.0),
           child: (dataGridCell.columnName == 'startDate')
               ? Row(
                   children: [
@@ -192,6 +199,7 @@ class EnergyManagementDatasource extends DataGridSource {
                               : Text(
                                   dataGridCell.value.toString(),
                                   textAlign: TextAlign.center,
+                                  style: const TextStyle(fontSize: 11),
                                 ));
     }).toList());
   }
@@ -312,16 +320,16 @@ class EnergyManagementDatasource extends DataGridSource {
         _getRegExp(isNumericType, isDateTimeType, column.columnName);
 
     return Container(
-      padding: const EdgeInsets.all(8.0),
       alignment: isNumericType ? Alignment.centerRight : Alignment.centerLeft,
       child: TextField(
+        style: const TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.bold,
+        ),
         autofocus: true,
         controller: editingController..text = displayText,
         textAlign: isNumericType ? TextAlign.right : TextAlign.left,
         autocorrect: false,
-        decoration: const InputDecoration(
-          contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 16.0),
-        ),
         inputFormatters: <TextInputFormatter>[
           FilteringTextInputFormatter.allow(regExp),
         ],

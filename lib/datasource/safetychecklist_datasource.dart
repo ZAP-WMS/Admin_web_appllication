@@ -51,6 +51,13 @@ class SafetyChecklistDataSource extends DataGridSource {
   ];
 
   @override
+  void dispose() {
+    editingController.dispose();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   List<DataGridRow> get rows => dataGridRows;
 
   @override

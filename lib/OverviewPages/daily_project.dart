@@ -22,6 +22,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'dart:html' as html;
 
 List<dynamic> availableUserId = [];
+List<int> globalIndexList = [];
 
 class DailyProject extends StatefulWidget {
   String? userId;
@@ -67,9 +68,7 @@ class _DailyProjectState extends State<DailyProject> {
     // DailyProject = getmonthlyReport();
     _dailyDataSource = DailyDataSource(
         DailyProject, context, widget.cityName!, widget.depoName!);
-
     _dataGridController = DataGridController();
-
     super.initState();
     getAllData();
   }
@@ -98,7 +97,7 @@ class _DailyProjectState extends State<DailyProject> {
             toDaily: true,
             depoName: widget.depoName,
             cityName: widget.cityName,
-            text: ' ${widget.cityName}/ ${widget.depoName} / Daily Report',
+            text: 'Daily Report',
             userId: widget.userId,
             haveSynced: false,
             //specificUser ? true : false,
@@ -501,6 +500,7 @@ class _DailyProjectState extends State<DailyProject> {
   }
 
   Future<void> nestedTableData() async {
+    globalIndexList.clear();
     setState(() {
       _isLoading = true;
     });
@@ -533,6 +533,7 @@ class _DailyProjectState extends State<DailyProject> {
             List<dynamic> userData = value.data()!['data'];
             useridWithData[userList[i]] = userData;
             for (int j = 0; j < userData.length; j++) {
+              globalIndexList.add(j + 1);
               DailyProject.add(DailyProjectModel.fromjson(userData[j]));
               availableUserId.add(userList[i]);
               chosenDateList.add(nextDate);
@@ -541,6 +542,7 @@ class _DailyProjectState extends State<DailyProject> {
           return value;
         });
       }
+      print('global indexes are - ${globalIndexList}');
     }
 
     setState(() {

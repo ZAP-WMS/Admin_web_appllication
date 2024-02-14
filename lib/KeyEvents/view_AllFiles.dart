@@ -90,9 +90,20 @@ class _ViewAllPdfState extends State<ViewAllPdf> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          '${widget.cityName} / ${widget.depoName} / View Files',
-          style: appFontSize,
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'View Files',
+              style: appFontSize,
+            ),
+            Text(
+              'City - ${widget.cityName}     Depot - ${widget.depoName}' ?? '',
+              style: const TextStyle(
+                fontSize: 11,
+              ),
+            )
+          ],
         ),
         backgroundColor: blue,
       ),

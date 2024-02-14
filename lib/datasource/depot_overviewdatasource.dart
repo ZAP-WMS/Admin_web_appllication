@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-
 import '../model/depot_overview.dart';
 
 class DepotOverviewDatasource extends DataGridSource {
@@ -32,6 +31,13 @@ class DepotOverviewDatasource extends DataGridSource {
   /// Help to control the editable text in [TextField] widget.
   TextEditingController editingController = TextEditingController();
   final DataGridController _dataGridController = DataGridController();
+
+  @override
+  void dispose() {
+    editingController.dispose();
+    _dataGridController.dispose();
+    super.dispose();
+  }
 
   TextStyle textStyle = const TextStyle(
       fontFamily: 'Roboto',

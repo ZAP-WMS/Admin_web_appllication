@@ -20,6 +20,15 @@ class MenuUserPage extends StatefulWidget {
 }
 
 class _MenuUserPageState extends State<MenuUserPage> {
+  @override
+  void dispose() {
+    _controllerForReportingManager.dispose();
+    _controllerForUser.dispose();
+    unAssignedUserController.dispose();
+    myController.dispose();
+    super.dispose();
+  }
+
   final TextEditingController _controllerForReportingManager =
       TextEditingController();
   final TextEditingController _controllerForUser = TextEditingController();

@@ -46,7 +46,7 @@ class _SafetySummaryState extends State<SafetySummary> {
             toSafety: true,
             showDepoBar: true,
             cityName: widget.cityName,
-            text: ' ${widget.cityName}/ ${widget.depoName} / Safety Summary',
+            text: 'Safety Summary',
             userId: widget.userId,
           ),
           preferredSize: const Size.fromHeight(50)),

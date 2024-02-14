@@ -41,6 +41,7 @@ class EnergyManagement extends StatefulWidget {
 }
 
 class _EnergyManagementState extends State<EnergyManagement> {
+  ScrollController _scrollController = ScrollController();
   List<dynamic> dataForPdf = [];
   DateTime? startdate = DateTime.now();
   DateTime? enddate = DateTime.now();
@@ -123,8 +124,7 @@ class _EnergyManagementState extends State<EnergyManagement> {
             toDaily: true,
             depoName: widget.depoName,
             cityName: widget.cityName,
-            text:
-                ' ${widget.cityName}/${widget.depoName}/Depot Energy Management',
+            text: 'Depot Energy Management',
             // userId: widget.userId,
             haveSynced: false,
             //specificUser ? true : false,
@@ -268,6 +268,7 @@ class _EnergyManagementState extends State<EnergyManagement> {
                       children: [
                         SfDataGridTheme(
                             data: SfDataGridThemeData(
+                                headerColor: white,
                                 gridLineStrokeWidth: 2,
                                 gridLineColor: blue,
                                 frozenPaneLineColor: blue,
@@ -279,11 +280,7 @@ class _EnergyManagementState extends State<EnergyManagement> {
                               gridLinesVisibility: GridLinesVisibility.both,
                               headerGridLinesVisibility:
                                   GridLinesVisibility.both,
-                              // checkboxColumnSettings:
-                              //     DataGridCheckboxColumnSettings(
-                              //         showCheckboxOnHeader: false),
-
-                              // showCheckboxColumn: true,
+                              rowHeight: 40,
                               selectionMode: SelectionMode.multiple,
                               navigationMode: GridNavigationMode.cell,
                               columnWidthMode: ColumnWidthMode.auto,
@@ -482,8 +479,6 @@ class _EnergyManagementState extends State<EnergyManagement> {
                 },
               ),
               Consumer<EnergyProvider>(builder: (context, value, child) {
-                print(startdate);
-                print(enddate);
                 _energyProvider!.fetchEnergyUsedId(
                     widget.cityName!,
                     widget.depoName!,
@@ -495,72 +490,99 @@ class _EnergyManagementState extends State<EnergyManagement> {
                     DateTime.parse(startdate.toString()),
                     DateTime.parse(enddate.toString()));
 
-                return Flexible(
-                    child: Padding(
-                  padding: const EdgeInsets.only(top: 25),
-                  child: BarChart(
-                    swapAnimationCurve: Curves.linear,
-                    swapAnimationDuration: const Duration(milliseconds: 1000),
-                    BarChartData(
-                      backgroundColor: white,
-                      barTouchData: BarTouchData(
-                        enabled: true,
-                        allowTouchBarBackDraw: true,
-                        touchTooltipData: BarTouchTooltipData(
-                          tooltipRoundedRadius: 5,
-                          tooltipBgColor: Colors.transparent,
-                          tooltipMargin: 5,
-                        ),
-                      ),
-                      minY: 0,
-                      titlesData: FlTitlesData(
-                        bottomTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            getTitlesWidget: (data1, meta) {
-                              return Text(
-                                value.intervalData[data1.toInt()],
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 12),
-                              );
-                            },
+                return Container(
+                  margin: const EdgeInsets.only(bottom: 10.0),
+                  width: 2000,
+                  height: 220,
+                  child: Scrollbar(
+                    thickness: 3,
+                    radius: const Radius.circular(1),
+                    thumbVisibility: true,
+                    trackVisibility: true,
+                    interactive: true,
+                    scrollbarOrientation: ScrollbarOrientation.bottom,
+                    controller: _scrollController,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      controller: _scrollController,
+                      itemCount: 1,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: const EdgeInsets.only(
+                              top: 20.0, left: 10.0, right: 10.0),
+                          width: 100 *
+                              _energydatasource.dataGridRows.length.toDouble(),
+                          height: 220,
+                          child: BarChart(
+                            swapAnimationCurve: Curves.linear,
+                            swapAnimationDuration:
+                                const Duration(milliseconds: 1000),
+                            BarChartData(
+                              backgroundColor: white,
+                              barTouchData: BarTouchData(
+                                enabled: true,
+                                allowTouchBarBackDraw: true,
+                                touchTooltipData: BarTouchTooltipData(
+                                  tooltipRoundedRadius: 5,
+                                  tooltipBgColor: Colors.transparent,
+                                  tooltipMargin: 5,
+                                ),
+                              ),
+                              minY: 0,
+                              titlesData: FlTitlesData(
+                                bottomTitles: AxisTitles(
+                                  sideTitles: SideTitles(
+                                    showTitles: true,
+                                    getTitlesWidget: (data1, meta) {
+                                      return Text(
+                                        value.intervalData[data1.toInt()],
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 12),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                rightTitles: AxisTitles(
+                                  sideTitles: SideTitles(showTitles: false),
+                                ),
+                                topTitles: AxisTitles(
+                                  sideTitles: SideTitles(
+                                    showTitles: false,
+                                    getTitlesWidget: (data2, meta) {
+                                      return Text(
+                                        value.energyData[data2.toInt()],
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                              gridData: FlGridData(
+                                drawHorizontalLine: false,
+                                drawVerticalLine: false,
+                              ),
+                              borderData: FlBorderData(
+                                border: const Border(
+                                  left: BorderSide(),
+                                  bottom: BorderSide(),
+                                ),
+                              ),
+                              maxY: (value.intervalData.isEmpty &&
+                                      value.energyData.isEmpty)
+                                  ? 50000
+                                  : value.energyData.reduce((max, current) =>
+                                      max > current ? max : current),
+                              barGroups: barChartGroupData(value.energyData),
+                            ),
                           ),
-                        ),
-                        rightTitles: AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
-                        ),
-                        topTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: false,
-                            getTitlesWidget: (data2, meta) {
-                              return Text(
-                                value.energyData[data2.toInt()],
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                      gridData: FlGridData(
-                        drawHorizontalLine: true,
-                        drawVerticalLine: true,
-                      ),
-                      borderData: FlBorderData(
-                        border: const Border(
-                          left: BorderSide(),
-                          bottom: BorderSide(),
-                        ),
-                      ),
-                      maxY: (value.intervalData.isEmpty &&
-                              value.energyData.isEmpty)
-                          ? 50000
-                          : value.energyData.reduce(
-                              (max, current) => max > current ? max : current),
-                      barGroups: barChartGroupData(value.energyData),
+                        );
+                      },
                     ),
                   ),
-                ));
+                );
               })
             ]),
     );
@@ -1060,7 +1082,7 @@ class _EnergyManagementState extends State<EnergyManagement> {
                   Color.fromARGB(255, 190, 207, 252)
                 ],
               ),
-              width: 25,
+              width: 10,
               borderRadius: BorderRadius.circular(2),
               toY: data[index]),
         ],

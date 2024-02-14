@@ -31,6 +31,7 @@ class _MydepotsState extends State<Mydepots> {
   String? companyName;
   bool isLoading = true;
   late SharedPreferences _sharedPreferences;
+
   @override
   void initState() {
     super.initState();
@@ -45,13 +46,14 @@ class _MydepotsState extends State<Mydepots> {
               onPressed: () {
                 PopupDialog(context);
               },
-              child: Icon(Icons.add),
+              child: const Icon(Icons.add),
               backgroundColor: blue,
             )
           : Container(),
       appBar: PreferredSize(
           // ignore: sort_child_properties_last
           child: CustomAppBar(
+            isDepoPage: true,
             toDepots: true,
             text: 'Depots/${widget.cityName}',
             cityName: widget.cityName,

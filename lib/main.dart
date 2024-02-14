@@ -64,6 +64,11 @@ class MyApp extends StatelessWidget {
           //  onGenerateRoute:Flurorouter.router.
           onGenerateRoute: Flurorouter.router.generator,
           theme: ThemeData(
+            scrollbarTheme: ScrollbarThemeData(
+              thumbColor: MaterialStatePropertyAll(blue),
+              thickness: const MaterialStatePropertyAll(7.0),
+              trackVisibility: const MaterialStatePropertyAll(true),
+            ),
             primarySwatch: Colors.blue,
             dividerColor: grey,
             fontFamily: 'Montserrat',

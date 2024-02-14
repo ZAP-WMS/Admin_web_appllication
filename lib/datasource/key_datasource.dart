@@ -32,6 +32,12 @@ class KeyDataSourceKeyEvents extends DataGridSource {
   TextEditingController editingController = TextEditingController();
 
   @override
+  void dispose() {
+    editingController.dispose();
+    super.dispose();
+  }
+
+  @override
   List<DataGridRow> get rows => dataGridRows;
 
   final DateRangePickerController _controller = DateRangePickerController();

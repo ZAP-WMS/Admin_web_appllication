@@ -63,7 +63,7 @@ class _MonthlySummaryState extends State<MonthlySummary> {
           cityName: widget.cityName,
           userId: widget.userId,
           depoName: widget.depoName,
-          text: ' ${widget.cityName}/ ${widget.depoName} / Monthly Report',
+          text: 'Monthly Report',
         ),
         preferredSize: const Size.fromHeight(50),
       ),

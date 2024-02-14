@@ -37,6 +37,13 @@ class QualityPaintingDataSource extends DataGridSource {
   final DateRangePickerController _controller = DateRangePickerController();
 
   @override
+  void dispose() {
+    _controller.dispose();
+    editingController.dispose();
+    super.dispose();
+  }
+
+  @override
   List<DataGridRow> get rows => dataGridRows;
 
   @override

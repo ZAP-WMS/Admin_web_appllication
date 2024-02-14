@@ -82,7 +82,7 @@ class _ClosureSummaryState extends State<ClosureSummary> {
             showDepoBar: true,
             cityName: widget.cityName,
             depoName: widget.depoName,
-            text: ' ${widget.cityName}/ ${widget.depoName} / ${widget.id}',
+            text: '${widget.id}',
             userId: widget.userId,
           ),
           preferredSize: const Size.fromHeight(50)),

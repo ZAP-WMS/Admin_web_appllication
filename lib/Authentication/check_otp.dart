@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
@@ -6,7 +5,6 @@ import 'package:web_appllication/authentication/reset_password.dart';
 import 'package:web_appllication/authentication/update_password.dart';
 
 import '../style.dart';
-
 
 class CheckOtp extends StatefulWidget {
   String name;
@@ -120,6 +118,7 @@ class _OTPInputBoxState extends State<OTPInputBox> {
 
   FirebaseAuth auth = FirebaseAuth.instance;
   String? smscode;
+
   @override
   Widget build(BuildContext context) {
     return Padding(

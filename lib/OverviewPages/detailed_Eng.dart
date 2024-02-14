@@ -147,6 +147,8 @@ class _DetailedEngtState extends State<DetailedEng>
   @override
   void dispose() {
     _controller!.dispose();
+    selectedDepoController.dispose();
+    selectedCityController.dispose();
     super.dispose();
   }
 
@@ -158,9 +160,20 @@ class _DetailedEngtState extends State<DetailedEng>
       child: Scaffold(
         appBar: AppBar(
             backgroundColor: white,
-            title: Text(
-              '${widget.cityName} / ${widget.depoName} / Detailed Engineering',
-              style: appFontSize,
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Detailed Engineering',
+                  style: appFontSize,
+                ),
+                Text(
+                  'City - ${widget.cityName}     Depot - ${widget.depoName}',
+                  style: const TextStyle(
+                    fontSize: 11,
+                  ),
+                )
+              ],
             ),
             flexibleSpace: Container(
               height: 55,

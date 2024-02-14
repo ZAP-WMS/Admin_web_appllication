@@ -23,11 +23,6 @@ class _ClosureSummaryTableState extends State<ClosureSummaryTable> {
   TextEditingController selectedDepoController = TextEditingController();
   TextEditingController selectedCityController = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
   Future<List<List<dynamic>>> fetchData() async {
     await getRowsForFutureBuilder();
     return rowList;
@@ -43,7 +38,7 @@ class _ClosureSummaryTableState extends State<ClosureSummaryTable> {
             toClosure: true,
             depoName: widget.depoName,
             cityName: widget.cityName,
-            text: ' ${widget.cityName}/ ${widget.depoName} / ${widget.id}',
+            text: '${widget.id}',
             userId: widget.userId,
           ),
           preferredSize: const Size.fromHeight(50)),

@@ -37,15 +37,33 @@ class _JmrState extends State<Jmr> {
   }
 
   @override
+  void dispose() {
+    selectedDepoController.dispose();
+    selectedCityController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
         initialIndex: 0,
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            title: Text(
-              '${widget.cityName}/${widget.depoName}/JMR',
-              style: appFontSize,
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'JMR',
+                  style: appFontSize,
+                ),
+                Text(
+                  'City - ${widget.cityName}     Depot - ${widget.depoName}',
+                  style: const TextStyle(
+                    fontSize: 11,
+                  ),
+                )
+              ],
             ),
             backgroundColor: white,
             flexibleSpace: Container(

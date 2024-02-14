@@ -28,6 +28,13 @@ class _UpdatePasswordState extends State<UpdatePassword> {
   bool _isHidden = true;
 
   @override
+  void dispose() {
+    _newPasswordController.dispose();
+    _confirmNewPasswordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(

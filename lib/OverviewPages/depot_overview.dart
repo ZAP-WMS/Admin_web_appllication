@@ -131,6 +131,24 @@ class _DepotOverviewState extends State<DepotOverview> {
   }
 
   @override
+  void dispose() {
+    _addressController.dispose();
+    _scopeController.dispose();
+    _chargerController.dispose();
+    _ratingController.dispose();
+    _loadController.dispose();
+    _powersourceController.dispose();
+    _elctricalManagerNameController.dispose();
+    _electricalEngineerController.dispose();
+    _electricalVendorController.dispose();
+    _civilManagerNameController.dispose();
+    _civilEngineerController.dispose();
+    _civilVendorController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     print('Scaffold Rebuild');
     return Scaffold(

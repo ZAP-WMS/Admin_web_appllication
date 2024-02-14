@@ -29,6 +29,8 @@ class CustomAppBar extends StatefulWidget {
   final String? text;
   String? userId;
   bool toDepots;
+  bool isDepoPage;
+  bool isCitiesPage;
   VoidCallback? donwloadFun;
   // final IconData? icon;
   final bool haveSynced;
@@ -92,6 +94,8 @@ class CustomAppBar extends StatefulWidget {
     this.toMainOverview = false,
     this.depoName,
     this.isCityBar = true,
+    this.isDepoPage = false,
+    this.isCitiesPage = false,
   });
 
   @override
@@ -116,10 +120,32 @@ class _CustomAppBarState extends State<CustomAppBar> {
     return Scaffold(
         appBar: AppBar(
             backgroundColor: blue,
-            title: Text(
-              widget.text.toString(),
-              style: appFontSize,
-            ),
+            title: widget.isCitiesPage
+                ? const Text(
+                    'Cities',
+                    style: TextStyle(fontSize: 20),
+                  )
+                : widget.isDepoPage
+                    ? Text(
+                        widget.cityName ?? "",
+                        style: TextStyle(fontSize: 15),
+                      )
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.text.toString(),
+                            style: appFontSize,
+                          ),
+                          Text(
+                            'City - ${widget.cityName}     Depot - ${widget.depoName}' ??
+                                '',
+                            style: const TextStyle(
+                              fontSize: 11,
+                            ),
+                          )
+                        ],
+                      ),
             actions: [
               widget.isCityBar
                   ? Container(

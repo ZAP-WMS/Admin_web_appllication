@@ -37,6 +37,13 @@ class EmployeeDataSource extends DataGridSource {
   final DataGridController _dataGridController = DataGridController();
 
   @override
+  void dispose() {
+    editingController.dispose();
+    _dataGridController.dispose();
+    super.dispose();
+  }
+
+  @override
   List<DataGridRow> get rows => dataGridRows;
 
   final DateRangePickerController _controller = DateRangePickerController();

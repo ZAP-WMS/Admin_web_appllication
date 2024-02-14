@@ -50,7 +50,7 @@ class _KeyEventsUserState extends State<KeyEventsUser> {
             showDepoBar: true,
             toPlanning: true,
             depoName: widget.depoName,
-            text: ' ${widget.cityName} / ${widget.depoName}',
+            text: 'Key Events User',
             userId: widget.userId,
           ),
           preferredSize: const Size.fromHeight(50)),

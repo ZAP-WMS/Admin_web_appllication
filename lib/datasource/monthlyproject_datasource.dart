@@ -38,6 +38,13 @@ class MonthlyDataSource extends DataGridSource {
   final DateRangePickerController _controller = DateRangePickerController();
 
   @override
+  void dispose() {
+    editingController.dispose();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   List<DataGridRow> get rows => dataGridRows;
 
   @override

@@ -219,7 +219,7 @@ class _MyOverviewState extends State<MyOverview> {
             toMainOverview: true,
             cityName: widget.cityName,
             userId: widget.userId,
-            text: 'Overview/${widget.cityName}/${widget.depoName}',
+            text: 'Overview Page',
             depoName: widget.depoName,
             // userid: widget.userid,
           ),

@@ -70,7 +70,7 @@ class _ClosureReportState extends State<ClosureReport> {
               toClosure: true,
               cityName: widget.cityName,
               depoName: widget.depoName,
-              text: ' ${widget.cityName}/ ${widget.depoName} / Close Report',
+              text: 'Close Report',
               userId: widget.userId,
               haveSynced: specificUser ? true : false,
               store: () {

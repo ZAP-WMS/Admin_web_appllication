@@ -112,6 +112,20 @@ class _JMRPageState extends State<JMRPage> {
   }
 
   @override
+  void dispose() {
+    projectName.dispose();
+    loiRefNum.dispose();
+    siteLocation.dispose();
+    refNo.dispose();
+    date.dispose();
+    note.dispose();
+    startDate.dispose();
+    endDate.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
@@ -128,8 +142,8 @@ class _JMRPageState extends State<JMRPage> {
                   donwloadFun: _generatePDF,
                   depoName: widget.depoName,
                   userId: widget.userId,
-                  text:
-                      '${widget.cityName} / ${widget.depoName} / ${widget.title.toString()}',
+
+                  text: '${widget.title.toString()}',
                   // icon: Icons.logout,
                   haveSynced: widget.showTable ? false : true,
                   store: () {

@@ -87,6 +87,15 @@ class _QualityChecklistState extends State<QualityChecklist> {
   }
 
   @override
+  void dispose() {
+    ename.dispose();
+    selectedCityController.dispose();
+    selectedDepoController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     widget.currentDate =
         widget.currentDate ?? DateFormat.yMMMMd().format(DateTime.now());
@@ -206,9 +215,20 @@ class _QualityChecklistState extends State<QualityChecklist> {
                           ],
                         ))),
               ],
-              title: Text(
-                '${widget.cityName}/${widget.depoName}/Quality Checklist',
-                style: appFontSize,
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Quality Checklist',
+                    style: appFontSize,
+                  ),
+                  Text(
+                    'City - ${widget.cityName}     Depot - ${widget.depoName}',
+                    style: const TextStyle(
+                      fontSize: 11,
+                    ),
+                  )
+                ],
               ),
               // leading:
               bottom: PreferredSize(
