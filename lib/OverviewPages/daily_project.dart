@@ -238,6 +238,7 @@ class _DailyProjectState extends State<DailyProject> {
                             source: _dailyDataSource,
                             allowEditing: true,
                             frozenColumnsCount: 2,
+                            rowHeight: 100,
                             gridLinesVisibility: GridLinesVisibility.both,
                             headerGridLinesVisibility: GridLinesVisibility.both,
                             selectionMode: SelectionMode.single,
@@ -284,76 +285,11 @@ class _DailyProjectState extends State<DailyProject> {
                                       ),
                                 ),
                               ),
-                              // GridColumn(
-                              //   columnName: 'Date',
-                              //   autoFitPadding:
-                              //       const EdgeInsets.symmetric(
-                              //           horizontal: 16),
-                              //   allowEditing: false,
-                              //   width: 160,
-                              //   label: Container(
-                              //     padding: const EdgeInsets.symmetric(
-                              //         horizontal: 8.0),
-                              //     alignment: Alignment.center,
-                              //     child: Text(' ,
-                              //         textAlign: TextAlign.center,
-                              //         overflow: TextOverflow.values.first,
-                              //         style: TextStyle(
-                              //             fontWeight: FontWeight.bold,
-                              //             fontSize: 16,
-                              //             color: white)),
-                              //   ),
-                              // ),
-                              // GridColumn(
-                              //   visible: false,
-                              //   columnName: 'State',
-                              //   autoFitPadding:
-                              //       const EdgeInsets.symmetric(horizontal: 16),
-                              //   allowEditing: true,
-                              //   width: 120,
-                              //   label: Container(
-                              //     padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                              //     alignment: Alignment.center,
-                              //     child: Text('State',
-                              //         textAlign: TextAlign.center,
-                              //         overflow: TextOverflow.values.first,
-                              //         style: TextStyle(
-                              //             fontWeight: FontWeight.bold,
-                              //             fontSize: 16,
-                              //             color: white)
-                              //         //    textAlign: TextAlign.center,
-                              //         ),
-                              //   ),
-                              // ),
-                              // GridColumn(
-                              //   visible: false,
-                              //   columnName: 'DepotName',
-                              //   autoFitPadding:
-                              //       const EdgeInsets.symmetric(horizontal: 16),
-                              //   allowEditing: true,
-                              //   width: 150,
-                              //   label: Container(
-                              //     padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                              //     alignment: Alignment.center,
-                              //     child: Text('Depot Name',
-                              //         overflow: TextOverflow.values.first,
-                              //         style: TextStyle(
-                              //             fontWeight: FontWeight.bold,
-                              //             fontSize: 16,
-                              //             color: white)
-                              //         //    textAlign: TextAlign.center,
-                              //         ),
-                              //   ),
-                              // ),
                               GridColumn(
                                 columnName: 'TypeOfActivity',
-                                autoFitPadding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
                                 allowEditing: true,
                                 width: 200,
                                 label: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
                                   alignment: Alignment.center,
                                   child: Text('Type of Activity',
                                       overflow: TextOverflow.values.first,
@@ -364,13 +300,9 @@ class _DailyProjectState extends State<DailyProject> {
                               ),
                               GridColumn(
                                 columnName: 'ActivityDetails',
-                                autoFitPadding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
                                 allowEditing: true,
                                 width: 220,
                                 label: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
                                   alignment: Alignment.center,
                                   child: Text('Activity Details',
                                       overflow: TextOverflow.values.first,
@@ -381,13 +313,9 @@ class _DailyProjectState extends State<DailyProject> {
                               ),
                               GridColumn(
                                 columnName: 'Progress',
-                                autoFitPadding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
                                 allowEditing: true,
-                                // width: 320,
+                                width: 340,
                                 label: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
                                   alignment: Alignment.center,
                                   child: Text('Progress',
                                       overflow: TextOverflow.values.first,
@@ -398,13 +326,9 @@ class _DailyProjectState extends State<DailyProject> {
                               ),
                               GridColumn(
                                 columnName: 'Status',
-                                autoFitPadding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
                                 allowEditing: true,
                                 width: 320,
                                 label: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
                                   alignment: Alignment.center,
                                   child: Text('Remark / Status',
                                       overflow: TextOverflow.values.first,
@@ -415,13 +339,9 @@ class _DailyProjectState extends State<DailyProject> {
                               ),
                               GridColumn(
                                 columnName: 'View',
-                                autoFitPadding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
                                 allowEditing: false,
                                 width: 140,
                                 label: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
                                   alignment: Alignment.center,
                                   child: Text('View Image',
                                       overflow: TextOverflow.values.first,
@@ -501,6 +421,8 @@ class _DailyProjectState extends State<DailyProject> {
 
   Future<void> nestedTableData() async {
     globalIndexList.clear();
+    availableUserId.clear();
+    chosenDateList.clear();
     setState(() {
       _isLoading = true;
     });
@@ -542,7 +464,7 @@ class _DailyProjectState extends State<DailyProject> {
           return value;
         });
       }
-      print('global indexes are - ${globalIndexList}');
+      print('global indexes are - $globalIndexList');
     }
 
     setState(() {
@@ -623,7 +545,7 @@ class _DailyProjectState extends State<DailyProject> {
       // final currentUserId = availableUserId[j];
       for (int i = 0; i < DailyProject.length; i++) {
         String imagesPath =
-            '/Daily Report/${widget.cityName}/${widget.depoName}/${availableUserId[i]}/${chosenDateList[i]}/${i + 1}';
+            '/Daily Report/${widget.cityName}/${widget.depoName}/${availableUserId[i]}/${chosenDateList[i]}/${globalIndexList[i]}';
         // print(
         //     '/Daily Report/${widget.cityName}/${widget.depoName}/${availableUserId[i]}/${chosenDateList[i]}/${DailyProject[i].siNo}');
         // print(imagesPath);
@@ -663,24 +585,27 @@ class _DailyProjectState extends State<DailyProject> {
             for (int i = 0; i < imageLoop; i++) {
               imageUrls.add(
                 pw.Container(
-                    padding: const pw.EdgeInsets.only(top: 8.0, bottom: 8.0),
-                    width: 60,
-                    height: 80,
-                    child: pw.Text('')),
-              );
-            }
-          } else {
-            int imageLoop = 10 - imageUrls.length;
-            for (int i = 0; i < imageLoop; i++) {
-              imageUrls.add(
-                pw.Container(
-                    padding: const pw.EdgeInsets.only(top: 8.0, bottom: 8.0),
-                    width: 80,
-                    height: 100,
-                    child: pw.Text('')),
+                  padding: const pw.EdgeInsets.only(top: 8.0, bottom: 8.0),
+                  width: 60,
+                  height: 80,
+                  child: pw.Text(''),
+                ),
               );
             }
           }
+
+          // else if (imageUrls.length > 2) {
+          //   int imageLoop = 10 - imageUrls.length;
+          //   for (int i = 0; i < imageLoop; i++) {
+          //     imageUrls.add(
+          //       pw.Container(
+          //           padding: const pw.EdgeInsets.only(top: 8.0, bottom: 8.0),
+          //           width: 80,
+          //           height: 100,
+          //           child: pw.Text('')),
+          //     );
+          //   }
+          // }
         } else {
           for (int i = 0; i < 2; i++) {
             imageUrls.add(
@@ -692,6 +617,7 @@ class _DailyProjectState extends State<DailyProject> {
             );
           }
         }
+
         result.items.clear();
 
         //Text Rows of PDF Table
@@ -712,7 +638,7 @@ class _DailyProjectState extends State<DailyProject> {
                   child: pw.Text(DailyProject[i].typeOfActivity.toString(),
                       style: const pw.TextStyle(fontSize: 14)))),
           pw.Container(
-              padding: const pw.EdgeInsets.all(2.0),
+              padding: const pw.EdgeInsets.all(5.0),
               child: pw.Center(
                   child: pw.Text(DailyProject[i].activityDetails.toString(),
                       style: const pw.TextStyle(fontSize: 14)))),
@@ -720,6 +646,7 @@ class _DailyProjectState extends State<DailyProject> {
               padding: const pw.EdgeInsets.all(2.0),
               child: pw.Center(
                   child: pw.Text(DailyProject[i].progress.toString(),
+                      textAlign: pw.TextAlign.center,
                       style: const pw.TextStyle(fontSize: 14)))),
           pw.Container(
               padding: const pw.EdgeInsets.all(2.0),
@@ -731,29 +658,62 @@ class _DailyProjectState extends State<DailyProject> {
         ]));
 
         if (imageUrls.length - 2 > 0) {
+          int n = 2;
+          int nextLineLength = imageUrls.length - 2;
+          if (nextLineLength % 8 != 0) {
+            int remainder = nextLineLength % 8;
+            int imageLoop = 8 - remainder;
+            print('imageLoop - $imageLoop - $nextLineLength ');
+            for (int m = 0; m < imageLoop; m++) {
+              imageUrls.add(
+                pw.Container(
+                    padding: const pw.EdgeInsets.only(top: 8.0, bottom: 8.0),
+                    width: 60,
+                    height: 80,
+                    child: pw.Text('')),
+              );
+            }
+          }
           //Image Rows of PDF Table
-          rows.add(pw.TableRow(children: [
-            pw.Container(
-                padding: const pw.EdgeInsets.only(top: 8.0, bottom: 8.0),
-                child: pw.Text('')),
-            pw.Container(
-                padding: const pw.EdgeInsets.only(top: 8.0, bottom: 8.0),
-                width: 60,
-                height: 100,
-                child: pw.Row(
-                    mainAxisAlignment: pw.MainAxisAlignment.spaceAround,
-                    children: [
-                      imageUrls[2],
-                      imageUrls[3],
-                    ])),
-            imageUrls[4],
-            imageUrls[5],
-            imageUrls[6],
-            imageUrls[7],
-            imageUrls[8],
-            imageUrls[9]
-          ]));
+
+          while (nextLineLength != 0) {
+            print('n value - $n');
+            rows.add(
+              pw.TableRow(
+                children: [
+                  pw.Container(
+                      padding: const pw.EdgeInsets.only(top: 8.0, bottom: 8.0),
+                      child: pw.Text('')),
+                  pw.Container(
+                      padding: const pw.EdgeInsets.only(top: 8.0, bottom: 8.0),
+                      width: 60,
+                      height: 100,
+                      child: pw.Row(
+                          mainAxisAlignment: pw.MainAxisAlignment.spaceAround,
+                          children: [
+                            imageUrls[n],
+                            imageUrls[n + 1],
+                          ])),
+                  imageUrls[n + 2],
+                  imageUrls[n + 3],
+                  imageUrls[n + 4],
+                  imageUrls[n + 5],
+                  imageUrls[n + 6],
+                  imageUrls[n + 7]
+                ],
+              ),
+            );
+
+            n = 10;
+            print('n -- $n');
+
+            nextLineLength = nextLineLength >= 8
+                ? nextLineLength - 8
+                : nextLineLength - nextLineLength;
+            print('nextLen - $nextLineLength');
+          }
         }
+
         imageUrls.clear();
         // }
       }
@@ -773,7 +733,7 @@ class _DailyProjectState extends State<DailyProject> {
         maxPages: 100,
         theme: pw.ThemeData.withFont(
             base: pw.Font.ttf(fontData1), bold: pw.Font.ttf(fontData2)),
-        pageFormat: const PdfPageFormat(1300, 900,
+        pageFormat: const PdfPageFormat(1600, 1000,
             marginLeft: 70, marginRight: 70, marginBottom: 80, marginTop: 40),
         orientation: pw.PageOrientation.natural,
         crossAxisAlignment: pw.CrossAxisAlignment.start,
