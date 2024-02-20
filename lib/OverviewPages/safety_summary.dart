@@ -209,6 +209,7 @@ class _SafetySummaryState extends State<SafetySummary> {
   }
 
   Future<void> _generatePDF(String user_id, String date, int decision) async {
+    bool isImageEmpty = false;
     setState(() {
       enableLoading = true;
     });
@@ -365,6 +366,7 @@ class _SafetySummaryState extends State<SafetySummary> {
       for (Map<String, dynamic> mapData in userData) {
         String images_Path =
             'gs://tp-zap-solz.appspot.com/SafetyChecklist/${widget.cityName}/${widget.depoName}/$user_id/$date/${mapData['srNo']}';
+
         ListResult result =
             await FirebaseStorage.instance.ref().child(images_Path).listAll();
 
@@ -394,8 +396,9 @@ class _SafetySummaryState extends State<SafetySummary> {
               );
             }
           }
-          if (imageUrls.length < 8) {
-            int imageLoop = 8 - imageUrls.length;
+
+          if (imageUrls.length < 11) {
+            int imageLoop = 11 - imageUrls.length;
             for (int i = 0; i < imageLoop; i++) {
               imageUrls.add(
                 pw.Container(
@@ -406,6 +409,8 @@ class _SafetySummaryState extends State<SafetySummary> {
               );
             }
           }
+        } else {
+          isImageEmpty = true;
         }
         result.items.clear();
 
@@ -433,6 +438,9 @@ class _SafetySummaryState extends State<SafetySummary> {
               child: pw.Center(
                   child: pw.Text(mapData['Remark'].toString(),
                       style: const pw.TextStyle(fontSize: 13)))),
+          isImageEmpty ? pw.Container() : pw.Center(child: imageUrls[0]),
+          isImageEmpty ? pw.Container() : pw.Center(child: imageUrls[1]),
+          isImageEmpty ? pw.Container() : pw.Center(child: imageUrls[2]),
         ]));
 
         if (imageUrls.isNotEmpty) {
@@ -448,17 +456,18 @@ class _SafetySummaryState extends State<SafetySummary> {
                 child: pw.Row(
                     mainAxisAlignment: pw.MainAxisAlignment.spaceAround,
                     children: [
-                      imageUrls[0],
-                      imageUrls[1],
+                      imageUrls[3],
+                      imageUrls[4],
                     ])),
-            imageUrls[2],
-            imageUrls[3],
-            imageUrls[4],
             imageUrls[5],
             imageUrls[6],
-            imageUrls[7]
+            imageUrls[7],
+            imageUrls[8],
+            imageUrls[9],
+            imageUrls[10],
           ]));
         }
+
         imageUrls.clear();
       }
     }
@@ -541,8 +550,8 @@ class _SafetySummaryState extends State<SafetySummary> {
                       text: pw.TextSpan(children: [
                     const pw.TextSpan(
                         text: 'UserID : ',
-                        style: const pw.TextStyle(
-                            color: PdfColors.black, fontSize: 15)),
+                        style:
+                            pw.TextStyle(color: PdfColors.black, fontSize: 15)),
                     pw.TextSpan(
                         text: '$user_id',
                         style: const pw.TextStyle(
@@ -649,7 +658,7 @@ class _SafetySummaryState extends State<SafetySummary> {
     );
 
     final List<int> pdfData = await pdf.save();
-    const String pdfPath = 'MonthlyData.pdf';
+    const String pdfPath = 'SafetyReport.pdf';
 
     // Save the PDF file to device storage
     if (kIsWeb) {
