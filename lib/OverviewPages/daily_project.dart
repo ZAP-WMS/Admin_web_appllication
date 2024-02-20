@@ -253,7 +253,8 @@ class _DailyProjectState extends State<DailyProject> {
                                 autoFitPadding:
                                     const EdgeInsets.symmetric(horizontal: 16),
                                 allowEditing: true,
-                                width: 150,
+                                width: MediaQuery.of(context).size.width *
+                                    0.09, //150
                                 label: Container(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),
@@ -288,7 +289,8 @@ class _DailyProjectState extends State<DailyProject> {
                               GridColumn(
                                 columnName: 'TypeOfActivity',
                                 allowEditing: true,
-                                width: 200,
+                                width: MediaQuery.of(context).size.width *
+                                    0.14, //200
                                 label: Container(
                                   alignment: Alignment.center,
                                   child: Text('Type of Activity',
@@ -301,7 +303,8 @@ class _DailyProjectState extends State<DailyProject> {
                               GridColumn(
                                 columnName: 'ActivityDetails',
                                 allowEditing: true,
-                                width: 220,
+                                width: MediaQuery.of(context).size.width *
+                                    0.15, //220
                                 label: Container(
                                   alignment: Alignment.center,
                                   child: Text('Activity Details',
@@ -314,7 +317,8 @@ class _DailyProjectState extends State<DailyProject> {
                               GridColumn(
                                 columnName: 'Progress',
                                 allowEditing: true,
-                                width: 340,
+                                width: MediaQuery.of(context).size.width *
+                                    0.30, //340
                                 label: Container(
                                   alignment: Alignment.center,
                                   child: Text('Progress',
@@ -327,7 +331,8 @@ class _DailyProjectState extends State<DailyProject> {
                               GridColumn(
                                 columnName: 'Status',
                                 allowEditing: true,
-                                width: 320,
+                                width: MediaQuery.of(context).size.width *
+                                    0.19, //320
                                 label: Container(
                                   alignment: Alignment.center,
                                   child: Text('Remark / Status',
@@ -340,7 +345,8 @@ class _DailyProjectState extends State<DailyProject> {
                               GridColumn(
                                 columnName: 'View',
                                 allowEditing: false,
-                                width: 140,
+                                width: MediaQuery.of(context).size.width *
+                                    0.14, //140
                                 label: Container(
                                   alignment: Alignment.center,
                                   child: Text('View Image',

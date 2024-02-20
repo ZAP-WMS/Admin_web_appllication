@@ -11,12 +11,14 @@ import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:web_appllication/OverviewPages/quality_checklist.dart';
 import 'package:web_appllication/OverviewPages/summary.dart';
 import 'package:web_appllication/widgets/nodata_available.dart';
 import '../authentication/auth_service.dart';
 import '../datasource/energymanagement_datasource.dart';
 import '../model/daily_projectModel.dart';
 import '../components/loading_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../model/energy_management.dart';
 import '../provider/energy_provider.dart';
 import '../style.dart';
@@ -29,6 +31,7 @@ class EnergyManagement extends StatefulWidget {
   // String? userId;
   String? cityName;
   String? depoName;
+
   EnergyManagement({
     super.key,
     // this.userId,
@@ -42,6 +45,7 @@ class EnergyManagement extends StatefulWidget {
 
 class _EnergyManagementState extends State<EnergyManagement> {
   ScrollController _scrollController = ScrollController();
+  String? currentUser;
   List<dynamic> dataForPdf = [];
   DateTime? startdate = DateTime.now();
   DateTime? enddate = DateTime.now();
@@ -65,6 +69,7 @@ class _EnergyManagementState extends State<EnergyManagement> {
 
   @override
   void initState() {
+    fetchUserId();
     _energyProvider = Provider.of<EnergyProvider>(context, listen: false);
     _energyProvider!.fetchEnergyUsedId(
         widget.cityName!,
@@ -120,6 +125,7 @@ class _EnergyManagementState extends State<EnergyManagement> {
           // ignore: sort_child_properties_last
           child: CustomAppBar(
             showDepoBar: true,
+            userId: currentUser,
             donwloadFun: _generatePDF,
             toDaily: true,
             depoName: widget.depoName,
@@ -231,6 +237,7 @@ class _EnergyManagementState extends State<EnergyManagement> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
+                          padding: EdgeInsets.only(left: 10),
                           width: 250,
                           height: 40,
                           decoration: BoxDecoration(
@@ -322,7 +329,7 @@ class _EnergyManagementState extends State<EnergyManagement> {
                                   label: Container(
                                     padding: const EdgeInsets.all(8.0),
                                     alignment: Alignment.center,
-                                    child: Text('Veghicle No',
+                                    child: Text('Vehicle No',
                                         textAlign: TextAlign.center,
                                         style: tableheader),
                                   ),
@@ -1088,5 +1095,12 @@ class _EnergyManagementState extends State<EnergyManagement> {
         ],
       );
     }));
+  }
+
+  Future fetchUserId() async {
+    final shared = await SharedPreferences.getInstance();
+    String? userId = shared.getString('employeeId');
+    currentUser = userId;
+    print(userId);
   }
 }
