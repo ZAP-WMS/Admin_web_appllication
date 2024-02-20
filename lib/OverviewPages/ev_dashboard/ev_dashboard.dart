@@ -2596,11 +2596,15 @@ class _EVDashboardScreenState extends State<EVDashboardScreen> {
       dynamic num = number.round() / 100000;
       String roundedNum = double.parse(num.toString()).toStringAsFixed(1);
 
-      convertedNum = '${roundedNum} Lakh';
+      convertedNum = '$roundedNum Lakh';
     } else if (number > 10000000) {
       dynamic num = number.round() / 10000000;
       String roundedNum = double.parse(num.toString()).toStringAsFixed(1);
       convertedNum = '$roundedNum Cr';
+    } else if (number >= 1000 && number < 100000) {
+      convertedNum = '$number k';
+    } else {
+      convertedNum = '$number';
     }
     return convertedNum;
   }
