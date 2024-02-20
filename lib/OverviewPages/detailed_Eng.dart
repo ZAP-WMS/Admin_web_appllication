@@ -786,7 +786,7 @@ class _DetailedEngtState extends State<DetailedEng>
                     ),
                     GridColumn(
                       columnName: 'ViewDrawing',
-                      width: 130,
+                      width: MediaQuery.of(context).size.width * 0.08, //130
                       allowEditing: false,
                       label: Container(
                         padding: const EdgeInsets.all(8.0),
@@ -800,7 +800,7 @@ class _DetailedEngtState extends State<DetailedEng>
                       autoFitPadding:
                           const EdgeInsets.symmetric(horizontal: 16),
                       allowEditing: true,
-                      width: 300,
+                      width: MediaQuery.of(context).size.width * 0.32, //300
                       label: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         alignment: Alignment.center,
@@ -815,7 +815,7 @@ class _DetailedEngtState extends State<DetailedEng>
                       autoFitPadding:
                           const EdgeInsets.symmetric(horizontal: 16),
                       allowEditing: true,
-                      width: 130,
+                      width: MediaQuery.of(context).size.width * 0.15, //130
                       label: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         alignment: Alignment.center,
@@ -832,7 +832,7 @@ class _DetailedEngtState extends State<DetailedEng>
                       autoFitPadding:
                           const EdgeInsets.symmetric(horizontal: 16),
                       allowEditing: false,
-                      width: 170,
+                      width: MediaQuery.of(context).size.width * 0.11, //170
                       label: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         alignment: Alignment.center,
@@ -848,7 +848,7 @@ class _DetailedEngtState extends State<DetailedEng>
                       autoFitPadding:
                           const EdgeInsets.symmetric(horizontal: 16),
                       allowEditing: false,
-                      width: 170,
+                      width: MediaQuery.of(context).size.width * 0.12, //170
                       label: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         alignment: Alignment.center,
@@ -864,7 +864,7 @@ class _DetailedEngtState extends State<DetailedEng>
                       autoFitPadding:
                           const EdgeInsets.symmetric(horizontal: 16),
                       allowEditing: false,
-                      width: 170,
+                      width: MediaQuery.of(context).size.width * 0.11, //170
                       label: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         alignment: Alignment.center,
@@ -880,7 +880,7 @@ class _DetailedEngtState extends State<DetailedEng>
                       autoFitPadding:
                           const EdgeInsets.symmetric(horizontal: 16),
                       allowEditing: false,
-                      width: 170,
+                      width: MediaQuery.of(context).size.width * 0.11, //170
                       label: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         alignment: Alignment.center,
@@ -1214,7 +1214,7 @@ class _DetailedEngtState extends State<DetailedEng>
                       ),
                       GridColumn(
                         columnName: 'ViewDrawing',
-                        width: 130,
+                        width: MediaQuery.of(context).size.width * 0.08, //130
                         allowEditing: false,
                         label: Container(
                           padding: const EdgeInsets.all(8.0),
@@ -1228,7 +1228,7 @@ class _DetailedEngtState extends State<DetailedEng>
                         autoFitPadding:
                             const EdgeInsets.symmetric(horizontal: 16),
                         allowEditing: true,
-                        width: 300,
+                        width: MediaQuery.of(context).size.width * 0.32, //300
                         label: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           alignment: Alignment.center,
@@ -1243,7 +1243,7 @@ class _DetailedEngtState extends State<DetailedEng>
                         autoFitPadding:
                             const EdgeInsets.symmetric(horizontal: 16),
                         allowEditing: true,
-                        width: 130,
+                        width: MediaQuery.of(context).size.width * 0.15, //130
                         label: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           alignment: Alignment.center,
@@ -1260,7 +1260,7 @@ class _DetailedEngtState extends State<DetailedEng>
                         autoFitPadding:
                             const EdgeInsets.symmetric(horizontal: 16),
                         allowEditing: false,
-                        width: 170,
+                        width: MediaQuery.of(context).size.width * 0.11, //170
                         label: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           alignment: Alignment.center,
@@ -1276,7 +1276,7 @@ class _DetailedEngtState extends State<DetailedEng>
                         autoFitPadding:
                             const EdgeInsets.symmetric(horizontal: 16),
                         allowEditing: false,
-                        width: 170,
+                        width: MediaQuery.of(context).size.width * 0.12, //170
                         label: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           alignment: Alignment.center,
@@ -1292,7 +1292,7 @@ class _DetailedEngtState extends State<DetailedEng>
                         autoFitPadding:
                             const EdgeInsets.symmetric(horizontal: 16),
                         allowEditing: false,
-                        width: 170,
+                        width: MediaQuery.of(context).size.width * 0.11, //170
                         label: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           alignment: Alignment.center,
@@ -1308,7 +1308,7 @@ class _DetailedEngtState extends State<DetailedEng>
                         autoFitPadding:
                             const EdgeInsets.symmetric(horizontal: 16),
                         allowEditing: false,
-                        width: 170,
+                        width: MediaQuery.of(context).size.width * 0.11, //170
                         label: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           alignment: Alignment.center,
@@ -1663,7 +1663,7 @@ class _DetailedEngtState extends State<DetailedEng>
                     ),
                     GridColumn(
                       columnName: 'ViewDrawing',
-                      width: 130,
+                      width: MediaQuery.of(context).size.width * 0.08, //130
                       allowEditing: false,
                       label: Container(
                         padding: const EdgeInsets.all(8.0),
@@ -1677,7 +1677,7 @@ class _DetailedEngtState extends State<DetailedEng>
                       autoFitPadding:
                           const EdgeInsets.symmetric(horizontal: 16),
                       allowEditing: true,
-                      width: 300,
+                      width: MediaQuery.of(context).size.width * 0.32, //300
                       label: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         alignment: Alignment.center,
@@ -1692,7 +1692,7 @@ class _DetailedEngtState extends State<DetailedEng>
                       autoFitPadding:
                           const EdgeInsets.symmetric(horizontal: 16),
                       allowEditing: true,
-                      width: 130,
+                      width: MediaQuery.of(context).size.width * 0.15, //130
                       label: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         alignment: Alignment.center,
@@ -1709,7 +1709,7 @@ class _DetailedEngtState extends State<DetailedEng>
                       autoFitPadding:
                           const EdgeInsets.symmetric(horizontal: 16),
                       allowEditing: false,
-                      width: 170,
+                      width: MediaQuery.of(context).size.width * 0.11, //170
                       label: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         alignment: Alignment.center,
@@ -1725,7 +1725,7 @@ class _DetailedEngtState extends State<DetailedEng>
                       autoFitPadding:
                           const EdgeInsets.symmetric(horizontal: 16),
                       allowEditing: false,
-                      width: 170,
+                      width: MediaQuery.of(context).size.width * 0.12, //170
                       label: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         alignment: Alignment.center,
@@ -1741,7 +1741,7 @@ class _DetailedEngtState extends State<DetailedEng>
                       autoFitPadding:
                           const EdgeInsets.symmetric(horizontal: 16),
                       allowEditing: false,
-                      width: 170,
+                      width: MediaQuery.of(context).size.width * 0.11, //170
                       label: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         alignment: Alignment.center,
@@ -1757,7 +1757,7 @@ class _DetailedEngtState extends State<DetailedEng>
                       autoFitPadding:
                           const EdgeInsets.symmetric(horizontal: 16),
                       allowEditing: false,
-                      width: 170,
+                      width: MediaQuery.of(context).size.width * 0.11, //170
                       label: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         alignment: Alignment.center,
