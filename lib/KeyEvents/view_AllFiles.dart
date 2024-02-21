@@ -56,9 +56,9 @@ class _ViewAllPdfState extends State<ViewAllPdf> {
         for (int i = 0; i < drawingRef.length; i++) {
           if (widget.title == 'Overview Page') {
             print(
-                '${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}/${widget.docId}');
+                '${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}/');
             futureFiles = FirebaseApi.listAll(
-                '${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}/${widget.docId}');
+                '${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}');
           }
           for (int j = 0; j < drawingfullpath.length; j++) {
             print('before ' + drawingfullpath[j]);

@@ -376,12 +376,14 @@ class _SafetySummaryState extends State<SafetySummary> {
             if (image.name.endsWith('.pdf')) {
               imageUrls.add(
                 pw.Container(
-                    alignment: pw.Alignment.center,
-                    padding: const pw.EdgeInsets.only(top: 8.0, bottom: 8.0),
-                    width: 60,
-                    height: 100,
-                    child: pw.UrlLink(
-                        child: pw.Text(image.name), destination: downloadUrl)),
+                  alignment: pw.Alignment.center,
+                  padding: const pw.EdgeInsets.only(top: 8.0, bottom: 8.0),
+                  width: 60,
+                  height: 100,
+                  child: pw.UrlLink(
+                      child: pw.Text(image.name), destination: downloadUrl),
+                  color: PdfColors.blue,
+                ),
               );
             } else {
               final myImage = await networkImage(downloadUrl);
@@ -397,8 +399,19 @@ class _SafetySummaryState extends State<SafetySummary> {
             }
           }
 
-          if (imageUrls.length < 11) {
-            int imageLoop = 11 - imageUrls.length;
+          if (imageUrls.length > 4) {
+            int imageLoop = 12 - imageUrls.length;
+            for (int i = 0; i < imageLoop; i++) {
+              imageUrls.add(
+                pw.Container(
+                    padding: const pw.EdgeInsets.only(top: 8.0, bottom: 8.0),
+                    width: 60,
+                    height: 100,
+                    child: pw.Text('')),
+              );
+            }
+          } else if (imageUrls.length < 4) {
+            int imageLoop = 4 - imageUrls.length;
             for (int i = 0; i < imageLoop; i++) {
               imageUrls.add(
                 pw.Container(
@@ -441,9 +454,10 @@ class _SafetySummaryState extends State<SafetySummary> {
           isImageEmpty ? pw.Container() : pw.Center(child: imageUrls[0]),
           isImageEmpty ? pw.Container() : pw.Center(child: imageUrls[1]),
           isImageEmpty ? pw.Container() : pw.Center(child: imageUrls[2]),
+          isImageEmpty ? pw.Container() : pw.Center(child: imageUrls[3]),
         ]));
 
-        if (imageUrls.isNotEmpty) {
+        if (imageUrls.length > 4) {
           //Image Rows of PDF Table
           rows.add(pw.TableRow(children: [
             pw.Container(
@@ -456,15 +470,15 @@ class _SafetySummaryState extends State<SafetySummary> {
                 child: pw.Row(
                     mainAxisAlignment: pw.MainAxisAlignment.spaceAround,
                     children: [
-                      imageUrls[3],
                       imageUrls[4],
+                      imageUrls[5],
                     ])),
-            imageUrls[5],
             imageUrls[6],
             imageUrls[7],
             imageUrls[8],
             imageUrls[9],
             imageUrls[10],
+            imageUrls[11],
           ]));
         }
 

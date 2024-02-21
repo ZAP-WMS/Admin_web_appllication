@@ -157,6 +157,7 @@ class _DepotOverviewState extends State<DepotOverview> {
           child: CustomAppBar(
             showDepoBar: true,
             toOverview: true,
+            depoName: widget.depoName,
             cityName: widget.cityName,
             text: 'Depot Overview',
             haveSynced: isEdit ? isVisible : false,

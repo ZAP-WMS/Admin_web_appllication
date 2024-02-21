@@ -52,10 +52,14 @@ class _JmrState extends State<Jmr> {
           appBar: AppBar(
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'JMR',
-                  style: appFontSize,
+                Container(
+                  margin: const EdgeInsets.only(bottom: 5.0),
+                  child: Text(
+                    'JMR Page',
+                    style: appFontSize,
+                  ),
                 ),
                 Text(
                   'City - ${widget.cityName}     Depot - ${widget.depoName}',

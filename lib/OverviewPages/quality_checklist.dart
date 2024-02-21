@@ -218,9 +218,12 @@ class _QualityChecklistState extends State<QualityChecklist> {
               title: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Quality Checklist',
-                    style: appFontSize,
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 5.0),
+                    child: Text(
+                      'Quality Checklist',
+                      style: appFontSize,
+                    ),
                   ),
                   Text(
                     'City - ${widget.cityName}     Depot - ${widget.depoName}',

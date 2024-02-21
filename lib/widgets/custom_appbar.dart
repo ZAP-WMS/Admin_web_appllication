@@ -133,9 +133,12 @@ class _CustomAppBarState extends State<CustomAppBar> {
                     : Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            widget.text.toString(),
-                            style: appFontSize,
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 5.0),
+                            child: Text(
+                              widget.text.toString(),
+                              style: appFontSize,
+                            ),
                           ),
                           Text(
                             'City - ${widget.cityName}     Depot - ${widget.depoName}' ??
