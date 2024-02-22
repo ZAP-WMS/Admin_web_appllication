@@ -44,42 +44,42 @@ class _ViewAllPdfState extends State<ViewAllPdf> {
         widget.title == '/BOQCivil') {
       futureFiles = FirebaseApi.listAll(
           '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.docId}');
-    }
+    } else if (widget.title == 'jmr') {
+      futureFiles = FirebaseApi.listAll(widget.docId);
+    } else {
+      getrefdata().whenComplete(() {
+        if (widget.title == 'Daily Report') {
+          futureFiles = FirebaseApi.listAll(
+              '/Daily Report/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.docId}');
+        } else {
+          for (int i = 0; i < drawingRef.length; i++) {
+            if (widget.title == 'Overview Page') {
+              print(
+                  '${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}/');
+              futureFiles = FirebaseApi.listAll(
+                  '${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}');
+            }
+            for (int j = 0; j < drawingfullpath.length; j++) {
+              print('before ' + drawingfullpath[j]);
+              print(
+                  'after  ${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}/${widget.docId}');
 
-    getrefdata().whenComplete(() {
-      if (widget.title == 'Daily Report') {
-        futureFiles = FirebaseApi.listAll(
-            '/Daily Report/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.docId}');
-        print(
-            '/Daily Report/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.date}/${widget.docId}');
-      } else {
-        for (int i = 0; i < drawingRef.length; i++) {
-          if (widget.title == 'Overview Page') {
-            print(
-                '${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}/');
-            futureFiles = FirebaseApi.listAll(
-                '${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}');
-          }
-          for (int j = 0; j < drawingfullpath.length; j++) {
-            print('before ' + drawingfullpath[j]);
-            print(
-                'after  ${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}/${widget.docId}');
-
-            if (drawingfullpath[j] ==
-                '${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}/${widget.docId}') {
-              // futureFiles = FirebaseApi.listAll(
-              //     '${widget.title}/${widget.cityName}/${widget.depoName}/RM7292/${widget.docId}');
-              futureFiles = FirebaseApi.listAll(drawingfullpath[j]);
+              if (drawingfullpath[j] ==
+                  '${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}/${widget.docId}') {
+                // futureFiles = FirebaseApi.listAll(
+                //     '${widget.title}/${widget.cityName}/${widget.depoName}/RM7292/${widget.docId}');
+                futureFiles = FirebaseApi.listAll(drawingfullpath[j]);
+              }
             }
           }
         }
-      }
 
-      // futureFiles = data__[1];
-
-      setState(() {
-        _isload = false;
+        // futureFiles = data__[1];
       });
+    }
+
+    setState(() {
+      _isload = false;
     });
 
     super.initState();
@@ -119,6 +119,7 @@ class _ViewAllPdfState extends State<ViewAllPdf> {
                     if (snapshot.hasError) {
                       return const Center(child: Text('Some error occurred!'));
                     } else {
+                      print('Else part is running');
                       final files = snapshot.data!;
 
                       return Column(

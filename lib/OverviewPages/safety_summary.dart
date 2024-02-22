@@ -381,8 +381,9 @@ class _SafetySummaryState extends State<SafetySummary> {
                   width: 60,
                   height: 100,
                   child: pw.UrlLink(
-                      child: pw.Text(image.name), destination: downloadUrl),
-                  color: PdfColors.blue,
+                      child: pw.Text(image.name,
+                          style: const pw.TextStyle(color: PdfColors.blue)),
+                      destination: downloadUrl),
                 ),
               );
             } else {

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
+import 'package:web_appllication/KeyEvents/view_AllFiles.dart';
 import 'package:web_appllication/OverviewPages/Jmr_screen/jmr_home.dart';
 import 'package:web_appllication/widgets/nodata_available.dart';
 import '../../KeyEvents/Grid_DataTable.dart';
@@ -31,7 +32,6 @@ class _JmrState extends State<Jmr> {
 
   @override
   void initState() {
-    print('Jmr Page');
     generateAllJmrList();
     super.initState();
   }
@@ -189,12 +189,6 @@ class _JmrState extends State<Jmr> {
 
               //indicatorSize: TabBarIndicatorSize.label,
               indicator: BoxDecoration(color: blue),
-              //  MaterialIndicator(
-              //     horizontalPadding: 24,
-              //     bottomLeftRadius: 8,
-              //     bottomRightRadius: 8,
-              //     color: white,
-              //     paintingStyle: PaintingStyle.fill),
               tabs: const [
                 Tab(text: 'Civil Engineer'),
                 Tab(text: 'Electrical Engineer'),
@@ -238,16 +232,14 @@ class _JmrState extends State<Jmr> {
             itemBuilder: (context, index) {
               // generateJmrListLen(userList[index]);
               return Container(
-                margin:
-                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.01),
+                margin: const EdgeInsets.all(5.0),
                 decoration: BoxDecoration(
                     border: Border.all(color: blue),
                     borderRadius: const BorderRadius.only(
                         topRight: Radius.elliptical(10, 10),
                         topLeft: Radius.elliptical(10, 10))),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 10.0, right: 20.0, bottom: 3.0, top: 3.0),
+                child: Container(
+                  margin: const EdgeInsets.all(5.0),
                   child: ExpansionTile(
                     backgroundColor: white,
                     trailing: Icon(
@@ -265,8 +257,9 @@ class _JmrState extends State<Jmr> {
                           itemCount: 5,
                           itemBuilder: (context, index2) {
                             return Container(
-                              padding: const EdgeInsets.only(
-                                  left: 15.0, right: 10.0, bottom: 10.0),
+                              margin: const EdgeInsets.all(5.0),
+                              // padding: const EdgeInsets.only(
+                              // left: 15.0, right: 10.0, bottom: 10.0),
                               child: SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
@@ -274,21 +267,27 @@ class _JmrState extends State<Jmr> {
                                   children: [
                                     SizedBox(
                                       height: 32,
-                                      child: TextButton(
-                                          onPressed: () {},
-                                          style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStateProperty.all(
-                                                      white
-                                                      //Colors.blue[900]
-                                                      )),
-                                          child: Text(
-                                            title[index2],
-                                            style: TextStyle(color: blue),
-                                          )),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            border: Border.all(color: blue),
+                                            borderRadius:
+                                                BorderRadius.circular(2.0)),
+                                        child: TextButton(
+                                            onPressed: () {},
+                                            style: ButtonStyle(
+                                                backgroundColor:
+                                                    MaterialStateProperty.all(
+                                                        white
+                                                        //Colors.blue[900]
+                                                        )),
+                                            child: Text(
+                                              title[index2],
+                                              style: TextStyle(color: blue),
+                                            )),
+                                      ),
                                     ),
                                     const SizedBox(
-                                      width: 30.0,
+                                      width: 10.0,
                                     ),
                                     jmrTabList(userList[index], index2, index),
                                   ],
@@ -310,42 +309,66 @@ class _JmrState extends State<Jmr> {
 
   jmrTabList(String currentUserId, int secondIndex, int firstIndex) {
     List<int> currentTabList = jmrTabLen[firstIndex];
-    return SizedBox(
+    return Container(
       height: 30,
-      width: 1200,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: currentTabList[secondIndex], // Length from list of jmr items
-        shrinkWrap: true,
-        itemBuilder: (context, index3) {
-          return Padding(
-            padding: const EdgeInsets.only(left: 15.0),
-            child: ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(blue)),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => JMRPage(
-                          title:
-                              '${tabName[_selectedIndex]}-${title[index3]}-JMR${index3 + 1}',
-                          jmrTab: title[secondIndex],
-                          cityName: widget.cityName,
-                          depoName: widget.depoName,
-                          showTable: true,
-                          dataFetchingIndex: index3 + 1,
-                          tabName: tabName[_selectedIndex],
-                          userId: currentUserId,
-                        ),
-                      ));
-                },
-                child: Text(
-                  'JMR${index3 + 1}',
-                  style: TextStyle(color: white),
-                )),
-          );
-        },
+      width: MediaQuery.of(context).size.width,
+      child: Row(
+        children: [
+          Container(
+            height: 30,
+            width: MediaQuery.of(context).size.width * 0.86,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount:
+                  currentTabList[secondIndex], // Length from list of jmr items
+              shrinkWrap: true,
+              itemBuilder: (context, index3) {
+                return Padding(
+                  padding: const EdgeInsets.only(left: 5.0),
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(blue)),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => JMRPage(
+                                title:
+                                    '${tabName[_selectedIndex]}-${title[index3]}-JMR${index3 + 1}',
+                                jmrTab: title[secondIndex],
+                                cityName: widget.cityName,
+                                depoName: widget.depoName,
+                                showTable: true,
+                                dataFetchingIndex: index3 + 1,
+                                tabName: tabName[_selectedIndex],
+                                userId: currentUserId,
+                              ),
+                            ));
+                      },
+                      child: Text(
+                        'JMR${index3 + 1}',
+                        style: TextStyle(color: white),
+                      )),
+                );
+              },
+            ),
+          ),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ViewAllPdf(
+                        title: 'jmr',
+                        cityName: widget.cityName!,
+                        depoName: widget.depoName!,
+                        docId:
+                            '/jmrFiles/${widget.cityName}/${widget.depoName}/$currentUserId/${secondIndex + 1}'),
+                  ),
+                );
+              },
+              child: const Text('View'))
+        ],
       ),
     );
   }
