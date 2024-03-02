@@ -158,6 +158,7 @@ class _DepotOverviewState extends State<DepotOverview> {
             showDepoBar: true,
             toOverview: true,
             depoName: widget.depoName,
+            userId: userId,
             cityName: widget.cityName,
             text: 'Depot Overview',
             haveSynced: isEdit ? isVisible : false,

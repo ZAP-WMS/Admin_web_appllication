@@ -470,6 +470,7 @@ class _DailyProjectState extends State<DailyProject> {
           return value;
         });
       }
+
       print('global indexes are - $globalIndexList');
     }
 

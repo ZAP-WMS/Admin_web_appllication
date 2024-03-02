@@ -1,12 +1,8 @@
 import 'package:country_pickers/country.dart';
-import 'package:country_pickers/country_picker_dropdown.dart';
 import 'package:country_pickers/country_pickers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:web_appllication/authentication/login_register.dart';
-import 'package:web_appllication/main.dart';
-import 'package:web_appllication/small_screen.dart';
 import 'package:web_appllication/style.dart';
 
 import 'auth_service.dart';

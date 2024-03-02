@@ -1,10 +1,8 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:pdf/pdf.dart';
-import 'dart:convert';
+import 'package:web_appllication/Planning/overview.dart';
 import 'dart:html' as html;
-import 'package:pdf/widgets.dart' as pw;
 import '../widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import '../components/loading_page.dart';
@@ -83,7 +81,7 @@ class _ClosureSummaryState extends State<ClosureSummary> {
             cityName: widget.cityName,
             depoName: widget.depoName,
             text: '${widget.id}',
-            userId: widget.userId,
+            userId: userId,
           ),
           preferredSize: const Size.fromHeight(50)),
       body: FutureBuilder<List<TableRow>>(

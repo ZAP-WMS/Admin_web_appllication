@@ -623,15 +623,15 @@ class Flurorouter {
           modalRoute.settings.arguments as Map<String, dynamic>?;
 
       if (modelRoute != null) {
-        final userId = modelRoute['userId'];
         final cityName = modelRoute['cityName'];
         final depoName = modelRoute['depoName'];
 
         return ViewAllPdf(
-            title: 'Overview Page',
-            cityName: cityName,
-            depoName: depoName,
-            docId: 'OverviewepoImages');
+          title: 'Overview Page',
+          cityName: cityName,
+          depoName: depoName,
+          docId: 'OverviewepoImages',
+        );
       } else {
         return FutureBuilder<Map<String, dynamic>?>(
             future: _getCityDataFromSharedPreferences(),

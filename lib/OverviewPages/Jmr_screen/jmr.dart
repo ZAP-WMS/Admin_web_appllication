@@ -20,6 +20,7 @@ class Jmr extends StatefulWidget {
 }
 
 class _JmrState extends State<Jmr> {
+  List<dynamic> userList = [];
   bool isDataAvailable = true;
   List<List<int>> jmrTabLen = [];
   int _selectedIndex = 0;
@@ -225,8 +226,7 @@ class _JmrState extends State<Jmr> {
           ));
         } else if (snapshot.hasData) {
           final data = snapshot.data!;
-          List<dynamic> userList = data.docs.map((e) => e.id).toList();
-
+          //  userList = data.docs.map((e) => e.id).toList();
           return ListView.builder(
             itemCount: userList.length, //Length of user ID
             itemBuilder: (context, index) {
@@ -388,6 +388,8 @@ class _JmrState extends State<Jmr> {
     List<dynamic> userListId =
         querySnapshot.docs.map((data) => data.id).toList();
 
+    userList = userListId;
+
     if (userListId.isEmpty) {
       setState(() {
         isDataAvailable = false;
@@ -395,8 +397,6 @@ class _JmrState extends State<Jmr> {
       });
       return jmrTabLen;
     } else {
-      print('isDataAvailable:$isDataAvailable');
-
       isDataAvailable = false;
       for (int i = 0; i < userListId.length; i++) {
         List<int> tempList = [];
@@ -430,6 +430,7 @@ class _JmrState extends State<Jmr> {
 
           tempList.add(jmrLength);
         }
+
         if (tempList.length < 5) {
           int tempJmrLen = tempList.length;
           int loop = 5 - tempJmrLen;
@@ -440,6 +441,7 @@ class _JmrState extends State<Jmr> {
 
         jmrTabLen.add(tempList);
       }
+
       setState(() {
         isLoading = false;
       });

@@ -26,7 +26,9 @@ class KeyEvents2 extends StatefulWidget {
   String? userId;
   String? depoName;
   String? cityName;
-  KeyEvents2({Key? key, this.userId, this.depoName, this.cityName})
+  String? adminUserId;
+  KeyEvents2(
+      {Key? key, this.userId, this.depoName, this.cityName, this.adminUserId})
       : super(key: key);
 
   @override
@@ -367,6 +369,7 @@ class _KeyEvents2State extends State<KeyEvents2> {
                 appBar: PreferredSize(
                     preferredSize: const Size.fromHeight(50),
                     child: CustomAppBar(
+                      userId: widget.adminUserId,
                       isCityBar: false,
                       isprogress: true,
                       showDepoBar: false,

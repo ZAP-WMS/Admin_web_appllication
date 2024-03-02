@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_strategy/url_strategy.dart';
+import 'package:web_appllication/MenuPage/role.dart';
 import 'package:web_appllication/authentication/login_register.dart';
 import 'package:web_appllication/provider/All_Depo_Select_Provider.dart';
 import 'package:web_appllication/provider/assigned_user_provider.dart';
@@ -60,9 +61,9 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'TATA POWER CONTROL PANEL',
-          initialRoute: 'login',
+          // initialRoute: 'login',
           //  onGenerateRoute:Flurorouter.router.
-          onGenerateRoute: Flurorouter.router.generator,
+          // onGenerateRoute: Flurorouter.router.generator,
           theme: ThemeData(
             scrollbarTheme: ScrollbarThemeData(
               thumbColor: MaterialStatePropertyAll(blue),
@@ -94,7 +95,9 @@ class MyApp extends StatelessWidget {
               labelStyle: bodyText2White60,
             ),
           ),
-          home: const LoginRegister()),
+          home: RoleScreen()
+          //  LoginRegister()
+          ),
     );
   }
 }

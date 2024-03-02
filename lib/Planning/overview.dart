@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:web_appllication/Authentication/auth_service.dart';
+import 'package:web_appllication/routeBuilder/fluro_router.dart';
 import 'package:web_appllication/widgets/custom_appbar.dart';
 
-import '../authentication/auth_service.dart';
+String userId = '';
 
 class MyOverview extends StatefulWidget {
   String? userId;
@@ -65,8 +66,8 @@ class _MyOverviewState extends State<MyOverview> {
 
   @override
   void initState() {
+    getUserId();
     setSharePrefence();
-    print(widget.userId);
     super.initState();
   }
 
@@ -240,11 +241,16 @@ class _MyOverviewState extends State<MyOverview> {
   Widget cards(String desc, String img, int index) {
     return GestureDetector(
       onTap: (() {
-        Navigator.pushNamed(context, pages[index]);
+        Navigator.pushNamed(
+          context,
+          pages[index],
+        );
       }),
       child: Center(
         child: Container(
-          margin: const EdgeInsets.all(5.0),
+          margin: const EdgeInsets.all(
+            5.0,
+          ),
           width: MediaQuery.of(context).size.width / 5,
           height: MediaQuery.of(context).size.height / 4,
           child: Card(
@@ -253,15 +259,24 @@ class _MyOverviewState extends State<MyOverview> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 10),
+                const SizedBox(
+                  height: 10,
+                ),
                 SizedBox(
                   height: 60,
                   width: 60,
-                  child: Image.asset(img, fit: BoxFit.cover),
+                  child: Image.asset(
+                    img,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(
+                  height: 10,
+                ),
                 Padding(
-                  padding: const EdgeInsets.all(3.0),
+                  padding: const EdgeInsets.all(
+                    3.0,
+                  ),
                   child: Text(
                     desc,
                     textAlign: TextAlign.center,
@@ -280,5 +295,12 @@ class _MyOverviewState extends State<MyOverview> {
   Future<void> setSharePrefence() async {
     _sharedPreferences = await SharedPreferences.getInstance();
     _sharedPreferences.setString('depotName', widget.depoName);
+  }
+
+  Future<void> getUserId() async {
+    await AuthService().getCurrentUserId().then((value) {
+      userId = value;
+      setState(() {});
+    });
   }
 }

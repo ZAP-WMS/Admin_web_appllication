@@ -87,15 +87,6 @@ class _QualityChecklistState extends State<QualityChecklist> {
   }
 
   @override
-  void dispose() {
-    ename.dispose();
-    selectedCityController.dispose();
-    selectedDepoController.dispose();
-
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     widget.currentDate =
         widget.currentDate ?? DateFormat.yMMMMd().format(DateTime.now());

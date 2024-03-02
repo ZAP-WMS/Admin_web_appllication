@@ -1,8 +1,9 @@
 import 'dart:html';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:web_appllication/Planning/overview.dart';
 import 'package:web_appllication/components/loading_page.dart';
-
+import 'package:web_appllication/widgets/custom_appbar.dart';
 import '../FirebaseApi/firebase_api.dart';
 import '../style.dart';
 import 'image_page.dart';
@@ -51,6 +52,8 @@ class _ViewAllPdfState extends State<ViewAllPdf> {
         if (widget.title == 'Daily Report') {
           futureFiles = FirebaseApi.listAll(
               '/Daily Report/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.docId}');
+          print(
+              '/Daily Report/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.docId}');
         } else {
           for (int i = 0; i < drawingRef.length; i++) {
             if (widget.title == 'Overview Page') {
@@ -73,14 +76,13 @@ class _ViewAllPdfState extends State<ViewAllPdf> {
             }
           }
         }
+        setState(() {
+          _isload = false;
+        });
 
         // futureFiles = data__[1];
       });
     }
-
-    setState(() {
-      _isload = false;
-    });
 
     super.initState();
   }
@@ -89,24 +91,16 @@ class _ViewAllPdfState extends State<ViewAllPdf> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'View Files',
-              style: appFontSize,
-            ),
-            Text(
-              'City - ${widget.cityName}     Depot - ${widget.depoName}' ?? '',
-              style: const TextStyle(
-                fontSize: 11,
-              ),
-            )
-          ],
-        ),
-        backgroundColor: blue,
-      ),
+      appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(
+            50,
+          ),
+          child: CustomAppBar(
+            cityName: widget.cityName,
+            userId: userId,
+            depoName: widget.depoName,
+            text: 'Depot Insights',
+          )),
       body: _isload
           ? LoadingPage()
           : FutureBuilder<List<FirebaseFile>>(

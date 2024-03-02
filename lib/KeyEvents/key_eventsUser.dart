@@ -129,6 +129,7 @@ class _KeyEventsUserState extends State<KeyEventsUser> {
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) => KeyEvents2(
+                                                adminUserId: widget.userId,
                                                 userId: rowData[0],
                                                 cityName: widget.cityName,
                                                 depoName: widget.depoName,
