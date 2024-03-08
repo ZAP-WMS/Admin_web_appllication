@@ -37,11 +37,10 @@ class _TotalUsersState extends State<TotalUsers> {
         ? LoadingPage()
         : Scaffold(
             appBar: PreferredSize(
-              preferredSize: Size(MediaQuery.of(context).size.width, 50),
-              child: AppBar(
-              title: const Text('UnAssigned Users'),
-            )
-            ),
+                preferredSize: Size(MediaQuery.of(context).size.width, 50),
+                child: AppBar(
+                  title: const Text('Total Users'),
+                )),
             body: Column(
               children: [
                 Consumer<FilterProvider>(
@@ -531,7 +530,7 @@ class _TotalUsersState extends State<TotalUsers> {
               child: Container(
                 decoration: const BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/tata_dialog_background.png'),
+                    image: AssetImage('assets/tata_dialog_background.jpeg'),
                     fit: BoxFit.cover,
                   ),
                 ),

@@ -45,8 +45,14 @@ class _ViewAllPdfState extends State<ViewAllPdf> {
         widget.title == '/BOQCivil') {
       futureFiles = FirebaseApi.listAll(
           '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.docId}');
+      setState(() {
+        _isload = false;
+      });
     } else if (widget.title == 'jmr') {
       futureFiles = FirebaseApi.listAll(widget.docId);
+      setState(() {
+        _isload = false;
+      });
     } else {
       getrefdata().whenComplete(() {
         if (widget.title == 'Daily Report') {

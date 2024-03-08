@@ -38,8 +38,7 @@ class _UnAssingedUsersState extends State<UnAssingedUsers> {
             preferredSize: Size(MediaQuery.of(context).size.width, 50),
             child: AppBar(
               title: const Text('UnAssigned Users'),
-            )
-            ),
+            )),
         body: Column(
           children: [
             Consumer<FilterProvider>(
@@ -159,7 +158,7 @@ class _UnAssingedUsersState extends State<UnAssingedUsers> {
                                       mainAxisExtent: 270),
                               itemCount: user.length,
                               itemBuilder: (context, index) {
-                                storeAssginedUser(user[index]);
+                                // storeAssginedUser(user[index]);
                                 return customCard(user[index], index);
                               },
                             ),
@@ -317,17 +316,17 @@ class _UnAssingedUsersState extends State<UnAssingedUsers> {
   }
 
 //Function for storing name first letter for filteration
-  Future<void> storeAssginedUser(String name) async {
-    await FirebaseFirestore.instance
-        .collection('unAssignedRole')
-        .doc(name)
-        .set({
-      'alphabet': name[0][0].toUpperCase(),
-      'position': 'unAssigned',
-    }).whenComplete(() {
-      print('Operation Complete');
-    });
-  }
+  // Future<void> storeAssginedUser(String name) async {
+  //   await FirebaseFirestore.instance
+  //       .collection('unAssignedRole')
+  //       .doc(name)
+  //       .set({
+  //     'alphabet': name[0][0].toUpperCase(),
+  //     'position': 'unAssigned',
+  //   }).whenComplete(() {
+  //     print('Operation Complete');
+  //   });
+  // }
 
   void setColor() {
     List<bool> elevation = [];

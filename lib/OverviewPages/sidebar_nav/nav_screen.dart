@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_appllication/KeyEvents/Grid_DataTable.dart';
-import 'package:web_appllication/MenuPage/user.dart';
+import 'package:web_appllication/MenuPage/role.dart';
 import 'package:web_appllication/OverviewPages/ev_dashboard/ev_dashboard.dart';
 import 'package:web_appllication/OverviewPages/quality_checklist.dart';
 import 'package:web_appllication/OverviewPages/sidebar_nav/drawer_header.dart';
@@ -29,7 +29,7 @@ class _NavigationPageState extends State<NavigationPage> {
     'EV Dashboard Project',
     'EV Bus Depot Management System',
     'Cities',
-    'User'
+    'Role Management'
   ];
 
   List<IconData> screenIcons = [
@@ -63,15 +63,15 @@ class _NavigationPageState extends State<NavigationPage> {
             showStartEndDatePanel = false;
 
             title = 'Cities';
-            container = CitiesPage();
+            container = const CitiesPage();
             // Navigator.pushNamed(
             //     context, 'login/EVDashboard/EVBusDepot/Cities');
             break;
           case DrawerSection.users:
             showStartEndDatePanel = false;
 
-            title = 'Users';
-            container = const MenuUserPage();
+            title = 'Role Management';
+            container = const RoleScreen();
             break;
         }
       });
@@ -112,7 +112,7 @@ class _NavigationPageState extends State<NavigationPage> {
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.only(right: 5),
+                              margin: const EdgeInsets.only(right: 5),
                               height: 20,
                               width: 220,
                               child: RichText(
@@ -187,7 +187,7 @@ class _NavigationPageState extends State<NavigationPage> {
                     children: [
                       MyDrawerList(),
                       Container(
-                        margin: EdgeInsets.only(bottom: 10),
+                        margin: const EdgeInsets.only(bottom: 10),
                         width: 120,
                         padding: const EdgeInsets.all(5.0),
                         decoration: BoxDecoration(

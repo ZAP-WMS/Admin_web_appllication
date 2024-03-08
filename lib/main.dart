@@ -2,16 +2,16 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_strategy/url_strategy.dart';
-import 'package:web_appllication/MenuPage/role.dart';
-import 'package:web_appllication/authentication/login_register.dart';
 import 'package:web_appllication/provider/All_Depo_Select_Provider.dart';
 import 'package:web_appllication/provider/assigned_user_provider.dart';
 import 'package:web_appllication/provider/demandEnergyProvider.dart';
 import 'package:web_appllication/provider/energy_provider.dart';
+import 'package:web_appllication/provider/filteration_provider.dart';
 import 'package:web_appllication/provider/hover_provider.dart';
 import 'package:web_appllication/provider/internet_provider.dart';
 import 'package:web_appllication/provider/key_provider.dart';
 import 'package:web_appllication/provider/menuUserPageProvider.dart';
+import 'package:web_appllication/provider/role_page_totalNum_provider.dart';
 import 'package:web_appllication/provider/selected_row_index.dart';
 import 'package:web_appllication/provider/text_provider.dart';
 import 'package:web_appllication/provider/user_provider.dart';
@@ -56,48 +56,51 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => SelectedRowIndexModel()),
         ChangeNotifierProvider(create: (context) => AllDepoSelectProvider()),
         ChangeNotifierProvider(create: (context) => EnergyProvider()),
-        ChangeNotifierProvider(create: (context) => HoverProvider())
+        ChangeNotifierProvider(create: (context) => HoverProvider()),
+        ChangeNotifierProvider(create: (context) => FilterProvider()),
+        ChangeNotifierProvider(create: (context) => RolePageTotalNumProvider()),
       ],
       child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'TATA POWER CONTROL PANEL',
-          // initialRoute: 'login',
-          //  onGenerateRoute:Flurorouter.router.
-          // onGenerateRoute: Flurorouter.router.generator,
-          theme: ThemeData(
-            scrollbarTheme: ScrollbarThemeData(
-              thumbColor: MaterialStatePropertyAll(blue),
-              thickness: const MaterialStatePropertyAll(7.0),
-              trackVisibility: const MaterialStatePropertyAll(true),
-            ),
-            primarySwatch: Colors.blue,
-            dividerColor: grey,
-            fontFamily: 'Montserrat',
-            inputDecorationTheme: InputDecorationTheme(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(
-                  6,
-                ),
-                borderSide: BorderSide(
-                  color: grey,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(
-                  6,
-                ),
-                borderSide: BorderSide(
-                  color: blue,
-                ),
-              ),
-              floatingLabelBehavior: FloatingLabelBehavior.auto,
-              focusColor: almostWhite,
-              labelStyle: bodyText2White60,
-            ),
+        debugShowCheckedModeBanner: false,
+        title: 'TATA POWER CONTROL PANEL',
+        initialRoute: 'login',
+        //  onGenerateRoute:Flurorouter.router.
+        onGenerateRoute: Flurorouter.router.generator,
+        theme: ThemeData(
+          scrollbarTheme: ScrollbarThemeData(
+            thumbColor: MaterialStatePropertyAll(blue),
+            thickness: const MaterialStatePropertyAll(7.0),
+            trackVisibility: const MaterialStatePropertyAll(true),
           ),
-          home: RoleScreen()
-          //  LoginRegister()
+          primarySwatch: Colors.blue,
+          dividerColor: grey,
+          fontFamily: 'Montserrat',
+          inputDecorationTheme: InputDecorationTheme(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(
+                6,
+              ),
+              borderSide: BorderSide(
+                color: grey,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(
+                6,
+              ),
+              borderSide: BorderSide(
+                color: blue,
+              ),
+            ),
+            floatingLabelBehavior: FloatingLabelBehavior.auto,
+            focusColor: almostWhite,
+            labelStyle: bodyText2White60,
           ),
+        ),
+        // home:
+        //  RoleScreen()
+        // LoginRegister()
+      ),
     );
   }
 }

@@ -363,7 +363,7 @@ class _JmrState extends State<Jmr> {
                         cityName: widget.cityName!,
                         depoName: widget.depoName!,
                         docId:
-                            '/jmrFiles/${widget.cityName}/${widget.depoName}/$currentUserId/${secondIndex + 1}'),
+                            '/jmrFiles/${tabName[_selectedIndex]}/${widget.cityName}/${widget.depoName}/$currentUserId/${secondIndex + 1}'),
                   ),
                 );
               },

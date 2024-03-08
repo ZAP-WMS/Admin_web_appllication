@@ -83,6 +83,8 @@ dependencies:
   url_strategy: null
   pin_input_text_field: ^4.5.1
   dropdown_button2:
+  audioplayers: 
+
 
 dev_dependencies:
   flutter_lints: ^2.0.0

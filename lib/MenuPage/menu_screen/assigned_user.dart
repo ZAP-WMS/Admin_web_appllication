@@ -41,7 +41,7 @@ class _AssignedUserState extends State<AssignedUser> {
             appBar: PreferredSize(
                 preferredSize: Size(MediaQuery.of(context).size.width, 50),
                 child: AppBar(
-                  title: const Text('UnAssigned Users'),
+                  title: const Text('Assigned Users'),
                 )),
             body: Column(
               children: [
@@ -358,10 +358,16 @@ class _AssignedUserState extends State<AssignedUser> {
                                               ),
                                               ElevatedButton(
                                                 style: const ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStatePropertyAll(
-                                                            Color.fromARGB(255,
-                                                                67, 182, 126))),
+                                                  backgroundColor:
+                                                      MaterialStatePropertyAll(
+                                                    Color.fromARGB(
+                                                      255,
+                                                      67,
+                                                      182,
+                                                      126,
+                                                    ),
+                                                  ),
+                                                ),
                                                 onPressed: () {
                                                   removeRole(user);
 
@@ -519,7 +525,6 @@ class _AssignedUserState extends State<AssignedUser> {
         content: Text('Role Removed Successfully'),
       ));
     });
-    print('Role unAssigned Successfully');
 
     //Deleting role from the assigned users
     DocumentReference assginedUsersDoc =
@@ -556,7 +561,7 @@ class _AssignedUserState extends State<AssignedUser> {
               child: Container(
                 decoration: const BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/tata_dialog_background.png'),
+                    image: AssetImage('assets/tata_dialog_background.jpeg'),
                     fit: BoxFit.cover,
                   ),
                 ),

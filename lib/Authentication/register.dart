@@ -27,11 +27,8 @@ class _RegisterPageState extends State<RegisterPage> {
   String? password;
   String? confpassword;
   bool _isHidden = true;
-  String? _selectedCompany = 'TATA POWER';
-  List<String> company = [
-    'TATA POWER',
-    'TATA MOTOR',
-  ];
+  String? _selectedCompany;
+  List<String> company = ['TATA POWER', 'TATA MOTOR'];
 
   @override
   Widget build(BuildContext context) {
@@ -245,24 +242,35 @@ class _RegisterPageState extends State<RegisterPage> {
                             });
                           }),
                       const SizedBox(height: 24),
-                      InputDecorator(
-                        decoration: const InputDecoration(
-                          hintText: 'Please choose a company Name',
+                      Container(
+                        padding: EdgeInsets.only(left: 5.0),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              color: const Color.fromARGB(255, 153, 150, 150)),
+                          borderRadius: BorderRadius.circular(6),
                         ),
-                        child: DropdownButton(
-                            isExpanded: true,
-                            value: _selectedCompany,
-                            items: company.map((companyNames) {
-                              return DropdownMenuItem(
-                                value: companyNames,
-                                child: Text(companyNames),
-                              );
-                            }).toList(),
-                            onChanged: (value) {
-                              setState(() {
-                                _selectedCompany = value.toString();
-                              });
-                            }),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton(
+                              hint: const Text(
+                                'Please choose a company Name',
+                                style: TextStyle(fontSize: 13),
+                              ),
+                              isExpanded: true,
+                              value: _selectedCompany,
+                              items: company.map((companyNames) {
+                                return DropdownMenuItem(
+                                  value: companyNames,
+                                  child: Text(companyNames),
+                                );
+                              }).toList(),
+                              style: TextStyle(fontSize: 12, color: black),
+                              onChanged: (value) {
+                                setState(() {
+                                  _selectedCompany = value.toString();
+                                });
+                              }),
+                        ),
                       ),
                       const SizedBox(height: 24),
                       TextFormField(
@@ -468,16 +476,22 @@ class _RegisterPageState extends State<RegisterPage> {
         if (value == true) {
           authService
               .storeDataInFirestore(
-                  firstname!,
-                  lastname!,
-                  phone!,
-                  email!,
-                  designation!,
-                  department!,
-                  _selectedCompany!,
-                  password!,
-                  confpassword!,
-                  firstname![0] + lastname![0] + phone!.substring(9, 13))
+            firstname!,
+            lastname!,
+            phone!,
+            email!,
+            designation!,
+            department!,
+            _selectedCompany!,
+            password!,
+            confpassword!,
+            firstname![0] +
+                lastname![0] +
+                phone!.substring(
+                  9,
+                  13,
+                ),
+          )
               .then((value) {
             if (value == true) {
               Navigator.pop(context);
@@ -509,7 +523,7 @@ class _RegisterPageState extends State<RegisterPage> {
         child: Row(
           children: <Widget>[
             CountryPickerUtils.getDefaultFlagImage(country),
-            SizedBox(
+            const SizedBox(
               width: 8.0,
             ),
             Text("+${country.phoneCode}(${country.isoCode})"),
