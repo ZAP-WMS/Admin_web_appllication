@@ -1,0 +1,522 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_core/theme.dart';
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+import 'package:web_appllication/Authentication/admin/auth_service.dart';
+import 'package:web_appllication/FirebaseApi/firebase_api_user.dart';
+import 'package:web_appllication/components/loading_page.dart';
+import 'package:web_appllication/datasource_user/monthlyproject_datasource.dart';
+import 'package:web_appllication/model/user_model/monthly_projectModel.dart';
+import 'package:web_appllication/widgets/widgets_user/custom_appbar.dart';
+import 'package:web_appllication/widgets/widgets_user/user_style.dart';
+import '../Planning_Pages/summary.dart';
+
+class MonthlyProjectUser extends StatefulWidget {
+  String? cityName;
+  String? depoName;
+  String role;
+  String? userId;
+
+  MonthlyProjectUser(
+      {super.key,
+      required this.cityName,
+      required this.depoName,
+      required this.role,
+      this.userId});
+
+  @override
+  State<MonthlyProjectUser> createState() => _MonthlyProjectUserState();
+}
+
+class _MonthlyProjectUserState extends State<MonthlyProjectUser> {
+  final AuthService authService = AuthService();
+  List<String> assignedDepots = [];
+  bool isFieldEditable = false;
+  List<MonthlyProjectModelUser> monthlyProject = <MonthlyProjectModelUser>[];
+  late MonthlyDataSource monthlyDataSource;
+  late DataGridController _dataGridController;
+  List<dynamic> tabledata2 = [];
+  Stream? _stream;
+  dynamic alldata;
+  bool _isloading = true;
+  String title = 'Monthly Project';
+  dynamic userId;
+
+  @override
+  void initState() {
+    getAssignedDepots();
+    getUserId().whenComplete(() {
+      _stream = FirebaseFirestore.instance
+          .collection('MonthlyProjectReport2')
+          .doc('${widget.depoName}')
+          .collection('userId')
+          .doc(userId)
+          .collection('Monthly Data')
+          .doc(DateFormat.yMMM().format(DateTime.now()))
+          .snapshots();
+      _isloading = false;
+      setState(() {});
+    });
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: PreferredSize(
+          // ignore: sort_child_properties_last
+          child: CustomAppBar(
+            role: widget.role,
+            depotName: widget.depoName,
+            showDepoBar: true,
+            toMonthly: true,
+            cityname: widget.cityName,
+            text:
+                'Monthly Report / ${DateFormat('MMMM').format(DateTime.now())}',
+            haveSummary: true,
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ViewSummary(
+                    role: widget.role,
+                    cityName: widget.cityName.toString(),
+                    depoName: widget.depoName.toString(),
+                    id: 'Monthly Report',
+                    userId: userId,
+                  ),
+                )),
+            haveSynced: isFieldEditable,
+            store: () {
+              // _showDialog(context);
+              // FirebaseApi().defaultKeyEventsField(
+              //     'MonthlyProjectReport', widget.depoName!);
+              FirebaseApiUser().nestedKeyEventsField(
+                  'MonthlyProjectReport2', widget.depoName!, 'userId', userId);
+              storeData();
+            },
+          ),
+          preferredSize: const Size.fromHeight(50)),
+      body: _isloading
+          ? LoadingPage()
+          : StreamBuilder(
+              stream: _stream,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return LoadingPage();
+                } else if (!snapshot.hasData || snapshot.data.exists == false) {
+                  monthlyProject = getmonthlyReport();
+                  monthlyDataSource =
+                      MonthlyDataSource(monthlyProject, context);
+                  _dataGridController = DataGridController();
+
+                  return Column(
+                    children: [
+                      Expanded(
+                          flex: 1,
+                          child: SfDataGridTheme(
+                            data: SfDataGridThemeData(
+                                headerColor: white, gridLineColor: blue),
+                            child: SfDataGrid(
+                                source: monthlyDataSource,
+                                allowEditing: isFieldEditable,
+                                frozenColumnsCount: 2,
+                                gridLinesVisibility: GridLinesVisibility.both,
+                                headerGridLinesVisibility:
+                                    GridLinesVisibility.both,
+                                selectionMode: SelectionMode.single,
+                                navigationMode: GridNavigationMode.cell,
+                                headerRowHeight: 50,
+                                rowHeight: 50,
+                                columnWidthMode: ColumnWidthMode.fill,
+                                editingGestureType: EditingGestureType.tap,
+                                controller: _dataGridController,
+                                onQueryRowHeight: (details) {
+                                  return details
+                                      .getIntrinsicRowHeight(details.rowIndex);
+                                },
+                                columns: [
+                                  GridColumn(
+                                    columnName: 'ActivityNo',
+                                    allowEditing: false,
+                                    width: 160,
+                                    label: Container(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                          'Activities SI. No as per Gant Chart',
+                                          overflow: TextOverflow.values.first,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              color: blue)
+                                          //    textAlign: TextAlign.center,
+                                          ),
+                                    ),
+                                  ),
+                                  GridColumn(
+                                    columnName: 'ActivityDetails',
+                                    allowEditing: false,
+                                    width: 240,
+                                    label: Container(
+                                      alignment: Alignment.center,
+                                      child: Text('Activities Details',
+                                          textAlign: TextAlign.center,
+                                          overflow: TextOverflow.values.first,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              color: blue)),
+                                    ),
+                                  ),
+                                  GridColumn(
+                                    columnName: 'Progress',
+                                    allowEditing: true,
+                                    width: 250,
+                                    label: Container(
+                                      alignment: Alignment.center,
+                                      child: Text('Progress',
+                                          overflow: TextOverflow.values.first,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              color: blue)
+                                          //    textAlign: TextAlign.center,
+                                          ),
+                                    ),
+                                  ),
+                                  GridColumn(
+                                    columnName: 'Status',
+                                    allowEditing: true,
+                                    width: 250,
+                                    label: Container(
+                                      alignment: Alignment.center,
+                                      child: Text('Remark/Status',
+                                          overflow: TextOverflow.values.first,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              color: blue)
+                                          //    textAlign: TextAlign.center,
+                                          ),
+                                    ),
+                                  ),
+                                  GridColumn(
+                                    columnName: 'Action',
+                                    allowEditing: true,
+                                    width: 250,
+                                    label: Container(
+                                      alignment: Alignment.center,
+                                      child: Text('Next Month Action Plan',
+                                          overflow: TextOverflow.values.first,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              color: blue)
+                                          //    textAlign: TextAlign.center,
+                                          ),
+                                    ),
+                                  ),
+                                ]),
+                          )),
+                    ],
+                  );
+                } else {
+                  alldata = snapshot.data['data'] as List<dynamic>;
+                  monthlyProject.clear();
+                  alldata.forEach((element) {
+                    monthlyProject
+                        .add(MonthlyProjectModelUser.fromjson(element));
+                    monthlyDataSource =
+                        MonthlyDataSource(monthlyProject, context);
+                    _dataGridController = DataGridController();
+                  });
+                  return Column(
+                    children: [
+                      Expanded(
+                          flex: 1,
+                          child: SfDataGridTheme(
+                            data: SfDataGridThemeData(
+                                headerColor: white, gridLineColor: blue),
+                            child: SfDataGrid(
+                                source: monthlyDataSource,
+                                allowEditing: isFieldEditable,
+                                frozenColumnsCount: 2,
+                                gridLinesVisibility: GridLinesVisibility.both,
+                                headerGridLinesVisibility:
+                                    GridLinesVisibility.both,
+                                selectionMode: SelectionMode.single,
+                                navigationMode: GridNavigationMode.cell,
+                                headerRowHeight: 50,
+                                rowHeight: 50,
+                                columnWidthMode: ColumnWidthMode.auto,
+                                editingGestureType: EditingGestureType.tap,
+                                controller: _dataGridController,
+                                onQueryRowHeight: (details) {
+                                  return details
+                                      .getIntrinsicRowHeight(details.rowIndex);
+                                },
+                                columns: [
+                                  GridColumn(
+                                    columnName: 'ActivityNo',
+                                    allowEditing: false,
+                                    width: 160,
+                                    label: Container(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                          'Activities SI. No as per Gant Chart',
+                                          overflow: TextOverflow.values.first,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              color: blue)
+                                          //    textAlign: TextAlign.center,
+                                          ),
+                                    ),
+                                  ),
+                                  GridColumn(
+                                    columnName: 'ActivityDetails',
+                                    allowEditing: false,
+                                    width: 240,
+                                    label: Container(
+                                      alignment: Alignment.center,
+                                      child: Text('Activities Details',
+                                          textAlign: TextAlign.center,
+                                          overflow: TextOverflow.values.first,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              color: blue)),
+                                    ),
+                                  ),
+                                  GridColumn(
+                                    columnName: 'Progress',
+                                    allowEditing: true,
+                                    width: 250,
+                                    label: Container(
+                                      alignment: Alignment.center,
+                                      child: Text('Progress',
+                                          overflow: TextOverflow.values.first,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              color: blue)
+                                          //    textAlign: TextAlign.center,
+                                          ),
+                                    ),
+                                  ),
+                                  GridColumn(
+                                    columnName: 'Status',
+                                    allowEditing: true,
+                                    width: 250,
+                                    label: Container(
+                                      alignment: Alignment.center,
+                                      child: Text('Remark/Status',
+                                          overflow: TextOverflow.values.first,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              color: blue)
+                                          //    textAlign: TextAlign.center,
+                                          ),
+                                    ),
+                                  ),
+                                  GridColumn(
+                                    columnName: 'Action',
+                                    allowEditing: true,
+                                    width: 250,
+                                    label: Container(
+                                      alignment: Alignment.center,
+                                      child: Text('Next Month Action Plan',
+                                          overflow: TextOverflow.values.first,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              color: blue)
+                                          //    textAlign: TextAlign.center,
+                                          ),
+                                    ),
+                                  ),
+                                ]),
+                          )),
+                    ],
+                  );
+                }
+              }),
+    );
+  }
+
+  void storeData() {
+    Map<String, dynamic> table_data = Map();
+    for (var i in monthlyDataSource.dataGridRows) {
+      for (var data in i.getCells()) {
+        if (data.columnName != 'button') {
+          table_data[data.columnName] = data.value;
+        }
+        table_data['User ID'] = userId;
+      }
+
+      tabledata2.add(table_data);
+      table_data = {};
+    }
+
+    FirebaseFirestore.instance
+        .collection('MonthlyProjectReport2')
+        .doc('${widget.depoName}')
+        // .collection('AllMonthData')
+        .collection('userId')
+        .doc(userId)
+        .collection('Monthly Data')
+        // .collection('MonthData')
+        .doc(DateFormat.yMMM().format(DateTime.now()))
+        .set({
+      'data': tabledata2,
+    }).whenComplete(() {
+      tabledata2.clear();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: const Text('Data are synced'),
+        backgroundColor: blue,
+      ));
+    });
+  }
+
+  Future<void> getUserId() async {
+    await AuthService().getCurrentUserId().then((value) {
+      userId = value;
+    });
+  }
+
+  List<MonthlyProjectModelUser> getmonthlyReport() {
+    return [
+      MonthlyProjectModelUser(
+          activityNo: 'A1',
+          activityDetails: 'Letter of Award From TML',
+          // months: 'Jan',
+          // duration: 1,
+          // startDate: DateFormat().add_yMd().format(DateTime.now()),
+          // endDate: DateFormat().add_yMd().format(DateTime.now()),
+          progress: '',
+          status: '',
+          action: ''),
+      MonthlyProjectModelUser(
+          activityNo: 'A2',
+          activityDetails:
+              'Site Survey, Job scope finalization  and Proposed layout submission',
+          // months: 'Jan',
+          // duration: 1,
+          // startDate: DateFormat().add_yMd().format(DateTime.now()),
+          // endDate: DateFormat().add_yMd().format(DateTime.now()),
+          progress: '',
+          status: '',
+          action: ''),
+      MonthlyProjectModelUser(
+          activityNo: 'A3',
+          activityDetails:
+              'Detailed Engineering for Approval of  Civil & Electrical  Layout, GA Drawing from TML',
+          // months: 'Jan',
+          // duration: 1,
+          // startDate: DateFormat().add_yMd().format(DateTime.now()),
+          // endDate: DateFormat().add_yMd().format(DateTime.now()),
+          progress: '',
+          status: '',
+          action: ''),
+      MonthlyProjectModelUser(
+          activityNo: 'A4',
+          activityDetails: 'Site Mobalization activity Completed',
+          // months: 'Jan',
+          // duration: 1,
+          // startDate: DateFormat().add_yMd().format(DateTime.now()),
+          // endDate: DateFormat().add_yMd().format(DateTime.now()),
+          progress: '',
+          status: '',
+          action: ''),
+      MonthlyProjectModelUser(
+          activityNo: 'A5',
+          activityDetails: 'Approval of statutory clearances of BUS Depot',
+          // months: 'Jan',
+          // duration: 1,
+          // startDate: DateFormat().add_yMd().format(DateTime.now()),
+          // endDate: DateFormat().add_yMd().format(DateTime.now()),
+          progress: '',
+          status: '',
+          action: ''),
+      MonthlyProjectModelUser(
+          activityNo: 'A6',
+          activityDetails: 'Procurement of Order Finalisation Completed',
+          // months: 'Jan',
+          // duration: 1,
+          // startDate: DateFormat().add_yMd().format(DateTime.now()),
+          // endDate: DateFormat().add_yMd().format(DateTime.now()),
+          progress: '',
+          status: '',
+          action: ''),
+      MonthlyProjectModelUser(
+          activityNo: 'A7',
+          activityDetails: 'Receipt of all Materials at Site',
+          // months: 'Jan',
+          // duration: 1,
+          // startDate: DateFormat().add_yMd().format(DateTime.now()),
+          // endDate: DateFormat().add_yMd().format(DateTime.now()),
+          progress: '',
+          status: '',
+          action: ''),
+      MonthlyProjectModelUser(
+          activityNo: 'A8',
+          activityDetails: 'Civil Infra Development completed at Bus Depot',
+          // months: 'Jan',
+          // duration: 1,
+          // startDate: DateFormat().add_yMd().format(DateTime.now()),
+          // endDate: DateFormat().add_yMd().format(DateTime.now()),
+          progress: '',
+          status: '',
+          action: ''),
+      MonthlyProjectModelUser(
+          activityNo: 'A9',
+          activityDetails:
+              'Electrical Infra Development completed at Bus Depot',
+          // months: 'Jan',
+          // duration: 1,
+          // startDate: DateFormat().add_yMd().format(DateTime.now()),
+          // endDate: DateFormat().add_yMd().format(DateTime.now()),
+          progress: '',
+          status: '',
+          action: ''),
+      MonthlyProjectModelUser(
+          activityNo: 'A10',
+          activityDetails: 'Bus Depot work Completed & Handover to TML',
+          // months: 'Jan',
+          // duration: 1,
+          // startDate: DateFormat().add_yMd().format(DateTime.now()),
+          // endDate: DateFormat().add_yMd().format(DateTime.now()),
+          progress: '',
+          status: '',
+          action: ''),
+    ];
+  }
+
+  void _showDialog(BuildContext context) {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) => CupertinoAlertDialog(
+        content: SizedBox(
+          height: 50,
+          width: 50,
+          child: Center(
+            child: CircularProgressIndicator(
+              color: blue,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future getAssignedDepots() async {
+    assignedDepots = await authService.getDepotList();
+    isFieldEditable =
+        authService.verifyAssignedDepot(widget.depoName!, assignedDepots);
+  }
+}

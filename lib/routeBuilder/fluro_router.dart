@@ -1,34 +1,33 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:web_appllication/MenuPage/role.dart';
-import 'package:web_appllication/authentication/login_register.dart';
-import 'package:web_appllication/OverviewPages/depot_overview.dart';
-import 'package:web_appllication/OverviewPages/detailed_Eng.dart';
-import 'package:web_appllication/OverviewPages/quality_checklist.dart';
-import 'package:web_appllication/Planning/cities.dart';
+import 'package:web_appllication/Authentication/admin/login_register.dart';
+import 'package:web_appllication/action_screen/closure_report_action.dart';
+import 'package:web_appllication/action_screen/daily_project_action.dart';
+import 'package:web_appllication/action_screen/dashboard_action.dart';
+import 'package:web_appllication/action_screen/depot_insights_action.dart';
+import 'package:web_appllication/action_screen/depot_overview_action.dart';
+import 'package:web_appllication/action_screen/detail_eng_action.dart';
+import 'package:web_appllication/action_screen/energy_management_action.dart';
+import 'package:web_appllication/action_screen/jmr_screen_action.dart';
+import 'package:web_appllication/action_screen/key_events_action.dart';
+import 'package:web_appllication/action_screen/material_procurement_action.dart';
+import 'package:web_appllication/action_screen/monthly_report_action.dart';
+import 'package:web_appllication/action_screen/quality_checklist_action.dart';
+import 'package:web_appllication/action_screen/safety_report_action.dart';
 import 'package:web_appllication/components/loading_page.dart';
-import '../KeyEvents/key_eventsUser.dart';
-import '../KeyEvents/view_AllFiles.dart';
-import '../OverviewPages/Jmr_screen/jmr.dart';
-import '../OverviewPages/closure_summary_table.dart';
-import '../OverviewPages/daily_project.dart';
-import '../OverviewPages/energy_management.dart';
-import '../OverviewPages/material_vendor.dart';
-import '../OverviewPages/monthly_summary.dart';
-import '../OverviewPages/o&m_dashboard/o&m_dashboard_screen.dart';
-import '../OverviewPages/safety_summary.dart';
-import '../OverviewPages/sidebar_nav/nav_screen.dart';
-import '../Planning/depot.dart';
-import '../Planning/overview.dart';
+import 'package:web_appllication/overview.dart';
+import 'package:web_appllication/cities.dart';
+import 'package:web_appllication/screen_admin/MenuPage/role.dart';
+import '../depot.dart';
 
 class Flurorouter {
   static final FluroRouter router = FluroRouter();
 
   static Handler loginHandler = Handler(
-      handlerFunc: (context, Map<String, dynamic> params) =>
-          const LoginRegister());
+    handlerFunc: (context, Map<String, dynamic> params) =>
+        const LoginRegister(),
+  );
 
   static Handler navPagedHandler =
       Handler(handlerFunc: (context, Map<String, dynamic> params) {
@@ -40,11 +39,11 @@ class Flurorouter {
 
       if (modelRoute != null) {
         final userId = modelRoute['userId'];
+        final role = modelRoute['role'];
 
-        print('UserId: $userId');
-
-        return NavigationPage(
+        return DashboardAction(
           userId: userId,
+          role: role,
         );
       } else {
         return FutureBuilder<Map<String, dynamic>?>(
@@ -54,14 +53,15 @@ class Flurorouter {
                 // Do something with userId
                 Map<String, dynamic>? cityData = snapshot.data;
 
-                String cityName = cityData?['cityName'] ?? 'defaultCityName';
-                String depotName = cityData?['depotName'] ?? 'defaultDepotName';
                 String userId = cityData?['userId'] ?? 'null';
-                print('UserId: $userId');
+                String role = cityData?['role'] ?? 'N/A';
 
                 if (userId != 'null') {
                   // User is logged in, return your widget
-                  return NavigationPage(userId: userId);
+                  return DashboardAction(
+                    userId: userId,
+                    role: role,
+                  );
                 } else {
                   // User is not logged in, navigate to login screen
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -73,18 +73,17 @@ class Flurorouter {
             });
       }
     }
+    return null;
   });
 
   // Handle the case where modalRoute or modelRoute is null
   // or return some default widget
 
   static Handler evBusDepotHandler = Handler(
-      handlerFunc: (context, Map<String, dynamic> params) =>
-          const ONMDashboard());
+      handlerFunc: (context, Map<String, dynamic> params) => Container());
 
   static Handler citiesHandler = Handler(
-      handlerFunc: (context, Map<String, dynamic> params) =>
-          const CitiesPage());
+      handlerFunc: (context, Map<String, dynamic> params) => CitiesPage());
 
   static Handler userHandler = Handler(
       handlerFunc: (context, Map<String, dynamic> params) =>
@@ -100,8 +99,13 @@ class Flurorouter {
 
       if (modelRoute != null) {
         final cityName = modelRoute['cityName'];
+        final role = modelRoute["role"];
+        final userId = modelRoute['userId'];
 
-        return Mydepots(cityName: cityName);
+        return Mydepots(
+          cityName: cityName,
+          userId: userId,
+        );
       } else {
         return FutureBuilder<Map<String, dynamic>?>(
             future: _getCityDataFromSharedPreferences(),
@@ -110,16 +114,16 @@ class Flurorouter {
                 Map<String, dynamic>? cityData = snapshot.data;
                 String userId = cityData?['userId'] ?? 'null';
                 String cityName = cityData?['cityName'] ?? 'defaultCityName';
-                String depotName = cityData?['depotName'] ?? 'defaultDepotName';
-
-                print('CityName: $cityName, DepotName: $depotName');
+                String role = cityData?["role"] ?? "N/A";
 
                 // Return your widget here using userId
                 if (userId != 'null') {
-                  return Mydepots(cityName: cityName);
+                  return Mydepots(
+                    cityName: cityName,
+                  );
                 } else {
                   // User is not logged in, navigate to login screen
-                  return LoginRegister();
+                  return const LoginRegister();
                   // Return an empty container or loading widget since you're navigating
                 }
               }
@@ -127,11 +131,6 @@ class Flurorouter {
             });
       }
     }
-
-    //  Mydepots(
-    //   cityName: modelRoute['cityName'],
-    //   userId: modelRoute['userId'],
-    // );
   });
 
   static Handler overviewPageHandler =
@@ -143,11 +142,16 @@ class Flurorouter {
           modalRoute.settings.arguments as Map<String, dynamic>?;
 
       if (modelRoute != null) {
+        final depoName = modelRoute['depoName'];
         final cityName = modelRoute['cityName'];
+        final role = modelRoute['role'];
+        final userId = modelRoute['userId'];
 
         return MyOverview(
-          depoName: modelRoute['depoName'],
-          cityName: modelRoute['cityName'],
+          depoName: depoName,
+          cityName: cityName,
+          role: role,
+          userId: userId,
         );
       } else {
         return FutureBuilder<Map<String, dynamic>?>(
@@ -158,18 +162,20 @@ class Flurorouter {
                 Map<String, dynamic>? cityData = snapshot.data;
                 String userId = cityData?['userId'] ?? 'null';
                 String cityName = cityData?['cityName'] ?? 'defaultCityName';
-                String depotName = cityData?['depotName'] ?? 'defaultDepotName';
+                String depoName = cityData?['depotName'] ?? 'defaultDepotName';
+                String role = cityData?['role'] ?? "N/A";
+
                 if (userId != 'null') {
                   return MyOverview(
-                    depoName: depotName,
+                    depoName: depoName,
                     cityName: cityName,
+                    role: role,
+                    userId: userId,
                   );
                 } else {
                   // User is not logged in, navigate to login screen
-                  return LoginRegister();
-                  // Return an empty container or loading widget since you're navigating
+                  return const LoginRegister();
                 }
-                // Return your widget here using userId
               }
               return LoadingPage();
             });
@@ -189,11 +195,13 @@ class Flurorouter {
         final userId = modelRoute['userId'];
         final cityName = modelRoute['cityName'];
         final depoName = modelRoute['depoName'];
+        final role = modelRoute['role'];
 
-        return DepotOverview(
-            // userid: userId,
+        return DepotOverviewAction(
+            role: role,
+            userId: userId,
             cityName: cityName,
-            depoName: depoName);
+            depotName: depoName);
       } else {
         return FutureBuilder<Map<String, dynamic>?>(
             future: _getCityDataFromSharedPreferences(),
@@ -204,16 +212,18 @@ class Flurorouter {
                 String userId = cityData?['userId'] ?? 'null';
                 String cityName = cityData?['cityName'] ?? 'defaultCityName';
                 String depotName = cityData?['depotName'] ?? 'defaultDepotName';
+                String role = cityData?['role'] ?? "N/A";
 
                 print('CityName: $cityName, DepotName: $depotName');
                 if (userId != 'null') {
-                  return DepotOverview(
-                      //  userid: userId,
+                  return DepotOverviewAction(
+                      role: role,
+                      userId: userId,
                       cityName: cityName,
-                      depoName: depotName);
+                      depotName: depotName);
                 } else {
                   // User is not logged in, navigate to login screen
-                  return LoginRegister();
+                  return const LoginRegister();
                   // Return an empty container or loading widget since you're navigating
                 }
               }
@@ -238,11 +248,13 @@ class Flurorouter {
         final userId = modelRoute['userId'];
         final cityName = modelRoute['cityName'];
         final depoName = modelRoute['depoName'];
+        final role = modelRoute['role'];
 
-        return KeyEventsUser(
+        return PlanningActionScreen(
+          depotName: depoName,
           userId: userId,
           cityName: cityName,
-          depoName: depoName,
+          role: role,
         );
       } else {
         return FutureBuilder<Map<String, dynamic>?>(
@@ -254,14 +266,14 @@ class Flurorouter {
                 String userId = cityData?['userId'] ?? 'null';
                 String cityName = cityData?['cityName'] ?? 'defaultCityName';
                 String depotName = cityData?['depotName'] ?? 'defaultDepotName';
-
-                print('CityName: $cityName, DepotName: $depotName');
+                String role = cityData?['role'] ?? 'N/A';
 
                 // Return your widget here using userId
-                return KeyEventsUser(
+                return PlanningActionScreen(
+                  depotName: depotName,
                   userId: userId,
                   cityName: cityName,
-                  depoName: depotName,
+                  role: role,
                 );
               }
               return LoadingPage();
@@ -282,11 +294,13 @@ class Flurorouter {
         final userId = modelRoute['userId'];
         final cityName = modelRoute['cityName'];
         final depoName = modelRoute['depoName'];
+        final role = modelRoute['role'];
 
-        return MaterialProcurement(
+        return MaterialProcurementAction(
+          role: role,
           userId: userId,
           cityName: cityName,
-          depoName: depoName,
+          depotName: depoName,
         );
       } else {
         return FutureBuilder<Map<String, dynamic>?>(
@@ -298,19 +312,21 @@ class Flurorouter {
                 String userId = cityData?['userId'] ?? 'null';
                 String cityName = cityData?['cityName'] ?? 'defaultCityName';
                 String depotName = cityData?['depotName'] ?? 'defaultDepotName';
+                String role = cityData?['role'] ?? 'N/A';
 
                 print('CityName: $cityName, DepotName: $depotName');
 
                 if (userId != 'null') {
                   // Return your widget here using userId
-                  return MaterialProcurement(
+                  return MaterialProcurementAction(
+                    role: role,
                     userId: userId,
                     cityName: cityName,
-                    depoName: depotName,
+                    depotName: depotName,
                   );
                 } else {
                   // User is not logged in, navigate to login screen
-                  return LoginRegister();
+                  return const LoginRegister();
                   // Return an empty container or loading widget since you're navigating
                 }
               }
@@ -332,11 +348,13 @@ class Flurorouter {
         final userId = modelRoute['userId'];
         final cityName = modelRoute['cityName'];
         final depoName = modelRoute['depoName'];
+        final role = modelRoute['role'];
 
-        return DailyProject(
+        return DailyProjectAction(
           userId: userId,
+          role: role,
           cityName: cityName,
-          depoName: depoName,
+          depotName: depoName,
         );
       } else {
         return FutureBuilder<Map<String, dynamic>?>(
@@ -348,17 +366,19 @@ class Flurorouter {
                 String userId = cityData?['userId'] ?? 'null';
                 String cityName = cityData?['cityName'] ?? 'defaultCityName';
                 String depotName = cityData?['depotName'] ?? 'defaultDepotName';
+                String role = cityData?['role'] ?? 'N/A';
 
                 print('CityName: $cityName, DepotName: $depotName');
                 if (userId != 'null') {
-                  return DailyProject(
+                  return DailyProjectAction(
                     userId: userId,
+                    role: role,
                     cityName: cityName,
-                    depoName: depotName,
+                    depotName: depotName,
                   );
                 } else {
                   // User is not logged in, navigate to login screen
-                  return LoginRegister();
+                  return const LoginRegister();
                   // Return an empty container or loading widget since you're navigating
                 }
                 // Return your widget here using userId
@@ -381,11 +401,13 @@ class Flurorouter {
         final userId = modelRoute['userId'];
         final cityName = modelRoute['cityName'];
         final depoName = modelRoute['depoName'];
+        final role = modelRoute['role'];
 
-        return MonthlySummary(
+        return MonthlyReportAction(
+          depotName: depoName,
+          role: role,
           userId: userId,
           cityName: cityName,
-          depoName: depoName,
         );
       } else {
         return FutureBuilder<Map<String, dynamic>?>(
@@ -397,17 +419,18 @@ class Flurorouter {
                 String userId = cityData?['userId'] ?? 'null';
                 String cityName = cityData?['cityName'] ?? 'defaultCityName';
                 String depotName = cityData?['depotName'] ?? 'defaultDepotName';
+                String role = cityData?['role'] ?? 'N/A';
 
-                print('CityName: $cityName, DepotName: $depotName');
                 if (userId != null) {
-                  return MonthlySummary(
+                  return MonthlyReportAction(
+                    depotName: depotName,
+                    role: role,
                     userId: userId,
                     cityName: cityName,
-                    depoName: depotName,
                   );
                 } else {
                   // User is not logged in, navigate to login screen
-                  return LoginRegister();
+                  return const LoginRegister();
                   // Return an empty container or loading widget since you're navigating
                 }
                 // Return your widget here using userId
@@ -430,9 +453,14 @@ class Flurorouter {
         final userId = modelRoute['userId'];
         final cityName = modelRoute['cityName'];
         final depoName = modelRoute['depoName'];
+        final role = modelRoute['role'];
 
-        return DetailedEng(
-            cityName: cityName, depoName: depoName, userId: userId);
+        return DetailEngineeringAction(
+          cityName: cityName,
+          depotName: depoName,
+          userId: userId,
+          role: role,
+        );
       } else {
         return FutureBuilder<Map<String, dynamic>?>(
             future: _getCityDataFromSharedPreferences(),
@@ -443,18 +471,20 @@ class Flurorouter {
                 String userId = cityData?['userId'] ?? 'null';
                 String cityName = cityData?['cityName'] ?? 'defaultCityName';
                 String depotName = cityData?['depotName'] ?? 'defaultDepotName';
+                String role = cityData?['role'] ?? 'N/A';
 
                 print('CityName: $cityName, DepotName: $depotName');
                 if (userId != 'null') {
                   // Return your widget here using userId
-                  return DetailedEng(
+                  return DetailEngineeringAction(
                     cityName: cityName,
-                    depoName: depotName,
+                    role: role,
                     userId: userId,
+                    depotName: depotName,
                   );
                 } else {
                   // User is not logged in, navigate to login screen
-                  return LoginRegister();
+                  return const LoginRegister();
                   // Return an empty container or loading widget since you're navigating
                 }
               }
@@ -476,11 +506,13 @@ class Flurorouter {
         final userId = modelRoute['userId'];
         final cityName = modelRoute['cityName'];
         final depoName = modelRoute['depoName'];
+        final role = modelRoute['role'];
 
-        return Jmr(
+        return JmrScreenAction(
+          role: role,
           userId: userId,
           cityName: cityName,
-          depoName: depoName,
+          depotName: depoName,
         );
       } else {
         return FutureBuilder<Map<String, dynamic>?>(
@@ -492,17 +524,18 @@ class Flurorouter {
                 String userId = cityData?['userId'] ?? 'null';
                 String cityName = cityData?['cityName'] ?? 'defaultCityName';
                 String depotName = cityData?['depotName'] ?? 'defaultDepotName';
+                String role = cityData?['role'] ?? "N/A";
 
-                print('CityName: $cityName, DepotName: $depotName');
                 if (userId != 'null') {
-                  return Jmr(
+                  return JmrScreenAction(
+                    role: role,
                     userId: userId,
                     cityName: cityName,
-                    depoName: depotName,
+                    depotName: depotName,
                   );
                 } else {
                   // User is not logged in, navigate to login screen
-                  return LoginRegister();
+                  return const LoginRegister();
                   // Return an empty container or loading widget since you're navigating
                 }
                 // Return your widget here using userId
@@ -525,12 +558,13 @@ class Flurorouter {
         final userId = modelRoute['userId'];
         final cityName = modelRoute['cityName'];
         final depoName = modelRoute['depoName'];
+        final role = modelRoute['role'];
 
-        return SafetySummary(
+        return SafetyReportAction(
+          role: role,
           userId: userId,
-          depoName: depoName,
+          depotName: depoName,
           cityName: cityName,
-          id: 'Safety Report',
         );
       } else {
         return FutureBuilder<Map<String, dynamic>?>(
@@ -542,18 +576,19 @@ class Flurorouter {
                 String userId = cityData?['userId'] ?? 'null';
                 String cityName = cityData?['cityName'] ?? 'defaultCityName';
                 String depotName = cityData?['depotName'] ?? 'defaultDepotName';
+                String role = cityData?['role'] ?? "N/A";
 
                 print('CityName: $cityName, DepotName: $depotName');
                 if (userId != 'null') {
-                  return SafetySummary(
+                  return SafetyReportAction(
+                    role: role,
                     userId: userId,
-                    depoName: depotName,
+                    depotName: depotName,
                     cityName: cityName,
-                    id: 'Safety Report',
                   );
                 } else {
                   // User is not logged in, navigate to login screen
-                  return LoginRegister();
+                  return const LoginRegister();
                   // Return an empty container or loading widget since you're navigating
                 }
 
@@ -577,10 +612,12 @@ class Flurorouter {
         final userId = modelRoute['userId'];
         final cityName = modelRoute['cityName'];
         final depoName = modelRoute['depoName'];
+        final role = modelRoute['role'];
 
-        return QualityChecklist(
+        return QualityChecklistAction(
+          depotName: depoName,
+          role: role,
           cityName: cityName,
-          depoName: depoName,
           userId: userId,
         );
       } else {
@@ -593,17 +630,19 @@ class Flurorouter {
                 String userId = cityData?['userId'] ?? 'null';
                 String cityName = cityData?['cityName'] ?? 'defaultCityName';
                 String depotName = cityData?['depotName'] ?? 'defaultDepotName';
+                String role = cityData?['role'] ?? "N/A";
 
                 print('CityName: $cityName, DepotName: $depotName');
                 if (userId != 'null') {
-                  return QualityChecklist(
+                  return QualityChecklistAction(
+                    depotName: depotName,
+                    role: role,
                     cityName: cityName,
-                    depoName: depotName,
                     userId: userId,
                   );
                 } else {
                   // User is not logged in, navigate to login screen
-                  return LoginRegister();
+                  return const LoginRegister();
                   // Return an empty container or loading widget since you're navigating
                 }
                 // Return your widget here using userId
@@ -625,13 +664,16 @@ class Flurorouter {
       if (modelRoute != null) {
         final cityName = modelRoute['cityName'];
         final depoName = modelRoute['depoName'];
+        final userId = modelRoute['userId'];
+        final role = modelRoute['role'];
 
-        return ViewAllPdf(
-          title: 'Overview Page',
-          cityName: cityName,
-          depoName: depoName,
-          docId: 'OverviewepoImages',
-        );
+        return DepotInsightsAction(
+            role: role,
+            depotName: depoName,
+            userId: userId,
+            title: 'Overview Page',
+            cityName: cityName,
+            docId: '');
       } else {
         return FutureBuilder<Map<String, dynamic>?>(
             future: _getCityDataFromSharedPreferences(),
@@ -642,17 +684,22 @@ class Flurorouter {
                 String userId = cityData?['userId'] ?? 'null';
                 String cityName = cityData?['cityName'] ?? 'defaultCityName';
                 String depotName = cityData?['depotName'] ?? 'defaultDepotName';
+                String docId = cityData?['docId'];
+                String title = cityData?['title'];
+                String role = cityData?['role'];
 
                 print('CityName: $cityName, DepotName: $depotName');
                 if (userId != 'null') {
-                  return ViewAllPdf(
-                      title: 'Overview Page',
+                  return DepotInsightsAction(
+                      role: role,
+                      depotName: depotName,
+                      userId: userId,
+                      title: title,
                       cityName: cityName,
-                      depoName: depotName,
-                      docId: 'OverviewepoImages');
+                      docId: docId);
                 } else {
                   // User is not logged in, navigate to login screen
-                  return LoginRegister();
+                  return const LoginRegister();
                   // Return an empty container or loading widget since you're navigating
                 }
                 // Return your widget here using userId
@@ -675,13 +722,14 @@ class Flurorouter {
         final userId = modelRoute['userId'];
         final cityName = modelRoute['cityName'];
         final depoName = modelRoute['depoName'];
+        final role = modelRoute['role'];
 
-        return ClosureSummaryTable(
+        return ClosureReportAction(
+          depotName: depoName,
+          role: role,
           userId: userId,
           // userId: widget.userid,
           cityName: cityName,
-          depoName: depoName,
-          id: 'Closure Report',
         );
       } else {
         return FutureBuilder<Map<String, dynamic>?>(
@@ -693,21 +741,20 @@ class Flurorouter {
                 String userId = cityData?['userId'] ?? 'null';
                 String cityName = cityData?['cityName'] ?? 'defaultCityName';
                 String depotName = cityData?['depotName'] ?? 'defaultDepotName';
-
-                print('CityName: $cityName, DepotName: $depotName');
+                String role = cityData?['role'] ?? 'user';
 
                 if (userId != 'null') {
                   // Return your widget here using userId
-                  return ClosureSummaryTable(
+                  return ClosureReportAction(
+                    depotName: depotName,
+                    role: role,
                     userId: userId,
                     // userId: widget.userid,
                     cityName: cityName,
-                    depoName: depotName,
-                    id: 'Closure Report',
                   );
                 } else {
                   // User is not logged in, navigate to login screen
-                  return LoginRegister();
+                  return const LoginRegister();
                   // Return an empty container or loading widget since you're navigating
                 }
               }
@@ -729,11 +776,13 @@ class Flurorouter {
         final userId = modelRoute['userId'];
         final cityName = modelRoute['cityName'];
         final depoName = modelRoute['depoName'];
+        final role = modelRoute['role'];
 
-        return EnergyManagement(
+        return EnergyManagementAction(
           // userId: widget.userId,
           cityName: cityName,
-          depoName: depoName,
+          depotName: depoName,
+          role: role, userId: userId,
         );
       } else {
         return FutureBuilder<Map<String, dynamic>?>(
@@ -745,18 +794,19 @@ class Flurorouter {
                 String userId = cityData?['userId'] ?? 'null';
                 String cityName = cityData?['cityName'] ?? 'defaultCityName';
                 String depotName = cityData?['depotName'] ?? 'defaultDepotName';
+                String role = cityData?['role'] ?? 'N/A';
 
-                print('CityName: $cityName, DepotName: $depotName');
                 if (userId != 'null') {
                   // Return your widget here using userId
-                  return EnergyManagement(
+                  return EnergyManagementAction(
                     // userId: widget.userId,
                     cityName: cityName,
-                    depoName: depotName,
+                    depotName: depotName,
+                    role: role, userId: userId,
                   );
                 } else {
                   // User is not logged in, navigate to login screen
-                  return LoginRegister();
+                  return const LoginRegister();
                   // Future.microtask(() {
                   //   Navigator.of(context).pushReplacement(MaterialPageRoute(
                   //     builder: (context) => const LoginRegister(),
@@ -776,47 +826,47 @@ class Flurorouter {
       'login',
       handler: loginHandler,
     );
-    router.define('login/EVDashboard', handler: navPagedHandler);
-    router.define('login/EVDashboard/Cities', handler: citiesHandler);
-    router.define('login/EVDashboard/Cities/EVBusDepot', handler: depotHandler);
-    router.define('login/EVDashboard/Cities/EVBusDepot/overviewpage',
+    router.define('login/EVDashboard/', handler: navPagedHandler);
+    router.define('login/EVDashboard/Cities/', handler: citiesHandler);
+    router.define('login/EVDashboard/Cities/EVBusDepot/',
+        handler: depotHandler);
+    router.define('login/EVDashboard/Cities/EVBusDepot/OverviewPage/',
         handler: overviewPageHandler);
     router.define(
-        'login/EVDashboard/Cities/EVBusDepot/OverviewPage/DepotOverview',
+        'login/EVDashboard/Cities/EVBusDepot/OverviewPage/DepotOverview/',
         handler: depotOverviewhandler);
     router.define(
-        'login/EVDashboard/Cities/EVBusDepot/EVBusDepot/OverviewPage/ProjectPlanning',
+        'login/EVDashboard/Cities/EVBusDepot/OverviewPage/ProjectPlanning/',
         handler: projectPlanninghandler);
     router.define(
-        'login/EVDashboard/Cities/EVBusDepot/EVBusDepot/OverviewPage/MaterialProcurement',
+        'login/EVDashboard/Cities/EVBusDepot/OverviewPage/MaterialProcurement/',
         handler: materialProcurementhandler);
     router.define(
-        'login/EVDashboard/Cities/EVBusDepot/EVBusDepot/OverviewPage/DailyProgress',
+        'login/EVDashboard/Cities/EVBusDepot/OverviewPage/DailyProgress/',
         handler: dailyProgressthandler);
 
     router.define(
-        'login/EVDashboard/Cities/EVBusDepot/EVBusDepot/OverviewPage/MonthlyProgress',
+        'login/EVDashboard/Cities/EVBusDepot/OverviewPage/MonthlyProgress/',
         handler: monthlyProgressthandler);
     router.define(
-        'login/EVDashboard/Cities/EVBusDepot/EVBusDepot/OverviewPage/DetailedEngineering',
+        'login/EVDashboard/Cities/EVBusDepot/OverviewPage/DetailedEngineering/',
         handler: detailEngthandler);
-    router.define(
-        'login/EVDashboard/Cities/EVBusDepot/EVBusDepot/OverviewPage/Jmr',
+    router.define('login/EVDashboard/Cities/EVBusDepot/OverviewPage/Jmr/',
         handler: jmrhandler);
     router.define(
-        'login/EVDashboard/Cities/EVBusDepot/EVBusDepot/OverviewPage/SafetyChecklist',
+        'login/EVDashboard/Cities/EVBusDepot/OverviewPage/SafetyChecklist/',
         handler: safetyChecklisthandler);
     router.define(
-        'login/EVDashboard/Cities/EVBusDepot/EVBusDepot/OverviewPage/QualityChecklist',
+        'login/EVDashboard/Cities/EVBusDepot/OverviewPage/QualityChecklist/',
         handler: qualityChecklisthandler);
     router.define(
-        'login/EVDashboard/Cities/EVBusDepot/EVBusDepot/OverviewPage/DepotInsightes',
+        'login/EVDashboard/Cities/EVBusDepot/OverviewPage/DepotInsightes/',
         handler: depotinsighteshandler);
     router.define(
-        'login/EVDashboard/Cities/EVBusDepot/EVBusDepot/OverviewPage/ClosureReport',
+        'login/EVDashboard/Cities/EVBusDepot/OverviewPage/ClosureReport/',
         handler: closureReporthandler);
     router.define(
-        'login/EVDashboard/Cities/EVBusDepot/EVBusDepot/OverviewPage/DemandEnergy',
+        'login/EVDashboard/Cities/EVBusDepot/OverviewPage/DemandEnergy/',
         handler: demandEnergyhandler);
   }
 
@@ -832,8 +882,14 @@ class Flurorouter {
     String? userId = prefs.getString('employeeId');
     String? cityName = prefs.getString('cityName');
     String? depotName = prefs.getString('depotName');
+    String? role = prefs.getString('role');
 
-    return {'userId': userId, 'cityName': cityName, 'depotName': depotName};
+    return {
+      'userId': userId,
+      'cityName': cityName,
+      'depotName': depotName,
+      'role': role
+    };
   }
 
   // FutureBuilder<Map<String, dynamic>?> _yourCustomMethod(Widget pageName) {

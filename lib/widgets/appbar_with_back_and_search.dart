@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:web_appllication/style.dart';
 
 class AppBarWithBack extends StatelessWidget implements PreferredSizeWidget {
   final String text;
@@ -18,7 +17,7 @@ class AppBarWithBack extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.blue,
+      backgroundColor: Colors.white,
       elevation: 0,
       actions: [
         haveSearch ? const Icon(Icons.search_rounded) : Container(),
@@ -26,10 +25,7 @@ class AppBarWithBack extends StatelessWidget implements PreferredSizeWidget {
           width: 10,
         ),
       ],
-      title: Text(
-        text,
-        style: TextStyle(color: white),
-      ),
+      title: Text(text),
     );
   }
 }
