@@ -18,7 +18,8 @@ class EvDashboardScreen extends StatefulWidget {
   final Function? callbackFun;
   String userId;
   String role;
-  EvDashboardScreen({Key? key, this.callbackFun, required this.userId,required this.role})
+  EvDashboardScreen(
+      {Key? key, this.callbackFun, required this.userId, required this.role})
       : super(key: key);
 
   static const String id = 'admin-page';
@@ -417,9 +418,8 @@ class _EvDashboardScreenState extends State<EvDashboardScreen> {
                                                                     .size
                                                                     .width *
                                                                 0.88 /
-                                                                3.8,
+                                                                3.5,
                                                             child: DataTable2(
-                                                                minWidth: 320,
                                                                 headingRowColor:
                                                                     MaterialStatePropertyAll(
                                                                         blue),
@@ -432,14 +432,14 @@ class _EvDashboardScreenState extends State<EvDashboardScreen> {
                                                                         tableHeadingFontSize),
                                                                 headingRowHeight:
                                                                     25,
-                                                                dataTextStyle: TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize:
-                                                                        10,
-                                                                    color:
-                                                                        black),
+                                                                dataTextStyle:
+                                                                    TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 10,
+                                                                  color: black,
+                                                                ),
                                                                 columnSpacing:
                                                                     10,
                                                                 showBottomBorder:
@@ -450,34 +450,38 @@ class _EvDashboardScreenState extends State<EvDashboardScreen> {
                                                                     30,
                                                                 columns: [
                                                                   DataColumn2(
-                                                                      fixedWidth:
-                                                                          100,
-                                                                      label:
-                                                                          Text(
-                                                                        dashboardColNames[3]
-                                                                            [0],
-                                                                        textAlign:
-                                                                            TextAlign.center,
-                                                                      )),
+                                                                    fixedWidth:
+                                                                        100,
+                                                                    label: Text(
+                                                                      dashboardColNames[
+                                                                          3][0],
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                    ),
+                                                                  ),
                                                                   DataColumn2(
-                                                                      fixedWidth:
-                                                                          70,
-                                                                      label:
-                                                                          Text(
-                                                                        dashboardColNames[3]
-                                                                            [1],
-                                                                        textAlign:
-                                                                            TextAlign.center,
-                                                                      )),
+                                                                    fixedWidth:
+                                                                        70,
+                                                                    label: Text(
+                                                                      dashboardColNames[
+                                                                          3][1],
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                    ),
+                                                                  ),
                                                                   DataColumn2(
-                                                                      label:
-                                                                          Text(
-                                                                    dashboardColNames[
-                                                                        3][2],
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .center,
-                                                                  )),
+                                                                    fixedWidth:
+                                                                        70,
+                                                                    label: Text(
+                                                                      dashboardColNames[
+                                                                          3][2],
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                    ),
+                                                                  ),
                                                                 ],
                                                                 rows: List.generate(
                                                                     projectNameColLen,
@@ -1980,8 +1984,7 @@ class _EvDashboardScreenState extends State<EvDashboardScreen> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => CitiesPage(
-                      ),
+                      builder: (context) => CitiesPage(),
                     ));
               },
               child: Row(

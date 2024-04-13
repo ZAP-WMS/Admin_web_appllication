@@ -86,6 +86,7 @@ class MyApp extends StatelessWidget {
         onGenerateRoute: Flurorouter.router.generator,
         theme: ThemeData(
           scrollbarTheme: ScrollbarThemeData(
+            thumbVisibility: const MaterialStatePropertyAll(true),
             thumbColor: MaterialStatePropertyAll(blue),
             thickness: const MaterialStatePropertyAll(7.0),
             trackVisibility: const MaterialStatePropertyAll(true),
