@@ -110,25 +110,12 @@ class _RoleScreenState extends State<RoleScreen> {
     selectedUserController.dispose();
     designationController.dispose();
     depotController.dispose();
-
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   centerTitle: true,
-      //   title: const Text('Role Management'),
-      //   flexibleSpace: Container(
-      //     decoration: const BoxDecoration(
-      //         gradient: LinearGradient(colors: [
-      //       Color.fromARGB(255, 9, 52, 245),
-      //       Color.fromARGB(255, 92, 152, 241),
-      //     ], begin: Alignment.centerLeft, end: Alignment.centerRight)),
-      //   ),
-      // ),
       body: isLoading
           ? LoadingPage()
           : Column(
@@ -142,7 +129,12 @@ class _RoleScreenState extends State<RoleScreen> {
                       margin: const EdgeInsets.all(15.0),
                       decoration: BoxDecoration(
                         border: Border.all(
-                            color: const Color.fromARGB(255, 52, 91, 199),
+                            color: const Color.fromARGB(
+                              255,
+                              52,
+                              91,
+                              199,
+                            ),
                             width: 2.0),
                         borderRadius: BorderRadius.circular(
                           5.0,
@@ -156,7 +148,12 @@ class _RoleScreenState extends State<RoleScreen> {
                               "PMIS Users",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: Color.fromARGB(255, 52, 91, 199),
+                                  color: Color.fromARGB(
+                                    255,
+                                    52,
+                                    91,
+                                    199,
+                                  ),
                                   letterSpacing: 1.0),
                             ),
                           ),
@@ -170,7 +167,7 @@ class _RoleScreenState extends State<RoleScreen> {
                                 gridDelegate:
                                     const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 3,
-                                  childAspectRatio: 2.5,
+                                  childAspectRatio: 3.5,
                                 ),
                                 itemBuilder: (context, index) {
                                   return Consumer<
@@ -236,7 +233,7 @@ class _RoleScreenState extends State<RoleScreen> {
                                 gridDelegate:
                                     const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 3,
-                                  childAspectRatio: 2.5,
+                                  childAspectRatio: 3.5,
                                 ),
                                 itemBuilder: (context, index) {
                                   return Consumer<
@@ -288,6 +285,30 @@ class _RoleScreenState extends State<RoleScreen> {
                         children: [
                           Row(
                             children: [
+                              Card(
+                                elevation: 5.0,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: white,
+                                    borderRadius: BorderRadius.circular(
+                                      3.0,
+                                    ),
+                                  ),
+                                  alignment: Alignment.center,
+                                  height: 35,
+                                  width: 180,
+                                  child: Text(
+                                    "Select Reporting Manager:",
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: blue,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
                               Container(
                                 margin: const EdgeInsets.only(top: 10.0),
                                 child: Column(
@@ -312,11 +333,6 @@ class _RoleScreenState extends State<RoleScreen> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              customShowBoxSingleSelection(
-                                  selectedReportingManager ?? "")
                             ],
                           ),
                           const SizedBox(
@@ -324,6 +340,27 @@ class _RoleScreenState extends State<RoleScreen> {
                           ),
                           Row(
                             children: [
+                              Card(
+                                elevation: 5.0,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: white,
+                                    borderRadius: BorderRadius.circular(
+                                      3.0,
+                                    ),
+                                  ),
+                                  alignment: Alignment.center,
+                                  height: 35,
+                                  width: 180,
+                                  child: Text(
+                                    "Select User:",
+                                    style: TextStyle(fontSize: 11, color: blue),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
                               Container(
                                 margin: const EdgeInsets.only(top: 10.0),
                                 child: Column(
@@ -351,10 +388,6 @@ class _RoleScreenState extends State<RoleScreen> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              customShowBoxSingleSelection(selectedUser ?? "")
                             ],
                           ),
                         ],
@@ -362,33 +395,23 @@ class _RoleScreenState extends State<RoleScreen> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            margin: const EdgeInsets.only(top: 5.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                customDropDown(
-                                  'Select Designation',
-                                  true,
-                                  designationList,
-                                  "Search Designation",
-                                  2,
-                                ),
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    messageForReportingManager,
-                                    style: const TextStyle(
-                                      color: Colors.green,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              customDropDown(
+                                'Select Designation',
+                                true,
+                                designationList,
+                                "Search Designation",
+                                2,
+                              ),
+                              Container(),
+                            ],
                           ),
-                          customShowBox(selectedDesignationList, 0.75),
+                          customShowBox(
+                            selectedDesignationList,
+                            0.75,
+                          ),
                         ],
                       ),
                       Row(
@@ -406,17 +429,7 @@ class _RoleScreenState extends State<RoleScreen> {
                                   "Search Cities",
                                   3,
                                 ),
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    messageForReportingManager,
-                                    style: const TextStyle(
-                                      color: Colors.green,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
+                                Container(),
                               ],
                             ),
                           ),
@@ -438,17 +451,7 @@ class _RoleScreenState extends State<RoleScreen> {
                                   "Search Depots",
                                   4,
                                 ),
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    messageForReportingManager,
-                                    style: const TextStyle(
-                                      color: Colors.green,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
+                                Container(),
                               ],
                             ),
                           ),
@@ -540,13 +543,13 @@ class _RoleScreenState extends State<RoleScreen> {
           children: [
             Positioned(
               child: FloatingActionButton(
-                backgroundColor: const Color.fromARGB(255, 255, 230, 175),
+                backgroundColor: const Color.fromARGB(255, 223, 237, 247),
                 onPressed: () {
                   showDialogueForRoleRequest();
                 },
-                child: const Icon(
+                child: Icon(
                   Icons.notifications_active_outlined,
-                  color: Color.fromARGB(255, 247, 138, 37),
+                  color: blue,
                 ),
               ),
             ),
@@ -554,7 +557,7 @@ class _RoleScreenState extends State<RoleScreen> {
                 right: 8,
                 child: CircleAvatar(
                   radius: 10,
-                  backgroundColor: const Color.fromARGB(255, 247, 138, 37),
+                  backgroundColor: const Color.fromARGB(255, 1, 37, 156),
                   child: Text('$unAssignedUserNum',
                       style:
                           const TextStyle(fontSize: 12, color: Colors.white)),
@@ -674,276 +677,283 @@ class _RoleScreenState extends State<RoleScreen> {
 
   Widget customDropDown(String title, bool isMultiCheckbox,
       List<String> customDropDownList, String hintText, int index) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.blue,
-        borderRadius: BorderRadius.circular(
-          3.0,
+    return Card(
+      elevation: 5.0,
+      child: Container(
+        decoration: BoxDecoration(
+          color: white,
+          border: Border.all(
+            color: blue,
+            width: 1.0,
+          ),
+          borderRadius: BorderRadius.circular(
+            3.0,
+          ),
         ),
-      ),
-      child: Column(
-        children: [
-          Container(
-            width: 180,
-            height: 30,
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton2(
-                dropdownSearchData: DropdownSearchData(
-                  searchController: index == 0
-                      ? reportingManagerController
-                      : index == 1
-                          ? selectedUserController
-                          : index == 2
-                              ? designationController
-                              : index == 3
-                                  ? citiesController
-                                  : depotController,
-                  searchInnerWidgetHeight: 50,
-                  searchInnerWidget: Container(
-                    height: index == 4 ? 90 : 50,
-                    padding: const EdgeInsets.only(
-                      top: 8,
-                      bottom: 4,
-                      right: 8,
-                      left: 8,
-                    ),
-                    child: Column(
-                      children: [
-                        Container(
-                          width: 150,
-                          height: 30,
-                          child: TextFormField(
-                            expands: true,
-                            maxLines: null,
-                            controller: index == 0
-                                ? reportingManagerController
-                                : index == 1
-                                    ? selectedUserController
-                                    : index == 2
-                                        ? designationController
-                                        : index == 3
-                                            ? citiesController
-                                            : depotController,
-                            decoration: InputDecoration(
-                              isDense: true,
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 8,
-                              ),
-                              hintText: hintText,
-                              hintStyle: const TextStyle(
-                                fontSize: 11,
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(
-                                  8,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 5.0,
-                        ),
-                        index == 4
-                            ? InkWell(
-                                onTap: () {
-                                  isSelectAllDepots = !isSelectAllDepots;
-
-                                  if (isSelectAllDepots) {
-                                    customDropDownList.forEach((element) {
-                                      selectedDepotList.add(element);
-                                    });
-                                  } else {
-                                    selectedDepotList.clear();
-                                  }
-                                  setState(() {});
-                                },
-                                child: Row(
-                                  children: [
-                                    Checkbox(
-                                      materialTapTargetSize:
-                                          MaterialTapTargetSize.padded,
-                                      value: isSelectAllDepots,
-                                      onChanged: (value) {},
-                                    ),
-                                    Text(
-                                      "All Depots",
-                                      style:
-                                          TextStyle(fontSize: 11, color: black),
-                                      textAlign: TextAlign.left,
-                                    ),
-                                  ],
-                                ),
-                              )
-                            : Container(),
-                      ],
-                    ),
-                  ),
-                ),
-                value: index == 0
-                    ? selectedReportingManager
-                    : index == 1
-                        ? selectedUser
-                        : index == 2
-                            ? selectedDesignation
-                            : index == 3
-                                ? selectedCity
-                                : selectedDepot,
-                isExpanded: true,
-                onMenuStateChange: (isOpen) {
-                  if (index == 0) messageForReportingManager = "";
-                  index == 3
-                      ? selectedCitiesList.isEmpty
-                          ? allDepotList.clear()
-                          : () {}
-                      : () {};
-                  setState(() {});
-                },
-                selectedItemBuilder: (context) {
-                  return [
-                    Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        title,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 11,
-                            color: white),
-                      ),
-                    )
-                  ];
-                },
-                hint: Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: white,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                items: isMultiCheckbox
-                    ? customDropDownList.map((item) {
-                        return DropdownMenuItem(
-                          value: item,
-                          enabled: false,
-                          child: StatefulBuilder(
-                            builder: (context, menuSetState) {
-                              bool isSelected = index == 2
-                                  ? selectedDesignationList.contains(item)
-                                  : index == 3
-                                      ? selectedCitiesList.contains(item)
-                                      : selectedDepotList.contains(item);
-
-                              return InkWell(
-                                onTap: () async {
-                                  index == 3 ? allDepotList.clear() : () {};
-
-                                  isSelected
-                                      ? index == 2
-                                          ? selectedDesignationList.remove(item)
-                                          : index == 3
-                                              ? selectedCitiesList.remove(item)
-                                              : selectedDepotList.remove(item)
+        child: Column(
+          children: [
+            Container(
+              width: 180,
+              height: 30,
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton2(
+                  dropdownSearchData: DropdownSearchData(
+                    searchController: index == 0
+                        ? reportingManagerController
+                        : index == 1
+                            ? selectedUserController
+                            : index == 2
+                                ? designationController
+                                : index == 3
+                                    ? citiesController
+                                    : depotController,
+                    searchInnerWidgetHeight: 50,
+                    searchInnerWidget: Container(
+                      height: index == 4 ? 90 : 42,
+                      child: Column(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(top: 10.0),
+                            width: 160,
+                            height: 30,
+                            child: TextFormField(
+                              expands: true,
+                              maxLines: null,
+                              controller: index == 0
+                                  ? reportingManagerController
+                                  : index == 1
+                                      ? selectedUserController
                                       : index == 2
-                                          ? selectedDesignationList.add(item)
+                                          ? designationController
                                           : index == 3
-                                              ? selectedCitiesList.add(item)
-                                              : selectedDepotList.add(item);
-
-                                  index == 3
-                                      ? await fetchDepotList(
-                                          selectedCitiesList.length,
-                                        )
-                                      : () {};
-
-                                  setState(() {});
-                                  menuSetState(() {});
-
-                                  //This rebuilds the StatefulWidget to update the button's text
-                                  //This rebuilds the dropdownMenu Widget to update the check mark
-                                },
-                                child: Container(
-                                  height: double.infinity,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      isSelected
-                                          ? const Icon(
-                                              Icons.check_box_outlined,
-                                              size: 20,
-                                            )
-                                          : const Icon(
-                                              Icons.check_box_outline_blank,
-                                              size: 20,
-                                            ),
-                                      const SizedBox(width: 3),
-                                      Expanded(
-                                        child: Text(
-                                          item,
-                                          style: TextStyle(
-                                              fontSize: 12, color: black),
-                                        ),
-                                      ),
-                                    ],
+                                              ? citiesController
+                                              : depotController,
+                              decoration: InputDecoration(
+                                isDense: true,
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 5,
+                                  vertical: 2,
+                                ),
+                                hintText: hintText,
+                                hintStyle: const TextStyle(
+                                  fontSize: 11,
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    8,
                                   ),
                                 ),
-                              );
-                            },
-                          ),
-                        );
-                      }).toList()
-                    : customDropDownList
-                        .map(
-                          (item) => DropdownMenuItem(
-                            value: item,
-                            child: Text(
-                              item,
-                              style: TextStyle(
-                                color: black,
-                                fontSize: 12,
                               ),
-                              textAlign: TextAlign.center,
                             ),
                           ),
-                        )
-                        .toList(),
-                style: const TextStyle(fontSize: 10),
-                dropdownStyleData: const DropdownStyleData(
-                  maxHeight: 300,
-                ),
-                onChanged: (value) {
-                  index == 0
-                      ? selectedReportingManager = value
+                          if (index == 4)
+                            InkWell(
+                              onTap: () {
+                                isSelectAllDepots = !isSelectAllDepots;
+
+                                if (isSelectAllDepots) {
+                                  selectedDepotList.clear();
+                                  customDropDownList.forEach((element) {
+                                    selectedDepotList.add(element);
+                                  });
+                                } else {
+                                  selectedDepotList.clear();
+                                }
+                                setState(() {});
+                                Navigator.pop(context);
+                              },
+                              child: Row(
+                                children: [
+                                  Checkbox(
+                                    materialTapTargetSize:
+                                        MaterialTapTargetSize.padded,
+                                    value: isSelectAllDepots,
+                                    onChanged: (value) {},
+                                  ),
+                                  Text(
+                                    "All Depots",
+                                    style:
+                                        TextStyle(fontSize: 11, color: black),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ],
+                              ),
+                            )
+                        ],
+                      ),
+                    ),
+                  ),
+                  value: index == 0
+                      ? selectedReportingManager
                       : index == 1
-                          ? selectedUser = value
+                          ? selectedUser
                           : index == 2
-                              ? selectedDesignation = value
-                              : selectedCity = value;
-                  if (index == 1) {
-                    selectedUserId = '';
-                    errorMessage = 'Role can be assigned ✔';
-                    userExist = false;
-                    checkUserAlreadyExist(selectedUser!).whenComplete(() async {
-                      await getSelectedUserId(selectedUser!);
-                      setState(() {});
-                    });
-                  } else if (index == 0) {
-                    messageForReportingManager = 'Reporting Manager Selected ✔';
+                              ? selectedDesignation
+                              : index == 3
+                                  ? selectedCity
+                                  : selectedDepot,
+                  isExpanded: true,
+                  onMenuStateChange: (isOpen) {
+                    if (index == 0) messageForReportingManager = "";
+                    index == 3
+                        ? selectedCitiesList.isEmpty
+                            ? allDepotList.clear()
+                            : () {}
+                        : () {};
                     setState(() {});
-                  }
-                },
-                iconStyleData: IconStyleData(
-                  iconDisabledColor: white,
-                  iconEnabledColor: white,
-                ),
-                buttonStyleData: const ButtonStyleData(
-                  elevation: 5,
+                  },
+                  // selectedItemBuilder: (context) {
+                  //   return [
+                  //     Text(
+                  //       title,
+                  //       style: TextStyle(
+                  //         fontWeight: FontWeight.w400,
+                  //         fontSize: 11,
+                  //         color: white,
+                  //       ),
+                  //       textAlign: TextAlign.left,
+                  //     ),
+                  //   ];
+                  // },
+                  hint: Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: blue,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  items: isMultiCheckbox
+                      ? customDropDownList.map((item) {
+                          return DropdownMenuItem(
+                            value: item,
+                            enabled: false,
+                            child: StatefulBuilder(
+                              builder: (context, menuSetState) {
+                                bool isSelected = index == 2
+                                    ? selectedDesignationList.contains(item)
+                                    : index == 3
+                                        ? selectedCitiesList.contains(item)
+                                        : selectedDepotList.contains(item);
+
+                                return InkWell(
+                                  onTap: () async {
+                                    switch (isSelected) {
+                                      case true:
+                                        if (isSelectAllDepots) {
+                                          isSelectAllDepots =
+                                              !isSelectAllDepots;
+                                        }
+                                        index == 2
+                                            ? selectedDesignationList
+                                                .remove(item)
+                                            : index == 3
+                                                ? selectedCitiesList
+                                                    .remove(item)
+                                                : selectedDepotList
+                                                    .remove(item);
+                                        break;
+                                      case false:
+                                        index == 2
+                                            ? selectedDesignationList.add(item)
+                                            : index == 3
+                                                ? selectedCitiesList.add(item)
+                                                : selectedDepotList.add(item);
+                                        break;
+                                    }
+                                    index == 3 ? allDepotList.clear() : () {};
+                                    index == 3
+                                        ? await fetchDepotList(
+                                            selectedCitiesList.length,
+                                          )
+                                        : () {};
+                                    setState(() {});
+                                    menuSetState(() {});
+                                  },
+                                  child: Container(
+                                    height: double.infinity,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        isSelected
+                                            ? const Icon(
+                                                Icons.check_box_outlined,
+                                                size: 20,
+                                              )
+                                            : const Icon(
+                                                Icons.check_box_outline_blank,
+                                                size: 20,
+                                              ),
+                                        const SizedBox(width: 3),
+                                        Expanded(
+                                          child: Text(
+                                            item,
+                                            style: TextStyle(
+                                                fontSize: 12, color: black),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        }).toList()
+                      : customDropDownList
+                          .map(
+                            (item) => DropdownMenuItem(
+                              value: item,
+                              child: Text(
+                                item,
+                                style: TextStyle(
+                                  color: blue,
+                                  fontSize: 12,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          )
+                          .toList(),
+                  style: TextStyle(fontSize: 10, color: blue),
+                  dropdownStyleData: const DropdownStyleData(
+                    maxHeight: 300,
+                  ),
+                  onChanged: (value) {
+                    index == 0
+                        ? selectedReportingManager = value
+                        : index == 1
+                            ? selectedUser = value
+                            : index == 2
+                                ? selectedDesignation = value
+                                : selectedCity = value;
+                    if (index == 1) {
+                      selectedUserId = '';
+                      errorMessage = 'Role can be assigned ✔';
+                      userExist = false;
+                      checkUserAlreadyExist(selectedUser!)
+                          .whenComplete(() async {
+                        await getSelectedUserId(selectedUser!);
+                        setState(() {});
+                      });
+                    } else if (index == 0) {
+                      messageForReportingManager =
+                          'Reporting Manager Selected ✔';
+                    }
+                  },
+                  iconStyleData: IconStyleData(
+                    iconDisabledColor: blue,
+                    iconEnabledColor: blue,
+                  ),
+                  buttonStyleData: const ButtonStyleData(
+                    elevation: 5,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -1530,32 +1540,6 @@ class _RoleScreenState extends State<RoleScreen> {
           ],
         );
       },
-    );
-  }
-
-  Widget customShowBoxSingleSelection(String selectedName) {
-    return Card(
-      child: Container(
-        height: MediaQuery.of(context).size.height * 0.06,
-        width: MediaQuery.of(context).size.width * 0.16,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-            5.0,
-          ),
-          border: Border.all(
-            color: blue,
-          ),
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          selectedName,
-          style: TextStyle(
-            fontSize: 11,
-            fontWeight: FontWeight.bold,
-            color: blue,
-          ),
-        ),
-      ),
     );
   }
 

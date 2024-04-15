@@ -218,13 +218,12 @@ class _SignInPageState extends State<SignInPage> {
       );
 
       try {
-
         isProjectManager = await verifyProjectManager(_id);
 
         if (isProjectManager == true) {
           QuerySnapshot pmData = await FirebaseFirestore.instance
               .collection('AssignedRole')
-              .where("userId",isEqualTo: _id)
+              .where("userId", isEqualTo: _id)
               .get();
 
           //Search project Manager On User Collection
@@ -232,16 +231,16 @@ class _SignInPageState extends State<SignInPage> {
           if (pmData.docs.isNotEmpty) {
             List<dynamic> userData = pmData.docs.map((e) => e.data()).toList();
             companyName = 'TATA POWER';
-            if(_pass == userData[0]['password'] && _id == userData[0]['userId']) {
-                          // print('ProjectManager here ${passWord}');
-            authService.storeUserRole("projectManager");
-            authService.storeEmployeeId(_id);
-            authService.storeCompanyName(companyName).then((_) {
-              Navigator.pushReplacementNamed(context, 'login/EVDashboard/',
-                  arguments: {'userId': _id, "role": "projectManager"});
-            });
+            if (_pass == userData[0]['password'] &&
+                _id == userData[0]['userId']) {
+              // print('ProjectManager here ${passWord}');
+              authService.storeUserRole("projectManager");
+              authService.storeEmployeeId(_id);
+              authService.storeCompanyName(companyName).then((_) {
+                Navigator.pushReplacementNamed(context, 'login/EVDashboard/',
+                    arguments: {'userId': _id, "role": "projectManager"});
+              });
             }
-
           }
         } else {
           isAdmin = await verifyAdmin(_id);
@@ -343,6 +342,17 @@ class _SignInPageState extends State<SignInPage> {
             Navigator.pushReplacementNamed(context, 'login/EVDashboard/',
                 arguments: {'userId': _id, "role": "admin"});
           });
+        } else {
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.red,
+              content: Text(
+                "Password is not Correct",
+                style: TextStyle(color: white),
+              ),
+            ),
+          );
         }
       }
     }

@@ -78,7 +78,6 @@ class _DailyProjectAdminState extends State<DailyProjectAdmin> {
   getAllData() {
     DailyProject.clear();
     id.clear();
-
     nestedTableData().whenComplete(() {
       _dailyDataSource = DailyDataSource(
           DailyProject, context, widget.cityName!, widget.depoName!);
@@ -212,14 +211,21 @@ class _DailyProjectAdminState extends State<DailyProjectAdmin> {
                       width: 200,
                       height: 40,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(color: blue)),
+                        borderRadius: BorderRadius.circular(
+                          5,
+                        ),
+                        border: Border.all(
+                          color: blue,
+                        ),
+                      ),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            DateFormat.yMMMMd().format(enddate!),
+                            DateFormat.yMMMMd().format(
+                              enddate!,
+                            ),
                             textAlign: TextAlign.center,
                           )
                         ],
@@ -247,9 +253,9 @@ class _DailyProjectAdminState extends State<DailyProjectAdmin> {
                             frozenPaneLineWidth: 4),
                         child: SfDataGrid(
                             source: _dailyDataSource,
-                            allowEditing: true,
+                            allowEditing: false,
                             frozenColumnsCount: 2,
-                            rowHeight: 100,
+                            // rowHeight: 50,
                             gridLinesVisibility: GridLinesVisibility.both,
                             headerGridLinesVisibility: GridLinesVisibility.both,
                             selectionMode: SelectionMode.single,
@@ -261,14 +267,10 @@ class _DailyProjectAdminState extends State<DailyProjectAdmin> {
                               GridColumn(
                                 columnName: 'Date',
                                 visible: true,
-                                autoFitPadding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
                                 allowEditing: true,
                                 width: MediaQuery.of(context).size.width *
                                     0.09, //150
                                 label: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
                                   alignment: Alignment.center,
                                   child: Text('Date',
                                       overflow: TextOverflow.values.first,
@@ -281,13 +283,9 @@ class _DailyProjectAdminState extends State<DailyProjectAdmin> {
                               GridColumn(
                                 columnName: 'SiNo',
                                 visible: false,
-                                autoFitPadding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
                                 allowEditing: true,
                                 width: 70,
                                 label: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
                                   alignment: Alignment.center,
                                   child: Text('SI No.',
                                       overflow: TextOverflow.values.first,

@@ -36,7 +36,7 @@ void main() async {
           messagingSenderId: '787886302853',
           storageBucket: "tp-zap-solz.appspot.com",
           projectId: 'tp-zap-solz'));
-  listenToFirestoreChanges();
+  // listenToFirestoreChanges();
 
   runApp(const MyApp());
 }

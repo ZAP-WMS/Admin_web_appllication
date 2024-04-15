@@ -82,8 +82,8 @@ class _ViewSummaryAdminState extends State<ViewSummaryAdmin> {
                     width: 250,
                     height: 40,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: blue)),
+                        borderRadius: BorderRadius.circular(5,),
+                        border: Border.all(color: blue,),),
                     child: Row(
                       children: [
                         IconButton(
@@ -380,7 +380,7 @@ class _ViewSummaryAdminState extends State<ViewSummaryAdmin> {
                     ? Expanded(
                         child: StreamBuilder(
                         stream: FirebaseFirestore.instance
-                            .collection('DailyProjectReport')
+                            .collection('DailyProject3')
                             .doc('${widget.depoName}')
                             .collection(userId)
                             .doc(DateFormat.yMMMMd().format(DateTime.now()))
@@ -407,7 +407,7 @@ class _ViewSummaryAdminState extends State<ViewSummaryAdmin> {
                               data: SfDataGridThemeData(headerColor: blue),
                               child: SfDataGrid(
                                   source: _dailyDataSource,
-                                  allowEditing: true,
+                                  allowEditing: false,
                                   frozenColumnsCount: 2,
                                   gridLinesVisibility: GridLinesVisibility.both,
                                   headerGridLinesVisibility:
@@ -420,14 +420,9 @@ class _ViewSummaryAdminState extends State<ViewSummaryAdmin> {
                                   columns: [
                                     GridColumn(
                                       columnName: 'SiNo',
-                                      autoFitPadding:
-                                          const EdgeInsets.symmetric(
-                                              horizontal: 16),
                                       allowEditing: true,
                                       width: 70,
                                       label: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8.0),
                                         alignment: Alignment.center,
                                         child: Text('SI No.',
                                             overflow: TextOverflow.values.first,
@@ -503,14 +498,9 @@ class _ViewSummaryAdminState extends State<ViewSummaryAdmin> {
                                     // ),
                                     GridColumn(
                                       columnName: 'TypeOfActivity',
-                                      autoFitPadding:
-                                          const EdgeInsets.symmetric(
-                                              horizontal: 16),
                                       allowEditing: true,
                                       width: 200,
                                       label: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8.0),
                                         alignment: Alignment.center,
                                         child: Text('Type of Activity',
                                             overflow: TextOverflow.values.first,
@@ -524,14 +514,9 @@ class _ViewSummaryAdminState extends State<ViewSummaryAdmin> {
                                     ),
                                     GridColumn(
                                       columnName: 'ActivityDetails',
-                                      autoFitPadding:
-                                          const EdgeInsets.symmetric(
-                                              horizontal: 16),
                                       allowEditing: true,
                                       width: 220,
                                       label: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8.0),
                                         alignment: Alignment.center,
                                         child: Text('Activity Details',
                                             overflow: TextOverflow.values.first,
@@ -545,14 +530,9 @@ class _ViewSummaryAdminState extends State<ViewSummaryAdmin> {
                                     ),
                                     GridColumn(
                                       columnName: 'Progress',
-                                      autoFitPadding:
-                                          const EdgeInsets.symmetric(
-                                              horizontal: 16),
                                       allowEditing: true,
                                       width: 320,
                                       label: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8.0),
                                         alignment: Alignment.center,
                                         child: Text('Progress',
                                             overflow: TextOverflow.values.first,
@@ -566,14 +546,9 @@ class _ViewSummaryAdminState extends State<ViewSummaryAdmin> {
                                     ),
                                     GridColumn(
                                       columnName: 'Status',
-                                      autoFitPadding:
-                                          const EdgeInsets.symmetric(
-                                              horizontal: 16),
                                       allowEditing: true,
                                       width: 320,
                                       label: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8.0),
                                         alignment: Alignment.center,
                                         child: Text('Remark / Status',
                                             overflow: TextOverflow.values.first,
@@ -587,14 +562,9 @@ class _ViewSummaryAdminState extends State<ViewSummaryAdmin> {
                                     ),
                                     GridColumn(
                                       columnName: 'view',
-                                      autoFitPadding:
-                                          const EdgeInsets.symmetric(
-                                              horizontal: 16),
                                       allowEditing: true,
                                       width: 150,
                                       label: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8.0),
                                         alignment: Alignment.center,
                                         child: Text('View Image',
                                             overflow: TextOverflow.values.first,
@@ -661,7 +631,6 @@ class _ViewSummaryAdminState extends State<ViewSummaryAdmin> {
                                     child: SfDataGrid(
                                       source: _safetyChecklistDataSource,
                                       //key: key,
-
                                       allowEditing: true,
                                       frozenColumnsCount: 2,
                                       gridLinesVisibility:
