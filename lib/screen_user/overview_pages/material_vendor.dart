@@ -11,6 +11,8 @@ import 'package:web_appllication/model/user_model/material_vendor.dart';
 import 'package:web_appllication/widgets/widgets_user/custom_appbar.dart';
 import 'package:web_appllication/widgets/widgets_user/user_style.dart';
 
+import '../../widgets/custom_show_progress.dart';
+
 class MaterialProcurementUser extends StatefulWidget {
   String? cityName;
   String? depoName;
@@ -79,7 +81,7 @@ class _MaterialProcurementUserState extends State<MaterialProcurementUser> {
               depotName: widget.depoName,
               haveSynced: isFieldEditable,
               store: () {
-                _showDialog(context);
+                showProgressDilogue(context);
                 storeData();
               },
             ),

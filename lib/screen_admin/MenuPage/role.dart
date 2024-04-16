@@ -89,10 +89,6 @@ class _RoleScreenState extends State<RoleScreen> {
 
   @override
   void initState() {
-    // storeUserDataToUnAssignedRole().whenComplete(() {
-    //   storeUnAssignedToTotalUser();
-    // });
-    // updateRoleManagementData([]);
     fetchCompleteUserList().whenComplete(() async {
       await fetchTotalValues();
       setState(() {

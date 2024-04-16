@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:web_appllication/components/loading_page.dart';
 import 'package:web_appllication/provider/provider_admin/filteration_provider.dart';
+import 'package:web_appllication/widgets/widgets_admin/admin_style.dart';
 import 'LoadingForMenuUser.dart';
 
 class TotalUsers extends StatefulWidget {
@@ -36,10 +37,12 @@ class _TotalUsersState extends State<TotalUsers> {
         ? LoadingPage()
         : Scaffold(
             appBar: PreferredSize(
-                preferredSize: Size(MediaQuery.of(context).size.width, 50),
-                child: AppBar(
-                  title: const Text('Total Users'),
-                )),
+              preferredSize: Size(MediaQuery.of(context).size.width, 50),
+              child: AppBar(
+                backgroundColor: blue,
+                title: const Text('Total Users'),
+              ),
+            ),
             body: Column(
               children: [
                 Consumer<FilterProviderAdmin>(
@@ -249,12 +252,13 @@ class _TotalUsersState extends State<TotalUsers> {
             padding: const EdgeInsets.only(left: 15.0),
             child: Row(
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(right: 10.0),
-                  child: Icon(
-                    Icons.circle_rounded,
-                    size: 10,
-                  ),
+                Icon(
+                  Icons.radio_button_on_rounded,
+                  color: blue,
+                  size: 15.0,
+                ),
+                const SizedBox(
+                  width: 10.0,
                 ),
                 Text(
                   inputList[index],
@@ -273,19 +277,22 @@ class _TotalUsersState extends State<TotalUsers> {
     return GridView.builder(
         shrinkWrap: true,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 4,
-            crossAxisSpacing: 10,
-            childAspectRatio: 10.0,
-            mainAxisSpacing: 10),
+            crossAxisCount: 3,
+            crossAxisSpacing: 3,
+            childAspectRatio: 4,
+            mainAxisSpacing: 3.0),
         itemCount: inputList.length,
         itemBuilder: (context, index) {
           return Container(
+            alignment: Alignment.center,
             padding: const EdgeInsets.all(2.0),
             decoration: BoxDecoration(border: Border.all()),
             child: Text(
               '${inputList[index]}',
-              style: GoogleFonts.average(fontSize: 13),
-              textAlign: TextAlign.center,
+              style: GoogleFonts.average(
+                fontSize: 11,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           );
         });
@@ -298,8 +305,7 @@ class _TotalUsersState extends State<TotalUsers> {
       String currentReportingmanager,
       List<dynamic> cities,
       List<dynamic> depotList,
-      String selectedUserId
-      ) {
+      String selectedUserId) {
     return Card(
       elevation: 15,
       child: Container(
@@ -544,145 +550,150 @@ class _TotalUsersState extends State<TotalUsers> {
     return showDialog(
         context: context,
         builder: (_) => Dialog(
-                child: Card(
-              elevation: 10,
-              shadowColor: Colors.black,
-              child: Container(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/tata_dialog_background.jpeg'),
-                    fit: BoxFit.cover,
+                child: Container(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(
+                    10.0,
                   ),
                 ),
-                padding: const EdgeInsets.all(10.0),
-                height: 550,
-                width: 1000,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10, bottom: 10),
-                        child: Text(
-                          user,
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.average(fontSize: 20),
-                        ),
+                image: DecorationImage(
+                  image: AssetImage('assets/tata_dialog_background.jpeg'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              padding: const EdgeInsets.all(10.0),
+              height: 450,
+              width: MediaQuery.of(context).size.width * 0.3,
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10, bottom: 10),
+                      child: Text(
+                        user,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.average(fontSize: 20),
                       ),
-                      Row(
+                    ),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.person_2_sharp,
+                          color: Colors.black,
+                          size: 20,
+                        ),
+                        Container(
+                          padding: const EdgeInsets.only(bottom: 5.0),
+                          child: Text(
+                            'Designation',
+                            style: GoogleFonts.average(
+                                decorationThickness: 2.0,
+                                color: Colors.black,
+                                fontSize: 15,
+                                letterSpacing: 1),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(5.0),
+                      child: customRowBuilderForDialog(
+                        currentRoles,
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(bottom: 5.0, top: 20.0),
+                      child: Row(
                         children: [
                           const Icon(
-                            Icons.person_2_sharp,
+                            Icons.person_4_sharp,
                             color: Colors.black,
                             size: 20,
                           ),
-                          Container(
-                            padding: const EdgeInsets.only(bottom: 5.0),
-                            child: Text(
-                              'Designation',
-                              style: GoogleFonts.average(
-                                  decorationThickness: 2.0,
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  letterSpacing: 1),
-                            ),
+                          Text(
+                            'Reporting Manager',
+                            style: GoogleFonts.average(
+                                decorationThickness: 2.0,
+                                color: Colors.black,
+                                fontSize: 15,
+                                letterSpacing: 1),
                           ),
                         ],
                       ),
-                      Container(
-                          padding: const EdgeInsets.all(5.0),
-                          child: customRowBuilderForDialog(currentRoles)),
-                      Container(
-                        padding: const EdgeInsets.only(bottom: 5.0, top: 20.0),
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.person_4_sharp,
-                              color: Colors.black,
-                              size: 20,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(left: 15.0),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.radio_button_on_rounded,
+                            color: blue,
+                            size: 15.0,
+                          ),
+                          const SizedBox(
+                            width: 10.0,
+                          ),
+                          Text(
+                            currentreportingManager.toString().isNotEmpty
+                                ? currentreportingManager
+                                : '',
+                            style: TextStyle(
+                              color: Colors.grey[800],
+                              fontSize: 13,
                             ),
-                            Text(
-                              'Reporting Manager',
-                              style: GoogleFonts.average(
-                                  decorationThickness: 2.0,
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  letterSpacing: 1),
-                            ),
-                          ],
-                        ),
+                          )
+                        ],
                       ),
-                      Container(
-                        padding: const EdgeInsets.only(left: 15.0),
-                        child: Row(
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.only(right: 10),
-                              child: Icon(
-                                Icons.circle,
-                                size: 10,
-                              ),
-                            ),
-                            Text(
-                              currentreportingManager.toString().isNotEmpty
-                                  ? currentreportingManager
-                                  : '',
-                              style: TextStyle(
-                                color: Colors.grey[800],
-                                fontSize: 13,
-                              ),
-                            )
-                          ],
-                        ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(bottom: 5.0, top: 30.0),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.person_4_sharp,
+                            color: Colors.black,
+                            size: 20,
+                          ),
+                          Text(
+                            'Cities',
+                            style: GoogleFonts.average(
+                                decorationThickness: 2.0,
+                                color: Colors.black,
+                                fontSize: 15,
+                                letterSpacing: 1),
+                          ),
+                        ],
                       ),
-                      Container(
-                        padding: const EdgeInsets.only(bottom: 5.0, top: 30.0),
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.person_4_sharp,
-                              color: Colors.black,
-                              size: 20,
-                            ),
-                            Text(
-                              'Cities',
-                              style: GoogleFonts.average(
-                                  decorationThickness: 2.0,
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  letterSpacing: 1),
-                            ),
-                          ],
-                        ),
+                    ),
+                    Container(child: customRowBuilderForDialog(cities)),
+                    Container(
+                      padding: const EdgeInsets.only(bottom: 10.0, top: 30.0),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.bus_alert_outlined,
+                            color: Colors.black,
+                            size: 20,
+                          ),
+                          Text(
+                            'Depots',
+                            style: GoogleFonts.average(
+                                decorationThickness: 2.0,
+                                color: Colors.black,
+                                fontSize: 15,
+                                letterSpacing: 1),
+                          ),
+                        ],
                       ),
-                      Container(child: customRowBuilderForDialog(cities)),
-                      Container(
-                        padding: const EdgeInsets.only(bottom: 10.0, top: 30.0),
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.bus_alert_outlined,
-                              color: Colors.black,
-                              size: 20,
-                            ),
-                            Text(
-                              'Depots',
-                              style: GoogleFonts.average(
-                                  decorationThickness: 2.0,
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  letterSpacing: 1),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                          width: 900,
-                          height: 120,
-                          child: SingleChildScrollView(
-                            child: customRowGridBuilder(depots),
-                          ))
-                    ]),
-              ),
+                    ),
+                    SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.3,
+                        height: 120,
+                        child: SingleChildScrollView(
+                          child: customRowGridBuilder(depots),
+                        ))
+                  ]),
             )));
   }
 
@@ -930,6 +941,4 @@ class _TotalUsersState extends State<TotalUsers> {
     }
     print("Role Management Data Updated");
   }
-
-
 }

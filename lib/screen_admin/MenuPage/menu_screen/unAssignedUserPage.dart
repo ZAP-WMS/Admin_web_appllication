@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../../../provider/provider_admin/filteration_provider.dart';
+import '../../../widgets/widgets_admin/admin_style.dart';
 import 'LoadingForMenuUser.dart';
 
 class UnAssingedUsers extends StatefulWidget {
@@ -34,6 +35,7 @@ class _UnAssingedUsersState extends State<UnAssingedUsers> {
         appBar: PreferredSize(
             preferredSize: Size(MediaQuery.of(context).size.width, 50),
             child: AppBar(
+              backgroundColor: blue,
               title: const Text('UnAssigned Users'),
             )),
         body: Column(

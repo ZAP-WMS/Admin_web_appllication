@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:web_appllication/components/loading_page.dart';
 import '../../../provider/provider_admin/filteration_provider.dart';
+import '../../../widgets/widgets_user/user_style.dart';
 import 'LoadingForMenuUser.dart';
 
 class AssignedUser extends StatefulWidget {
@@ -39,6 +40,7 @@ class _AssignedUserState extends State<AssignedUser> {
             appBar: PreferredSize(
                 preferredSize: Size(MediaQuery.of(context).size.width, 50),
                 child: AppBar(
+                  backgroundColor: blue,
                   title: const Text('Assigned Users'),
                 )),
             body: Column(
