@@ -12,6 +12,7 @@ import 'package:web_appllication/datasource_user/safetychecklist_datasource.dart
 import 'package:web_appllication/model/user_model/safety_checklistModel.dart';
 import 'package:web_appllication/screen_user/Planning_Pages/civil_quality_checklist.dart';
 import 'package:web_appllication/screen_user/Planning_Pages/summary.dart';
+import 'package:web_appllication/widgets/custom_show_progress.dart';
 import 'package:web_appllication/widgets/widgets_user/custom_appbar.dart';
 import 'package:web_appllication/widgets/widgets_user/user_style.dart';
 
@@ -89,10 +90,11 @@ class _SafetyChecklistUserState extends State<SafetyChecklistUser> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        // ignore: sort_child_properties_last
+        preferredSize: const Size.fromHeight(50),
         child: CustomAppBar(
             role: widget.role,
             toSafety: true,
@@ -114,6 +116,7 @@ class _SafetyChecklistUserState extends State<SafetyChecklistUser> {
                 )),
             haveSynced: isFieldEditable,
             store: () {
+              showProgressDilogue(context);
               FirebaseFirestore.instance
                   .collection('SafetyFieldData2')
                   .doc('${widget.depoName}')
@@ -142,7 +145,6 @@ class _SafetyChecklistUserState extends State<SafetyChecklistUser> {
 
               store();
             }),
-        preferredSize: const Size.fromHeight(50),
       ),
       body: _isloading
           ? LoadingPage()
@@ -164,7 +166,7 @@ class _SafetyChecklistUserState extends State<SafetyChecklistUser> {
                         // color: lightblue,
                         child: Padding(
                           padding: const EdgeInsets.only(
-                              top: 10, left: 10, right: 10),
+                              top: 10, left: 10, right: 10,),
                           child: Column(
                             children: [
                               Row(
@@ -361,18 +363,6 @@ class _SafetyChecklistUserState extends State<SafetyChecklistUser> {
                                                 ),
                                               ],
                                             ),
-
-                                            // child: TextFormField(
-                                            //   initialValue: 'Date',
-                                            //   textAlign: TextAlign.center,
-                                            //   // decoration: InputDecoration(
-                                            //   //     hintText: "contact no",
-                                            //   //     border: OutlineInputBorder(
-                                            //   //         borderRadius:
-                                            //   //             BorderRadius.circular(
-                                            //   //                 10))),
-                                            //   autofillHints: Characters.empty,
-                                            // ),
                                           ),
                                         ],
                                       ),

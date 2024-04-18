@@ -38,7 +38,6 @@ class _ViewAllPdfUserState extends State<ViewAllPdfUser> {
 
   @override
   void initState() {
-  
     futureFiles = widget.title == 'QualityChecklist'
         ? FirebaseApiUser.listAll(
             '${widget.title}/${widget.subtitle}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.fldrName}/${widget.date}/${widget.srNo}')

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:web_appllication/cities.dart';
-import 'package:web_appllication/components/page_routeBuilder.dart';
 import 'package:web_appllication/screen_user/KeysEvents/Grid_DataTable.dart';
 import 'package:web_appllication/widgets/widgets_user/user_style.dart';
 
+// ignore: must_be_immutable
 class SplitDashboard extends StatelessWidget {
   String userId;
   String role;
@@ -13,7 +12,9 @@ class SplitDashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(45),
+        preferredSize: const Size.fromHeight(
+          45,
+        ),
         child: AppBar(
           backgroundColor: blue,
           centerTitle: true,

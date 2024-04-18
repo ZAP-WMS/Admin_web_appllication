@@ -12,6 +12,7 @@ import 'package:web_appllication/datasource_user/energymanagement_datasource.dar
 import 'package:web_appllication/model/user_model/energy_management.dart';
 import 'package:web_appllication/provider/provider_user/energy_provider.dart';
 import 'package:web_appllication/screen_admin/overview_page/quality_checklist.dart';
+import 'package:web_appllication/widgets/custom_show_progress.dart';
 import 'package:web_appllication/widgets/widgets_user/custom_appbar.dart';
 import 'package:web_appllication/widgets/widgets_user/user_style.dart';
 import '../Planning_Pages/summary.dart';
@@ -85,7 +86,7 @@ class _EnergyManagementUserState extends State<EnergyManagementUser> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-          // ignore: sort_child_properties_last
+          preferredSize: const Size.fromHeight(50),
           child: CustomAppBar(
             role: widget.role,
             depotName: widget.depoName,
@@ -95,18 +96,20 @@ class _EnergyManagementUserState extends State<EnergyManagementUser> {
             text: 'Depot Energy Management',
             haveSummary: true,
             onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ViewSummary(
-                    role: widget.role,
-                    cityName: widget.cityName.toString(),
-                    depoName: widget.depoName.toString(),
-                    id: 'Energy Management',
-                    userId: widget.userId,
-                  ),
-                ),),
+              context,
+              MaterialPageRoute(
+                builder: (context) => ViewSummary(
+                  role: widget.role,
+                  cityName: widget.cityName.toString(),
+                  depoName: widget.depoName.toString(),
+                  id: 'Energy Management',
+                  userId: widget.userId,
+                ),
+              ),
+            ),
             haveSynced: isFieldEditable,
             store: () {
+              showProgressDilogue(context);
               FirebaseApiUser().defaultKeyEventsField(
                   'EnergyManagementTable', widget.cityName!);
               FirebaseApiUser().nestedKeyEventsField('EnergyManagementTable',
@@ -142,8 +145,7 @@ class _EnergyManagementUserState extends State<EnergyManagementUser> {
 
               storeData();
             },
-          ),
-          preferredSize: const Size.fromHeight(50)),
+          )),
       body: _isloading
           ? LoadingPage()
           : Column(
@@ -175,11 +177,6 @@ class _EnergyManagementUserState extends State<EnergyManagementUser> {
                             frozenColumnsCount: 2,
                             gridLinesVisibility: GridLinesVisibility.both,
                             headerGridLinesVisibility: GridLinesVisibility.both,
-                            // checkboxColumnSettings:
-                            //     DataGridCheckboxColumnSettings(
-                            //         showCheckboxOnHeader: false),
-
-                            // showCheckboxColumn: true,
                             selectionMode: SelectionMode.multiple,
                             navigationMode: GridNavigationMode.cell,
                             columnWidthMode: ColumnWidthMode.auto,
@@ -731,6 +728,7 @@ class _EnergyManagementUserState extends State<EnergyManagementUser> {
       'data': tabledata2,
     }).whenComplete(() async {
       tabledata2.clear();
+      Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Data are synced'),
         backgroundColor: blue,

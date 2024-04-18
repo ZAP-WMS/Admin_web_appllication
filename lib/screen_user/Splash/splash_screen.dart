@@ -22,7 +22,7 @@ class SplashScreenState extends State<SplashScreen> {
     _getCurrentUser();
     // user = FirebaseAuth.instance.currentUser == null;
     Timer(
-      const Duration(milliseconds: 1500),
+      const Duration(milliseconds: 1500,),
       () => user
           ? Navigator.pushNamedAndRemoveUntil(
               context,

@@ -12,11 +12,12 @@ import 'package:web_appllication/datasource_user/detailedengEV_datasource.dart';
 import 'package:web_appllication/datasource_user/detailedengShed_datasource.dart';
 import 'package:web_appllication/datasource_user/detailedeng_datasource.dart';
 import 'package:web_appllication/model/user_model/detailed_engModel.dart';
+import 'package:web_appllication/widgets/custom_show_progress.dart';
 import 'package:web_appllication/widgets/widgets_user/user_style.dart';
 import '../KeysEvents/Grid_DataTable.dart';
 
-List<dynamic> globalIndexDetailedList = [];
-List<bool> isShowPinIconInDetail = [false, false, false];
+// List<dynamic> globalIndexDetailedList = [];
+// List<bool> isShowPinIconInDetail = [false, false, false];
 
 class DetailedEngUser extends StatefulWidget {
   String? cityName;
@@ -67,8 +68,8 @@ class _DetailedEngUsertState extends State<DetailedEngUser>
 
   @override
   void initState() {
-    checkAvailableImage().whenComplete(() {
-      getAssignedDepots();
+    checkAvailableImage().whenComplete(() async {
+      await getAssignedDepots();
       _detailedDataSource = DetailedEngSource(
           DetailedProject,
           context,
@@ -133,7 +134,9 @@ class _DetailedEngUsertState extends State<DetailedEngUser>
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      animationDuration: const Duration(milliseconds: 500),
+      animationDuration: const Duration(
+        milliseconds: 500,
+      ),
       length: 3,
       initialIndex: 0,
       child: Scaffold(
@@ -160,54 +163,57 @@ class _DetailedEngUsertState extends State<DetailedEngUser>
                 width: 200,
                 height: 30,
                 child: TypeAheadField(
-                    animationStart: BorderSide.strokeAlignCenter,
-                    hideOnLoading: true,
-                    suggestionsCallback: (pattern) async {
-                      return await getDepoList(pattern);
-                    },
-                    itemBuilder: (context, suggestion) {
-                      return ListTile(
-                        title: Text(suggestion.toString()),
-                      );
-                    },
-                    onSuggestionSelected: (suggestion) {
-                      selectedDepoController.text = suggestion.toString();
+                  animationStart: BorderSide.strokeAlignCenter,
+                  hideOnLoading: true,
+                  suggestionsCallback: (pattern) async {
+                    return await getDepoList(pattern);
+                  },
+                  itemBuilder: (context, suggestion) {
+                    return ListTile(
+                      title: Text(suggestion.toString()),
+                    );
+                  },
+                  onSuggestionSelected: (suggestion) {
+                    selectedDepoController.text = suggestion.toString();
 
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DetailedEngUser(
-                              cityName: widget.cityName,
-                              depoName: suggestion.toString(),
-                            ),
-                          ));
-                    },
-                    textFieldConfiguration: TextFieldConfiguration(
-                      decoration: const InputDecoration(
-                          fillColor: Colors.white,
-                          filled: true,
-                          contentPadding: EdgeInsets.all(5.0),
-                          hintText: 'Go To Depot'),
-                      style: const TextStyle(
-                        fontSize: 15,
-                      ),
-                      controller: selectedDepoController,
-                    )),
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetailedEngUser(
+                            cityName: widget.cityName,
+                            depoName: suggestion.toString(),
+                          ),
+                        ));
+                  },
+                  textFieldConfiguration: TextFieldConfiguration(
+                    decoration: const InputDecoration(
+                        fillColor: Colors.white,
+                        filled: true,
+                        contentPadding: EdgeInsets.all(5.0),
+                        hintText: 'Go To Depot'),
+                    style: const TextStyle(
+                      fontSize: 15,
+                    ),
+                    controller: selectedDepoController,
+                  ),
+                ),
               ),
               Container(
                 margin: const EdgeInsets.all(10.0),
                 height: 15,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(2), color: Colors.blue),
-                child: isFieldEditable ? TextButton(
-                    onPressed: () {
-                      _showDialog(context);
-                      StoreData();
-                    },
-                    child: Text(
-                      'Sync Data',
-                      style: TextStyle(color: white, fontSize: 20),
-                    )) : Container(),
+                child: isFieldEditable
+                    ? TextButton(
+                        onPressed: () {
+                          showProgressDilogue(context);
+                          StoreData();
+                        },
+                        child: Text(
+                          'Sync Data',
+                          style: TextStyle(color: white, fontSize: 20),
+                        ))
+                    : Container(),
               ),
               Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -834,12 +840,12 @@ class _DetailedEngUsertState extends State<DetailedEngUser>
       floatingActionButton: isFieldEditable
           ? FloatingActionButton(
               onPressed: (() {
-                globalIndexDetailedList.add(0);
-                isShowPinIconInDetail.add(false);
+                // globalIndexDetailedList.add(0);
+                // isShowPinIconInDetail.add(false);
                 DetailedProject.add(DetailedEngModelUser(
                   siNo: 1,
                   title: '',
-                  number: null,
+                  number: '',
                   preparationDate:
                       DateFormat('dd-MM-yyyy').format(DateTime.now()),
                   submissionDate:
@@ -1261,13 +1267,13 @@ class _DetailedEngUsertState extends State<DetailedEngUser>
       floatingActionButton: isFieldEditable
           ? FloatingActionButton(
               onPressed: (() {
-                globalIndexDetailedList.add(0);
-                isShowPinIconInDetail.add(false);
+                // globalIndexDetailedList.add(0);
+                // isShowPinIconInDetail.add(false);
                 if (_selectedIndex == 0) {
                   DetailedProjectev.add(DetailedEngModelUser(
                     siNo: 1,
-                    title: 'EV Layout',
-                    number: null,
+                    title: '',
+                    number: '',
                     preparationDate:
                         DateFormat('dd-MM-yyyy').format(DateTime.now()),
                     submissionDate:
@@ -1283,8 +1289,8 @@ class _DetailedEngUsertState extends State<DetailedEngUser>
                 if (_selectedIndex == 1) {
                   DetailedProjectev.add(DetailedEngModelUser(
                     siNo: 1,
-                    title: 'EV Layout',
-                    number: null,
+                    title: '',
+                    number: '',
                     preparationDate:
                         DateFormat('dd-MM-yyyy').format(DateTime.now()),
                     submissionDate:
@@ -1707,12 +1713,12 @@ class _DetailedEngUsertState extends State<DetailedEngUser>
       floatingActionButton: isFieldEditable
           ? FloatingActionButton(
               onPressed: (() {
-                globalIndexDetailedList.add(0);
-                isShowPinIconInDetail.add(false);
+                // globalIndexDetailedList.add(0);
+                // isShowPinIconInDetail.add(false);
                 DetailedProjectshed.add(DetailedEngModelUser(
                   siNo: 1,
-                  title: 'Shed Lighting',
-                  number: null,
+                  title: '',
+                  number: '',
                   preparationDate:
                       DateFormat('dd-MM-yyyy').format(DateTime.now()),
                   submissionDate:
@@ -1749,23 +1755,6 @@ class _DetailedEngUsertState extends State<DetailedEngUser>
     }
 
     return depoList;
-  }
-
-  void _showDialog(BuildContext context) {
-    showCupertinoDialog(
-      context: context,
-      builder: (context) => CupertinoAlertDialog(
-        content: SizedBox(
-          height: 50,
-          width: 50,
-          child: Center(
-            child: CircularProgressIndicator(
-              color: blue,
-            ),
-          ),
-        ),
-      ),
-    );
   }
 
   Future<void> checkAvailableImage() async {
@@ -1810,10 +1799,8 @@ class _DetailedEngUsertState extends State<DetailedEngUser>
         }
         tempGlobalList.add(result.items.length);
       }
-      globalIndexDetailedList = tempGlobalList;
-      isShowPinIconInDetail = tempIsShowPinDetail;
-
-      print(' global index list : ${globalIndexDetailedList}');
+      // globalIndexDetailedList = tempGlobalList;
+      // isShowPinIconInDetail = tempIsShowPinDetail;
     }
   }
 

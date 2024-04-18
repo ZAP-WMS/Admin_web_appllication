@@ -26,7 +26,6 @@ import 'package:web_appllication/model/user_model/monthly_projectModel.dart';
 import 'package:web_appllication/model/user_model/safety_checklistModel.dart';
 import 'package:web_appllication/provider/provider_user/checkbox_provider.dart';
 import 'package:web_appllication/screen_user/Planning_Pages/quality_checklist.dart';
-import 'package:web_appllication/screen_user/overview_pages/daily_project.dart';
 import 'package:web_appllication/widgets/widgets_user/custom_appbar.dart';
 import 'package:web_appllication/widgets/widgets_user/date_input_format.dart';
 import 'package:web_appllication/widgets/widgets_user/loading_pdf.dart';
@@ -64,6 +63,8 @@ class ViewSummary extends StatefulWidget {
 }
 
 class _ViewSummaryState extends State<ViewSummary> {
+  String? selectedDate = DateFormat.yMMMMd().format(DateTime.now());
+
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   final GlobalKey<FormState> _formkeyenddate = GlobalKey<FormState>();
   final GlobalKey<FormState> _formkeymontlydate = GlobalKey<FormState>();
@@ -122,12 +123,7 @@ class _ViewSummaryState extends State<ViewSummary> {
           .doc(DateFormat.yMMM().format(startdate!))
           .snapshots();
       _isLoading = false;
-      // widget.id == 'Daily Report'
-      //     ? _summaryProvider!
-      //         .fetchdailydata(widget.depoName!, userId, startdate!, enddate!)
-      //     : '';
     });
-    print('Hello worlds');
   }
 
   @override
@@ -203,8 +199,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                           ? _generateEnergyPDF
                           : _generateSafetyPDF,
               isDownload: true,
-              text:
-                  ' ${widget.cityName} / ${widget.depoName} / ${widget.id} / View Summary'),
+              text: 'View Summary'),
         ),
         // AppBar(
         //   title: Text(
@@ -222,726 +217,378 @@ class _ViewSummaryState extends State<ViewSummary> {
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 10, bottom: 25),
-                                            child: IconButton(
-                                                onPressed: () {
-                                                  showDialog(
-                                                    context: context,
-                                                    builder: (context) =>
-                                                        AlertDialog(
-                                                      title: const Text(
-                                                          'Choose Date'),
-                                                      content: SizedBox(
-                                                        width: 400,
-                                                        height: 500,
-                                                        child:
-                                                            SfDateRangePicker(
-                                                          view:
-                                                              DateRangePickerView
-                                                                  .year,
-                                                          showTodayButton:
-                                                              false,
-                                                          showActionButtons:
-                                                              true,
-                                                          selectionMode:
-                                                              DateRangePickerSelectionMode
-                                                                  .range,
-                                                          onSelectionChanged:
-                                                              (DateRangePickerSelectionChangedArgs
-                                                                  args) {
-                                                            if (args.value
-                                                                is PickerDateRange) {
-                                                              rangestartDate =
-                                                                  args.value
-                                                                      .startDate;
-                                                              rangeEndDate =
-                                                                  args.value
-                                                                      .endDate;
-                                                            }
-                                                          },
-                                                          onSubmit: (value) {
-                                                            dailyproject
-                                                                .clear();
-                                                            setState(() {
-                                                              startdate = DateTime.parse(
-                                                                  rangestartDate
-                                                                      .toString());
-                                                              enddate = DateTime
-                                                                  .parse(rangeEndDate
-                                                                      .toString());
-                                                            });
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
-                                                          onCancel: () {
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
+                              Container(
+                                width: 200,
+                                height: 40,
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 170,
+                                      height: 40,
+                                      child: Form(
+                                        key: _formkey,
+                                        child: TypeAheadFormField<String>(
+                                          textFieldConfiguration:
+                                              TextFieldConfiguration(
+                                            controller: TextEditingController(
+                                                text: DateFormat.yMMMMd()
+                                                    .format(startdate!)),
+                                            decoration: InputDecoration(
+                                              prefixIcon: IconButton(
+                                                  onPressed: () {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (context) =>
+                                                          AlertDialog(
+                                                        content: SizedBox(
+                                                          width: 400,
+                                                          height: 500,
+                                                          child:
+                                                              SfDateRangePicker(
+                                                            view:
+                                                                DateRangePickerView
+                                                                    .year,
+                                                            showTodayButton:
+                                                                false,
+                                                            showActionButtons:
+                                                                true,
+                                                            selectionMode:
+                                                                DateRangePickerSelectionMode
+                                                                    .range,
+                                                            onSelectionChanged:
+                                                                (DateRangePickerSelectionChangedArgs
+                                                                    args) {
+                                                              if (args.value
+                                                                  is PickerDateRange) {
+                                                                rangestartDate =
+                                                                    args.value
+                                                                        .startDate;
+                                                                rangeEndDate =
+                                                                    args.value
+                                                                        .endDate;
+                                                              }
+                                                            },
+                                                            onSubmit: (value) {
+                                                              dailyproject
+                                                                  .clear();
+                                                              setState(() {
+                                                                startdate = DateTime.parse(
+                                                                    rangestartDate
+                                                                        .toString());
+                                                                enddate = DateTime.parse(
+                                                                    rangeEndDate
+                                                                        .toString());
+                                                              });
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            onCancel: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                  );
-                                                },
-                                                icon: Icon(
-                                                  Icons.today,
-                                                  color: blue,
-                                                  size: 35,
-                                                )),
-                                          ),
-                                          Container(
-                                            width: 180,
-                                            height: 75,
-                                            child: Form(
-                                              key: _formkey,
-                                              child: Column(
-                                                children: [
-                                                  TypeAheadFormField<String>(
-                                                    textFieldConfiguration:
-                                                        TextFieldConfiguration(
-                                                      controller:
-                                                          TextEditingController(
-                                                              text: DateFormat
-                                                                      .yMMMMd()
-                                                                  .format(
-                                                                      startdate!)),
-                                                      decoration:
-                                                          const InputDecoration(
-                                                              // labelText:
-                                                              //     'Type a fruit...',
-                                                              ),
-                                                      onSubmitted: (value) {
-                                                        if (_formkey
-                                                            .currentState!
-                                                            .validate()) {
-                                                          DateInputFormatter(
-                                                              _dateRegExp);
-                                                          print(value);
-                                                          DateTime date =
-                                                              DateFormat(
-                                                                      'MMMM d, yyyy')
-                                                                  .parse(value);
-
-                                                          setState(() {
-                                                            startdate = date;
-                                                          });
-                                                        }
-                                                      },
-                                                      inputFormatters: [
-                                                        // Apply your input formatting logic here
-                                                        FilteringTextInputFormatter
-                                                            .allow(RegExp(
-                                                                r'[A-Za-z0-9 ,]')),
-                                                      ],
-                                                    ),
-                                                    suggestionsCallback:
-                                                        (pattern) {
-                                                      // Apply formatting logic to the pattern here if needed
-                                                      final formattedPattern =
-                                                          pattern.replaceAll(
-                                                              RegExp(
-                                                                  r'[^\w\s]+'),
-                                                              '');
-
-                                                      // Filter suggestions based on the formatted pattern
-                                                      return _suggestions.where(
-                                                          (fruit) => fruit
-                                                              .toLowerCase()
-                                                              .contains(
-                                                                  formattedPattern
-                                                                      .toLowerCase()));
-                                                    },
-                                                    itemBuilder:
-                                                        (context, suggestion) {
-                                                      return ListTile(
-                                                        title: Text(suggestion),
-                                                      );
-                                                    },
-                                                    transitionBuilder: (context,
-                                                        suggestionsBox,
-                                                        controller) {
-                                                      return suggestionsBox;
-                                                    },
-                                                    onSuggestionSelected:
-                                                        (suggestion) {
-                                                      DateTime date = DateFormat(
-                                                              'MMMM d, yyyy')
-                                                          .parse(suggestion);
-
-                                                      setState(() {
-                                                        startdate = date;
-                                                      });
-                                                      // Handle the selected suggestion
-                                                    },
-                                                    validator: (value) {
-                                                      if (value == null ||
-                                                          value.isEmpty) {
-                                                        return 'Please enter a date';
-                                                      }
-
-                                                      if (!RegExp(
-                                                              r'^(January|February|March|April|May|June|July|August|September|October|November|December) ([1-9]|[12][0-9]|3[1]), \d{4}$')
-                                                          .hasMatch(value)) {
-                                                        return 'E.g., February 22, 2024';
-                                                      }
-                                                      return null;
-                                                    },
-                                                  ),
-
-                                                  // TextFormField(
-                                                  //   textInputAction:
-                                                  //       TextInputAction.done,
-                                                  //   inputFormatters: [
-                                                  //     FilteringTextInputFormatter
-                                                  //         .allow(RegExp(
-                                                  //             r'[A-Za-z0-9 ,]')),
-                                                  //   ],
-                                                  //   decoration:
-                                                  //       const InputDecoration(
-                                                  //     hintText:
-                                                  //         'February 20, 2024',
-                                                  //     // enabledBorder:
-                                                  //     //     ,
-                                                  //     // focusedBorder:
-                                                  //     //     InputBorder.none,
-                                                  //   ),
-                                                  //   validator: (value) {
-                                                  //     if (value == null ||
-                                                  //         value.isEmpty) {
-                                                  //       return 'Please enter a date';
-                                                  //     }
-
-                                                  //     if (!RegExp(
-                                                  //             r'^(January|February|March|April|May|June|July|August|September|October|November|December) ([1-9]|[12][0-9]|3[1]), \d{4}$')
-                                                  //         .hasMatch(value)) {
-                                                  //       return 'E.g., February 22, 2024';
-                                                  //     }
-                                                  //     return null;
-                                                  //   },
-                                                  //   onFieldSubmitted: (value) {
-                                                  //     if (_formkey.currentState!
-                                                  //         .validate()) {
-                                                  //       DateInputFormatter(
-                                                  //           _dateRegExp);
-                                                  //       print(value);
-                                                  //       DateTime date = DateFormat(
-                                                  //               'MMMM d, yyyy')
-                                                  //           .parse(value);
-
-                                                  //       setState(() {
-                                                  //         startdate = date;
-                                                  //       });
-                                                  //     }
-                                                  //   },
-                                                  //   controller: TextEditingController(
-                                                  //       text: widget.id ==
-                                                  //               'Monthly Report'
-                                                  //           ? DateFormat.yMMMM()
-                                                  //               .format(
-                                                  //                   startdate!)
-                                                  //           : DateFormat
-                                                  //                   .yMMMMd()
-                                                  //               .format(
-                                                  //                   startdate!)),
-                                                  // ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-
-                                          // Text(widget.id == 'Monthly Report'
-                                          //     ? DateFormat.yMMMM()
-                                          //         .format(startdate!)
-                                          //     : DateFormat.yMMMMd()
-                                          //         .format(startdate!))
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(width: 20),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Container(
-                                        width: 180,
-                                        height: 75,
-                                        child: Form(
-                                          key: _formkeyenddate,
-                                          child: Column(
-                                            children: [
-                                              TypeAheadFormField<String>(
-                                                textFieldConfiguration:
-                                                    TextFieldConfiguration(
-                                                  controller:
-                                                      TextEditingController(
-                                                          text: DateFormat
-                                                                  .yMMMMd()
-                                                              .format(
-                                                                  enddate!)),
-                                                  decoration:
-                                                      const InputDecoration(
-                                                          // labelText:
-                                                          //     'Type a fruit...',
-                                                          ),
-                                                  onSubmitted: (value) {
-                                                    if (_formkeyenddate
-                                                        .currentState!
-                                                        .validate()) {
-                                                      DateInputFormatter(
-                                                          _dateRegExp);
-                                                      print(value);
-                                                      DateTime date = DateFormat(
-                                                              'MMMM d, yyyy')
-                                                          .parse(value);
-
-                                                      setState(() {
-                                                        enddate = date;
-                                                      });
-                                                    }
+                                                    );
                                                   },
-                                                  inputFormatters: [
-                                                    // Apply your input formatting logic here
-                                                    FilteringTextInputFormatter
-                                                        .allow(RegExp(
-                                                            r'[A-Za-z0-9 ,]')),
-                                                  ],
-                                                ),
-                                                suggestionsCallback: (pattern) {
-                                                  // Apply formatting logic to the pattern here if needed
-                                                  final formattedPattern =
-                                                      pattern.replaceAll(
-                                                          RegExp(r'[^\w\s]+'),
-                                                          '');
+                                                  icon: Icon(
+                                                    Icons.today,
+                                                    color: blue,
+                                                    size: 20,
+                                                  )),
 
-                                                  // Filter suggestions based on the formatted pattern
-                                                  return _suggestions.where(
-                                                      (fruit) => fruit
-                                                          .toLowerCase()
-                                                          .contains(
-                                                              formattedPattern
-                                                                  .toLowerCase()));
-                                                },
-                                                itemBuilder:
-                                                    (context, suggestion) {
-                                                  return ListTile(
-                                                    title: Text(suggestion),
-                                                  );
-                                                },
-                                                transitionBuilder: (context,
-                                                    suggestionsBox,
-                                                    controller) {
-                                                  return suggestionsBox;
-                                                },
-                                                onSuggestionSelected:
-                                                    (suggestion) {
-                                                  DateTime date =
-                                                      DateFormat('MMMM d, yyyy')
-                                                          .parse(suggestion);
+                                              // labelText:
+                                              //     'Type a fruit...',
+                                            ),
+                                            onSubmitted: (value) {
+                                              if (_formkey.currentState!
+                                                  .validate()) {
+                                                DateInputFormatter(_dateRegExp);
+                                                print(value);
+                                                DateTime date =
+                                                    DateFormat('MMMM d, yyyy')
+                                                        .parse(value);
 
-                                                  setState(() {
-                                                    enddate = date;
-                                                  });
-                                                  // Handle the selected suggestion
-                                                },
-                                                validator: (value) {
-                                                  if (value == null ||
-                                                      value.isEmpty) {
-                                                    return 'Please enter a date';
-                                                  }
-
-                                                  if (!RegExp(
-                                                          r'^(January|February|March|April|May|June|July|August|September|October|November|December) ([1-9]|[12][0-9]|3[1]), \d{4}$')
-                                                      .hasMatch(value)) {
-                                                    return 'E.g., February 22, 2024';
-                                                  }
-                                                  return null;
-                                                },
-                                              ),
-
-                                              // TextFormField(
-                                              //   textInputAction:
-                                              //       TextInputAction.done,
-                                              //   inputFormatters: [
-                                              //     FilteringTextInputFormatter
-                                              //         .allow(RegExp(
-                                              //             r'[A-Za-z0-9 ,]')),
-                                              //   ],
-                                              //   decoration:
-                                              //       const InputDecoration(
-                                              //     hintText:
-                                              //         'February 20, 2024',
-                                              //     // enabledBorder:
-                                              //     //     ,
-                                              //     // focusedBorder:
-                                              //     //     InputBorder.none,
-                                              //   ),
-                                              //   validator: (value) {
-                                              //     if (value == null ||
-                                              //         value.isEmpty) {
-                                              //       return 'Please enter a date';
-                                              //     }
-
-                                              //     if (!RegExp(
-                                              //             r'^(January|February|March|April|May|June|July|August|September|October|November|December) ([1-9]|[12][0-9]|3[1]), \d{4}$')
-                                              //         .hasMatch(value)) {
-                                              //       return 'E.g., February 22, 2024';
-                                              //     }
-                                              //     return null;
-                                              //   },
-                                              //   onFieldSubmitted: (value) {
-                                              //     if (_formkey.currentState!
-                                              //         .validate()) {
-                                              //       DateInputFormatter(
-                                              //           _dateRegExp);
-                                              //       print(value);
-                                              //       DateTime date = DateFormat(
-                                              //               'MMMM d, yyyy')
-                                              //           .parse(value);
-
-                                              //       setState(() {
-                                              //         startdate = date;
-                                              //       });
-                                              //     }
-                                              //   },
-                                              //   controller: TextEditingController(
-                                              //       text: widget.id ==
-                                              //               'Monthly Report'
-                                              //           ? DateFormat.yMMMM()
-                                              //               .format(
-                                              //                   startdate!)
-                                              //           : DateFormat
-                                              //                   .yMMMMd()
-                                              //               .format(
-                                              //                   startdate!)),
-                                              // ),
+                                                setState(() {
+                                                  startdate = date;
+                                                });
+                                              }
+                                            },
+                                            inputFormatters: [
+                                              // Apply your input formatting logic here
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp(r'[A-Za-z0-9 ,]')),
                                             ],
                                           ),
+                                          suggestionsCallback: (pattern) {
+                                            // Apply formatting logic to the pattern here if needed
+                                            final formattedPattern =
+                                                pattern.replaceAll(
+                                                    RegExp(r'[^\w\s]+'), '');
+
+                                            // Filter suggestions based on the formatted pattern
+                                            return _suggestions.where((fruit) =>
+                                                fruit.toLowerCase().contains(
+                                                    formattedPattern
+                                                        .toLowerCase()));
+                                          },
+                                          itemBuilder: (context, suggestion) {
+                                            return ListTile(
+                                              title: Text(
+                                                suggestion,
+                                                style: const TextStyle(
+                                                    fontSize: 11.0),
+                                              ),
+                                            );
+                                          },
+                                          transitionBuilder: (context,
+                                              suggestionsBox, controller) {
+                                            return suggestionsBox;
+                                          },
+                                          onSuggestionSelected: (suggestion) {
+                                            DateTime date =
+                                                DateFormat('MMMM d, yyyy')
+                                                    .parse(suggestion);
+
+                                            setState(() {
+                                              startdate = date;
+                                            });
+                                            // Handle the selected suggestion
+                                          },
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Please enter a date';
+                                            }
+
+                                            if (!RegExp(
+                                                    r'^(January|February|March|April|May|June|July|August|September|October|November|December) ([1-9]|[12][0-9]|3[1]), \d{4}$')
+                                                .hasMatch(value)) {
+                                              return 'E.g., February 22, 2024';
+                                            }
+                                            return null;
+                                          },
                                         ),
                                       ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 5),
+                              Container(
+                                width: 200,
+                                height: 40,
+                                child: Form(
+                                  key: _formkeyenddate,
+                                  child: TypeAheadFormField<String>(
+                                    textFieldConfiguration:
+                                        TextFieldConfiguration(
+                                      controller: TextEditingController(
+                                        text: DateFormat.yMMMMd().format(
+                                          enddate!,
+                                        ),
+                                      ),
+                                      onSubmitted: (value) {
+                                        if (_formkeyenddate.currentState!
+                                            .validate()) {
+                                          DateInputFormatter(_dateRegExp);
+                                          DateTime date =
+                                              DateFormat('MMMM d, yyyy')
+                                                  .parse(value);
 
-                                      // Row(
-                                      //   children: [
-                                      //     Text(
-                                      //       DateFormat.yMMMMd()
-                                      //           .format(enddate!),
-                                      //       textAlign: TextAlign.center,
-                                      //     )
-                                      //   ],
-                                      // ),
-                                    ],
+                                          setState(() {
+                                            enddate = date;
+                                          });
+                                        }
+                                      },
+                                      inputFormatters: [
+                                        // Apply your input formatting logic here
+                                        FilteringTextInputFormatter.allow(
+                                          RegExp(
+                                            r'[A-Za-z0-9 ,]',
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    suggestionsCallback: (pattern) {
+                                      // Apply formatting logic to the pattern here if needed
+                                      final formattedPattern = pattern
+                                          .replaceAll(RegExp(r'[^\w\s]+'), '');
+
+                                      // Filter suggestions based on the formatted pattern
+                                      return _suggestions.where((fruit) => fruit
+                                          .toLowerCase()
+                                          .contains(
+                                              formattedPattern.toLowerCase()));
+                                    },
+                                    itemBuilder: (context, suggestion) {
+                                      return ListTile(
+                                        title: Text(
+                                          suggestion,
+                                          style: const TextStyle(fontSize: 11),
+                                        ),
+                                      );
+                                    },
+                                    transitionBuilder:
+                                        (context, suggestionsBox, controller) {
+                                      return suggestionsBox;
+                                    },
+                                    onSuggestionSelected: (suggestion) {
+                                      DateTime date = DateFormat('MMMM d, yyyy')
+                                          .parse(suggestion);
+                                      setState(() {
+                                        enddate = date;
+                                      });
+                                      // Handle the selected suggestion
+                                    },
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter a date';
+                                      }
+
+                                      if (!RegExp(
+                                              r'^(January|February|March|April|May|June|July|August|September|October|November|December) ([1-9]|[12][0-9]|3[1]), \d{4}$')
+                                          .hasMatch(value)) {
+                                        return 'E.g., February 22, 2024';
+                                      }
+                                      return null;
+                                    },
                                   ),
-                                ],
+                                ),
                               )
                             ],
                           )
                         : Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        right: 10, bottom: 25),
-                                    child: IconButton(
-                                        onPressed: () {
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) => AlertDialog(
-                                              title: const Text('choose Date'),
-                                              content: SizedBox(
-                                                width: 400,
-                                                height: 500,
-                                                child: SfDateRangePicker(
-                                                  view:
-                                                      DateRangePickerView.month,
-                                                  showTodayButton: false,
-                                                  showActionButtons: true,
-                                                  selectionMode:
-                                                      DateRangePickerSelectionMode
-                                                          .single,
-                                                  onSelectionChanged:
-                                                      (DateRangePickerSelectionChangedArgs
-                                                          args) {
-                                                    if (args.value
-                                                        is PickerDateRange) {
-                                                      rangestartDate =
-                                                          args.value.startDate;
-                                                    }
-                                                  },
-                                                  onSubmit: (value) {
-                                                    setState(() {
-                                                      startdate =
-                                                          DateTime.parse(
-                                                              value.toString());
-                                                    });
-                                                    Navigator.pop(context);
-                                                  },
-                                                  onCancel: () {
-                                                    Navigator.pop(context);
-                                                  },
+                              Container(
+                                width: 180,
+                                height: 40,
+                                child: Form(
+                                  key: _formkeymontlydate,
+                                  child: TypeAheadFormField<String>(
+                                    textFieldConfiguration:
+                                        TextFieldConfiguration(
+                                      controller: TextEditingController(
+                                          text: DateFormat.yMMMM()
+                                              .format(startdate!)),
+                                      decoration: InputDecoration(
+                                        // labelText:
+                                        prefixIcon: IconButton(
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) => AlertDialog(
+                                                title:
+                                                    const Text('choose Date'),
+                                                content: SizedBox(
+                                                  width: 400,
+                                                  height: 500,
+                                                  child: SfDateRangePicker(
+                                                    view: DateRangePickerView
+                                                        .month,
+                                                    showTodayButton: false,
+                                                    showActionButtons: true,
+                                                    selectionMode:
+                                                        DateRangePickerSelectionMode
+                                                            .single,
+                                                    onSelectionChanged:
+                                                        (DateRangePickerSelectionChangedArgs
+                                                            args) {
+                                                      if (args.value
+                                                          is PickerDateRange) {
+                                                        rangestartDate = args
+                                                            .value.startDate;
+                                                      }
+                                                    },
+                                                    onSubmit: (value) {
+                                                      setState(() {
+                                                        startdate =
+                                                            DateTime.parse(value
+                                                                .toString());
+                                                      });
+                                                      Navigator.pop(context);
+                                                    },
+                                                    onCancel: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          );
-                                        },
-                                        icon: Icon(
-                                          Icons.today,
-                                          color: blue,
-                                          size: 35,
-                                        )),
-                                  ),
-
-                                  Container(
-                                    width: 180,
-                                    height: 75,
-                                    child: Form(
-                                      key: _formkeymontlydate,
-                                      child: Column(
-                                        children: [
-                                          TypeAheadFormField<String>(
-                                            textFieldConfiguration:
-                                                TextFieldConfiguration(
-                                              controller: TextEditingController(
-                                                  text: DateFormat.yMMMM()
-                                                      .format(startdate!)),
-                                              decoration: const InputDecoration(
-                                                  // labelText:
-                                                  //     'Type a fruit...',
-                                                  ),
-                                              onSubmitted: (value) {
-                                                if (_formkeymontlydate
-                                                    .currentState!
-                                                    .validate()) {
-                                                  DateInputFormatter(
-                                                      _monthlydateRegExp);
-                                                  print(value);
-                                                  DateTime date =
-                                                      DateFormat('MMMM d, yyyy')
-                                                          .parse(value);
-
-                                                  setState(() {
-                                                    startdate = date;
-                                                  });
-                                                }
-                                              },
-                                              inputFormatters: [
-                                                // Apply your input formatting logic here
-                                                FilteringTextInputFormatter
-                                                    .allow(RegExp(
-                                                        r'[A-Za-z0-9 ,]')),
-                                              ],
-                                            ),
-                                            suggestionsCallback: (pattern) {
-                                              // Apply formatting logic to the pattern here if needed
-                                              final formattedPattern =
-                                                  pattern.replaceAll(
-                                                      RegExp(r'[^\w\s]+'), '');
-
-                                              // Filter suggestions based on the formatted pattern
-                                              return _monthsuggestion.where(
-                                                  (fruit) => fruit
-                                                      .toLowerCase()
-                                                      .contains(formattedPattern
-                                                          .toLowerCase()));
-                                            },
-                                            itemBuilder: (context, suggestion) {
-                                              return ListTile(
-                                                title: Text(suggestion),
-                                              );
-                                            },
-                                            transitionBuilder: (context,
-                                                suggestionsBox, controller) {
-                                              return suggestionsBox;
-                                            },
-                                            onSuggestionSelected: (suggestion) {
-                                              DateTime date =
-                                                  DateFormat('MMMM yyyy')
-                                                      .parse(suggestion);
-
-                                              setState(() {
-                                                startdate = date;
-                                              });
-                                              // Handle the selected suggestion
-                                            },
-                                            validator: (value) {
-                                              if (value == null ||
-                                                  value.isEmpty) {
-                                                return 'Please enter a date';
-                                              }
-
-                                              if (!RegExp(
-                                                      r'^(January|February|March|April|May|June|July|August|September|October|November|December) \d{4}$')
-                                                  .hasMatch(value)) {
-                                                return 'E.g., February 2024';
-                                              }
-                                              return null;
-                                            },
+                                            );
+                                          },
+                                          icon: Icon(
+                                            Icons.today,
+                                            color: blue,
+                                            size: 20,
                                           ),
-
-                                          // TextFormField(
-                                          //   textInputAction:
-                                          //       TextInputAction.done,
-                                          //   inputFormatters: [
-                                          //     FilteringTextInputFormatter
-                                          //         .allow(RegExp(
-                                          //             r'[A-Za-z0-9 ,]')),
-                                          //   ],
-                                          //   decoration:
-                                          //       const InputDecoration(
-                                          //     hintText:
-                                          //         'February 20, 2024',
-                                          //     // enabledBorder:
-                                          //     //     ,
-                                          //     // focusedBorder:
-                                          //     //     InputBorder.none,
-                                          //   ),
-                                          //   validator: (value) {
-                                          //     if (value == null ||
-                                          //         value.isEmpty) {
-                                          //       return 'Please enter a date';
-                                          //     }
-
-                                          //     if (!RegExp(
-                                          //             r'^(January|February|March|April|May|June|July|August|September|October|November|December) ([1-9]|[12][0-9]|3[1]), \d{4}$')
-                                          //         .hasMatch(value)) {
-                                          //       return 'E.g., February 22, 2024';
-                                          //     }
-                                          //     return null;
-                                          //   },
-                                          //   onFieldSubmitted: (value) {
-                                          //     if (_formkey.currentState!
-                                          //         .validate()) {
-                                          //       DateInputFormatter(
-                                          //           _dateRegExp);
-                                          //       print(value);
-                                          //       DateTime date = DateFormat(
-                                          //               'MMMM d, yyyy')
-                                          //           .parse(value);
-
-                                          //       setState(() {
-                                          //         startdate = date;
-                                          //       });
-                                          //     }
-                                          //   },
-                                          //   controller: TextEditingController(
-                                          //       text: widget.id ==
-                                          //               'Monthly Report'
-                                          //           ? DateFormat.yMMMM()
-                                          //               .format(
-                                          //                   startdate!)
-                                          //           : DateFormat
-                                          //                   .yMMMMd()
-                                          //               .format(
-                                          //                   startdate!)),
-                                          // ),
-                                        ],
+                                        ),
                                       ),
+                                      onSubmitted: (value) {
+                                        if (_formkeymontlydate.currentState!
+                                            .validate()) {
+                                          DateInputFormatter(
+                                              _monthlydateRegExp);
+                                          print(value);
+                                          DateTime date =
+                                              DateFormat('MMMM d, yyyy')
+                                                  .parse(value);
+
+                                          setState(() {
+                                            startdate = date;
+                                          });
+                                        }
+                                      },
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(
+                                          RegExp(
+                                            r'[A-Za-z0-9 ,]',
+                                          ),
+                                        ),
+                                      ],
                                     ),
+                                    suggestionsCallback: (pattern) {
+                                      // Apply formatting logic to the pattern here if needed
+                                      final formattedPattern = pattern
+                                          .replaceAll(RegExp(r'[^\w\s]+'), '');
+
+                                      // Filter suggestions based on the formatted pattern
+                                      return _monthsuggestion.where((fruit) =>
+                                          fruit.toLowerCase().contains(
+                                              formattedPattern.toLowerCase()));
+                                    },
+                                    itemBuilder: (context, suggestion) {
+                                      return ListTile(
+                                        title: Text(suggestion),
+                                      );
+                                    },
+                                    transitionBuilder:
+                                        (context, suggestionsBox, controller) {
+                                      return suggestionsBox;
+                                    },
+                                    onSuggestionSelected: (suggestion) {
+                                      DateTime date = DateFormat('MMMM yyyy')
+                                          .parse(suggestion);
+
+                                      setState(() {
+                                        startdate = date;
+                                      });
+                                      // Handle the selected suggestion
+                                    },
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter a date';
+                                      }
+
+                                      if (!RegExp(
+                                              r'^(January|February|March|April|May|June|July|August|September|October|November|December) \d{4}$')
+                                          .hasMatch(value)) {
+                                        return 'E.g., February 2024';
+                                      }
+                                      return null;
+                                    },
                                   ),
-
-                                  // Container(
-                                  //   width: 180,
-                                  //   height: 75,
-                                  //   child: Form(
-                                  //     key: _formkeymontlydate,
-                                  //     child: TextFormField(
-                                  //       textInputAction: TextInputAction.done,
-                                  //       inputFormatters: [
-                                  //         FilteringTextInputFormatter.allow(
-                                  //             RegExp(r'[A-Za-z0-9 ,]')),
-                                  //       ],
-                                  //       decoration: const InputDecoration(
-                                  //         hintText: 'February 2024',
-                                  //         // enabledBorder:
-                                  //         //     ,
-                                  //         // focusedBorder:
-                                  //         //     InputBorder.none,
-                                  //       ),
-                                  //       validator: (value) {
-                                  //         if (value == null || value.isEmpty) {
-                                  //           return 'Please enter a date';
-                                  //         }
-
-                                  //         if (!RegExp(
-                                  //                 r'^(January|February|March|April|May|June|July|August|September|October|November|December) \d{4}$')
-                                  //             .hasMatch(value)) {
-                                  //           return 'E.g., February 2024';
-                                  //         }
-                                  //         return null;
-                                  //       },
-                                  //       onFieldSubmitted: (value) {
-                                  //         if (_formkeymontlydate.currentState!
-                                  //             .validate()) {
-                                  //           DateInputFormatter(
-                                  //               _monthlydateRegExp);
-                                  //           print(value);
-                                  //           DateTime date =
-                                  //               DateFormat('MMMM yyyy')
-                                  //                   .parse(value);
-
-                                  //           setState(() {
-                                  //             startdate = date;
-                                  //           });
-                                  //         }
-                                  //       },
-                                  //       controller: TextEditingController(
-                                  //           text: widget.id == 'Monthly Report'
-                                  //               ? DateFormat.yMMMM()
-                                  //                   .format(startdate!)
-                                  //               : DateFormat.yMMMMd()
-                                  //                   .format(startdate!)),
-                                  //     ),
-                                  //   ),
-                                  // )
-
-                                  // Container(
-                                  //   width: 200,
-                                  //   height: 40,
-                                  //   padding:
-                                  //       const EdgeInsets.only(bottom: 12),
-                                  //   child: TextField(
-                                  //     decoration: const InputDecoration(
-                                  //       enabledBorder: InputBorder.none,
-                                  //       focusedBorder: InputBorder.none,
-                                  //     ),
-                                  //     onSubmitted: (value) {
-                                  //       print(value);
-                                  //       DateTime date =
-                                  //           DateFormat('MMMM yyyy')
-                                  //               .parse(value);
-
-                                  //       setState(() {
-                                  //         startdate = date;
-                                  //       });
-                                  //     },
-                                  //     controller: TextEditingController(
-                                  //         text: widget.id == 'Monthly Report'
-                                  //             ? DateFormat.yMMMM()
-                                  //                 .format(startdate!)
-                                  //             : DateFormat.yMMMMd()
-                                  //                 .format(startdate!)),
-                                  //   ),
-                                  // )
-
-                                  // Text(widget.id == 'Monthly Report'
-                                  //     ? DateFormat.yMMMM().format(startdate!)
-                                  //     : DateFormat.yMMMMd()
-                                  //         .format(startdate!))
-                                ],
+                                ),
                               ),
                             ],
                           ),
@@ -1137,13 +784,13 @@ class _ViewSummaryState extends State<ViewSummary> {
                                       } else {
                                         dailyproject = value.dailydata;
                                         _dailyDataSource = DailyDataSource(
-                                          dailyproject,
-                                          context,
-                                          widget.cityName!,
-                                          widget.depoName!,
-                                          selectedDate!,
-                                          widget.userId,
-                                        );
+                                            dailyproject,
+                                            context,
+                                            widget.cityName!,
+                                            widget.depoName!,
+                                            selectedDate!,
+                                            widget.userId,
+                                            deleteImageFile);
                                         _dataGridController =
                                             DataGridController();
 
@@ -1379,7 +1026,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                           : widget.id == 'Quality Checklist'
                               ? Expanded(
                                   child: QualityChecklistUser(
-                                    role: widget.role,
+                                      role: widget.role,
                                       currentDate: DateFormat.yMMMMd()
                                           .format(startdate!),
                                       isHeader: widget.isHeader,
@@ -2403,7 +2050,7 @@ class _ViewSummaryState extends State<ViewSummary> {
       progressWidget: const LoadingPdf(),
       elevation: 10.0,
       insetAnimCurve: Curves.easeInOut,
-      maxProgress: 100.0,
+      maxProgress: 100.0, padding: const EdgeInsets.all(0.0),
       progressTextStyle: const TextStyle(
           color: Colors.black, fontSize: 10.0, fontWeight: FontWeight.w400),
       messageTextStyle: const TextStyle(
@@ -2818,6 +2465,33 @@ class _ViewSummaryState extends State<ViewSummary> {
       ),
     );
 
+    DocumentSnapshot safetyFieldDocSanpshot = await FirebaseFirestore.instance
+        .collection('SafetyFieldData2')
+        .doc('${widget.depoName}')
+        .collection('userId')
+        .doc(widget.userId)
+        .collection('date')
+        .doc(selectedDate)
+        .get();
+
+    Map<String, dynamic> safetyMapData =
+        safetyFieldDocSanpshot.data() as Map<String, dynamic>;
+
+    List<List<dynamic>> fieldData = [
+      ['Installation Date', safetyMapData['InstallationDate']],
+      ['Enegization Date', safetyMapData['EnegizationDate']],
+      ['On Boarding Date', safetyMapData['BoardingDate']],
+      ['TPNo : ', '${safetyMapData['TPNo']}'],
+      ['Rev :', '${safetyMapData['Rev']}'],
+      ['Bus Depot Location :', '${safetyMapData['DepotLocation']}'],
+      ['Address :', '${safetyMapData['Address']}'],
+      ['Contact no / Mail Id :', '${safetyMapData['ContactNo']}'],
+      ['Latitude & Longitude :', '${safetyMapData['Latitude']}'],
+      ['State :', '${safetyMapData['State']}'],
+      ['Charger Type : ', '${safetyMapData['ChargerType']}'],
+      ['Conducted By :', '${safetyMapData['ConductedBy']}']
+    ];
+
     if (alldata.isNotEmpty) {
       List<pw.Widget> imageUrls = [];
 
@@ -2879,33 +2553,49 @@ class _ViewSummaryState extends State<ViewSummary> {
         result.items.clear();
 
         //Text Rows of PDF Table
-        rows.add(pw.TableRow(children: [
-          pw.Container(
-              padding: const pw.EdgeInsets.all(3.0),
-              child: pw.Center(
-                  child: pw.Text(mapData.srNo.toString(),
-                      style: const pw.TextStyle(fontSize: 13)))),
-          pw.Container(
-              padding: const pw.EdgeInsets.all(5.0),
-              child: pw.Center(
-                  child: pw.Text(mapData.details,
-                      style: const pw.TextStyle(
-                        fontSize: 13,
-                      )))),
-          pw.Container(
-              padding: const pw.EdgeInsets.all(2.0),
-              child: pw.Center(
-                  child: pw.Text(mapData.status.toString(),
-                      style: const pw.TextStyle(fontSize: 13)))),
-          pw.Container(
-              padding: const pw.EdgeInsets.all(2.0),
-              child: pw.Center(
-                  child: pw.Text(mapData.remark.toString(),
-                      style: const pw.TextStyle(fontSize: 13)))),
-          isImageEmpty ? pw.Container() : pw.Center(child: imageUrls[0],),
-          isImageEmpty ? pw.Container() : pw.Center(child: imageUrls[1],),
-          isImageEmpty ? pw.Container() : pw.Center(child: imageUrls[2],),
-        ],),);
+        rows.add(
+          pw.TableRow(
+            children: [
+              pw.Container(
+                  padding: const pw.EdgeInsets.all(3.0),
+                  child: pw.Center(
+                      child: pw.Text(mapData.srNo.toString(),
+                          style: const pw.TextStyle(fontSize: 13)))),
+              pw.Container(
+                  padding: const pw.EdgeInsets.all(5.0),
+                  child: pw.Center(
+                      child: pw.Text(mapData.details,
+                          style: const pw.TextStyle(
+                            fontSize: 13,
+                          )))),
+              pw.Container(
+                  padding: const pw.EdgeInsets.all(2.0),
+                  child: pw.Center(
+                      child: pw.Text(mapData.status.toString(),
+                          style: const pw.TextStyle(fontSize: 13)))),
+              pw.Container(
+                  padding: const pw.EdgeInsets.all(2.0),
+                  child: pw.Center(
+                      child: pw.Text(mapData.remark.toString(),
+                          style: const pw.TextStyle(fontSize: 13)))),
+              isImageEmpty
+                  ? pw.Container()
+                  : pw.Center(
+                      child: imageUrls[0],
+                    ),
+              isImageEmpty
+                  ? pw.Container()
+                  : pw.Center(
+                      child: imageUrls[1],
+                    ),
+              isImageEmpty
+                  ? pw.Container()
+                  : pw.Center(
+                      child: imageUrls[2],
+                    ),
+            ],
+          ),
+        );
 
         if (imageUrls.isNotEmpty) {
           //Image Rows of PDF Table
@@ -3505,6 +3195,13 @@ class _ViewSummaryState extends State<ViewSummary> {
         );
       },
     );
+  }
+
+  void deleteImageFile(int rowIndex) async {
+    final storage = FirebaseStorage.instance.ref().child(
+        'Daily Report/${widget.cityName}/${widget.depoName}/${widget.userId}/$selectedDate/$rowIndex');
+    await storage.delete();
+    print("Files Deleted Successfully! ");
   }
 
   Future<String> uploadPdf(List<int> pdfData, String pdfPath) async {

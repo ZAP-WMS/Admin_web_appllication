@@ -129,14 +129,14 @@ class DetailedEngSource extends DataGridSource {
         child: (dataGridCell.columnName == 'Add')
             ? ElevatedButton(
                 onPressed: () {
-                  globalIndexDetailedList.add(0);
-                  isShowPinIconInDetail.add(false);
+                  // globalIndexDetailedList.add(0);
+                  // isShowPinIconInDetail.add(false);
                   addRowAtIndex(
                       dataRowIndex + 1,
                       DetailedEngModelUser(
                         siNo: dataRowIndex + 2,
                         title: '',
-                        number: null,
+                        number: '',
                         preparationDate:
                             DateFormat('dd-MM-yyyy').format(DateTime.now()),
                         submissionDate:
@@ -147,7 +147,7 @@ class DetailedEngSource extends DataGridSource {
                             DateFormat('dd-MM-yyyy').format(DateTime.now()),
                       ));
                 },
-                child: const Text('Add'))
+                child: const Text('Add',),)
             : (dataGridCell.columnName == 'Delete')
                 ? IconButton(
                     onPressed: () {
@@ -230,9 +230,10 @@ class DetailedEngSource extends DataGridSource {
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: blue),
                                   onPressed: () {
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                            builder: (context) => ViewAllPdfUser(
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ViewAllPdfUser(
                                                   title: 'DetailedEngRFC',
                                                   cityName: cityName,
                                                   depoName: depoName,
@@ -247,35 +248,35 @@ class DetailedEngSource extends DataGridSource {
                                   },
                                   child: const Text('View'),
                                 ),
-                                Container(
-                                  child: isShowPinIconInDetail[
-                                          dataGridRows.indexOf(row) + 1 >
-                                                  isShowPinIconInDetail.length
-                                              ? 0
-                                              : dataGridRows.indexOf(row)]
-                                      ? Icon(
-                                          Icons.attach_file_outlined,
-                                          color: blue,
-                                          size: 18,
-                                        )
-                                      : Container(),
-                                ),
-                                Text(
-                                  globalIndexDetailedList[dataGridRows
-                                                          .indexOf(row) +
-                                                      1 >
-                                                  globalIndexDetailedList.length
-                                              ? 0
-                                              : dataGridRows.indexOf(row)] !=
-                                          0
-                                      ? globalIndexDetailedList[
-                                                  dataGridRows.indexOf(row)] >
-                                              9
-                                          ? '${globalIndexDetailedList[dataGridRows.indexOf(row)]}+'
-                                          : '${globalIndexDetailedList[dataGridRows.indexOf(row)]}'
-                                      : '',
-                                  style: TextStyle(color: blue, fontSize: 11),
-                                )
+                                // Container(
+                                //   child: isShowPinIconInDetail[
+                                //           dataGridRows.indexOf(row) + 1 >
+                                //                   isShowPinIconInDetail.length
+                                //               ? 0
+                                //               : dataGridRows.indexOf(row)]
+                                //       ? Icon(
+                                //           Icons.attach_file_outlined,
+                                //           color: blue,
+                                //           size: 18,
+                                //         )
+                                //       : Container(),
+                                // ),
+                                // Text(
+                                //   globalIndexDetailedList[dataGridRows
+                                //                           .indexOf(row) +
+                                //                       1 >
+                                //                   globalIndexDetailedList.length
+                                //               ? 0
+                                //               : dataGridRows.indexOf(row)] !=
+                                //           0
+                                //       ? globalIndexDetailedList[
+                                //                   dataGridRows.indexOf(row)] >
+                                //               9
+                                //           ? '${globalIndexDetailedList[dataGridRows.indexOf(row)]}+'
+                                //           : '${globalIndexDetailedList[dataGridRows.indexOf(row)]}'
+                                //       : '',
+                                //   style: TextStyle(color: blue, fontSize: 11),
+                                // )
                               ],
                             );
                           })
@@ -737,7 +738,7 @@ class DetailedEngSource extends DataGridSource {
     // The new cell value must be reset.
     // To avoid committing the [DataGridCell] value that was previously edited
     // into the current non-modified [DataGridCell].
-    newCellValue = null;
+    newCellValue = '';
 
     final bool isNumericType = column.columnName == 'SiNo';
     // || column.columnName == 'Number';
@@ -788,8 +789,6 @@ class DetailedEngSource extends DataGridSource {
             } else {
               newCellValue = value;
             }
-          } else {
-            newCellValue = null;
           }
         },
         onSubmitted: (String value) {

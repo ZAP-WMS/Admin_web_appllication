@@ -9,6 +9,7 @@ import 'package:web_appllication/FirebaseApi/firebase_api_user.dart';
 import 'package:web_appllication/components/loading_page.dart';
 import 'package:web_appllication/datasource_user/monthlyproject_datasource.dart';
 import 'package:web_appllication/model/user_model/monthly_projectModel.dart';
+import 'package:web_appllication/widgets/custom_show_progress.dart';
 import 'package:web_appllication/widgets/widgets_user/custom_appbar.dart';
 import 'package:web_appllication/widgets/widgets_user/user_style.dart';
 import '../Planning_Pages/summary.dart';
@@ -42,17 +43,15 @@ class _MonthlyProjectUserState extends State<MonthlyProjectUser> {
   dynamic alldata;
   bool _isloading = true;
   String title = 'Monthly Project';
-  dynamic userId;
 
   @override
   void initState() {
-    getAssignedDepots();
-    getUserId().whenComplete(() {
+    getAssignedDepots().whenComplete(() {
       _stream = FirebaseFirestore.instance
           .collection('MonthlyProjectReport2')
           .doc('${widget.depoName}')
           .collection('userId')
-          .doc(userId)
+          .doc(widget.userId)
           .collection('Monthly Data')
           .doc(DateFormat.yMMM().format(DateTime.now()))
           .snapshots();
@@ -85,16 +84,16 @@ class _MonthlyProjectUserState extends State<MonthlyProjectUser> {
                     cityName: widget.cityName.toString(),
                     depoName: widget.depoName.toString(),
                     id: 'Monthly Report',
-                    userId: userId,
+                    userId: widget.userId,
                   ),
                 )),
             haveSynced: isFieldEditable,
             store: () {
-              // _showDialog(context);
+              showProgressDilogue(context);
               // FirebaseApi().defaultKeyEventsField(
               //     'MonthlyProjectReport', widget.depoName!);
-              FirebaseApiUser().nestedKeyEventsField(
-                  'MonthlyProjectReport2', widget.depoName!, 'userId', userId);
+              FirebaseApiUser().nestedKeyEventsField('MonthlyProjectReport2',
+                  widget.depoName!, 'userId', widget.userId!);
               storeData();
             },
           ),
@@ -356,7 +355,7 @@ class _MonthlyProjectUserState extends State<MonthlyProjectUser> {
         if (data.columnName != 'button') {
           table_data[data.columnName] = data.value;
         }
-        table_data['User ID'] = userId;
+        table_data['User ID'] = widget.userId;
       }
 
       tabledata2.add(table_data);
@@ -368,24 +367,19 @@ class _MonthlyProjectUserState extends State<MonthlyProjectUser> {
         .doc('${widget.depoName}')
         // .collection('AllMonthData')
         .collection('userId')
-        .doc(userId)
+        .doc(widget.userId)
         .collection('Monthly Data')
         // .collection('MonthData')
-        .doc(DateFormat.yMMM().format(DateTime.now()))
+        .doc(DateFormat.yMMM().format(DateTime.now(),),)
         .set({
       'data': tabledata2,
     }).whenComplete(() {
       tabledata2.clear();
+      Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Data are synced'),
         backgroundColor: blue,
       ));
-    });
-  }
-
-  Future<void> getUserId() async {
-    await AuthService().getCurrentUserId().then((value) {
-      userId = value;
     });
   }
 

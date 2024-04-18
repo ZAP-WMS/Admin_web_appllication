@@ -40,7 +40,7 @@ class _DailyProjectActionState extends State<DailyProjectAction> {
           role: widget.role,
           userId: widget.userId,
           depoName: widget.depotName,
-          cityName: widget.userId,
+          cityName: widget.cityName,
         );
 
         break;

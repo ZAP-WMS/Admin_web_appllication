@@ -59,8 +59,14 @@ class _DailyProjectUserState extends State<DailyProjectUser> {
       await checkIsImageAvail();
       getmonthlyReport();
       // dailyproject = getmonthlyReport();
-      _dailyDataSource = DailyDataSource(dailyproject, context,
-          widget.cityName!, widget.depoName!, selectedDate!, userId);
+      _dailyDataSource = DailyDataSource(
+          dailyproject,
+          context,
+          widget.cityName!,
+          widget.depoName!,
+          selectedDate!,
+          userId,
+          deleteImageFile);
       _dataGridController = DataGridController();
 
       _isloading = false;
@@ -130,13 +136,13 @@ class _DailyProjectUserState extends State<DailyProjectUser> {
                     // dailyproject = getmonthlyReport();
 
                     _dailyDataSource = DailyDataSource(
-                      dailyproject,
-                      context,
-                      widget.cityName!,
-                      widget.depoName!,
-                      selectedDate!,
-                      userId,
-                    );
+                        dailyproject,
+                        context,
+                        widget.cityName!,
+                        widget.depoName!,
+                        selectedDate!,
+                        userId,
+                        deleteImageFile);
 
                     _dataGridController = DataGridController();
 
@@ -318,13 +324,13 @@ class _DailyProjectUserState extends State<DailyProjectUser> {
                     alldata.forEach((element) {
                       dailyproject.add(DailyProjectModelUser.fromjson(element));
                       _dailyDataSource = DailyDataSource(
-                        dailyproject,
-                        context,
-                        widget.cityName!,
-                        widget.depoName!,
-                        selectedDate!,
-                        userId,
-                      );
+                          dailyproject,
+                          context,
+                          widget.cityName!,
+                          widget.depoName!,
+                          selectedDate!,
+                          userId,
+                          deleteImageFile);
                       _dataGridController = DataGridController();
                       _dailyDataSource.buildDataGridRows();
                       _dailyDataSource.updateDatagridSource();
@@ -655,6 +661,22 @@ class _DailyProjectUserState extends State<DailyProjectUser> {
       }
       print('isShowPinIcon - $isShowPinIcon');
     }
+  }
+
+  void deleteImageFile(int rowIndex) async {
+    final storage = FirebaseStorage.instance.ref().child(
+        '/Daily Report/${widget.cityName}/${widget.depoName}/${widget.userId}/$selectedDate/${rowIndex + 1}');
+    print(
+        '/Daily Report/${widget.cityName}/${widget.depoName}/${widget.userId}/$selectedDate/${rowIndex + 1}');
+
+    ListResult result = await storage.listAll();
+    print("Length -${result.items.length}");
+
+    for (Reference ref in result.items) {
+      await ref.delete();
+      print('File ${ref.fullPath} deleted successfully');
+    }
+    print("Files Deleted Successfully! ");
   }
 
   Future getAssignedDepots() async {

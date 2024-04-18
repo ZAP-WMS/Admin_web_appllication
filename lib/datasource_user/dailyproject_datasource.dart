@@ -18,10 +18,11 @@ class DailyDataSource extends DataGridSource {
   String userId;
   String selectedDate;
   BuildContext mainContext;
+  Function deleteFileFun;
 
   List data = [];
   DailyDataSource(this._dailyproject, this.mainContext, this.cityName,
-      this.depoName, this.selectedDate, this.userId) {
+      this.depoName, this.selectedDate, this.userId, this.deleteFileFun) {
     buildDataGridRows();
   }
 
@@ -64,7 +65,6 @@ class DailyDataSource extends DataGridSource {
         _dailyproject.insert(index, rowData);
         buildDataGridRows();
         notifyListeners();
-        // notifyListeners(DataGridSourceChangeKind.rowAdd, rowIndexes: [index]);
       }
 
       void removeRowAtIndex(int index) {
@@ -85,24 +85,27 @@ class DailyDataSource extends DataGridSource {
                     Container(
                       margin: const EdgeInsets.only(left: 5.0),
                       child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                mainContext,
-                                MaterialPageRoute(
-                                  builder: (context) => ViewAllPdfUser(
-                                    title: Pagetitle,
-                                    cityName: cityName,
-                                    depoName: depoName,
-                                    userId: userId,
-                                    date: row.getCells()[0].value.toString(),
-                                    docId: globalRowIndex.isNotEmpty
-                                        ? globalRowIndex[
-                                            dataGridRows.indexOf(row)]
-                                        : dataGridRows.indexOf(row) + 1,
-                                  ),
-                                ));
-                          },
-                          child: const Text('View')),
+                        onPressed: () {
+                          Navigator.push(
+                              mainContext,
+                              MaterialPageRoute(
+                                builder: (context) => ViewAllPdfUser(
+                                  title: Pagetitle,
+                                  cityName: cityName,
+                                  depoName: depoName,
+                                  userId: userId,
+                                  date: selectedDate,
+                                  docId: globalRowIndex.isNotEmpty
+                                      ? globalRowIndex[
+                                          dataGridRows.indexOf(row)]
+                                      : dataGridRows.indexOf(row) + 1,
+                                ),
+                              ));
+                        },
+                        child: const Text(
+                          'View',
+                        ),
+                      ),
                     ),
                     Container(
                       child: isShowPinIcon[dataGridRows.indexOf(row)]
@@ -119,7 +122,10 @@ class DailyDataSource extends DataGridSource {
                               ? '${globalItemLengthList[dataGridRows.indexOf(row)]}+'
                               : '${globalItemLengthList[dataGridRows.indexOf(row)]}'
                           : '',
-                      style: TextStyle(color: blue, fontSize: 11),
+                      style: TextStyle(
+                        color: blue,
+                        fontSize: 11,
+                      ),
                     )
                   ],
                 )
@@ -163,18 +169,14 @@ class DailyDataSource extends DataGridSource {
                                     progress: '',
                                     status: ''));
                           },
-                          child: const Text('Add'))
+                          child: const Text(
+                            'Add',
+                          ),
+                        )
                       : (dataGridCell.columnName == 'Delete')
                           ? IconButton(
                               onPressed: () async {
-                                // FirebaseFirestore.instance
-                                //     .collection('DailyProjectReport')
-                                //     .doc(depoName)
-                                //     .collection('Daily Data')
-                                //     .doc(DateFormat.yMMMMd().format(DateTime.now()))
-                                //     .update({
-                                //   'data': FieldValue.arrayRemove([0])
-                                // });
+                                deleteFileFun(dataRowIndex);
                                 removeRowAtIndex(dataRowIndex);
                               },
                               icon: Icon(

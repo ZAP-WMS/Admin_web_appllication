@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:web_appllication/Authentication/admin/auth_service.dart';
+import 'package:web_appllication/components/loading_page.dart';
 import 'package:web_appllication/screen_user/KeysEvents/view_AllFiles.dart';
 import 'package:web_appllication/widgets/widgets_user/custom_appbar.dart';
 import 'package:web_appllication/widgets/widgets_user/user_style.dart';
@@ -46,10 +47,15 @@ class _UploadDocumentState extends State<UploadDocument> {
   List<String> assignedDepots = [];
   bool isFieldEditable = false;
   FilePickerResult? result;
+  bool isLoading = true;
 
   @override
   void initState() {
-    getAssignedDepots();
+    getAssignedDepots().whenComplete(() {
+      setState(() {
+        isLoading = false;
+      });
+    });
     super.initState();
   }
 
@@ -69,229 +75,249 @@ class _UploadDocumentState extends State<UploadDocument> {
             haveSynced: false,
           ),
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (result != null)
-                Padding(
-                  padding: const EdgeInsets.all(
-                    8.0,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Center(
-                        child: Text(
-                          'Selected file:',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: result?.files.length ?? 0,
-                          itemBuilder: (context, index) {
-                            if (result!.files.first.name.contains(
-                              '.pdf',
-                            )) {
-                              return Center(
-                                child: Container(
-                                  padding: const EdgeInsets.all(5),
-                                  margin: const EdgeInsets.all(5),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: blue),
-                                      borderRadius: BorderRadius.circular(5)),
-                                  child: Text(result?.files[index].name ?? '',
-                                      style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold)),
-                                ),
-                              );
-                            } else if (widget.pagetitle != 'ClosureReport') {
-                              if (result!.files.first.name.contains('.jpg') ||
-                                  result!.files.first.name.contains('.jpeg') ||
-                                  result!.files.first.name.contains('.png') ||
-                                  result!.files.first.name.contains('.pdf')) {
-                                return Center(
-                                  child: Container(
-                                    padding: const EdgeInsets.all(5),
-                                    margin: const EdgeInsets.all(5),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: blue),
-                                        borderRadius: BorderRadius.circular(5)),
-                                    child: Text(result?.files[index].name ?? '',
-                                        style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold)),
-                                  ),
-                                );
-                              } else {
-                                WidgetsBinding.instance.addPostFrameCallback(
-                                    (_) => ScaffoldMessenger.of(context)
-                                        .showSnackBar(SnackBar(
-                                            backgroundColor: red,
-                                            content: Text(
-                                              '! Invalid file format. Only JPEG,JPG, PNG and PDF are accepted.',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color: white,
-                                                fontSize: 20,
-                                              ),
-                                            ))));
-                              }
-                            } else {
-                              WidgetsBinding.instance.addPostFrameCallback(
-                                  (_) => ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(
-                                          backgroundColor: red,
-                                          content: Text(
-                                            '! Invalid file format. Only PDF are accepted.',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              color: white,
-                                              fontSize: 20,
-                                            ),
-                                          ))));
-                            }
-                          })
-                    ],
-                  ),
-                ),
-              Center(
-                child: Row(
+        body: isLoading
+            ? LoadingPage()
+            : Center(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      width: 120,
-                      height: 100,
-                      child: ElevatedButton(
-                          onPressed: isFieldEditable == false
-                              ? null
-                              : () async {
-                                  result = await FilePicker.platform.pickFiles(
-                                      withData: true,
-                                      type: widget.pagetitle == 'ClosureReport'
-                                          ? FileType.custom
-                                          : FileType.any,
-                                      allowMultiple: false,
-                                      allowedExtensions:
-                                          widget.pagetitle == 'ClosureReport'
-                                              ? widget.customizetype!
-                                              : null);
-                                  if (result == null) {
-                                    print("No file selected");
-                                  } else {
-                                    setState(() {});
-                                    result?.files.forEach((element) {
-                                      print(element.name);
-                                    });
-                                  }
-                                },
-                          child: const Text(
-                            'Pick file',
-                            style: TextStyle(fontSize: 16),
-                          )),
-                    ),
-                    const SizedBox(width: 15),
-                    Container(
-                      width: 120,
-                      height: 100,
-                      child: ElevatedButton(
-                          onPressed: isFieldEditable == false
-                              ? null
-                              : () async {
-                                  if (result != null) {
-                                    showCupertinoDialog(
-                                      context: context,
-                                      builder: (context) =>
-                                          CupertinoAlertDialog(
-                                        content: SizedBox(
-                                          height: 50,
-                                          width: 50,
-                                          child: Center(
-                                            child: CircularProgressIndicator(
-                                              color: blue,
-                                            ),
-                                          ),
-                                        ),
+                    if (result != null)
+                      Padding(
+                        padding: const EdgeInsets.all(
+                          8.0,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Center(
+                              child: Text(
+                                'Selected file:',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: result?.files.length ?? 0,
+                                itemBuilder: (context, index) {
+                                  if (result!.files.first.name.contains(
+                                    '.pdf',
+                                  )) {
+                                    return Center(
+                                      child: Container(
+                                        padding: const EdgeInsets.all(5),
+                                        margin: const EdgeInsets.all(5),
+                                        decoration: BoxDecoration(
+                                            border: Border.all(color: blue),
+                                            borderRadius:
+                                                BorderRadius.circular(5)),
+                                        child: Text(
+                                            result?.files[index].name ?? '',
+                                            style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold)),
                                       ),
                                     );
-                                    Uint8List? fileBytes =
-                                        result!.files.first.bytes;
-                                    String refname = (widget.title ==
-                                            'QualityChecklist'
-                                        ? '${widget.title}/${widget.subtitle}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.fldrName}/${widget.date}/${widget.srNo}/${result!.files.first.name}'
-                                        :
-                                        //widget.pagetitle == 'ClosureReport' ||
-                                        widget.pagetitle == 'Overview Page'
-                                            ? '${widget.pagetitle}/${widget.cityName}/${widget.depoName}/${widget.userId}/${result!.files.first.name}'
-                                            : widget.pagetitle ==
-                                                    'ClosureReport'
-                                                ? '${widget.pagetitle}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.fldrName}/${result!.files.first.name}'
-                                                : '${widget.pagetitle}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.date}/${widget.fldrName}/${result!.files.first.name}');
-
-                                    // String? fileName = result!.files.first.name;
-                                    print('refname - $refname');
-                                    await FirebaseStorage.instance
-                                        .ref(refname)
-                                        .putData(
-                                          fileBytes!,
-                                          // SettableMetadata(contentType: 'application/pdf')
-                                        )
-                                        .whenComplete(() =>
-                                            // setState(() => result == null)
-                                            // );
-                                            Navigator.pop(context));
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        const SnackBar(
-                                            content:
-                                                Text('Image is Uploaded')));
+                                  } else if (widget.pagetitle !=
+                                      'ClosureReport') {
+                                    if (result!.files.first.name
+                                            .contains('.jpg') ||
+                                        result!.files.first.name
+                                            .contains('.jpeg') ||
+                                        result!.files.first.name
+                                            .contains('.png') ||
+                                        result!.files.first.name
+                                            .contains('.pdf')) {
+                                      return Center(
+                                        child: Container(
+                                          padding: const EdgeInsets.all(5),
+                                          margin: const EdgeInsets.all(5),
+                                          decoration: BoxDecoration(
+                                              border: Border.all(color: blue),
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
+                                          child: Text(
+                                              result?.files[index].name ?? '',
+                                              style: const TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold)),
+                                        ),
+                                      );
+                                    } else {
+                                      WidgetsBinding.instance
+                                          .addPostFrameCallback((_) =>
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(SnackBar(
+                                                      backgroundColor: red,
+                                                      content: Text(
+                                                        '! Invalid file format. Only JPEG,JPG, PNG and PDF are accepted.',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                          color: white,
+                                                          fontSize: 20,
+                                                        ),
+                                                      ))));
+                                    }
+                                  } else {
+                                    WidgetsBinding.instance
+                                        .addPostFrameCallback((_) =>
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(SnackBar(
+                                                    backgroundColor: red,
+                                                    content: Text(
+                                                      '! Invalid file format. Only PDF are accepted.',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                        color: white,
+                                                        fontSize: 20,
+                                                      ),
+                                                    ))));
                                   }
-                                },
-                          child: const Text(
-                            'Upload file',
-                            style: TextStyle(fontSize: 16),
-                          )),
+                                })
+                          ],
+                        ),
+                      ),
+                    Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 120,
+                            height: 100,
+                            child: ElevatedButton(
+                                onPressed: isFieldEditable == false
+                                    ? null
+                                    : () async {
+                                        result = await FilePicker.platform
+                                            .pickFiles(
+                                                withData: true,
+                                                type: widget.pagetitle ==
+                                                        'ClosureReport'
+                                                    ? FileType.custom
+                                                    : FileType.any,
+                                                allowMultiple: false,
+                                                allowedExtensions:
+                                                    widget.pagetitle ==
+                                                            'ClosureReport'
+                                                        ? widget.customizetype!
+                                                        : null);
+                                        if (result == null) {
+                                          print("No file selected");
+                                        } else {
+                                          setState(() {});
+                                          result?.files.forEach((element) {
+                                            print(element.name);
+                                          });
+                                        }
+                                      },
+                                child: const Text(
+                                  'Pick file',
+                                  style: TextStyle(fontSize: 16),
+                                )),
+                          ),
+                          const SizedBox(width: 15),
+                          Container(
+                            width: 120,
+                            height: 100,
+                            child: ElevatedButton(
+                                onPressed: isFieldEditable == false
+                                    ? null
+                                    : () async {
+                                        if (result != null) {
+                                          showCupertinoDialog(
+                                            context: context,
+                                            builder: (context) =>
+                                                CupertinoAlertDialog(
+                                              content: SizedBox(
+                                                height: 50,
+                                                width: 50,
+                                                child: Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    color: blue,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                          Uint8List? fileBytes =
+                                              result!.files.first.bytes;
+                                          String refname = (widget.title ==
+                                                  'QualityChecklist'
+                                              ? '${widget.title}/${widget.subtitle}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.fldrName}/${widget.date}/${widget.srNo}/${result!.files.first.name}'
+                                              :
+                                              //widget.pagetitle == 'ClosureReport' ||
+                                              widget.pagetitle ==
+                                                      'Overview Page'
+                                                  ? '${widget.pagetitle}/${widget.cityName}/${widget.depoName}/${widget.userId}/${result!.files.first.name}'
+                                                  : widget.pagetitle ==
+                                                          'ClosureReport'
+                                                      ? '${widget.pagetitle}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.fldrName}/${result!.files.first.name}'
+                                                      : '${widget.pagetitle}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.date}/${widget.fldrName}/${result!.files.first.name}');
+
+                                          // String? fileName = result!.files.first.name;
+                                          print('refname - $refname');
+                                          await FirebaseStorage.instance
+                                              .ref(refname)
+                                              .putData(
+                                                fileBytes!,
+                                                // SettableMetadata(contentType: 'application/pdf')
+                                              )
+                                              .whenComplete(() =>
+                                                  // setState(() => result == null)
+                                                  // );
+                                                  Navigator.pop(context));
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                                  content: Text(
+                                                      'Image is Uploaded')));
+                                        }
+                                      },
+                                child: const Text(
+                                  'Upload file',
+                                  style: TextStyle(fontSize: 16),
+                                )),
+                          ),
+                        ],
+                      ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Container(
+                        width: 250,
+                        height: 50,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                                'Back to ${widget.title == 'QualityChecklist' ? 'Quality Checklist' : widget.pagetitle}')),
+                      ),
+                    ),
+                    widget.pagetitle == 'Overview Page'
+                        ? ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(
+                                builder: (context) {
+                                  return ViewAllPdfUser(
+                                    title: 'Overview Page',
+                                    cityName: widget.cityName,
+                                    depoName: widget.depoName,
+                                    userId: widget.userId,
+                                    docId: 'OverviewepoImages',
+                                  );
+                                },
+                              ));
+                            },
+                            child: const Text('View File'))
+                        : Container()
                   ],
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Container(
-                  width: 250,
-                  height: 50,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                          'Back to ${widget.title == 'QualityChecklist' ? 'Quality Checklist' : widget.pagetitle}')),
-                ),
-              ),
-              widget.pagetitle == 'Overview Page'
-                  ? ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (context) {
-                            return ViewAllPdfUser(
-                              title: 'Overview Page',
-                              cityName: widget.cityName,
-                              depoName: widget.depoName,
-                              userId: widget.userId,
-                              docId: 'OverviewepoImages',
-                            );
-                          },
-                        ));
-                      },
-                      child: const Text('View File'))
-                  : Container()
-            ],
-          ),
-        ));
+              ));
   }
 
   Future getAssignedDepots() async {

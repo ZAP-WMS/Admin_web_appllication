@@ -665,9 +665,9 @@ class _MaterialProcurementUserState extends State<MaterialProcurementUser> {
       tabledata2.clear();
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: const Text('Data are synced'),
+        content: const Text('Data are synced',),
         backgroundColor: blue,
-      ));
+      ),);
     });
   }
 

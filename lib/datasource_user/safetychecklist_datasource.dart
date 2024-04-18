@@ -35,14 +35,13 @@ class SafetyChecklistDataSource extends DataGridSource {
   /// [DataGridCell] on [onSubmitCell] method.
   dynamic newCellValue;
 
-  /// Help to control the editable text in [TextField] widget.
   TextEditingController editingController = TextEditingController();
-  final DateRangePickerController _controller = DateRangePickerController();
   TextStyle textStyle = const TextStyle(
       fontFamily: 'Roboto',
       fontWeight: FontWeight.w400,
       fontSize: 14,
       color: Colors.black87);
+
   List<String> statusMenuItems = [
     'Yes',
     'No',
@@ -55,34 +54,11 @@ class SafetyChecklistDataSource extends DataGridSource {
   @override
   DataGridRowAdapter? buildRow(DataGridRow row) {
     String? selectedDate = DateFormat.yMMMMd().format(DateTime.now());
-    // DateTime? rangeStartDate = DateTime.now();
-    // DateTime? rangeEndDate = DateTime.now();
-    // DateTime? date;
-    // DateTime? endDate;
-    // DateTime? rangeStartDate1 = DateTime.now();
-    // DateTime? rangeEndDate1 = DateTime.now();
-    // DateTime? date1;
-    // DateTime? endDate1;
-    String Pagetitle = 'Safety Checklist';
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((dataGridCell) {
       return Container(
           alignment:
-              //  (dataGridCell.columnName == 'srNo' ||
-              //         dataGridCell.columnName == 'Activity' ||
-              //         dataGridCell.columnName == 'OriginalDuration' ||
-              // dataGridCell.columnName == 'StartDate' ||
-              //         dataGridCell.columnName == 'EndDate' ||
-              //         dataGridCell.columnName == 'ActualStart' ||
-              //         dataGridCell.columnName == 'ActualEnd' ||
-              //         dataGridCell.columnName == 'ActualDuration' ||
-              //         dataGridCell.columnName == 'Delay' ||
-              //         dataGridCell.columnName == 'Unit' ||
-              //         dataGridCell.columnName == 'QtyScope' ||
-              //         dataGridCell.columnName == 'QtyExecuted' ||
-              //         dataGridCell.columnName == 'BalancedQty' ||
-              //         dataGridCell.columnName == 'Progress' ||
-              //         dataGridCell.columnName == 'Weightage')
+            
               Alignment.center,
           // : Alignment.center,
           padding: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -154,8 +130,9 @@ class SafetyChecklistDataSource extends DataGridSource {
                                       ? '${globalIndexSafetyList[dataGridRows.indexOf(row)]}+'
                                       : '${globalIndexSafetyList[dataGridRows.indexOf(row)]}'
                                   : '',
-                              style: TextStyle(color: blue, fontSize: 11),
-                            )
+                              style: TextStyle(color: blue, fontSize: 11,
+                              ),
+                            ),
                           ],
                         );
                       },
@@ -198,12 +175,14 @@ class SafetyChecklistDataSource extends DataGridSource {
                                 textAlign: TextAlign.center,
                               ),
                             );
-                          }).toList())
+                          }).toList(),
+                          )
                       : Text(
                           dataGridCell.value.toString(),
                           style: const TextStyle(
                               fontSize: 11, fontWeight: FontWeight.bold),
-                        ));
+                        ),
+                        );
     }).toList());
   }
 
@@ -247,11 +226,7 @@ class SafetyChecklistDataSource extends DataGridSource {
           DataGridCell<String>(columnName: 'Remark', value: newCellValue);
       _checklistModel[dataRowIndex].remark = newCellValue as dynamic;
     }
-    //  else {
-    //   dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
-    //       DataGridCell<double>(columnName: 'photoNo', value: newCellValue);
-    //   _checklistModel[dataRowIndex].photo = newCellValue;
-    // }
+
   }
 
   @override
@@ -276,7 +251,7 @@ class SafetyChecklistDataSource extends DataGridSource {
     // The new cell value must be reset.
     // To avoid committing the [DataGridCell] value that was previously edited
     // into the current non-modified [DataGridCell].
-    newCellValue = null;
+    newCellValue = '';
 
     final bool isNumericType = column.columnName == 'srNo';
 
@@ -291,6 +266,7 @@ class SafetyChecklistDataSource extends DataGridSource {
     return Container(
       alignment: isNumericType ? Alignment.centerRight : Alignment.centerLeft,
       child: TextField(
+        decoration: const InputDecoration(contentPadding: EdgeInsets.all(0.0,),),
         style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
         autofocus: true,
         controller: editingController..text = displayText,
@@ -313,8 +289,6 @@ class SafetyChecklistDataSource extends DataGridSource {
             } else {
               newCellValue = value;
             }
-          } else {
-            newCellValue = '';
           }
         },
         onSubmitted: (String value) {

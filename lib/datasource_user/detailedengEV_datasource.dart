@@ -142,7 +142,7 @@ class DetailedEngSourceEV extends DataGridSource {
                       DetailedEngModelUser(
                         siNo: dataRowIndex + 2,
                         title: '',
-                        number: null,
+                        number: '',
                         preparationDate:
                             DateFormat('dd-MM-yyyy').format(DateTime.now()),
                         submissionDate:
@@ -153,7 +153,7 @@ class DetailedEngSourceEV extends DataGridSource {
                             DateFormat('dd-MM-yyyy').format(DateTime.now()),
                       ));
                 },
-                child: Text('Add'))
+                child: const Text('Add',),)
             : (dataGridCell.columnName == 'Delete')
                 ? IconButton(
                     onPressed: () async {
@@ -255,41 +255,41 @@ class DetailedEngSourceEV extends DataGridSource {
                                                   )));
                                     },
                                     child: const Text('View')),
-                                Container(
-                                  child: isShowPinIconInDetail[
-                                          dataGridRows.indexOf(row) + 1 >
-                                                  isShowPinIconInDetail.length
-                                              ? 0
-                                              : dataGridRows.indexOf(row)]
-                                      ? Icon(
-                                          Icons.attach_file_outlined,
-                                          color: blue,
-                                          size: 18,
-                                        )
-                                      : Container(),
-                                ),
-                                Text(
-                                  globalIndexDetailedList[dataGridRows
-                                                          .indexOf(row) +
-                                                      1 >
-                                                  globalIndexDetailedList.length
-                                              ? 0
-                                              : dataGridRows.indexOf(row)] !=
-                                          0
-                                      ? globalIndexDetailedList[
-                                                  dataGridRows.indexOf(row)] >
-                                              9
-                                          ? '${globalIndexDetailedList[dataGridRows.indexOf(row)]}+'
-                                          : '${globalIndexDetailedList[dataGridRows.indexOf(row)]}'
-                                      : '',
-                                  style: TextStyle(color: blue, fontSize: 11),
-                                )
+                                // Container(
+                                //   child: isShowPinIconInDetail[
+                                //           dataGridRows.indexOf(row) + 1 >
+                                //                   isShowPinIconInDetail.length
+                                //               ? 0
+                                //               : dataGridRows.indexOf(row)]
+                                //       ? Icon(
+                                //           Icons.attach_file_outlined,
+                                //           color: blue,
+                                //           size: 18,
+                                //         )
+                                //       : Container(),
+                                // ),
+                                // Text(
+                                //   globalIndexDetailedList[dataGridRows
+                                //                           .indexOf(row) +
+                                //                       1 >
+                                //                   globalIndexDetailedList.length
+                                //               ? 0
+                                //               : dataGridRows.indexOf(row)] !=
+                                //           0
+                                //       ? globalIndexDetailedList[
+                                //                   dataGridRows.indexOf(row)] >
+                                //               9
+                                //           ? '${globalIndexDetailedList[dataGridRows.indexOf(row)]}+'
+                                //           : '${globalIndexDetailedList[dataGridRows.indexOf(row)]}'
+                                //       : '',
+                                //   style: TextStyle(color: blue, fontSize: 11),
+                                // )
                               ],
                             );
                           })
                         : dataGridCell.columnName == 'Number' &&
                                 dataGridCell.value == 0
-                            ? Text('')
+                            ? const Text('')
                             : (dataGridCell.columnName == 'PreparationDate') &&
                                     dataGridCell.value != ''
                                 ? Row(
@@ -747,7 +747,7 @@ class DetailedEngSourceEV extends DataGridSource {
     // The new cell value must be reset.
     // To avoid committing the [DataGridCell] value that was previously edited
     // into the current non-modified [DataGridCell].
-    newCellValue = null;
+    newCellValue = '';
 
     final bool isNumericType = column.columnName == 'SiNo';
     //  || column.columnName == 'Number';
@@ -798,8 +798,6 @@ class DetailedEngSourceEV extends DataGridSource {
             } else {
               newCellValue = value;
             }
-          } else {
-            newCellValue = null;
           }
         },
         onSubmitted: (String value) {

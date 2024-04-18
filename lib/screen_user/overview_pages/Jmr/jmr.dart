@@ -10,6 +10,7 @@ import 'package:web_appllication/components/loading_page.dart';
 import 'package:web_appllication/screen_user/KeysEvents/Grid_DataTable.dart';
 import 'package:web_appllication/screen_user/KeysEvents/view_AllFiles.dart';
 import 'package:web_appllication/screen_user/overview_pages/Jmr/jmr_home.dart';
+import 'package:web_appllication/widgets/custom_show_progress.dart';
 import 'package:web_appllication/widgets/widgets_user/user_style.dart';
 
 class JmrUser extends StatefulWidget {
@@ -18,13 +19,12 @@ class JmrUser extends StatefulWidget {
   String? depoName;
   String role;
 
-  JmrUser({
-    super.key,
-    this.cityName,
-    this.depoName,
-    this.finalLenOfView,
-    required this.role
-  });
+  JmrUser(
+      {super.key,
+      this.cityName,
+      this.depoName,
+      this.finalLenOfView,
+      required this.role});
 
   @override
   State<JmrUser> createState() => _JmrUserState();
@@ -138,7 +138,24 @@ class _JmrUserState extends State<JmrUser> {
                         ],
                       ))),
             ],
-            title: Text('${widget.cityName} / ${widget.depoName} / JMR'),
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(bottom: 5.0),
+                  child: Text(
+                    "JMR",
+                    style: appFontSize,
+                  ),
+                ),
+                Text(
+                  'City - ${widget.cityName}     Depot - ${widget.depoName}',
+                  style: const TextStyle(
+                    fontSize: 11,
+                  ),
+                )
+              ],
+            ),
             backgroundColor: blue,
             bottom: TabBar(
               onTap: (value) {
@@ -475,17 +492,22 @@ class _JmrUserState extends State<JmrUser> {
       final bytes = result.files.single.bytes;
       fileName = result.files.single.name;
       final storage = FirebaseStorage.instance;
+      showProgressDilogue(context);
       await storage
           .ref()
           .child(
               'jmrFiles/$tabName/${widget.cityName}/${widget.depoName}/$userId/${index + 1}/$fileName')
           .putData(bytes!);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
           backgroundColor: Colors.green,
           content: Text(
             'File Uploaded',
             style: TextStyle(color: white),
-          )));
+          ),
+        ),
+      );
 
       await FirebaseFirestore.instance
           .collection('JMRCollection')

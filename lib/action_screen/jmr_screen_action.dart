@@ -25,7 +25,6 @@ class _JmrScreenActionState extends State<JmrScreenAction> {
   @override
   void initState() {
     selectWidget();
-
     super.initState();
   }
 
