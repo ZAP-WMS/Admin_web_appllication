@@ -10,7 +10,6 @@ import 'package:web_appllication/FirebaseApi/firebase_api_user.dart';
 import 'package:web_appllication/components/loading_page.dart';
 import 'package:web_appllication/datasource_user/safetychecklist_datasource.dart';
 import 'package:web_appllication/model/user_model/safety_checklistModel.dart';
-import 'package:web_appllication/screen_user/Planning_Pages/civil_quality_checklist.dart';
 import 'package:web_appllication/screen_user/Planning_Pages/summary.dart';
 import 'package:web_appllication/widgets/custom_show_progress.dart';
 import 'package:web_appllication/widgets/widgets_user/custom_appbar.dart';
@@ -39,6 +38,7 @@ class SafetyChecklistUser extends StatefulWidget {
 List<SafetyChecklistModelUser> safetylisttable = <SafetyChecklistModelUser>[];
 final AuthService authService = AuthService();
 List<String> assignedDepots = [];
+String? selectedDate = DateFormat.yMMMMd().format(DateTime.now());
 bool isFieldEditable = false;
 late SafetyChecklistDataSource _safetyChecklistDataSource;
 late DataGridController _dataGridController;
@@ -68,8 +68,8 @@ class _SafetyChecklistUserState extends State<SafetyChecklistUser> {
     getAssignedDepots();
     checkAvailableImage().whenComplete(() {
       safetylisttable = getData();
-      _safetyChecklistDataSource = SafetyChecklistDataSource(
-          safetylisttable, widget.cityName!, widget.depoName!, widget.userId);
+      _safetyChecklistDataSource = SafetyChecklistDataSource(safetylisttable,
+          widget.cityName!, widget.depoName!, widget.userId, selectedDate!);
       _dataGridController = DataGridController();
 
       _stream = FirebaseFirestore.instance
@@ -135,9 +135,9 @@ class _SafetyChecklistUserState extends State<SafetyChecklistUser> {
                 'ChargerType': chargertype ?? '',
                 'DepotName': depotname ?? '',
                 'ConductedBy': conductedby ?? '',
-                'InstallationDate': date,
-                'EnegizationDate': date1,
-                'BoardingDate': date2,
+                'InstallationDate': DateFormat.yMMMMd().format(date!),
+                'EnegizationDate': DateFormat.yMMMMd().format(date1!),
+                'BoardingDate': DateFormat.yMMMMd().format(date2!),
               });
 
               FirebaseApiUser().nestedKeyEventsField('SafetyFieldData2',
@@ -166,7 +166,10 @@ class _SafetyChecklistUserState extends State<SafetyChecklistUser> {
                         // color: lightblue,
                         child: Padding(
                           padding: const EdgeInsets.only(
-                              top: 10, left: 10, right: 10,),
+                            top: 10,
+                            left: 10,
+                            right: 10,
+                          ),
                           child: Column(
                             children: [
                               Row(
@@ -1169,7 +1172,8 @@ class _SafetyChecklistUserState extends State<SafetyChecklistUser> {
                                         safetylisttable,
                                         widget.cityName!,
                                         widget.depoName!,
-                                        widget.userId);
+                                        widget.userId,
+                                        selectedDate!);
                                 _dataGridController = DataGridController();
                               });
                               return SfDataGridTheme(
@@ -1327,7 +1331,7 @@ class _SafetyChecklistUserState extends State<SafetyChecklistUser> {
       FirebaseApiUser().nestedKeyEventsField(
           'SafetyChecklistTable2', widget.depoName!, 'userId', widget.userId!);
       tabledata2.clear();
-      // Navigator.pop(context);
+      Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Data are synced'),
         backgroundColor: blue,
@@ -1655,7 +1659,7 @@ class _SafetyChecklistUserState extends State<SafetyChecklistUser> {
   Future<void> checkAvailableImage() async {
     List<dynamic> tempGlobalList = [];
     List<bool> tempIsShowPinDetail = [];
-    final todayDate = DateFormat('MMMM dd, yyyy').format(currentDate);
+    // final todayDate = DateFormat('MMMM dd, yyyy').format(currentDate);
 
     int loopLen = 0;
 
@@ -1665,7 +1669,7 @@ class _SafetyChecklistUserState extends State<SafetyChecklistUser> {
         .collection('userId')
         .doc(widget.userId)
         .collection('date')
-        .doc(todayDate)
+        .doc(selectedDate)
         .get();
 
     if (documentSnapshot.exists) {
@@ -1680,7 +1684,7 @@ class _SafetyChecklistUserState extends State<SafetyChecklistUser> {
         final storage = FirebaseStorage.instance;
 
         final path =
-            'SafetyChecklist/${widget.cityName}/${widget.depoName}/${widget.userId}/$todayDate/${i + 1}';
+            'SafetyChecklist/${widget.cityName}/${widget.depoName}/${widget.userId}/$selectedDate/${i + 1}';
 
         ListResult result = await storage.ref().child(path).listAll();
 

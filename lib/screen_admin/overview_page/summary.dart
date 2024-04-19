@@ -59,11 +59,6 @@ class _ViewSummaryAdminState extends State<ViewSummaryAdmin> {
   dynamic userId;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(

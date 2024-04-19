@@ -63,8 +63,6 @@ class ViewSummary extends StatefulWidget {
 }
 
 class _ViewSummaryState extends State<ViewSummary> {
-  String? selectedDate = DateFormat.yMMMMd().format(DateTime.now());
-
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   final GlobalKey<FormState> _formkeyenddate = GlobalKey<FormState>();
   final GlobalKey<FormState> _formkeymontlydate = GlobalKey<FormState>();
@@ -201,11 +199,6 @@ class _ViewSummaryState extends State<ViewSummary> {
               isDownload: true,
               text: 'View Summary'),
         ),
-        // AppBar(
-        //   title: Text(
-        //       ' ${widget.cityName} / ${widget.depoName} / ${widget.id} / View Summary'),
-        //   backgroundColor: blue,
-        // ),
         body: _isLoading
             ? LoadingPage()
             : Column(
@@ -788,7 +781,8 @@ class _ViewSummaryState extends State<ViewSummary> {
                                             context,
                                             widget.cityName!,
                                             widget.depoName!,
-                                            selectedDate!,
+                                            DateFormat.yMMMMd()
+                                                .format(startdate!),
                                             widget.userId,
                                             deleteImageFile);
                                         _dataGridController =
@@ -1591,7 +1585,9 @@ class _ViewSummaryState extends State<ViewSummary> {
                                                       safetylisttable,
                                                       widget.cityName!,
                                                       widget.depoName!,
-                                                      userId);
+                                                      userId,
+                                                      DateFormat.yMMMMd()
+                                                          .format(startdate!));
                                               _dataGridController =
                                                   DataGridController();
                                             });
@@ -2471,7 +2467,7 @@ class _ViewSummaryState extends State<ViewSummary> {
         .collection('userId')
         .doc(widget.userId)
         .collection('date')
-        .doc(selectedDate)
+        .doc(DateFormat.yMMMMd().format(startdate!))
         .get();
 
     Map<String, dynamic> safetyMapData =
@@ -2630,6 +2626,110 @@ class _ViewSummaryState extends State<ViewSummary> {
     );
 
     //First Half Page
+
+    pdf.addPage(
+      pw.MultiPage(
+        theme: pw.ThemeData.withFont(
+            base: pw.Font.ttf(fontData1), bold: pw.Font.ttf(fontData2)),
+        pageFormat: const PdfPageFormat(1300, 900,
+            marginLeft: 70, marginRight: 70, marginBottom: 80, marginTop: 40),
+        orientation: pw.PageOrientation.landscape,
+        crossAxisAlignment: pw.CrossAxisAlignment.start,
+        // mainAxisAlignment: pw.MainAxisAlignment.start,
+        header: (pw.Context context) {
+          return pw.Container(
+              alignment: pw.Alignment.centerRight,
+              margin: const pw.EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
+              padding: const pw.EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
+              decoration: const pw.BoxDecoration(
+                  border: pw.Border(
+                      bottom:
+                          pw.BorderSide(width: 0.5, color: PdfColors.grey))),
+              child: pw.Column(children: [
+                pw.Row(
+                    mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                    children: [
+                      pw.Text('Safety Report',
+                          textScaleFactor: 2,
+                          style: const pw.TextStyle(color: PdfColors.blue700)),
+                      pw.Container(
+                        width: 120,
+                        height: 120,
+                        child: pw.Image(profileImage),
+                      ),
+                    ]),
+              ]));
+        },
+        footer: (pw.Context context) {
+          return pw.Container(
+              alignment: pw.Alignment.centerRight,
+              margin: const pw.EdgeInsets.only(top: 1.0 * PdfPageFormat.cm),
+              child: pw.Text('UserID - ${widget.userId}',
+                  textScaleFactor: 1.5,
+                  // 'Page ${context.pageNumber} of ${context.pagesCount}',
+                  style: pw.Theme.of(context)
+                      .defaultTextStyle
+                      .copyWith(color: PdfColors.black)));
+        },
+        build: (pw.Context context) => <pw.Widget>[
+          pw.Column(children: [
+            pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                children: [
+                  pw.RichText(
+                      text: pw.TextSpan(children: [
+                    const pw.TextSpan(
+                        text: 'Place : ',
+                        style:
+                            pw.TextStyle(color: PdfColors.black, fontSize: 17)),
+                    pw.TextSpan(
+                        text: '${widget.cityName} / ${widget.depoName}',
+                        style: const pw.TextStyle(
+                            color: PdfColors.blue700, fontSize: 15))
+                  ])),
+                  pw.RichText(
+                      text: pw.TextSpan(children: [
+                    const pw.TextSpan(
+                        text: 'Date : ',
+                        style:
+                            pw.TextStyle(color: PdfColors.black, fontSize: 17)),
+                    pw.TextSpan(
+                        text: date,
+                        style: const pw.TextStyle(
+                            color: PdfColors.blue700, fontSize: 15))
+                  ])),
+                  pw.RichText(
+                      text: pw.TextSpan(children: [
+                    const pw.TextSpan(
+                        text: 'UserID : ',
+                        style:
+                            pw.TextStyle(color: PdfColors.black, fontSize: 17)),
+                    pw.TextSpan(
+                        text: widget.userId,
+                        style: const pw.TextStyle(
+                            color: PdfColors.blue700, fontSize: 15))
+                  ])),
+                ]),
+            pw.SizedBox(height: 20)
+          ]),
+          pw.SizedBox(height: 10),
+          pw.Table.fromTextArray(
+            columnWidths: {
+              0: const pw.FixedColumnWidth(100),
+              1: const pw.FixedColumnWidth(100),
+            },
+            headers: ['Details', 'Values'],
+            headerStyle: headerStyle,
+            headerPadding: const pw.EdgeInsets.all(10.0),
+            data: fieldData,
+            cellHeight: 35,
+            cellStyle: cellStyle,
+          )
+        ],
+      ),
+    );
+
+    //Second Half
 
     pdf.addPage(
       pw.MultiPage(
@@ -3199,7 +3299,7 @@ class _ViewSummaryState extends State<ViewSummary> {
 
   void deleteImageFile(int rowIndex) async {
     final storage = FirebaseStorage.instance.ref().child(
-        'Daily Report/${widget.cityName}/${widget.depoName}/${widget.userId}/$selectedDate/$rowIndex');
+        'Daily Report/${widget.cityName}/${widget.depoName}/${widget.userId}/${DateFormat.yMMMMd().format(startdate!)}/$rowIndex');
     await storage.delete();
     print("Files Deleted Successfully! ");
   }

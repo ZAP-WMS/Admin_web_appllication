@@ -362,9 +362,11 @@ class _AssignedUserState extends State<AssignedUser> {
                                             children: [
                                               ElevatedButton(
                                                 style: const ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStatePropertyAll(
-                                                            Colors.redAccent)),
+                                                  backgroundColor:
+                                                      MaterialStatePropertyAll(
+                                                    Colors.redAccent,
+                                                  ),
+                                                ),
                                                 onPressed: () {
                                                   Navigator.pop(context);
                                                 },
@@ -386,12 +388,12 @@ class _AssignedUserState extends State<AssignedUser> {
                                                   removeRole(user)
                                                       .whenComplete(() {
                                                     updateRoleManagementData(
-                                                        cities,
-                                                        currentReportingmanager,
-                                                        selectedUserId,
-                                                        depotList);
+                                                      cities,
+                                                      currentReportingmanager,
+                                                      selectedUserId,
+                                                      depotList,
+                                                    );
                                                   });
-                                                  ;
 
                                                   Navigator.pop(context);
                                                 },
@@ -761,46 +763,60 @@ class _AssignedUserState extends State<AssignedUser> {
       String selectedReportingManager,
       String selectedUserId,
       List<dynamic> selectedDepotList) async {
+        
     for (int i = 0; i < cityList.length; i++) {
-      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+      QuerySnapshot pmQuery = await FirebaseFirestore.instance
           .collection("roleManagement")
           .doc(cityList[i])
           .collection("projectManager")
-          .doc(selectedReportingManager)
           .get();
 
-      if (documentSnapshot.exists) {
-        Map<String, dynamic> mapData =
-            documentSnapshot.data() as Map<String, dynamic>;
+      List<String> projectManagerList = pmQuery.docs.map((e) => e.id).toList();
 
-        List<dynamic> allUserIdData = mapData['allUserId'];
+      // To fetch all project manager id's
 
-        for (int j = 0; j < allUserIdData.length; j++) {
-          if (allUserIdData[j]["userId"] == selectedUserId) {
-            List<dynamic> oldDepots = allUserIdData[j]["depots"];
+      for (int j = 0; j < projectManagerList.length; j++) {
+        DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+            .collection("roleManagement")
+            .doc(cityList[i])
+            .collection("projectManager")
+            .doc(projectManagerList[j])
+            .get();
 
-            for (int k = 0; k < selectedDepotList.length; k++) {
-              if (oldDepots.contains(selectedDepotList[k]) == false) {
-                oldDepots.add(selectedDepotList[k]);
+        if (documentSnapshot.exists) {
+          Map<String, dynamic> mapData =
+              documentSnapshot.data() as Map<String, dynamic>;
+
+          List<dynamic> allUserIdData = mapData['allUserId'];
+
+          for (int z = 0; z < allUserIdData.length; z++) {
+            if (allUserIdData[z]["userId"] == selectedUserId) {
+              List<dynamic> oldDepots = allUserIdData[z]["depots"];
+
+              for (int k = 0; k < selectedDepotList.length; k++) {
+                if (oldDepots.contains(selectedDepotList[k]) == false) {
+                  oldDepots.add(selectedDepotList[k]);
+                }
               }
+
+              allUserIdData.removeAt(z);
+
+              FirebaseFirestore.instance
+                  .collection("roleManagement")
+                  .doc(cityList[i])
+                  .collection("projectManager")
+                  .doc(projectManagerList[j])
+                  .update(
+                {
+                  "allUserId": allUserIdData
+                  },
+              );
             }
-
-            allUserIdData.removeAt(j);
-
-            print("allUserIdData: $allUserIdData");
-
-            FirebaseFirestore.instance
-                .collection("roleManagement")
-                .doc(cityList[i])
-                .collection("projectManager")
-                .doc(selectedReportingManager)
-                .update(
-              {"allUserId": allUserIdData},
-            );
           }
         }
       }
     }
     print("Role Management Data Updated");
+
   }
 }

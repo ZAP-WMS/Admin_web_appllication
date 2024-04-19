@@ -95,7 +95,6 @@ class _RoleScreenState extends State<RoleScreen> {
         isLoading = false;
       });
     });
-
     super.initState();
   }
 
@@ -1067,83 +1066,92 @@ class _RoleScreenState extends State<RoleScreen> {
     }
 
     for (int i = 0; i < cities.length; i++) {
-      for (int j = 0; j < depots.length; j++) {
-        DocumentSnapshot dataDocSnap = await FirebaseFirestore.instance
-            .collection('DepoName')
+      List<dynamic> filteredDepots =
+          await filterDepots(cities[i], selectedDepotList);
+      print("filteredDepots : ${cities[i]} - $filteredDepots");
+
+      if (isPmRoleAssigned) {
+        await FirebaseFirestore.instance
+            .collection('roleManagement')
             .doc(cities[i])
-            .collection('AllDepots')
-            .doc(depots[j])
-            .get();
+            .collection("projectManager")
+            .doc(selectedUser)
+            .set({
+          "userId": selectedUserId,
+          "roles": selectedDesignationList,
+          "reportingManager": selectedReportingManager,
+          "alphabet": selectedUser![0][0].toUpperCase(),
+          "position": "Assigned",
+          "depots": filteredDepots,
+          "allUserId": []
+        });
+      } else {
+        updateProjectManagerData(cities[i], selectedUserId, filteredDepots);
 
-        if (dataDocSnap.exists) {
-          if (isPmRoleAssigned) {
-            await FirebaseFirestore.instance
-                .collection('roleManagement')
-                .doc(cities[i])
-                .collection("projectManager")
-                .doc(selectedUser)
-                .set({
-              "userId": selectedUserId,
-              "roles": selectedDesignationList,
-              "reportingManager": selectedReportingManager,
-              "alphabet": selectedUser![0][0].toUpperCase(),
-              "position": "Assigned",
-              "depots": selectedDepotList,
-              "allUserId": []
-            });
-          } else {
-            updateProjectManagerData(cities[i], selectedUserId);
-
-            await FirebaseFirestore.instance
-                .collection('roleManagement')
-                .doc(cities[i])
-                .collection('projectManager')
-                .doc(selectedReportingManager!)
-                .collection('users')
-                .doc(selectedUser)
-                .set({
-              "userId": selectedUserId,
-              "roles": selectedDesignationList,
-              "reportingManager": selectedReportingManager,
-              "alphabet": selectedUser![0][0].toUpperCase(),
-              "position": "Assigned",
-              "depots": selectedDepotList
-            });
-          }
-        }
+        await FirebaseFirestore.instance
+            .collection('roleManagement')
+            .doc(cities[i])
+            .collection('projectManager')
+            .doc(selectedReportingManager!)
+            .collection('users')
+            .doc(selectedUser)
+            .set({
+          "userId": selectedUserId,
+          "roles": selectedDesignationList,
+          "reportingManager": selectedReportingManager,
+          "alphabet": selectedUser![0][0].toUpperCase(),
+          "position": "Assigned",
+          "depots": selectedDepotList
+        });
       }
     }
   }
 
-  Future updateProjectManagerData(String cityName, String newUserId) async {
+  Future updateProjectManagerData(
+      String cityName, String newUserId, List<dynamic> filteredDepots) async {
     allUserId.clear();
-    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+
+    QuerySnapshot pmQuery = await FirebaseFirestore.instance
         .collection('roleManagement')
         .doc(cityName)
         .collection('projectManager')
-        .doc(selectedReportingManager)
         .get();
 
-    if (documentSnapshot.exists) {
-      Map<String, dynamic> mapData =
-          documentSnapshot.data() as Map<String, dynamic>;
-      allUserId = mapData['allUserId'];
+    List<String> projectManagerList = pmQuery.docs.map((e) => e.id).toList();
 
-      FirebaseFirestore.instance
+    for (int i = 0; i < projectManagerList.length; i++) {
+      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
           .collection('roleManagement')
           .doc(cityName)
           .collection('projectManager')
-          .doc(selectedReportingManager)
-          .update({
-        "allUserId": allUserId +
-            [
-              {
-                "userId": newUserId,
-                "name": selectedUser,
-                "depots": selectedDepotList
-              }
-            ]
-      });
+          .doc(projectManagerList[i])
+          .get();
+
+      if (documentSnapshot.exists) {
+        Map<String, dynamic> mapData =
+            documentSnapshot.data() as Map<String, dynamic>;
+        allUserId = mapData['allUserId'];
+
+        FirebaseFirestore.instance
+            .collection('roleManagement')
+            .doc(cityName)
+            .collection('projectManager')
+            .doc(projectManagerList[i])
+            .update(
+          {
+            "allUserId": allUserId +
+                [
+                  {
+                    "userId": newUserId,
+                    "name": selectedUser,
+                    "depots": filteredDepots
+                  }
+                ]
+          },
+        );
+      }
+
+      print("Project Manager Updated - ${projectManagerList[i]}");
     }
   }
 
@@ -1341,7 +1349,9 @@ class _RoleScreenState extends State<RoleScreen> {
     } else {
       storeAssignData().whenComplete(() async {
         await fetchTotalValues().whenComplete(() {
-          provider.reloadTotalNum(true);
+          provider.reloadTotalNum(
+            true,
+          );
         });
       });
     }
@@ -1643,5 +1653,26 @@ class _RoleScreenState extends State<RoleScreen> {
         }
       }
     }
+  }
+
+  Future<List<dynamic>> filterDepots(
+      String cityName, List<String> depotList) async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection("DepoName")
+        .doc(cityName)
+        .collection("AllDepots")
+        .get();
+
+    List<String> depots = querySnapshot.docs.map((e) => e.id).toList();
+    List<String> filteredDepots = [];
+
+    depotList.every((element) {
+      if (depots.contains(element)) {
+        filteredDepots.add(element);
+      }
+      return true;
+    });
+    depotList.removeWhere((element) => filteredDepots.contains(element));
+    return filteredDepots;
   }
 }

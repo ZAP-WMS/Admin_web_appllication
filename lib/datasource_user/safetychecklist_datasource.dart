@@ -16,8 +16,9 @@ class SafetyChecklistDataSource extends DataGridSource {
   String cityName;
   String depoName;
   dynamic userId;
-  SafetyChecklistDataSource(
-      this._checklistModel, this.cityName, this.depoName, this.userId) {
+  String selectedDate;
+  SafetyChecklistDataSource(this._checklistModel, this.cityName, this.depoName,
+      this.userId, this.selectedDate) {
     buildDataGridRows();
   }
   void buildDataGridRows() {
@@ -53,136 +54,135 @@ class SafetyChecklistDataSource extends DataGridSource {
 
   @override
   DataGridRowAdapter? buildRow(DataGridRow row) {
-    String? selectedDate = DateFormat.yMMMMd().format(DateTime.now());
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((dataGridCell) {
       return Container(
-          alignment:
-            
-              Alignment.center,
-          // : Alignment.center,
-          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-          child: dataGridCell.columnName == 'Photo'
-              ? LayoutBuilder(
-                  builder: (BuildContext context, BoxConstraints constraints) {
-                    return ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => UploadDocument(
-                              pagetitle: 'SafetyChecklist',
-                              customizetype: const [
-                                '.jpg',
-                                '.jpeg',
-                                '.png',
-                                '.pdf'
-                              ],
-                              cityName: cityName,
-                              depoName: depoName,
-                              fldrName: '${dataGridRows.indexOf(row) + 1}',
-                              userId: userId,
-                              date: selectedDate,
-                            ),
-                          ));
-                        },
-                        child: const Text('Upload'));
-                  },
-                )
-              : dataGridCell.columnName == 'ViewPhoto'
-                  ? LayoutBuilder(
-                      builder:
-                          (BuildContext context, BoxConstraints constraints) {
-                        return Row(
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => ViewAllPdfUser(
-                                      title: 'SafetyChecklist',
-                                      cityName: cityName,
-                                      depoName: depoName,
-                                      userId: userId,
-                                      date: selectedDate,
-                                      docId: '${dataGridRows.indexOf(row) + 1}',
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: const Text('View'),
-                            ),
-                            Container(
-                              child:
-                                  isShowPinSafetyList[dataGridRows.indexOf(row)]
-                                      ? Icon(
-                                          Icons.attach_file_outlined,
-                                          color: blue,
-                                          size: 18,
-                                        )
-                                      : Container(),
-                            ),
-                            Text(
-                              globalIndexSafetyList[
-                                          dataGridRows.indexOf(row)] !=
-                                      0
-                                  ? globalIndexSafetyList[
-                                              dataGridRows.indexOf(row)] >
-                                          9
-                                      ? '${globalIndexSafetyList[dataGridRows.indexOf(row)]}+'
-                                      : '${globalIndexSafetyList[dataGridRows.indexOf(row)]}'
-                                  : '',
-                              style: TextStyle(color: blue, fontSize: 11,
-                              ),
-                            ),
-                          ],
-                        );
+        alignment: Alignment.center,
+        // : Alignment.center,
+        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+        child: dataGridCell.columnName == 'Photo'
+            ? LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  return ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => UploadDocument(
+                            pagetitle: 'SafetyChecklist',
+                            customizetype: const [
+                              '.jpg',
+                              '.jpeg',
+                              '.png',
+                              '.pdf'
+                            ],
+                            cityName: cityName,
+                            depoName: depoName,
+                            fldrName: '${dataGridRows.indexOf(row) + 1}',
+                            userId: userId,
+                            date: selectedDate,
+                          ),
+                        ));
                       },
-                    )
-                  : dataGridCell.columnName == 'Status'
-                      ? DropdownButton<String>(
-                          value: dataGridCell.value,
-                          autofocus: true,
-                          focusColor: Colors.transparent,
-                          underline: const SizedBox.shrink(),
-                          icon: const Icon(Icons.arrow_drop_down_sharp),
-                          isExpanded: true,
-                          style: textStyle,
-                          onChanged: (String? value) {
-                            final dynamic oldValue = row
-                                    .getCells()
-                                    .firstWhereOrNull((DataGridCell dataCell) =>
-                                        dataCell.columnName ==
-                                        dataGridCell.columnName)
-                                    ?.value ??
-                                '';
-                            if (oldValue == value || value == null) {
-                              return;
-                            }
+                      child: const Text('Upload'));
+                },
+              )
+            : dataGridCell.columnName == 'ViewPhoto'
+                ? LayoutBuilder(
+                    builder:
+                        (BuildContext context, BoxConstraints constraints) {
+                      return Row(
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              print("Date -$selectedDate");
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => ViewAllPdfUser(
+                                    title: 'SafetyChecklist',
+                                    cityName: cityName,
+                                    depoName: depoName,
+                                    userId: userId,
+                                    date: selectedDate,
+                                    docId: '${dataGridRows.indexOf(row) + 1}',
+                                  ),
+                                ),
+                              );
+                            },
+                            child: const Text('View'),
+                          ),
+                          Container(
+                            child:
+                                isShowPinSafetyList[dataGridRows.indexOf(row)]
+                                    ? Icon(
+                                        Icons.attach_file_outlined,
+                                        color: blue,
+                                        size: 18,
+                                      )
+                                    : Container(),
+                          ),
+                          Text(
+                            globalIndexSafetyList[dataGridRows.indexOf(row)] !=
+                                    0
+                                ? globalIndexSafetyList[
+                                            dataGridRows.indexOf(row)] >
+                                        9
+                                    ? '${globalIndexSafetyList[dataGridRows.indexOf(row)]}+'
+                                    : '${globalIndexSafetyList[dataGridRows.indexOf(row)]}'
+                                : '',
+                            style: TextStyle(
+                              color: blue,
+                              fontSize: 11,
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  )
+                : dataGridCell.columnName == 'Status'
+                    ? DropdownButton<String>(
+                        value: dataGridCell.value,
+                        autofocus: true,
+                        focusColor: Colors.transparent,
+                        underline: const SizedBox.shrink(),
+                        icon: const Icon(Icons.arrow_drop_down_sharp),
+                        isExpanded: true,
+                        style: textStyle,
+                        onChanged: (String? value) {
+                          final dynamic oldValue = row
+                                  .getCells()
+                                  .firstWhereOrNull((DataGridCell dataCell) =>
+                                      dataCell.columnName ==
+                                      dataGridCell.columnName)
+                                  ?.value ??
+                              '';
+                          if (oldValue == value || value == null) {
+                            return;
+                          }
 
-                            final int dataRowIndex = dataGridRows.indexOf(row);
-                            dataGridRows[dataRowIndex].getCells()[2] =
-                                DataGridCell<String>(
-                                    columnName: 'Status', value: value);
-                            _checklistModel[dataRowIndex].status =
-                                value.toString();
-                            notifyListeners();
-                          },
-                          items: statusMenuItems
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(
-                                value,
-                                textAlign: TextAlign.center,
-                              ),
-                            );
-                          }).toList(),
-                          )
-                      : Text(
-                          dataGridCell.value.toString(),
-                          style: const TextStyle(
-                              fontSize: 11, fontWeight: FontWeight.bold),
-                        ),
-                        );
+                          final int dataRowIndex = dataGridRows.indexOf(row);
+                          dataGridRows[dataRowIndex].getCells()[2] =
+                              DataGridCell<String>(
+                                  columnName: 'Status', value: value);
+                          _checklistModel[dataRowIndex].status =
+                              value.toString();
+                          notifyListeners();
+                        },
+                        items: statusMenuItems
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(
+                              value,
+                              textAlign: TextAlign.center,
+                            ),
+                          );
+                        }).toList(),
+                      )
+                    : Text(
+                        dataGridCell.value.toString(),
+                        style: const TextStyle(
+                            fontSize: 11, fontWeight: FontWeight.bold),
+                      ),
+      );
     }).toList());
   }
 
@@ -226,7 +226,6 @@ class SafetyChecklistDataSource extends DataGridSource {
           DataGridCell<String>(columnName: 'Remark', value: newCellValue);
       _checklistModel[dataRowIndex].remark = newCellValue as dynamic;
     }
-
   }
 
   @override
@@ -266,7 +265,11 @@ class SafetyChecklistDataSource extends DataGridSource {
     return Container(
       alignment: isNumericType ? Alignment.centerRight : Alignment.centerLeft,
       child: TextField(
-        decoration: const InputDecoration(contentPadding: EdgeInsets.all(0.0,),),
+        decoration: const InputDecoration(
+          contentPadding: EdgeInsets.all(
+            0.0,
+          ),
+        ),
         style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
         autofocus: true,
         controller: editingController..text = displayText,
