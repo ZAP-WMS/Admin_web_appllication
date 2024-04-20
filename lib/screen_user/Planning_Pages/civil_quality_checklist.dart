@@ -136,15 +136,16 @@ class CivilQualityChecklistUser2 extends StatefulWidget {
   String? currentDate;
   bool? isHeader;
   Function? getBoolList;
+  String? userId;
 
-  CivilQualityChecklistUser2({
-    super.key,
-    required this.cityName,
-    required this.depoName,
-    this.currentDate,
-    this.isHeader = true,
-    this.getBoolList,
-  });
+  CivilQualityChecklistUser2(
+      {super.key,
+      required this.cityName,
+      required this.depoName,
+      this.currentDate,
+      this.isHeader = true,
+      this.getBoolList,
+      this.userId});
 
   @override
   State<CivilQualityChecklistUser2> createState() =>
@@ -178,6 +179,7 @@ class _CivilQualityChecklistUser2State
   @override
   void initState() {
     getAssignedDepots();
+
     pr = ProgressDialog(
       context,
       customBody: Container(
@@ -186,79 +188,76 @@ class _CivilQualityChecklistUser2State
         child: const LoadingPdf(),
       ),
     );
+
     setBoolean();
     if (_selectedIndex == 0) {
       civilTabBool[0] = true;
-      print(civilTabBool);
       widget.getBoolList!(civilTabBool, tabForCivil[_selectedIndex!]);
     }
 
-    getUserId().whenComplete(() => {
-          getControllersData(),
-          getTableData().whenComplete(() {
-            qualitylisttable1 = checkTable ? excavation_getData() : data;
-            _qualityExcavationDataSource = QualityExcavationDataSource(
-                qualitylisttable1, widget.cityName!, widget.depoName!);
-            _dataGridController = DataGridController();
+    getControllersData();
+    getTableData().whenComplete(() {
+      qualitylisttable1 = checkTable ? excavation_getData() : data;
+      _qualityExcavationDataSource = QualityExcavationDataSource(
+          qualitylisttable1, widget.cityName!, widget.depoName!);
+      _dataGridController = DataGridController();
 
-            qualitylisttable2 = checkTable ? backfilling_getData() : data;
-            _qualityBackFillingDataSource = QualityBackFillingDataSource(
-              qualitylisttable2,
-              widget.cityName!,
-              widget.depoName!,
-            );
-            _dataGridController = DataGridController();
-            qualitylisttable3 = checkTable ? massonary_getData() : data;
-            _qualityMassonaryDataSource = QualityMassonaryDataSource(
-              qualitylisttable3,
-              widget.cityName!,
-              widget.depoName!,
-            );
-            _dataGridController = DataGridController();
-            qualitylisttable4 = checkTable ? glazzing_getData() : data;
-            _qualityGlazzingDataSource = QualityGlazzingDataSource(
-              qualitylisttable4,
-              widget.cityName!,
-              widget.depoName!,
-            );
-            _dataGridController = DataGridController();
-            qualitylisttable5 = checkTable ? ceilling_getData() : data;
-            _qualityCeillingDataSource = QualityCeillingDataSource(
-                qualitylisttable5, widget.cityName!, widget.depoName!);
-            qualitylisttable6 = checkTable ? florring_getData() : data;
-            _qualityflooringDataSource = QualityflooringDataSource(
-              qualitylisttable6,
-              widget.cityName!,
-              widget.depoName!,
-            );
-            _dataGridController = DataGridController();
-            qualitylisttable7 = checkTable ? inspection_getData() : data;
-            _qualityInspectionDataSource = QualityInspectionDataSource(
-                qualitylisttable7, widget.cityName!, widget.depoName!);
-            _dataGridController = DataGridController();
-            qualitylisttable8 = checkTable ? ironite_florring_getData() : data;
-            _qualityIroniteflooringDataSource =
-                QualityIroniteflooringDataSource(
-                    qualitylisttable8, widget.cityName!, widget.depoName!);
-            _dataGridController = DataGridController();
-            qualitylisttable9 = checkTable ? painting_getData() : data;
-            _qualityPaintingDataSource = QualityPaintingDataSource(
-                qualitylisttable9, widget.cityName!, widget.depoName!);
-            _dataGridController = DataGridController();
-            qualitylisttable10 = checkTable ? paving_getData() : data;
-            _qualityPavingDataSource = QualityPavingDataSource(
-                qualitylisttable10, widget.cityName!, widget.depoName!);
-            _dataGridController = DataGridController();
-            qualitylisttable11 = checkTable ? roofing_getData() : data;
-            _qualityRoofingDataSource = QualityRoofingDataSource(
-                qualitylisttable11, widget.cityName!, widget.depoName!);
-            _dataGridController = DataGridController();
-            qualitylisttable12 = checkTable ? proofing_getData() : data;
-            _qualityProofingDataSource = QualityProofingDataSource(
-                qualitylisttable12, widget.cityName!, widget.depoName!);
-            _dataGridController = DataGridController();
-          }),
-        });
+      qualitylisttable2 = checkTable ? backfilling_getData() : data;
+      _qualityBackFillingDataSource = QualityBackFillingDataSource(
+        qualitylisttable2,
+        widget.cityName!,
+        widget.depoName!,
+      );
+      _dataGridController = DataGridController();
+      qualitylisttable3 = checkTable ? massonary_getData() : data;
+      _qualityMassonaryDataSource = QualityMassonaryDataSource(
+        qualitylisttable3,
+        widget.cityName!,
+        widget.depoName!,
+      );
+      _dataGridController = DataGridController();
+      qualitylisttable4 = checkTable ? glazzing_getData() : data;
+      _qualityGlazzingDataSource = QualityGlazzingDataSource(
+        qualitylisttable4,
+        widget.cityName!,
+        widget.depoName!,
+      );
+      _dataGridController = DataGridController();
+      qualitylisttable5 = checkTable ? ceilling_getData() : data;
+      _qualityCeillingDataSource = QualityCeillingDataSource(
+          qualitylisttable5, widget.cityName!, widget.depoName!);
+      qualitylisttable6 = checkTable ? florring_getData() : data;
+      _qualityflooringDataSource = QualityflooringDataSource(
+        qualitylisttable6,
+        widget.cityName!,
+        widget.depoName!,
+      );
+      _dataGridController = DataGridController();
+      qualitylisttable7 = checkTable ? inspection_getData() : data;
+      _qualityInspectionDataSource = QualityInspectionDataSource(
+          qualitylisttable7, widget.cityName!, widget.depoName!);
+      _dataGridController = DataGridController();
+      qualitylisttable8 = checkTable ? ironite_florring_getData() : data;
+      _qualityIroniteflooringDataSource = QualityIroniteflooringDataSource(
+          qualitylisttable8, widget.cityName!, widget.depoName!);
+      _dataGridController = DataGridController();
+      qualitylisttable9 = checkTable ? painting_getData() : data;
+      _qualityPaintingDataSource = QualityPaintingDataSource(
+          qualitylisttable9, widget.cityName!, widget.depoName!);
+      _dataGridController = DataGridController();
+      qualitylisttable10 = checkTable ? paving_getData() : data;
+      _qualityPavingDataSource = QualityPavingDataSource(
+          qualitylisttable10, widget.cityName!, widget.depoName!);
+      _dataGridController = DataGridController();
+      qualitylisttable11 = checkTable ? roofing_getData() : data;
+      _qualityRoofingDataSource = QualityRoofingDataSource(
+          qualitylisttable11, widget.cityName!, widget.depoName!);
+      _dataGridController = DataGridController();
+      qualitylisttable12 = checkTable ? proofing_getData() : data;
+      _qualityProofingDataSource = QualityProofingDataSource(
+          qualitylisttable12, widget.cityName!, widget.depoName!);
+      _dataGridController = DataGridController();
+    });
 
     super.initState();
   }
@@ -341,7 +340,7 @@ class _CivilQualityChecklistUser2State
           .collection('CivilChecklistField')
           .doc('${widget.depoName}')
           .collection('userId')
-          .doc(userId)
+          .doc(widget.userId)
           .collection(tabForCivil[_selectedIndex!])
           .snapshots(),
       builder: (context, snapshot) {
@@ -355,13 +354,6 @@ class _CivilQualityChecklistUser2State
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    // Row(
-                    //   children: [
-                    //     Image.asset('assets/Tata-Power.jpeg',
-                    //         height: 50, width: 100),
-                    //     const Text('TATA POWER'),
-                    //   ],
-                    // ),
                     Text(
                       civil_title[int.parse(_selectedIndex.toString())],
                       style: TextStyle(
@@ -369,23 +361,37 @@ class _CivilQualityChecklistUser2State
                           fontWeight: FontWeight.bold,
                           color: blue),
                     ),
-                    Container(
-                      margin: const EdgeInsets.all(5),
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStatePropertyAll(blue)),
-                        onPressed: () {
-                          _generateCivilPdf();
-                        },
-                        child: RichText(
-                            text: TextSpan(children: [
-                          TextSpan(
-                              text: 'Download PDF',
-                              style: TextStyle(fontSize: 17, color: white)),
-                        ])),
-                      ),
-                    ),
-
+                    checkTable
+                        ? Container()
+                        : Container(
+                            margin: const EdgeInsets.all(5),
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStatePropertyAll(
+                                  blue,
+                                ),
+                              ),
+                              onPressed: () {
+                                _generateCivilPdf();
+                              },
+                              child: RichText(
+                                  text: TextSpan(children: [
+                                TextSpan(
+                                  text: 'Download',
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    color: white,
+                                  ),
+                                ),
+                                WidgetSpan(
+                                  child: Icon(
+                                    Icons.download,
+                                    color: white,
+                                  ),
+                                ),
+                              ])),
+                            ),
+                          ),
                     Row(
                       children: [
                         Text(
@@ -407,7 +413,6 @@ class _CivilQualityChecklistUser2State
                             )),
                       ],
                     ),
-
                     Text(
                       'TPCL/DIST/EV/CHECKLIST',
                       style: TextStyle(color: blue, fontSize: 17),
@@ -485,32 +490,32 @@ class _CivilQualityChecklistUser2State
                                     )),
                                 const SizedBox(width: 5),
                                 Expanded(
-                                    child: SizedBox(
-                                        height: 30,
-                                        child: widget.isHeader!
-                                            ? TextFormField(
-                                                readOnly: !isFieldEditable,
-                                                controller:
-                                                    locationNameController,
-                                                decoration:
-                                                    const InputDecoration(
-                                                        contentPadding:
-                                                            EdgeInsets.only(
-                                                                top: 0,
-                                                                bottom: 0,
-                                                                left: 5)),
-                                                style: TextStyle(
-                                                    fontSize: 15, color: blue),
-                                              )
-                                            : Container(
-                                                width: 120,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5),
-                                                    border: Border.all(
-                                                        color: blue)),
-                                              ))),
+                                  child: SizedBox(
+                                    height: 30,
+                                    child: widget.isHeader!
+                                        ? TextFormField(
+                                            readOnly: !isFieldEditable,
+                                            controller: locationNameController,
+                                            decoration: const InputDecoration(
+                                              contentPadding: EdgeInsets.only(
+                                                top: 0,
+                                                bottom: 0,
+                                                left: 5,
+                                              ),
+                                            ),
+                                            style: TextStyle(
+                                                fontSize: 15, color: blue),
+                                          )
+                                        : Container(
+                                            width: 120,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                border:
+                                                    Border.all(color: blue)),
+                                          ),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -525,7 +530,9 @@ class _CivilQualityChecklistUser2State
                                     width: 150,
                                     child: Text(
                                       'Vendor / Sub Vendor : ',
-                                      style: TextStyle(color: blue),
+                                      style: TextStyle(
+                                        color: blue,
+                                      ),
                                     )),
                                 const SizedBox(width: 5),
                                 Expanded(
@@ -628,10 +635,12 @@ class _CivilQualityChecklistUser2State
                                             readOnly: !isFieldEditable,
                                             controller: dateController,
                                             decoration: const InputDecoration(
-                                                contentPadding: EdgeInsets.only(
-                                                    top: 0,
-                                                    bottom: 0,
-                                                    left: 5)),
+                                              contentPadding: EdgeInsets.only(
+                                                top: 0,
+                                                bottom: 0,
+                                                left: 5,
+                                              ),
+                                            ),
                                             style: TextStyle(
                                                 fontSize: 15, color: blue),
                                           )
@@ -661,7 +670,9 @@ class _CivilQualityChecklistUser2State
                                   width: 150,
                                   child: Text(
                                     'Component of the Structure : ',
-                                    style: TextStyle(color: blue),
+                                    style: TextStyle(
+                                      color: blue,
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(width: 5),
@@ -713,7 +724,7 @@ class _CivilQualityChecklistUser2State
                                     height: 30,
                                     child: widget.isHeader!
                                         ? TextFormField(
-                                            readOnly: isFieldEditable,
+                                            readOnly: !isFieldEditable,
                                             controller: gridController,
                                             decoration: const InputDecoration(
                                                 contentPadding: EdgeInsets.only(
@@ -760,10 +771,12 @@ class _CivilQualityChecklistUser2State
                                             readOnly: !isFieldEditable,
                                             controller: fillingController,
                                             decoration: const InputDecoration(
-                                                contentPadding: EdgeInsets.only(
-                                                    top: 0,
-                                                    bottom: 0,
-                                                    left: 5)),
+                                              contentPadding: EdgeInsets.only(
+                                                top: 0,
+                                                bottom: 0,
+                                                left: 5,
+                                              ),
+                                            ),
                                             style: TextStyle(
                                                 fontSize: 15, color: blue),
                                           )
@@ -1166,12 +1179,6 @@ class _CivilQualityChecklistUser2State
     civilTabBool = tempList;
   }
 
-  Future<void> getUserId() async {
-    await AuthService().getCurrentUserId().then((value) {
-      userId = value;
-    });
-  }
-
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -1193,7 +1200,7 @@ class _CivilQualityChecklistUser2State
         .collection('CivilChecklistField')
         .doc(widget.depoName)
         .collection('userId')
-        .doc(userId)
+        .doc(widget.userId)
         .collection(tabForCivil[_selectedIndex!])
         .doc(selectedDate)
         .get();
@@ -1237,7 +1244,7 @@ class _CivilQualityChecklistUser2State
         .collection('CivilQualityChecklist')
         .doc(widget.depoName)
         .collection('userId')
-        .doc(userId)
+        .doc(widget.userId)
         .collection(tabForCivil[_selectedIndex!])
         .doc(selectedDate)
         .get();
@@ -1409,7 +1416,7 @@ class _CivilQualityChecklistUser2State
 
       for (QualitychecklistModelUser mapData in data) {
         String imagesPath =
-            'QualityChecklist/civil_Engineer/${widget.cityName}/${widget.depoName}/$userId/${tabForCivil[_selectedIndex!]} Table/$date/${mapData.srNo}';
+            'QualityChecklist/civil_Engineer/${widget.cityName}/${widget.depoName}/${widget.userId}/${tabForCivil[_selectedIndex!]} Table/$date/${mapData.srNo}';
 
         ListResult result =
             await FirebaseStorage.instance.ref().child(imagesPath).listAll();
@@ -1594,7 +1601,7 @@ class _CivilQualityChecklistUser2State
           return pw.Container(
               alignment: pw.Alignment.centerRight,
               margin: const pw.EdgeInsets.only(top: 1.0 * PdfPageFormat.cm),
-              child: pw.Text('User ID - $userId',
+              child: pw.Text('User ID - ${widget.userId}',
                   // 'Page ${context.pageNumber} of ${context.pagesCount}',
                   style: pw.Theme.of(context)
                       .defaultTextStyle
@@ -1630,7 +1637,7 @@ class _CivilQualityChecklistUser2State
                   pw.RichText(
                       text: pw.TextSpan(children: [
                     pw.TextSpan(
-                        text: 'UserID : $userId',
+                        text: 'UserID : ${widget.userId}',
                         style: const pw.TextStyle(
                             color: PdfColors.blue700, fontSize: 15)),
                   ])),
@@ -1693,7 +1700,7 @@ class _CivilQualityChecklistUser2State
           return pw.Container(
               alignment: pw.Alignment.centerRight,
               margin: const pw.EdgeInsets.only(top: 1.0 * PdfPageFormat.cm),
-              child: pw.Text('User ID - $userId',
+              child: pw.Text('User ID - ${widget.userId}',
                   // 'Page ${context.pageNumber} of ${context.pagesCount}',
                   style: pw.Theme.of(context)
                       .defaultTextStyle
@@ -1737,7 +1744,7 @@ class _CivilQualityChecklistUser2State
 
     final List<int> pdfData = await pdf.save();
     final String pdfPath =
-        'CivilQualityReport_${completeTabForCivil[_selectedIndex!]}($userId/$date).pdf';
+        'CivilQualityReport_${completeTabForCivil[_selectedIndex!]}(${widget.userId}/$date).pdf';
 
     // Save the PDF file to device storage
     if (kIsWeb) {
@@ -1761,7 +1768,7 @@ class _CivilQualityChecklistUser2State
 }
 
 CivilstoreData(BuildContext context, String depoName, String currentDate,
-    List<bool> isTabSelected, String selectedTabName) {
+    List<bool> isTabSelected, String selectedTabName, String userId) {
   print(currentDate);
   Map<String, dynamic> excavationTableData = {};
   Map<String, dynamic> backfillingTableData = {};

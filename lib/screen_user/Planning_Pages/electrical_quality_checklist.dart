@@ -160,72 +160,30 @@ class _ElectricalQualityChecklistUserState
 
   @override
   void initState() {
-    getAssignedDepots();
-    pr = ProgressDialog(context,
-        customBody:
-            Container(height: 200, width: 100, child: const LoadingPdf()));
-    setBoolean();
-    if (_selectedIndex == 0) {
-      electricalBoolList[0] = true;
-      print(electricalBoolList);
-      widget.getBoolList!(electricalBoolList, tabForElec[_selectedIndex!]);
-    }
+    pr = ProgressDialog(
+      context,
+      customBody: Container(
+        height: 200,
+        width: 100,
+        child: const LoadingPdf(),
+      ),
+    );
+    getAssignedDepots().whenComplete(() async {
+      setBoolean();
+
+      if (_selectedIndex == 0) {
+        electricalBoolList[0] = true;
+        widget.getBoolList!(
+          electricalBoolList,
+          tabForElec[_selectedIndex!],
+        );
+      }
+
+      getControllersData();
+      await getTableData();
+    });
+
     super.initState();
-
-    getUserId().whenComplete(() => {
-          getControllersData(),
-          getTableData().whenComplete(() {
-            qualitylisttable1 = checkTable ? getData() : data;
-            _qualityPSSDataSource = QualityPSSDataSource(
-                qualitylisttable1, widget.cityName!, widget.depoName!);
-            _dataGridController = DataGridController();
-
-            qualitylisttable2 = checkTable ? rmu_getData() : data;
-            _qualityrmuDataSource = QualityrmuDataSource(
-                qualitylisttable2, widget.cityName!, widget.depoName!);
-            _dataGridController = DataGridController();
-
-            qualitylisttable3 = checkTable ? ct_getData() : data;
-            _qualityctDataSource = QualityctDataSource(
-                qualitylisttable3, widget.cityName!, widget.depoName!);
-            _dataGridController = DataGridController();
-
-            qualitylisttable4 = checkTable ? cmu_getData() : data;
-            _qualitycmuDataSource = QualitycmuDataSource(
-                qualitylisttable4, widget.cityName!, widget.depoName!);
-            _dataGridController = DataGridController();
-
-            qualitylisttable5 = checkTable ? acdb_getData() : data;
-            _qualityacdDataSource = QualityacdDataSource(
-                qualitylisttable5, widget.cityName!, widget.depoName!);
-            _dataGridController = DataGridController();
-
-            qualitylisttable6 = checkTable ? ci_getData() : data;
-            _qualityCIDataSource = QualityCIDataSource(
-                qualitylisttable6, widget.cityName!, widget.depoName!);
-            _dataGridController = DataGridController();
-
-            qualitylisttable7 = checkTable ? cdi_getData() : data;
-            _qualityCDIDataSource = QualityCDIDataSource(
-                qualitylisttable7, widget.cityName!, widget.depoName!);
-            _dataGridController = DataGridController();
-
-            qualitylisttable8 = checkTable ? msp_getData() : data;
-            _qualityMSPDataSource = QualityMSPDataSource(
-                qualitylisttable8, widget.cityName!, widget.depoName!);
-            _dataGridController = DataGridController();
-
-            qualitylisttable9 = checkTable ? charger_getData() : data;
-            _qualityChargerDataSource = QualityChargerDataSource(
-                qualitylisttable9, widget.cityName!, widget.depoName!);
-            _dataGridController = DataGridController();
-
-            qualitylisttable10 = checkTable ? earth_pit_getData() : data;
-            _qualityEPDataSource = QualityEPDataSource(
-                qualitylisttable10, widget.cityName!, widget.depoName!);
-            _dataGridController = DataGridController();
-          }),
-        });
   }
 
   @override
@@ -255,7 +213,6 @@ class _ElectricalQualityChecklistUserState
                 setBoolean();
                 getControllersData();
                 await getTableData();
-
                 electricalBoolList[value] = true;
                 widget.getBoolList!(electricalBoolList, tabForElec[value]);
               },
@@ -336,34 +293,36 @@ class _ElectricalQualityChecklistUserState
                                 fontWeight: FontWeight.bold,
                                 color: blue),
                           ),
-                          Container(
-                            margin: const EdgeInsets.all(5),
-                            child: ElevatedButton(
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStatePropertyAll(blue)),
-                              onPressed: () {
-                                _generateElectricalPdf();
-                              },
-                              child: RichText(
-                                  text: TextSpan(children: [
-                                TextSpan(
-                                    text: 'Download',
-                                    style:
-                                        TextStyle(fontSize: 17, color: white)),
-                                const WidgetSpan(
-                                  child: SizedBox(
-                                    width: 5,
+                          checkTable
+                              ? Container()
+                              : Container(
+                                  margin: const EdgeInsets.all(5),
+                                  child: ElevatedButton(
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStatePropertyAll(blue)),
+                                    onPressed: () {
+                                      _generateElectricalPdf();
+                                    },
+                                    child: RichText(
+                                        text: TextSpan(children: [
+                                      TextSpan(
+                                          text: 'Download',
+                                          style: TextStyle(
+                                              fontSize: 17, color: white)),
+                                      const WidgetSpan(
+                                        child: SizedBox(
+                                          width: 5,
+                                        ),
+                                      ),
+                                      const WidgetSpan(
+                                        child: Icon(
+                                          Icons.download,
+                                        ),
+                                      ),
+                                    ])),
                                   ),
                                 ),
-                                const WidgetSpan(
-                                  child: Icon(
-                                    Icons.download,
-                                  ),
-                                ),
-                              ])),
-                            ),
-                          ),
                           Row(
                             children: [
                               Text(
@@ -1277,12 +1236,6 @@ class _ElectricalQualityChecklistUserState
     electricalBoolList = tempList;
   }
 
-  Future<void> getUserId() async {
-    await AuthService().getCurrentUserId().then((value) {
-      userId = value;
-    });
-  }
-
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -1305,7 +1258,7 @@ class _ElectricalQualityChecklistUserState
         .collection('ElectricalChecklistField')
         .doc(widget.depoName)
         .collection('userId')
-        .doc(userId)
+        .doc(widget.userId)
         .collection(tabForElec[_selectedIndex!])
         .doc(selectedDate)
         .get();
@@ -1338,6 +1291,7 @@ class _ElectricalQualityChecklistUserState
 
   Future<void> getTableData() async {
     data.clear();
+
     if (_isloading == false) {
       setState(() {
         _isloading = true;
@@ -1348,7 +1302,7 @@ class _ElectricalQualityChecklistUserState
         .collection('ElectricalQualityChecklist')
         .doc(widget.depoName)
         .collection('userId')
-        .doc(userId)
+        .doc(widget.userId)
         .collection(tabForElec[_selectedIndex!])
         .doc(selectedDate)
         .get();
@@ -1370,61 +1324,51 @@ class _ElectricalQualityChecklistUserState
       _qualityPSSDataSource = QualityPSSDataSource(
           qualitylisttable1, widget.cityName!, widget.depoName!);
       _dataGridController = DataGridController();
-      checkTable = true;
     } else if (_selectedIndex == 1) {
       qualitylisttable2 = checkTable ? rmu_getData() : data;
       _qualityrmuDataSource = QualityrmuDataSource(
           qualitylisttable2, widget.cityName!, widget.depoName!);
       _dataGridController = DataGridController();
-      checkTable = true;
     } else if (_selectedIndex == 2) {
       qualitylisttable3 = checkTable ? ct_getData() : data;
       _qualityctDataSource = QualityctDataSource(
           qualitylisttable3, widget.cityName!, widget.depoName!);
       _dataGridController = DataGridController();
-      checkTable = true;
     } else if (_selectedIndex == 3) {
       qualitylisttable4 = checkTable ? cmu_getData() : data;
       _qualitycmuDataSource = QualitycmuDataSource(
           qualitylisttable4, widget.cityName!, widget.depoName!);
       _dataGridController = DataGridController();
-      checkTable = true;
     } else if (_selectedIndex == 4) {
       qualitylisttable5 = checkTable ? acdb_getData() : data;
       _qualityacdDataSource = QualityacdDataSource(
           qualitylisttable5, widget.cityName!, widget.depoName!);
       _dataGridController = DataGridController();
-      checkTable = true;
     } else if (_selectedIndex == 5) {
       qualitylisttable6 = checkTable ? ci_getData() : data;
       _qualityCIDataSource = QualityCIDataSource(
           qualitylisttable6, widget.cityName!, widget.depoName!);
       _dataGridController = DataGridController();
-      checkTable = true;
     } else if (_selectedIndex == 6) {
       qualitylisttable7 = checkTable ? cdi_getData() : data;
       _qualityCDIDataSource = QualityCDIDataSource(
           qualitylisttable7, widget.cityName!, widget.depoName!);
       _dataGridController = DataGridController();
-      checkTable = true;
     } else if (_selectedIndex == 7) {
       qualitylisttable8 = checkTable ? msp_getData() : data;
       _qualityMSPDataSource = QualityMSPDataSource(
           qualitylisttable8, widget.cityName!, widget.depoName!);
       _dataGridController = DataGridController();
-      checkTable = true;
     } else if (_selectedIndex == 8) {
       qualitylisttable9 = checkTable ? charger_getData() : data;
       _qualityChargerDataSource = QualityChargerDataSource(
           qualitylisttable9, widget.cityName!, widget.depoName!);
       _dataGridController = DataGridController();
-      checkTable = true;
     } else if (_selectedIndex == 9) {
       qualitylisttable10 = checkTable ? earth_pit_getData() : data;
       _qualityEPDataSource = QualityEPDataSource(
           qualitylisttable10, widget.cityName!, widget.depoName!);
       _dataGridController = DataGridController();
-      checkTable = true;
     }
 
     _isloading = false;
@@ -1510,7 +1454,7 @@ class _ElectricalQualityChecklistUserState
 
       for (QualitychecklistModelUser mapData in data) {
         String imagesPath =
-            'QualityChecklist/Electrical_Engineer/${widget.cityName}/${widget.depoName}/$userId/${tabForElec[_selectedIndex!]} Table/$date/${mapData.srNo}';
+            'QualityChecklist/Electrical_Engineer/${widget.cityName}/${widget.depoName}/${widget.userId}/${tabForElec[_selectedIndex!]} Table/$date/${mapData.srNo}';
 
         ListResult result =
             await FirebaseStorage.instance.ref().child(imagesPath).listAll();
@@ -1689,7 +1633,7 @@ class _ElectricalQualityChecklistUserState
           return pw.Container(
               alignment: pw.Alignment.centerRight,
               margin: const pw.EdgeInsets.only(top: 1.0 * PdfPageFormat.cm),
-              child: pw.Text('User ID - $userId',
+              child: pw.Text('User ID - ${widget.userId}',
                   // 'Page ${context.pageNumber} of ${context.pagesCount}',
                   style: pw.Theme.of(context)
                       .defaultTextStyle
@@ -1725,7 +1669,7 @@ class _ElectricalQualityChecklistUserState
                   pw.RichText(
                       text: pw.TextSpan(children: [
                     pw.TextSpan(
-                        text: 'UserID : $userId',
+                        text: 'UserID : ${widget.userId}',
                         style: const pw.TextStyle(
                             color: PdfColors.blue700, fontSize: 15)),
                   ])),
@@ -1765,9 +1709,13 @@ class _ElectricalQualityChecklistUserState
               margin: const pw.EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
               padding: const pw.EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
               decoration: const pw.BoxDecoration(
-                  border: pw.Border(
-                      bottom:
-                          pw.BorderSide(width: 0.5, color: PdfColors.grey))),
+                border: pw.Border(
+                  bottom: pw.BorderSide(
+                    width: 0.5,
+                    color: PdfColors.grey,
+                  ),
+                ),
+              ),
               child: pw.Column(children: [
                 pw.Row(
                     mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
@@ -1788,7 +1736,7 @@ class _ElectricalQualityChecklistUserState
           return pw.Container(
               alignment: pw.Alignment.centerRight,
               margin: const pw.EdgeInsets.only(top: 1.0 * PdfPageFormat.cm),
-              child: pw.Text('User ID - $userId',
+              child: pw.Text('User ID - ${widget.userId}',
                   // 'Page ${context.pageNumber} of ${context.pagesCount}',
                   style: pw.Theme.of(context)
                       .defaultTextStyle
@@ -1832,7 +1780,7 @@ class _ElectricalQualityChecklistUserState
 
     final List<int> pdfData = await pdf.save();
     final String pdfPath =
-        'ElectricalQualityReport_${tabForElec[_selectedIndex!]}($userId/$date).pdf';
+        'ElectricalQualityReport_${tabForElec[_selectedIndex!]}(${widget.userId}/$date).pdf';
 
     // Save the PDF file to device storage
     if (kIsWeb) {
@@ -1856,7 +1804,7 @@ class _ElectricalQualityChecklistUserState
 }
 
 storeData(BuildContext context, String depoName, String currentDate,
-    List<bool> isTabSelected) {
+    List<bool> isTabSelected, String userId) {
   Map<String, dynamic> pssTableData = Map();
   Map<String, dynamic> rmuTableData = Map();
   Map<String, dynamic> ctTableData = Map();
@@ -1894,12 +1842,12 @@ storeData(BuildContext context, String depoName, String currentDate,
     }).whenComplete(() {
       FirebaseApiUser().nestedKeyEventsField(
           'ElectricalQualityChecklist', depoName, 'userId', userId);
-      FirebaseApiUser().nestedKeyEventsField(
-          'ElectricalChecklistField', depoName, 'userId', userId);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: const Text('Data are synced'),
-        backgroundColor: blue,
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Data are synced'),
+          backgroundColor: blue,
+        ),
+      );
     });
 
     psstabledatalist.clear();

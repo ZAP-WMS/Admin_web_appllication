@@ -45,7 +45,6 @@ dynamic empName,
 
 dynamic alldata;
 int? _selectedIndex = 0;
-dynamic userId;
 TextEditingController selectedDepoController = TextEditingController();
 
 final AuthService authService = AuthService();
@@ -93,7 +92,6 @@ class _QualityChecklistUserState extends State<QualityChecklistUser> {
   @override
   void initState() {
     getAssignedDepots();
-    getUserId();
     super.initState();
   }
 
@@ -177,12 +175,14 @@ class _QualityChecklistUserState extends State<QualityChecklistUser> {
                                             widget.depoName!,
                                             widget.currentDate!,
                                             listToSelectTab,
-                                            selectedTabName)
+                                            selectedTabName,
+                                            widget.userId!)
                                         : storeData(
                                             context,
                                             widget.depoName!,
                                             widget.currentDate!,
-                                            listToSelectTab);
+                                            listToSelectTab,
+                                            widget.userId!);
                                   },
                                   child: Text(
                                     'Sync Data',
@@ -194,29 +194,6 @@ class _QualityChecklistUserState extends State<QualityChecklistUser> {
                         ),
                       )
                     : Container(),
-                //           Padding(
-                //               padding: const EdgeInsets.only(right: 40),
-                //               child: GestureDetector(
-                //                   onTap: () {
-                //                     onWillPop(context);
-                //                   },
-                //                   child: Row(
-                //                     children: [
-                //                       Image.asset(
-                //                         'assets/logout.png',
-                //                         height: 20,
-                //                         width: 20,
-                //                       ),
-                //                       const SizedBox(width: 5),
-                //                       Text(
-                //                         userId ?? '',
-                //                         style: const TextStyle(fontSize: 18),
-                //                       )
-                //                     ],
-                //                   ))),
-                //         ],
-                //       )
-                //     : Container(),
               ],
               // leading:
               bottom: PreferredSize(
@@ -251,21 +228,17 @@ class _QualityChecklistUserState extends State<QualityChecklistUser> {
                 cityName: widget.cityName,
                 depoName: widget.depoName,
                 getBoolList: getBoolList,
+                userId: widget.userId,
               ),
               ElectricalQualityChecklistUser(
-                  cityName: widget.cityName,
-                  depoName: widget.depoName,
-                  userId: userId,
-                  getBoolList: getBoolList),
+                cityName: widget.cityName,
+                depoName: widget.depoName,
+                userId: widget.userId,
+                getBoolList: getBoolList,
+              ),
             ]),
           )),
     );
-  }
-
-  Future<void> getUserId() async {
-    await AuthService().getCurrentUserId().then((value) {
-      userId = value;
-    });
   }
 
   void getBoolList(List<bool> boolList, String tabName) {

@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:web_appllication/model/user_model/quality_checklistModel.dart';
+import 'package:web_appllication/overview.dart';
 import '../../../screen_user/KeysEvents/upload.dart';
 import '../../../screen_user/KeysEvents/view_AllFiles.dart';
 import '../../../screen_user/Planning_Pages/quality_checklist.dart';
@@ -544,7 +545,7 @@ class QualityCIDataSource extends DataGridSource {
         textAlign: isNumericType ? TextAlign.right : TextAlign.left,
         autocorrect: false,
         decoration: const InputDecoration(
-          contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 16.0),
+          contentPadding: EdgeInsets.symmetric(horizontal: 5.0),
         ),
         inputFormatters: <TextInputFormatter>[
           FilteringTextInputFormatter.allow(regExp),
@@ -554,6 +555,9 @@ class QualityCIDataSource extends DataGridSource {
             : isDateTimeType
                 ? TextInputType.datetime
                 : TextInputType.text,
+        onTapOutside: (event) {
+          newCellValue = editingController.text;
+        },
         onChanged: (String value) {
           if (value.isNotEmpty) {
             if (isNumericType) {
@@ -563,13 +567,10 @@ class QualityCIDataSource extends DataGridSource {
             } else {
               newCellValue = value;
             }
-          } else {
-            newCellValue = '';
           }
         },
         onSubmitted: (String value) {
-          /// Call [CellSubmit] callback to fire the canSubmitCell and
-          /// onCellSubmit to commit the new value in single place.
+          newCellValue = value;
           submitCell();
         },
       ),

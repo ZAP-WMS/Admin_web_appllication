@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:web_appllication/screen_admin/KeyEvents/upload.dart';
 import 'package:web_appllication/screen_admin/KeyEvents/view_AllFiles.dart';
 import 'package:web_appllication/screen_user/KeysEvents/upload.dart';
@@ -47,6 +48,7 @@ class _DepotInsightsActionState extends State<DepotInsightsAction> {
           depoName: widget.depotName,
           userId: widget.userId,
           title: 'Overview Page',
+          date: DateFormat.yMMMMd().format(DateTime.now()),
           pagetitle:"Overview Page",
           fldrName: '',
         );

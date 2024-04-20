@@ -73,7 +73,6 @@ class _ViewSummaryState extends State<ViewSummary> {
   DateTime? enddate = DateTime.now();
   DateTime? rangestartDate;
   DateTime? rangeEndDate;
-
   List<MonthlyProjectModelUser> monthlyProject = <MonthlyProjectModelUser>[];
   List<SafetyChecklistModelUser> safetylisttable = <SafetyChecklistModelUser>[];
   late MonthlyDataSource monthlyDataSource;
@@ -102,9 +101,14 @@ class _ViewSummaryState extends State<ViewSummary> {
         Provider.of<CheckboxProviderUser>(context, listen: false);
     _checkboxProvider!.fetchCcMaidId();
     _checkboxProvider!.fetchToMaidId();
-    pr = ProgressDialog(context,
-        customBody:
-            Container(height: 200, width: 100, child: const LoadingPdf()));
+    pr = ProgressDialog(
+      context,
+      customBody: Container(
+        height: 200,
+        width: 100,
+        child: const LoadingPdf(),
+      ),
+    );
 
     super.initState();
     _summaryProvider = Provider.of<SummaryProviderUser>(context, listen: false);
@@ -1413,13 +1417,6 @@ class _ViewSummaryState extends State<ViewSummary> {
                                                             SummaryProviderUser>(
                                                         builder: (context,
                                                             value, child) {
-                                                      // _summaryProvider!
-                                                      //     .fetchEnergyData(
-                                                      //         widget.cityName!,
-                                                      //         widget.depoName!,
-                                                      //         widget.userId,
-                                                      //         startdate!,
-                                                      //         enddate!);
                                                       return Container(
                                                         width: MediaQuery.of(
                                                                 context)
@@ -1431,8 +1428,8 @@ class _ViewSummaryState extends State<ViewSummary> {
                                                               Curves.linear,
                                                           swapAnimationDuration:
                                                               const Duration(
-                                                                  milliseconds:
-                                                                      1000),
+                                                            milliseconds: 1000,
+                                                          ),
                                                           BarChartData(
                                                             backgroundColor:
                                                                 white,
@@ -1508,9 +1505,9 @@ class _ViewSummaryState extends State<ViewSummary> {
                                                             gridData:
                                                                 FlGridData(
                                                               drawHorizontalLine:
-                                                                  true,
+                                                                  false,
                                                               drawVerticalLine:
-                                                                  true,
+                                                                  false,
                                                             ),
                                                             borderData:
                                                                 FlBorderData(
@@ -3101,7 +3098,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                   Color.fromARGB(255, 190, 207, 252)
                 ],
               ),
-              width: 20,
+              width: 10,
               borderRadius: BorderRadius.circular(2),
               toY: data[index]),
         ],

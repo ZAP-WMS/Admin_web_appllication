@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:web_appllication/model/user_model/quality_checklistModel.dart';
+import 'package:web_appllication/overview.dart';
 import '../../../screen_user/KeysEvents/upload.dart';
 import '../../../screen_user/KeysEvents/view_AllFiles.dart';
 import '../../../screen_user/Planning_Pages/quality_checklist.dart';
@@ -54,7 +55,7 @@ class QualityrmuDataSource extends DataGridSource {
       return Container(
           alignment: Alignment.center,
           // : Alignment.center,
-          padding: EdgeInsets.symmetric(horizontal: 5.0),
+          padding: const EdgeInsets.symmetric(horizontal: 5.0),
           child: dataGridCell.columnName == 'Upload'
               ? LayoutBuilder(
                   builder: (BuildContext context, BoxConstraints constraints) {
@@ -95,343 +96,13 @@ class QualityrmuDataSource extends DataGridSource {
                           },
                           child: const Text('View'));
                     })
-
-                  // dataGridCell.columnName == 'button'
-                  //     ? LayoutBuilder(
-                  //         builder: (BuildContext context, BoxConstraints constraints) {
-                  //         return ElevatedButton(
-                  //             onPressed: () {
-                  //               Navigator.of(context).push(MaterialPageRoute(
-                  //                 builder: (context) => UploadDocument(
-                  //                     activity:
-                  //                         '${row.getCells()[1].value.toString()}'),
-                  //               ));
-                  //               // showDialog(
-                  //               //     context: context,
-                  //               //     builder: (context) => AlertDialog(
-                  //               //         content: SizedBox(
-                  //               //             height: 100,
-                  //               //             child: Column(
-                  //               //               mainAxisAlignment:
-                  //               //                   MainAxisAlignment.spaceBetween,
-                  //               //               children: [
-                  //               //                 Text(
-                  //               //                     'JMRModel ID: ${row.getCells()[0].value.toString()}'),
-                  //               //                 Text(
-                  //               //                     'JMRModel Name: ${row.getCells()[1].value.toString()}'),
-                  //               //                 Text(
-                  //               //                     'JMRModel Designation: ${row.getCells()[2].value.toString()}'),
-                  //               //               ],
-                  //               //             ))));
-                  //             },
-                  //             child: const Text('Upload'));
-                  //       })
-                  //     : dataGridCell.columnName == 'ActualStart' ||
-                  //             dataGridCell.columnName == 'ActualEnd'
-                  //         ? Row(
-                  //             children: [
-                  //               IconButton(
-                  //                 onPressed: () {
-                  //                   showDialog(
-                  //                     context: mainContext,
-                  //                     builder: (context) => AlertDialog(
-                  //                         title: const Text('All Date'),
-                  //                         content: Container(
-                  //                           height: 400,
-                  //                           width: 500,
-                  //                           child: SfDateRangePicker(
-                  //                             view: DateRangePickerView.month,
-                  //                             showTodayButton: true,
-                  //                             onSelectionChanged:
-                  //                                 (DateRangePickerSelectionChangedArgs
-                  //                                     args) {
-                  //                               if (args.value is PickerDateRange) {
-                  //                                 rangeStartDate = args.value.startDate;
-                  //                                 rangeEndDate = args.value.endDate;
-                  //                               } else {
-                  //                                 final List<PickerDateRange>
-                  //                                     selectedRanges = args.value;
-                  //                               }
-                  //                             },
-                  //                             selectionMode:
-                  //                                 DateRangePickerSelectionMode.range,
-                  //                             showActionButtons: true,
-                  //                             onSubmit: ((value) {
-                  //                               date = DateTime.parse(
-                  //                                   rangeStartDate.toString());
-
-                  //                               endDate = DateTime.parse(
-                  //                                   rangeEndDate.toString());
-
-                  //                               Duration diff =
-                  //                                   endDate!.difference(date!);
-
-                  //                               print('Difference' +
-                  //                                   diff.inDays.toString());
-
-                  //                               final int dataRowIndex =
-                  //                                   dataGridRows.indexOf(row);
-                  //                               if (dataRowIndex != null) {
-                  //                                 _checklistModel[dataRowIndex]
-                  //                                         .actualstartDate =
-                  //                                     DateFormat('dd-MM-yyyy')
-                  //                                         .format(date!);
-
-                  //                                 dataGridRows[dataRowIndex] =
-                  //                                     DataGridRow(cells: [
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .srNo,
-                  //                                       columnName: 'srNo'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .activity,
-                  //                                       columnName: 'Activity'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex],
-                  //                                       columnName: 'button'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .originalDuration,
-                  //                                       columnName: 'OriginalDuration'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .startDate,
-                  //                                       columnName: 'StartDate'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .endDate,
-                  //                                       columnName: 'EndDate'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .actualstartDate,
-                  //                                       columnName: 'ActualStart'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .actualendDate,
-                  //                                       columnName: 'ActualEnd'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .actualDuration,
-                  //                                       columnName: 'ActualDuration'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .delay,
-                  //                                       columnName: 'Delay'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .unit,
-                  //                                       columnName: 'Unit'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .scope,
-                  //                                       columnName: 'QtyScope'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .qtyExecuted,
-                  //                                       columnName: 'QtyExecuted'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .balanceQty,
-                  //                                       columnName: 'BalancedQty'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .percProgress,
-                  //                                       columnName: 'Progress'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .weightage,
-                  //                                       columnName: 'Weightage'),
-                  //                                 ]);
-
-                  //                                 updateDataGrid(
-                  //                                     rowColumnIndex: RowColumnIndex(
-                  //                                         dataRowIndex, 6));
-                  //                                 notifyListeners();
-                  //                                 print('state$date');
-                  //                                 print('valuedata$value');
-
-                  //                                 print('start $rangeStartDate');
-                  //                                 print('End $rangeEndDate');
-                  //                                 // date = rangeStartDate;
-                  //                                 print('object$date');
-
-                  //                                 Navigator.pop(context);
-                  //                               }
-                  //                               if (dataRowIndex != null) {
-                  //                                 _checklistModel[dataRowIndex]
-                  //                                         .actualendDate =
-                  //                                     DateFormat('dd-MM-yyyy')
-                  //                                         .format(endDate!);
-
-                  //                                 dataGridRows[dataRowIndex] =
-                  //                                     DataGridRow(cells: [
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .srNo,
-                  //                                       columnName: 'srNo'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .activity,
-                  //                                       columnName: 'Activity'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex],
-                  //                                       columnName: 'button'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .originalDuration,
-                  //                                       columnName: 'OriginalDuration'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .startDate,
-                  //                                       columnName: 'StartDate'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .endDate,
-                  //                                       columnName: 'EndDate'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .actualstartDate,
-                  //                                       columnName: 'ActualStart'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .actualendDate,
-                  //                                       columnName: 'ActualEnd'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .actualDuration,
-                  //                                       columnName: 'ActualDuration'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .delay,
-                  //                                       columnName: 'Delay'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .unit,
-                  //                                       columnName: 'Unit'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .scope,
-                  //                                       columnName: 'QtyScope'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .qtyExecuted,
-                  //                                       columnName: 'QtyExecuted'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .balanceQty,
-                  //                                       columnName: 'BalancedQty'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .percProgress,
-                  //                                       columnName: 'Progress'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .weightage,
-                  //                                       columnName: 'Weightage'),
-                  //                                 ]);
-
-                  //                                 updateDataGrid(
-                  //                                     rowColumnIndex: RowColumnIndex(
-                  //                                         dataRowIndex, 7));
-
-                  //                                 notifyListeners();
-                  //                               }
-                  //                               if (dataRowIndex != null) {
-                  //                                 _checklistModel[dataRowIndex]
-                  //                                         .actualDuration =
-                  //                                     int.parse(diff.inDays.toString());
-
-                  //                                 dataGridRows[dataRowIndex] =
-                  //                                     DataGridRow(cells: [
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .srNo,
-                  //                                       columnName: 'srNo'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .activity,
-                  //                                       columnName: 'Activity'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex],
-                  //                                       columnName: 'button'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .originalDuration,
-                  //                                       columnName: 'OriginalDuration'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .startDate,
-                  //                                       columnName: 'StartDate'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .endDate,
-                  //                                       columnName: 'EndDate'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .actualstartDate,
-                  //                                       columnName: 'ActualStart'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .actualendDate,
-                  //                                       columnName: 'ActualEnd'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .actualDuration,
-                  //                                       columnName: 'ActualDuration'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .delay,
-                  //                                       columnName: 'Delay'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .unit,
-                  //                                       columnName: 'Unit'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .scope,
-                  //                                       columnName: 'QtyScope'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .qtyExecuted,
-                  //                                       columnName: 'QtyExecuted'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .balanceQty,
-                  //                                       columnName: 'BalancedQty'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .percProgress,
-                  //                                       columnName: 'Progress'),
-                  //                                   DataGridCell(
-                  //                                       value: _checklistModel[dataRowIndex]
-                  //                                           .weightage,
-                  //                                       columnName: 'Weightage'),
-                  //                                 ]);
-
-                  //                                 updateDataGrid(
-                  //                                     rowColumnIndex: RowColumnIndex(
-                  //                                         dataRowIndex, 8));
-                  //                                 notifyListeners();
-                  //                               }
-                  //                             }),
-                  //                             onCancel: () {
-                  //                               _controller.selectedRanges = null;
-                  //                             },
-                  //                           ),
-                  //                         )),
-                  //                   );
-                  //                 },
-                  //                 icon: const Icon(Icons.calendar_today),
-                  //               ),
-                  //               Text(dataGridCell.value.toString()),
-                  //             ],
-                  //           )
                   : Text(
                       dataGridCell.value.toString(),
                       style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 11),
-                    ));
+                          fontWeight: FontWeight.bold, fontSize: 11,
+                          ),
+                    ),
+                    );
     }).toList());
   }
 
@@ -523,6 +194,9 @@ class QualityrmuDataSource extends DataGridSource {
     return Container(
       alignment: isNumericType ? Alignment.centerRight : Alignment.centerLeft,
       child: TextField(
+        decoration: const InputDecoration(
+          contentPadding: EdgeInsets.symmetric(horizontal: 5.0),
+        ),
         style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),
         autofocus: true,
         controller: editingController..text = displayText,
@@ -536,6 +210,9 @@ class QualityrmuDataSource extends DataGridSource {
             : isDateTimeType
                 ? TextInputType.datetime
                 : TextInputType.text,
+                onTapOutside: (event) {
+                  newCellValue = editingController.text;
+                },
         onChanged: (String value) {
           if (value.isNotEmpty) {
             if (isNumericType) {
@@ -545,13 +222,10 @@ class QualityrmuDataSource extends DataGridSource {
             } else {
               newCellValue = value;
             }
-          } else {
-            newCellValue = '';
           }
         },
         onSubmitted: (String value) {
-          /// Call [CellSubmit] callback to fire the canSubmitCell and
-          /// onCellSubmit to commit the new value in single place.
+          newCellValue = value;
           submitCell();
         },
       ),

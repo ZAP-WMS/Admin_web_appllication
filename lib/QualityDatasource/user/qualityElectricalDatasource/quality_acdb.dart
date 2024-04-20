@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:web_appllication/model/user_model/quality_checklistModel.dart';
+import 'package:web_appllication/overview.dart';
 import '../../../screen_user/KeysEvents/upload.dart';
 import '../../../screen_user/KeysEvents/view_AllFiles.dart';
 import '../../../screen_user/Planning_Pages/quality_checklist.dart';
@@ -53,23 +54,8 @@ class QualityacdDataSource extends DataGridSource {
         cells: row.getCells().map<Widget>((dataGridCell) {
       return Container(
           alignment:
-              //  (dataGridCell.columnName == 'srNo' ||
-              //         dataGridCell.columnName == 'Activity' ||
-              //         dataGridCell.columnName == 'OriginalDuration' ||
-              // dataGridCell.columnName == 'StartDate' ||
-              //         dataGridCell.columnName == 'EndDate' ||
-              //         dataGridCell.columnName == 'ActualStart' ||
-              //         dataGridCell.columnName == 'ActualEnd' ||
-              //         dataGridCell.columnName == 'ActualDuration' ||
-              //         dataGridCell.columnName == 'Delay' ||
-              //         dataGridCell.columnName == 'Unit' ||
-              //         dataGridCell.columnName == 'QtyScope' ||
-              //         dataGridCell.columnName == 'QtyExecuted' ||
-              //         dataGridCell.columnName == 'BalancedQty' ||
-              //         dataGridCell.columnName == 'Progress' ||
-              //         dataGridCell.columnName == 'Weightage')
               Alignment.center,
-          // : Alignment.center,
+  
           padding: const EdgeInsets.symmetric(horizontal: 5.0),
           child: dataGridCell.columnName == 'Upload'
               ? LayoutBuilder(
@@ -516,9 +502,6 @@ class QualityacdDataSource extends DataGridSource {
             ?.toString() ??
         '';
 
-    // The new cell value must be reset.
-    // To avoid committing the [DataGridCell] value that was previously edited
-    // into the current non-modified [DataGridCell].
     newCellValue = '';
 
     final bool isNumericType = column.columnName == 'srNo' ||
@@ -538,6 +521,9 @@ class QualityacdDataSource extends DataGridSource {
     return Container(
       alignment: isNumericType ? Alignment.centerRight : Alignment.centerLeft,
       child: TextField(
+        decoration: const InputDecoration(
+          contentPadding: EdgeInsets.symmetric(horizontal: 5.0),
+        ),
         style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
         autofocus: true,
         controller: editingController..text = displayText,
@@ -551,6 +537,9 @@ class QualityacdDataSource extends DataGridSource {
             : isDateTimeType
                 ? TextInputType.datetime
                 : TextInputType.text,
+                onTapOutside: (event) {
+                  newCellValue = editingController.text;
+                },
         onChanged: (String value) {
           if (value.isNotEmpty) {
             if (isNumericType) {
@@ -560,13 +549,10 @@ class QualityacdDataSource extends DataGridSource {
             } else {
               newCellValue = value;
             }
-          } else {
-            newCellValue = '';
           }
         },
         onSubmitted: (String value) {
-          /// Call [CellSubmit] callback to fire the canSubmitCell and
-          /// onCellSubmit to commit the new value in single place.
+          newCellValue = value;
           submitCell();
         },
       ),

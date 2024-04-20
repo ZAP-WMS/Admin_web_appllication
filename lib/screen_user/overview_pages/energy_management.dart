@@ -53,7 +53,6 @@ class _EnergyManagementUserState extends State<EnergyManagementUser> {
 
   @override
   void initState() {
-    getAssignedDepots();
     _energyProvider = Provider.of<EnergyProviderUser>(context, listen: false);
     _energyProvider!
         .fetchGraphData(widget.cityName!, widget.depoName!, widget.userId);
@@ -68,17 +67,22 @@ class _EnergyManagementUserState extends State<EnergyManagementUser> {
         .collection('Months')
         .doc(monthName)
         .collection('Date')
-        .doc(DateFormat.yMMMMd().format(DateTime.now()))
+        .doc(
+          DateFormat.yMMMMd().format(
+            DateTime.now(),
+          ),
+        )
         .collection('UserId')
         .doc(widget.userId)
         .snapshots();
     _energyManagementdatasource = EnergyManagementDatasource(_energyManagement,
         context, widget.userId!, widget.cityName, widget.depoName);
     _dataGridController = DataGridController();
+    getAssignedDepots().whenComplete(() {
+      setState(() {});
+      _isloading = false;
+    });
 
-    setState(() {});
-
-    _isloading = false;
     super.initState();
   }
 
@@ -592,7 +596,7 @@ class _EnergyManagementUserState extends State<EnergyManagementUser> {
                         itemBuilder: (context, index) {
                           return Container(
                             margin: const EdgeInsets.only(top: 20.0),
-                            width: 100 *
+                            width: 150 *
                                 _energyManagementdatasource.dataGridRows.length
                                     .toDouble(),
                             height: 220,
@@ -671,12 +675,11 @@ class _EnergyManagementUserState extends State<EnergyManagementUser> {
               ],
             ),
       floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
           onPressed: (() {
             _energyManagement.add(EnergyManagementModelUser(
                 srNo: _energyManagement.length + 1,
                 depotName: widget.depoName.toString(),
-                vehicleNo: 'vehicleNo',
+                vehicleNo: '',
                 pssNo: 1,
                 chargerId: 1,
                 startSoc: 1,
@@ -692,7 +695,8 @@ class _EnergyManagementUserState extends State<EnergyManagementUser> {
                     '${DateTime.now().hour}:${DateTime.now().minute} - ${DateTime.now().add(const Duration(hours: 6)).hour}:${DateTime.now().add(const Duration(hours: 6)).minute}'));
             _energyManagementdatasource.buildDataGridRows();
             _energyManagementdatasource.updateDatagridSource();
-          })),
+          }),
+          child: Icon(Icons.add)),
     );
   }
 

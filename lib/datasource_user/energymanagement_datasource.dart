@@ -17,6 +17,7 @@ class EnergyManagementDatasource extends DataGridSource {
       this.userId, this.cityName, this.depoName) {
     buildDataGridRows();
   }
+
   void buildDataGridRows() {
     dataGridRows = _energyManagement
         .map<DataGridRow>((dataGridRow) => dataGridRow.getDataGridRow())
@@ -147,12 +148,15 @@ class EnergyManagementDatasource extends DataGridSource {
                           },
                           icon: const Icon(Icons.calendar_today),
                         ),
-                        Text(dataGridCell.value.toString()),
+                        Text(
+                          dataGridCell.value.toString(),
+                        ),
                       ],
                     )
                   : (dataGridCell.columnName == 'totalTime')
                       ? Text(
-                          '${difference.inHours}:${difference.inMinutes % 60}:${difference.inSeconds % 60}')
+                          '${difference.inHours}:${difference.inMinutes % 60}:${difference.inSeconds % 60}',
+                        )
                       : (dataGridCell.columnName == 'Add')
                           ? ElevatedButton(
                               onPressed: () {
@@ -240,9 +244,9 @@ class EnergyManagementDatasource extends DataGridSource {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
           DataGridCell<dynamic>(columnName: 'chargerId', value: newCellValue);
       _energyManagement[dataRowIndex].chargerId = newCellValue;
-    } else if (column.columnName == 'StartSoc') {
+    } else if (column.columnName == 'startSoc') {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
-          DataGridCell<int>(columnName: 'StartSoc', value: newCellValue as int);
+          DataGridCell<int>(columnName: 'startSoc', value: newCellValue as int);
       _energyManagement[dataRowIndex].startSoc = newCellValue;
     } else if (column.columnName == 'endSoc') {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =

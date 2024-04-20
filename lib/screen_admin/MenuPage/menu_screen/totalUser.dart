@@ -14,7 +14,18 @@ class TotalUsers extends StatefulWidget {
   State<TotalUsers> createState() => _TotalUsersState();
 }
 
-class _TotalUsersState extends State<TotalUsers> {
+class _TotalUsersState extends State<TotalUsers> with TickerProviderStateMixin {
+  late AnimationController _controller1;
+  late AnimationController _controller2;
+  late AnimationController _controller3;
+  late AnimationController _controller4;
+
+  late Animation<double> _animation1;
+  late Animation<double> _animation2;
+  late Animation<double> _animation3;
+  late Animation<double> _animation4;
+
+  List<bool> isOpen = [false, false, false, false];
   bool isLoading = true;
   List<bool> selectedDesign = [];
   String selectedAlphabet = 'All';
@@ -25,8 +36,50 @@ class _TotalUsersState extends State<TotalUsers> {
   void initState() {
     setColor();
     selectedDesign[26] = !selectedDesign[26];
+    _controller1 = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    _animation1 = CurvedAnimation(
+      parent: _controller1,
+      curve: Curves.easeInOut,
+    );
+    _controller2 = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    _animation2 = CurvedAnimation(
+      parent: _controller2,
+      curve: Curves.easeInOut,
+    );
+    _controller3 = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    _animation3 = CurvedAnimation(
+      parent: _controller3,
+      curve: Curves.easeInOut,
+    );
+    _controller4 = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    _animation4 = CurvedAnimation(
+      parent: _controller4,
+      curve: Curves.easeInOut,
+    );
     isLoading = false;
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller1.dispose();
+    _controller2.dispose();
+    _controller3.dispose();
+    _controller4.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -253,9 +306,9 @@ class _TotalUsersState extends State<TotalUsers> {
             child: Row(
               children: [
                 Icon(
-                  Icons.radio_button_on_rounded,
+                  Icons.circle,
                   color: blue,
-                  size: 15.0,
+                  size: 10.0,
                 ),
                 const SizedBox(
                   width: 10.0,
@@ -279,7 +332,7 @@ class _TotalUsersState extends State<TotalUsers> {
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
             crossAxisSpacing: 3,
-            childAspectRatio: 4,
+            childAspectRatio: 3.5,
             mainAxisSpacing: 3.0),
         itemCount: inputList.length,
         itemBuilder: (context, index) {
@@ -290,7 +343,7 @@ class _TotalUsersState extends State<TotalUsers> {
             child: Text(
               '${inputList[index]}',
               style: GoogleFonts.average(
-                fontSize: 11,
+                fontSize: 10,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -548,153 +601,290 @@ class _TotalUsersState extends State<TotalUsers> {
       List<dynamic> cities,
       List<dynamic> depots) {
     return showDialog(
-        context: context,
-        builder: (_) => Dialog(
-                child: Container(
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(
-                    10.0,
-                  ),
-                ),
-                image: DecorationImage(
-                  image: AssetImage('assets/tata_dialog_background.jpeg'),
-                  fit: BoxFit.cover,
+      context: context,
+      builder: (_) => WillPopScope(
+        onWillPop: () async {
+          isOpen = List.filled(4, false);
+          _controller1.reverse();
+          _controller2.reverse();
+          _controller3.reverse();
+          _controller4.reverse();
+          return true;
+        },
+        child: Dialog(
+          child: Container(
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(
+                Radius.circular(
+                  10.0,
                 ),
               ),
-              padding: const EdgeInsets.all(10.0),
-              height: 450,
-              width: MediaQuery.of(context).size.width * 0.3,
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10, bottom: 10),
-                      child: Text(
-                        user,
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.average(fontSize: 20),
-                      ),
+              image: DecorationImage(
+                  image: AssetImage('assets/roleManagement/totalUsers.jpeg'),
+                  scale: 3.0,
+                  fit: BoxFit.fill),
+            ),
+            height: 450,
+            width: MediaQuery.of(context).size.width * 0.25,
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10, bottom: 10),
+                    child: Text(
+                      user,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.average(fontSize: 20, color: white),
                     ),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.person_2_sharp,
-                          color: Colors.black,
-                          size: 20,
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(bottom: 5.0),
-                          child: Text(
-                            'Designation',
-                            style: GoogleFonts.average(
-                                decorationThickness: 2.0,
-                                color: Colors.black,
-                                fontSize: 15,
-                                letterSpacing: 1),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 35.0, left: 5.0),
+                    child: Container(
+                      padding: const EdgeInsets.only(bottom: 5.0),
+                      child: MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: GestureDetector(
+                          onTap: () {
+                            _toggleDropdown(0);
+                          },
+                          child: Row(
+                            children: [
+                              isOpen[0]
+                                  ? Image.asset(
+                                      'assets/roleManagement/arrow_drop_up.png',
+                                      height: 15,
+                                      color: blue,
+                                    )
+                                  : Image.asset(
+                                      'assets/roleManagement/arrow_drop_down.png',
+                                      height: 15,
+                                      color: blue,
+                                    ),
+                              Text(
+                                'Designation',
+                                style: GoogleFonts.average(
+                                  decorationThickness: 2.0,
+                                  color: Colors.black,
+                                  fontSize: 15,
+                                  letterSpacing: 1,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
+                      ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.all(5.0),
+                  ),
+                  SizeTransition(
+                    sizeFactor: _animation1,
+                    axis: Axis.vertical,
+                    axisAlignment: 1.0,
+                    child: Container(
                       child: customRowBuilderForDialog(
                         currentRoles,
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.only(bottom: 5.0, top: 20.0),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.person_4_sharp,
-                            color: Colors.black,
-                            size: 20,
-                          ),
-                          Text(
-                            'Reporting Manager',
-                            style: GoogleFonts.average(
-                                decorationThickness: 2.0,
-                                color: Colors.black,
-                                fontSize: 15,
-                                letterSpacing: 1),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(left: 15.0),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.radio_button_on_rounded,
-                            color: blue,
-                            size: 15.0,
-                          ),
-                          const SizedBox(
-                            width: 10.0,
-                          ),
-                          Text(
-                            currentreportingManager.toString().isNotEmpty
-                                ? currentreportingManager
-                                : '',
-                            style: TextStyle(
-                              color: Colors.grey[800],
-                              fontSize: 13,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(
+                        bottom: 5.0, top: 10.0, left: 5.0),
+                    child: MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: () {
+                          _toggleDropdown(1);
+                        },
+                        child: Row(
+                          children: [
+                            isOpen[1]
+                                ? Image.asset(
+                                    'assets/roleManagement/arrow_drop_up.png',
+                                    height: 15,
+                                    color: blue,
+                                  )
+                                : Image.asset(
+                                    'assets/roleManagement/arrow_drop_down.png',
+                                    height: 15,
+                                    color: blue,
+                                  ),
+                            Text(
+                              'Reporting Manager',
+                              style: GoogleFonts.average(
+                                  decorationThickness: 2.0,
+                                  color: Colors.black,
+                                  fontSize: 15,
+                                  letterSpacing: 1),
                             ),
-                          )
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.only(bottom: 5.0, top: 30.0),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.person_4_sharp,
-                            color: Colors.black,
-                            size: 20,
-                          ),
-                          Text(
-                            'Cities',
-                            style: GoogleFonts.average(
+                  ),
+                  SizeTransition(
+                    sizeFactor: _animation2,
+                    axisAlignment: 1.0,
+                    child: Container(
+                      padding: const EdgeInsets.only(left: 15.0),
+                      child: Text(
+                        currentreportingManager.toString().isNotEmpty
+                            ? currentreportingManager
+                            : '',
+                        style: TextStyle(
+                          color: Colors.grey[800],
+                          fontSize: 13,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(
+                        bottom: 5.0, top: 10.0, left: 5.0),
+                    child: MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: () {
+                          _toggleDropdown(2);
+                        },
+                        child: Row(
+                          children: [
+                            isOpen[2]
+                                ? Image.asset(
+                                    'assets/roleManagement/arrow_drop_up.png',
+                                    height: 15,
+                                    color: blue,
+                                  )
+                                : Image.asset(
+                                    'assets/roleManagement/arrow_drop_down.png',
+                                    height: 15,
+                                    color: blue,
+                                  ),
+                            Text(
+                              'Cities',
+                              style: GoogleFonts.average(
+                                  decorationThickness: 2.0,
+                                  color: Colors.black,
+                                  fontSize: 15,
+                                  letterSpacing: 1),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizeTransition(
+                    sizeFactor: _animation3,
+                    axisAlignment: 1.0,
+                    child: Container(
+                      child: customRowBuilderForDialog(
+                        cities,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(
+                        bottom: 5.0, top: 10.0, left: 5.0),
+                    child: MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: () {
+                          _toggleDropdown(3);
+                        },
+                        child: Row(
+                          children: [
+                            isOpen[3]
+                                ? Image.asset(
+                                    'assets/roleManagement/arrow_drop_up.png',
+                                    height: 15,
+                                    color: blue,
+                                  )
+                                : Image.asset(
+                                    'assets/roleManagement/arrow_drop_down.png',
+                                    height: 15,
+                                    color: blue,
+                                  ),
+                            Text(
+                              'Depots',
+                              style: GoogleFonts.average(
                                 decorationThickness: 2.0,
                                 color: Colors.black,
                                 fontSize: 15,
-                                letterSpacing: 1),
-                          ),
-                        ],
+                                letterSpacing: 1,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    Container(child: customRowBuilderForDialog(cities)),
-                    Container(
-                      padding: const EdgeInsets.only(bottom: 10.0, top: 30.0),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.bus_alert_outlined,
-                            color: Colors.black,
-                            size: 20,
-                          ),
-                          Text(
-                            'Depots',
-                            style: GoogleFonts.average(
-                                decorationThickness: 2.0,
-                                color: Colors.black,
-                                fontSize: 15,
-                                letterSpacing: 1),
-                          ),
-                        ],
+                  ),
+                  SizeTransition(
+                    sizeFactor: _animation4,
+                    axisAlignment: 1.0,
+                    child: Container(
+                      margin: const EdgeInsets.only(left: 5.0, right: 5.0),
+                      padding: const EdgeInsets.all(5.0),
+                      width: MediaQuery.of(context).size.width * 0.3,
+                      height: 120,
+                      decoration: depots.isEmpty
+                          ? null
+                          : const BoxDecoration(
+                              border: Border(
+                                top: BorderSide(
+                                  color: Colors.blue,
+                                ),
+                                bottom: BorderSide(
+                                  color: Colors.blue,
+                                ),
+                              ),
+                            ),
+                      child: SingleChildScrollView(
+                        child: customRowGridBuilder(
+                          depots,
+                        ),
                       ),
                     ),
-                    SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.3,
-                        height: 120,
-                        child: SingleChildScrollView(
-                          child: customRowGridBuilder(depots),
-                        ))
-                  ]),
-            )));
+                  )
+                ]),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _toggleDropdown(int index) {
+    switch (index) {
+      case 0:
+        isOpen[0] = !isOpen[0];
+        if (isOpen[0]) {
+          _controller1.forward();
+        } else {
+          _controller1.reverse();
+        }
+        break;
+      case 1:
+        isOpen[1] = !isOpen[1];
+        if (isOpen[1]) {
+          _controller2.forward();
+        } else {
+          _controller2.reverse();
+        }
+        break;
+      case 2:
+        isOpen[2] = !isOpen[2];
+        if (isOpen[2]) {
+          _controller3.forward();
+        } else {
+          _controller3.reverse();
+        }
+        break;
+      case 3:
+        isOpen[3] = !isOpen[3];
+        if (isOpen[3]) {
+          _controller4.forward();
+        } else {
+          _controller4.reverse();
+        }
+        break;
+    }
   }
 
   //StreamBuilder2 Function

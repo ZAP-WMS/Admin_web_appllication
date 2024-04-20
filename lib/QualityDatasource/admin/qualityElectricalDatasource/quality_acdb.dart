@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:web_appllication/model/admin_model/quality_checklistModel.dart';
+import 'package:web_appllication/overview.dart';
 import 'package:web_appllication/screen_admin/KeyEvents/upload.dart';
 import 'package:web_appllication/screen_user/Planning_Pages/quality_checklist.dart';
 
@@ -81,7 +82,7 @@ class QualityacdDataSource extends DataGridSource {
                               cityName: cityName,
                               depoName: depoName,
                               activity:
-                                  '${row.getCells()[3].value.toString()}'),
+                                  row.getCells()[3].value.toString()),
                         ));
                       },
                       child: const Text('Upload'));
