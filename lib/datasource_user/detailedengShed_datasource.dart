@@ -155,7 +155,10 @@ class DetailedEngSourceShed extends DataGridSource {
                             DateFormat('dd-MM-yyyy').format(DateTime.now()),
                       ));
                 },
-                child: const Text('Add',),)
+                child: const Text(
+                  'Add',
+                ),
+              )
             : (dataGridCell.columnName == 'Delete')
                 ? IconButton(
                     onPressed: () async {
@@ -187,7 +190,7 @@ class DetailedEngSourceShed extends DataGridSource {
                             onPressed: () {
                               String activitydata =
                                   row.getCells()[4].value.toString();
-                              if (activitydata == "null") {
+                              if (activitydata == "") {
                                 showDialog(
                                   context: mainContext,
                                   builder: (context) {
@@ -783,6 +786,9 @@ class DetailedEngSourceShed extends DataGridSource {
       child: TextField(
         style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
         autofocus: true,
+        decoration: const InputDecoration(
+          contentPadding: EdgeInsets.symmetric(horizontal: 10.0,),
+        ),
         controller: editingController..text = displayText,
         textAlign: isNumericType ? TextAlign.right : TextAlign.left,
         autocorrect: false,
@@ -794,6 +800,9 @@ class DetailedEngSourceShed extends DataGridSource {
             : isDateTimeType
                 ? TextInputType.datetime
                 : TextInputType.text,
+                onTapOutside: (event) {
+          newCellValue = editingController.text;
+        },
         onChanged: (String value) {
           if (value.isNotEmpty) {
             if (isNumericType) {

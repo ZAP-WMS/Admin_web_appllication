@@ -147,7 +147,10 @@ class DetailedEngSource extends DataGridSource {
                             DateFormat('dd-MM-yyyy').format(DateTime.now()),
                       ));
                 },
-                child: const Text('Add',),)
+                child: const Text(
+                  'Add',
+                ),
+              )
             : (dataGridCell.columnName == 'Delete')
                 ? IconButton(
                     onPressed: () {
@@ -176,31 +179,32 @@ class DetailedEngSource extends DataGridSource {
                     ? LayoutBuilder(builder:
                         (BuildContext context, BoxConstraints constraints) {
                         return ElevatedButton(
-                            style:
-                                ElevatedButton.styleFrom(backgroundColor: blue),
-                            onPressed: () {
-                              String activitydata =
-                                  row.getCells()[4].value.toString();
-                              if (activitydata == "null") {
-                                showDialog(
-                                  context: mainContext,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: const Text(
-                                          'Please Add Drawing Number First'),
-                                      actions: [
-                                        TextButton(
-                                          child: const Text('Ok'),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              } else {
-                                Navigator.of(context).push(MaterialPageRoute(
+                          style:
+                              ElevatedButton.styleFrom(backgroundColor: blue),
+                          onPressed: () {
+                            String activitydata =
+                                row.getCells()[4].value.toString();
+                            if (activitydata == "") {
+                              showDialog(
+                                context: mainContext,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: const Text(
+                                        'Please Add Drawing Number First'),
+                                    actions: [
+                                      TextButton(
+                                        child: const Text('Ok'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            } else {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
                                   builder: (context) => UploadDocument(
                                     pagetitle: pagetitle,
                                     customizetype: const [
@@ -216,10 +220,14 @@ class DetailedEngSource extends DataGridSource {
                                     fldrName:
                                         '${dataGridRows.indexOf(row) + 1}',
                                   ),
-                                ));
-                              }
-                            },
-                            child: const Text('Upload'));
+                                ),
+                              );
+                            }
+                          },
+                          child: const Text(
+                            'Upload',
+                          ),
+                        );
                       })
                     : dataGridCell.columnName == 'ViewDrawing'
                         ? LayoutBuilder(builder:
@@ -767,8 +775,12 @@ class DetailedEngSource extends DataGridSource {
     return Container(
       alignment: isNumericType ? Alignment.centerRight : Alignment.centerLeft,
       child: TextField(
-        style: const TextStyle(fontSize: 11),
+        style: const TextStyle(fontSize: 11,
+        ),
         autofocus: true,
+        decoration: const InputDecoration(
+          contentPadding: EdgeInsets.symmetric(horizontal: 10.0,),
+        ),
         controller: editingController..text = displayText,
         textAlign: isNumericType ? TextAlign.right : TextAlign.left,
         autocorrect: false,
@@ -780,6 +792,9 @@ class DetailedEngSource extends DataGridSource {
             : isDateTimeType
                 ? TextInputType.datetime
                 : TextInputType.text,
+        onTapOutside: (event) {
+          newCellValue = editingController.text;
+        },
         onChanged: (String value) {
           if (value.isNotEmpty) {
             if (isNumericType) {

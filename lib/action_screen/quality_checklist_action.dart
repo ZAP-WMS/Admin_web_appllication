@@ -29,7 +29,6 @@ class _QualityChecklistActionState extends State<QualityChecklistAction> {
   @override
   void initState() {
     selectWidget();
-
     super.initState();
   }
 

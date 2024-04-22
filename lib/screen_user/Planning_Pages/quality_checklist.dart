@@ -50,9 +50,7 @@ TextEditingController selectedDepoController = TextEditingController();
 final AuthService authService = AuthService();
 List<String> assignedDepots = [];
 bool isFieldEditable = false;
-
 List<bool> listToSelectTab = [];
-
 List<String> qualityFields = [
   'CivilChecklistField',
   'ElectricalChecklistField'

@@ -18,13 +18,15 @@ class JmrUser extends StatefulWidget {
   String? cityName;
   String? depoName;
   String role;
+  String? userId;
 
   JmrUser(
       {super.key,
       this.cityName,
       this.depoName,
       this.finalLenOfView,
-      required this.role});
+      required this.role,
+      this.userId});
 
   @override
   State<JmrUser> createState() => _JmrUserState();
@@ -39,7 +41,6 @@ class _JmrUserState extends State<JmrUser> {
   bool _isLoading = true;
   List tabsForJmr = ['Civil', 'Electrical'];
 
-  dynamic userId;
   List<String> title = [
     'R1',
     'R2',
@@ -55,9 +56,7 @@ class _JmrUserState extends State<JmrUser> {
 
   @override
   void initState() {
-    getUserId().whenComplete(() => {
-          getJmrLen(5),
-        });
+    getJmrLen(5);
     super.initState();
   }
 
@@ -132,7 +131,7 @@ class _JmrUserState extends State<JmrUser> {
                           ),
                           SizedBox(width: 5),
                           Text(
-                            userId ?? '',
+                            widget.userId ?? '',
                             style: const TextStyle(fontSize: 18),
                           )
                         ],
@@ -272,6 +271,7 @@ class _JmrUserState extends State<JmrUser> {
                                   MaterialPageRoute(
                                     builder: (context) => JmrHomeUser(
                                       role: widget.role,
+                                      userId: widget.userId!,
                                       showTable: false,
                                       title: '$Designation-$title',
                                       jmrTab: title,
@@ -292,6 +292,7 @@ class _JmrUserState extends State<JmrUser> {
                               MaterialPageRoute(
                                 builder: (context) => JmrHomeUser(
                                   role: widget.role,
+                                  userId: widget.userId!,
                                   showTable: false,
                                   title: '$Designation-$title',
                                   jmrTab: title,
@@ -342,6 +343,7 @@ class _JmrUserState extends State<JmrUser> {
                                 MaterialPageRoute(
                                   builder: (context) => JmrHomeUser(
                                     role: widget.role,
+                                    userId: widget.userId!,
                                     title:
                                         '$Designation-$title-JMR${index + 1}',
                                     jmrTab: title,
@@ -392,9 +394,9 @@ class _JmrUserState extends State<JmrUser> {
                             cityName: widget.cityName,
                             depoName: widget.depoName,
                             title: 'jmr',
-                            userId: userId,
+                            userId: widget.userId,
                             fldrName:
-                                'jmrFiles/${tabsForJmr[_selectedIndex]}/${widget.cityName}/${widget.depoName}/$userId/${index + 1}',
+                                'jmrFiles/${tabsForJmr[_selectedIndex]}/${widget.cityName}/${widget.depoName}/${widget.userId}/${index + 1}',
                           ),
                         ),
                       );
@@ -428,14 +430,6 @@ class _JmrUserState extends State<JmrUser> {
     );
   }
 
-  //Function for Reading Jmr List Length For Creating Jmr List below Create New JMR
-
-  Future<void> getUserId() async {
-    await AuthService().getCurrentUserId().then((value) {
-      userId = value;
-    });
-  }
-
   Future<void> getJmrLen(int currentIndex) async {
     List<dynamic> eachTabJmrList = [];
     setState(() {
@@ -449,7 +443,7 @@ class _JmrUserState extends State<JmrUser> {
           .collection('Table')
           .doc('${tabsForJmr[_selectedIndex]}JmrTable')
           .collection('userId')
-          .doc(userId)
+          .doc(widget.userId)
           .collection('jmrTabName')
           .doc(title[i])
           .collection('jmrTabIndex')
@@ -496,7 +490,7 @@ class _JmrUserState extends State<JmrUser> {
       await storage
           .ref()
           .child(
-              'jmrFiles/$tabName/${widget.cityName}/${widget.depoName}/$userId/${index + 1}/$fileName')
+              'jmrFiles/$tabName/${widget.cityName}/${widget.depoName}/${widget.userId}/${index + 1}/$fileName')
           .putData(bytes!);
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
@@ -515,7 +509,7 @@ class _JmrUserState extends State<JmrUser> {
           .collection('Table')
           .doc('${tabsForJmr[_selectedIndex]}JmrTable')
           .collection('userId')
-          .doc(userId)
+          .doc(widget.userId)
           .set({"isFileUploaded": true});
     } else {
       // User canceled the picker

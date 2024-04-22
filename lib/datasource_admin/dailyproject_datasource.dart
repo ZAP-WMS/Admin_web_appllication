@@ -44,15 +44,8 @@ class DailyDataSource extends DataGridSource {
 
   @override
   String Pagetitle = 'Daily Report';
+  @override
   DataGridRowAdapter? buildRow(DataGridRow row) {
-    DateTime? rangeStartDate = DateTime.now();
-    DateTime? rangeEndDate = DateTime.now();
-    DateTime? date;
-    DateTime? endDate;
-    DateTime? rangeStartDate1 = DateTime.now();
-    DateTime? rangeEndDate1 = DateTime.now();
-    DateTime? date1;
-    DateTime? endDate1;
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((dataGridCell) {
       return Container(
@@ -75,12 +68,17 @@ class DailyDataSource extends DataGridSource {
                           ),
                         ));
                   },
-                  child: const Text('View',),)
+                  child: const Text(
+                    'View',
+                  ),
+                )
               : Text(
                   dataGridCell.value.toString(),
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                      fontSize: 12, fontWeight: FontWeight.bold,),
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ));
     }).toList());
   }

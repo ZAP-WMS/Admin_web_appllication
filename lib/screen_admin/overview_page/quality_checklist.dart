@@ -81,9 +81,6 @@ class _QualityChecklistAdminState extends State<QualityChecklistAdmin> {
   int currentIndex = 0;
   @override
   void initState() {
-    // _tabController.index = _selectedIndex!.toInt();
-    getUserId().whenComplete(() {});
-
     super.initState();
   }
 

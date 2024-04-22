@@ -39,30 +39,29 @@ class _MaterialProcurementUserState extends State<MaterialProcurementUser> {
   late MaterialDatasource _materialDatasource;
   late DataGridController _dataGridController;
   List<dynamic> tabledata2 = [];
-  dynamic userId;
   Stream? _stream;
   bool _isloading = true;
   dynamic alldata;
 
   @override
   void initState() {
-    getAssignedDepots();
-    // _materialprocurement = getmonthlyReport();
-    _materialDatasource = MaterialDatasource(_materialprocurement, context,
-        widget.cityName, widget.depoName, removeRow);
-    _dataGridController = DataGridController();
-    getUserId().whenComplete(() {
+    getAssignedDepots().whenComplete(() {
+      // _materialprocurement = getmonthlyReport();
+      _materialDatasource = MaterialDatasource(_materialprocurement, context,
+          widget.cityName, widget.depoName, removeRow);
+      _dataGridController = DataGridController();
       _stream = FirebaseFirestore.instance
           .collection('MaterialProcurement')
           .doc('${widget.depoName}')
           .collection('Material Data')
-          .doc(userId)
+          .doc(widget.userId)
           .snapshots();
       _isloading = false;
       if (mounted) {
         setState(() {});
       }
     });
+
     super.initState();
   }
 
@@ -658,22 +657,20 @@ class _MaterialProcurementUserState extends State<MaterialProcurementUser> {
         .collection('MaterialProcurement')
         .doc('${widget.depoName}')
         .collection('Material Data')
-        .doc(userId)
+        .doc(widget.userId)
         .set({
       'data': tabledata2,
     }).whenComplete(() {
       tabledata2.clear();
       Navigator.pop(context);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: const Text('Data are synced',),
-        backgroundColor: blue,
-      ),);
-    });
-  }
-
-  Future<void> getUserId() async {
-    await AuthService().getCurrentUserId().then((value) {
-      userId = value;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(
+            'Data are synced',
+          ),
+          backgroundColor: blue,
+        ),
+      );
     });
   }
 
@@ -721,5 +718,6 @@ class _MaterialProcurementUserState extends State<MaterialProcurementUser> {
     assignedDepots = await authService.getDepotList();
     isFieldEditable =
         authService.verifyAssignedDepot(widget.depoName!, assignedDepots);
+    print("isFieldEditable - $isFieldEditable");
   }
 }

@@ -28,6 +28,7 @@ class JmrHomeUser extends StatefulWidget {
   bool showTable;
   int? dataFetchingIndex;
   String role;
+  String userId;
 
   JmrHomeUser({
     required this.role,
@@ -41,6 +42,7 @@ class JmrHomeUser extends StatefulWidget {
     this.tabName,
     required this.showTable,
     this.dataFetchingIndex,
+    required this.userId,
   });
 
   @override
@@ -84,7 +86,6 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
   List<dynamic> tabledata2 = [];
   Stream? _stream;
   var alldata;
-  dynamic userId;
   List<dynamic> totalAmountList = [];
   num totalAmount = num.parse('0.0');
 
@@ -92,48 +93,46 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
   void initState() {
     super.initState();
     getAssignedDepots();
-    getUserId().whenComplete(() {
-      _stream = FirebaseFirestore.instance
-          .collection('JMRCollection')
-          .doc(widget.depoName)
-          .collection('userId')
-          .doc(userId)
-          .snapshots();
-      if (widget.showTable == true) {
-        _fetchDataFromFirestore().then((value) => {
-              setState(() {
-                for (dynamic item in jmrSyncList) {
-                  List<dynamic> tempData = [];
-                  if (item is List<dynamic>) {
-                    for (dynamic innerItem in item) {
-                      if (innerItem is Map<String, dynamic>) {
-                        tempData = [
-                          innerItem['srNo'],
-                          innerItem['Description'],
-                          innerItem['Activity'],
-                          innerItem['RefNo'],
-                          innerItem['Abstract'],
-                          innerItem['Uom'],
-                          innerItem['Rate'],
-                          innerItem['TotalQty'],
-                          innerItem['TotalAmount']
-                        ];
-                        totalAmountList.add(
-                          innerItem['TotalAmount'],
-                        );
-                      }
-                      data.add(tempData);
+    _stream = FirebaseFirestore.instance
+        .collection('JMRCollection')
+        .doc(widget.depoName)
+        .collection('userId')
+        .doc(widget.userId)
+        .snapshots();
+    if (widget.showTable == true) {
+      _fetchDataFromFirestore().then((value) => {
+            setState(() {
+              for (dynamic item in jmrSyncList) {
+                List<dynamic> tempData = [];
+                if (item is List<dynamic>) {
+                  for (dynamic innerItem in item) {
+                    if (innerItem is Map<String, dynamic>) {
+                      tempData = [
+                        innerItem['srNo'],
+                        innerItem['Description'],
+                        innerItem['Activity'],
+                        innerItem['RefNo'],
+                        innerItem['Abstract'],
+                        innerItem['Uom'],
+                        innerItem['Rate'],
+                        innerItem['TotalQty'],
+                        innerItem['TotalAmount']
+                      ];
+                      totalAmountList.add(
+                        innerItem['TotalAmount'],
+                      );
                     }
+                    data.add(tempData);
                   }
                 }
-                _isLoading = false;
-              })
-            });
-      } else {
-        _isLoading = false;
-        setState(() {});
-      }
-    });
+              }
+              _isLoading = false;
+            })
+          });
+    } else {
+      _isLoading = false;
+      setState(() {});
+    }
   }
 
   @override
@@ -168,20 +167,6 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
                 : false,
             store: () {
               nextIndex().then((value) {
-                data.add(
-                  [
-                    '    ',
-                    'Total Amount',
-                    '                 ',
-                    '                 ',
-                    '                 ',
-                    '                 ',
-                    0.0,
-                    0.0,
-                    totalAmount
-                  ],
-                );
-                setState(() {});
                 StoreData();
               });
             }),
@@ -233,7 +218,7 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
                                   child: SizedBox(
                                     height: 40,
                                     child: TextFormField(
-                                      readOnly: isFieldEditable,
+                                      readOnly: !isFieldEditable,
                                       controller: endDate,
                                       decoration: const InputDecoration(
                                           labelText: 'End Date',
@@ -782,12 +767,6 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
     }).toList();
   }
 
-  Future<void> getUserId() async {
-    await AuthService().getCurrentUserId().then((value) {
-      userId = value;
-    });
-  }
-
   Future<void> StoreData() async {
     Map<String, dynamic> tableData = {};
     for (var i in _jmrDataSource.dataGridRows) {
@@ -806,7 +785,7 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
         .collection('Table')
         .doc('${widget.tabName}JmrTable')
         .collection('userId')
-        .doc(userId)
+        .doc(widget.userId)
         .collection('jmrTabName')
         .doc(widget.jmrTab)
         .collection('jmrTabIndex')
@@ -830,7 +809,7 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
         .collection('Table')
         .doc('${widget.tabName}JmrTable')
         .collection('userId')
-        .doc(userId)
+        .doc(widget.userId)
         .set({'deponame': widget.depoName});
 
     FirebaseFirestore.instance
@@ -839,7 +818,7 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
         .collection('Table')
         .doc('${widget.tabName}JmrTable')
         .collection('userId')
-        .doc(userId)
+        .doc(widget.userId)
         .collection('jmrTabName')
         .doc(widget.jmrTab)
         .set({'deponame': widget.depoName});
@@ -850,7 +829,7 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
         .collection('Table')
         .doc('${widget.tabName}JmrTable')
         .collection('userId')
-        .doc(userId)
+        .doc(widget.userId)
         .collection('jmrTabName')
         .doc(widget.jmrTab)
         .collection('jmrTabIndex')
@@ -867,7 +846,7 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
         .collection('Table')
         .doc('${widget.tabName}JmrTable')
         .collection('userId')
-        .doc(userId)
+        .doc(widget.userId)
         .collection('jmrTabName')
         .doc(widget.jmrTab)
         .collection('jmrTabIndex')
@@ -884,7 +863,7 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
         .collection('Table')
         .doc('${widget.tabName}JmrField')
         .collection('userId')
-        .doc(userId)
+        .doc(widget.userId)
         .collection('jmrTabName')
         .doc(widget.jmrTab)
         .collection('jmrTabIndex')
@@ -908,7 +887,7 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
         .collection('Table')
         .doc('${widget.tabName}JmrField')
         .collection('userId')
-        .doc(userId)
+        .doc(widget.userId)
         .set({'deponame': widget.depoName});
 
     FirebaseFirestore.instance
@@ -917,7 +896,7 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
         .collection('Table')
         .doc('${widget.tabName}JmrField')
         .collection('userId')
-        .doc(userId)
+        .doc(widget.userId)
         .collection('jmrTabName')
         .doc(widget.jmrTab)
         .set({'deponame': widget.depoName});
@@ -928,7 +907,7 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
         .collection('Table')
         .doc('${widget.tabName}JmrField')
         .collection('userId')
-        .doc(userId)
+        .doc(widget.userId)
         .collection('jmrTabName')
         .doc(widget.jmrTab)
         .collection('jmrTabIndex')
@@ -947,7 +926,7 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
         .collection('Table')
         .doc('${widget.tabName}JmrTable')
         .collection('userId')
-        .doc(userId)
+        .doc(widget.userId)
         .collection('jmrTabName')
         .doc(widget.jmrTab)
         .collection('jmrTabIndex')
@@ -964,7 +943,7 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
         .collection('Table')
         .doc('${widget.tabName}JmrTable')
         .collection('userId')
-        .doc(userId)
+        .doc(widget.userId)
         .collection('jmrTabName')
         .doc(widget.jmrTab)
         .collection('jmrTabIndex')
@@ -993,7 +972,7 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
         .collection('Table')
         .doc('${widget.tabName}JmrField')
         .collection('userId')
-        .doc(userId)
+        .doc(widget.userId)
         .collection('jmrTabName')
         .doc(widget.jmrTab)
         .collection('jmrTabIndex')
@@ -1010,7 +989,7 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
           .collection('Table')
           .doc('${widget.tabName}JmrField')
           .collection('userId')
-          .doc(userId)
+          .doc(widget.userId)
           .collection('jmrTabName')
           .doc(widget.jmrTab)
           .collection('jmrTabIndex')
@@ -1235,7 +1214,7 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
           return pw.Container(
               alignment: pw.Alignment.centerRight,
               margin: const pw.EdgeInsets.only(top: 1.0 * PdfPageFormat.cm),
-              child: pw.Text('UserID - $userId',
+              child: pw.Text('UserID - ${widget.userId}',
                   textScaleFactor: 1.5,
                   // 'Page ${context.pageNumber} of ${context.pagesCount}',
                   style: pw.Theme.of(context)
@@ -1276,7 +1255,7 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
                         style:
                             pw.TextStyle(color: PdfColors.black, fontSize: 15)),
                     pw.TextSpan(
-                        text: '$userId',
+                        text: widget.userId,
                         style: const pw.TextStyle(
                             color: PdfColors.blue700, fontSize: 15))
                   ])),
@@ -1336,7 +1315,7 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
           return pw.Container(
               alignment: pw.Alignment.centerRight,
               margin: const pw.EdgeInsets.only(top: 1.0 * PdfPageFormat.cm),
-              child: pw.Text('User ID - $userId',
+              child: pw.Text('User ID - ${widget.userId}',
                   // 'Page ${context.pageNumber} of ${context.pagesCount}',
                   style: pw.Theme.of(context)
                       .defaultTextStyle

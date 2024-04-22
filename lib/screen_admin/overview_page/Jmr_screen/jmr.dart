@@ -82,27 +82,7 @@ class _JmrAdminState extends State<JmrAdmin> {
               color: blue,
             ),
             actions: [
-              widget.role == "projectManager"
-                  ? Container(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => JmrUser(
-                                role: widget.role,
-                                cityName: widget.cityName,
-                                depoName: widget.depoName,
-                              ),
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          'Make An Entry',
-                        ),
-                      ),
-                    )
-                  : Container(),
+
               Container(
                 padding: const EdgeInsets.all(5.0),
                 width: 200,
@@ -180,6 +160,28 @@ class _JmrAdminState extends State<JmrAdmin> {
                       controller: selectedDepoController,
                     )),
               ),
+                            widget.role == "projectManager"
+                  ? Container(
+                    margin: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => JmrUser(
+                                role: widget.role,
+                                cityName: widget.cityName,
+                                depoName: widget.depoName,
+                              ),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          'Make An Entry',
+                        ),
+                      ),
+                    )
+                  : Container(),
               Padding(
                 padding: const EdgeInsets.only(right: 15, left: 15),
                 child: GestureDetector(

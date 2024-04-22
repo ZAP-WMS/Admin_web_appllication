@@ -10,6 +10,7 @@ import 'package:web_appllication/Authentication/admin/auth_service.dart';
 import 'package:web_appllication/components/loading_page.dart';
 import 'package:web_appllication/datasource_user/dailyproject_datasource.dart';
 import 'package:web_appllication/model/user_model/daily_projectModel.dart';
+import 'package:web_appllication/widgets/custom_show_progress.dart';
 import 'package:web_appllication/widgets/widgets_user/appbar_back_date.dart';
 import 'package:web_appllication/widgets/widgets_user/user_style.dart';
 import '../Planning_Pages/summary.dart';
@@ -54,7 +55,7 @@ class _DailyProjectUserState extends State<DailyProjectUser> {
   @override
   void initState() {
     getAssignedDepots();
-    selectedDate = DateFormat.yMMMMd().format(DateTime.now());
+    selectedDate = DateFormat.yMMMMd().format(DateTime.now(),);
     getUserId().whenComplete(() async {
       await checkIsImageAvail();
       getmonthlyReport();
@@ -110,9 +111,7 @@ class _DailyProjectUserState extends State<DailyProjectUser> {
                   ),
                 )),
             store: () {
-              _showDialog(context);
-              // FirebaseApi().nestedKeyEventsField(
-              //     'DailyProject3', widget.depoName!, 'userId', userId);
+              showProgressDilogue(context);
               storeData();
             },
             choosedate: () {

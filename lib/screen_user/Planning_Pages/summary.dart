@@ -2470,20 +2470,22 @@ class _ViewSummaryState extends State<ViewSummary> {
     Map<String, dynamic> safetyMapData =
         safetyFieldDocSanpshot.data() as Map<String, dynamic>;
 
+
     List<List<dynamic>> fieldData = [
-      ['Installation Date', safetyMapData['InstallationDate']],
-      ['Enegization Date', safetyMapData['EnegizationDate']],
-      ['On Boarding Date', safetyMapData['BoardingDate']],
-      ['TPNo : ', '${safetyMapData['TPNo']}'],
-      ['Rev :', '${safetyMapData['Rev']}'],
-      ['Bus Depot Location :', '${safetyMapData['DepotLocation']}'],
-      ['Address :', '${safetyMapData['Address']}'],
-      ['Contact no / Mail Id :', '${safetyMapData['ContactNo']}'],
-      ['Latitude & Longitude :', '${safetyMapData['Latitude']}'],
-      ['State :', '${safetyMapData['State']}'],
-      ['Charger Type : ', '${safetyMapData['ChargerType']}'],
-      ['Conducted By :', '${safetyMapData['ConductedBy']}']
+      ['Installation Date', '${safetyMapData['InstallationDate']}'],
+      ['Enegization Date', '${safetyMapData['EnegizationDate']}'],
+      ['On Boarding Date', '${safetyMapData['BoardingDate']}'],
+      ['TPNo', '${safetyMapData['TPNo']}'],
+      ['Rev', '${safetyMapData['Rev']}'],
+      ['Bus Depot Location', '${safetyMapData['DepotLocation']}'],
+      ['Address', '${safetyMapData['Address']}'],
+      ['Contact no / Mail Id', '${safetyMapData['ContactNo']}'],
+      ['Latitude & Longitude', '${safetyMapData['Latitude']}'],
+      ['State', '${safetyMapData['State']}'],
+      ['Charger Type', '${safetyMapData['ChargerType']}'],
+      ['Conducted By', '${safetyMapData['ConductedBy']}']
     ];
+
 
     if (alldata.isNotEmpty) {
       List<pw.Widget> imageUrls = [];
@@ -2508,28 +2510,38 @@ class _ViewSummaryState extends State<ViewSummary> {
                   width: 60,
                   height: 100,
                   child: pw.UrlLink(
-                    child: pw.Text(image.name,
-                        style: const pw.TextStyle(color: PdfColors.blue)),
-                    destination: downloadUrl,
-                  ),
+                      child: pw.Text(image.name,
+                          style: const pw.TextStyle(color: PdfColors.blue)),
+                      destination: downloadUrl),
                 ),
               );
             } else {
               final myImage = await networkImage(downloadUrl);
               imageUrls.add(
                 pw.Container(
-                  padding: const pw.EdgeInsets.only(top: 8.0, bottom: 8.0),
-                  width: 60,
-                  height: 100,
-                  child: pw.Center(
-                    child: pw.Image(myImage),
-                  ),
-                ),
+                    padding: const pw.EdgeInsets.only(top: 8.0, bottom: 8.0),
+                    width: 60,
+                    height: 100,
+                    child: pw.Center(
+                      child: pw.Image(myImage),
+                    )),
               );
             }
           }
-          if (imageUrls.length < 11) {
-            int imageLoop = 11 - imageUrls.length;
+
+          if (imageUrls.length > 4) {
+            int imageLoop = 12 - imageUrls.length;
+            for (int i = 0; i < imageLoop; i++) {
+              imageUrls.add(
+                pw.Container(
+                    padding: const pw.EdgeInsets.only(top: 8.0, bottom: 8.0),
+                    width: 60,
+                    height: 100,
+                    child: pw.Text('')),
+              );
+            }
+          } else if (imageUrls.length < 4) {
+            int imageLoop = 4 - imageUrls.length;
             for (int i = 0; i < imageLoop; i++) {
               imageUrls.add(
                 pw.Container(
@@ -2543,7 +2555,6 @@ class _ViewSummaryState extends State<ViewSummary> {
         } else {
           isImageEmpty = true;
         }
-        result.items.clear();
 
         //Text Rows of PDF Table
         rows.add(
@@ -2590,7 +2601,7 @@ class _ViewSummaryState extends State<ViewSummary> {
           ),
         );
 
-        if (imageUrls.isNotEmpty) {
+        if (imageUrls.length > 4) {
           //Image Rows of PDF Table
           rows.add(pw.TableRow(children: [
             pw.Container(
@@ -2603,15 +2614,15 @@ class _ViewSummaryState extends State<ViewSummary> {
                 child: pw.Row(
                     mainAxisAlignment: pw.MainAxisAlignment.spaceAround,
                     children: [
-                      imageUrls[3],
                       imageUrls[4],
+                      imageUrls[5],
                     ])),
-            imageUrls[5],
             imageUrls[6],
             imageUrls[7],
             imageUrls[8],
             imageUrls[9],
             imageUrls[10],
+            imageUrls[11],
           ]));
         }
         imageUrls.clear();

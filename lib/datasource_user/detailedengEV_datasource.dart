@@ -153,7 +153,10 @@ class DetailedEngSourceEV extends DataGridSource {
                             DateFormat('dd-MM-yyyy').format(DateTime.now()),
                       ));
                 },
-                child: const Text('Add',),)
+                child: const Text(
+                  'Add',
+                ),
+              )
             : (dataGridCell.columnName == 'Delete')
                 ? IconButton(
                     onPressed: () async {
@@ -184,7 +187,7 @@ class DetailedEngSourceEV extends DataGridSource {
                             onPressed: () {
                               String activitydata =
                                   row.getCells()[4].value.toString();
-                              if (activitydata == "null") {
+                              if (activitydata == '') {
                                 showDialog(
                                   context: mainContext,
                                   builder: (context) {
@@ -192,12 +195,7 @@ class DetailedEngSourceEV extends DataGridSource {
                                       title: const Text(
                                           'Please Add Drawing Number First'),
                                       actions: [
-                                        // TextButton(
-                                        //   child: const Text('No'),
-                                        //   onPressed: () {
-                                        //     Navigator.of(context).pop();
-                                        //   },
-                                        // ),
+                                      
                                         TextButton(
                                           child: const Text('Ok'),
                                           onPressed: () {
@@ -239,9 +237,10 @@ class DetailedEngSourceEV extends DataGridSource {
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: blue),
                                     onPressed: () {
-                                      Navigator.of(context)
-                                          .push(MaterialPageRoute(
-                                              builder: (context) => ViewAllPdfUser(
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ViewAllPdfUser(
                                                     title: 'DetailedEngEV',
                                                     cityName: cityName,
                                                     depoName: depoName,
@@ -778,6 +777,9 @@ class DetailedEngSourceEV extends DataGridSource {
       child: TextField(
         style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
         autofocus: true,
+        decoration: const InputDecoration(
+          contentPadding: EdgeInsets.symmetric(horizontal: 10.0,),
+        ),
         controller: editingController..text = displayText,
         textAlign: isNumericType ? TextAlign.right : TextAlign.left,
         autocorrect: false,
@@ -789,6 +791,9 @@ class DetailedEngSourceEV extends DataGridSource {
             : isDateTimeType
                 ? TextInputType.datetime
                 : TextInputType.text,
+                onTapOutside: (event) {
+          newCellValue = editingController.text;
+        },
         onChanged: (String value) {
           if (value.isNotEmpty) {
             if (isNumericType) {

@@ -32,10 +32,7 @@ class _TotalUsersState extends State<TotalUsers> with TickerProviderStateMixin {
   bool showAll = true;
   String alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-  @override
-  void initState() {
-    setColor();
-    selectedDesign[26] = !selectedDesign[26];
+  void initializeAnimationContrl() {
     _controller1 = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
@@ -68,6 +65,13 @@ class _TotalUsersState extends State<TotalUsers> with TickerProviderStateMixin {
       parent: _controller4,
       curve: Curves.easeInOut,
     );
+  }
+
+  @override
+  void initState() {
+    setColor();
+    selectedDesign[26] = !selectedDesign[26];
+    initializeAnimationContrl();
     isLoading = false;
     super.initState();
   }
@@ -302,19 +306,11 @@ class _TotalUsersState extends State<TotalUsers> with TickerProviderStateMixin {
         itemCount: inputList.length,
         itemBuilder: (context, index) {
           return Container(
-            padding: const EdgeInsets.only(left: 15.0),
+            padding: const EdgeInsets.only(left: 25.0),
             child: Row(
               children: [
-                Icon(
-                  Icons.circle,
-                  color: blue,
-                  size: 10.0,
-                ),
-                const SizedBox(
-                  width: 10.0,
-                ),
                 Text(
-                  inputList[index],
+                  '- ${inputList[index]}',
                   style: TextStyle(
                     color: Colors.grey[800],
                     fontSize: 13,
@@ -327,28 +323,32 @@ class _TotalUsersState extends State<TotalUsers> with TickerProviderStateMixin {
   }
 
   Widget customRowGridBuilder(List<dynamic> inputList) {
-    return GridView.builder(
-        shrinkWrap: true,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            crossAxisSpacing: 3,
-            childAspectRatio: 3.5,
-            mainAxisSpacing: 3.0),
-        itemCount: inputList.length,
-        itemBuilder: (context, index) {
-          return Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.all(2.0),
-            decoration: BoxDecoration(border: Border.all()),
-            child: Text(
-              '${inputList[index]}',
-              style: GoogleFonts.average(
-                fontSize: 10,
-                fontWeight: FontWeight.bold,
+    return Container(
+      margin: const EdgeInsets.all(5.0),
+      child: GridView.builder(
+          shrinkWrap: true,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 5.0,
+            childAspectRatio: 4.4,
+            mainAxisSpacing: 5.0,
+          ),
+          itemCount: inputList.length,
+          itemBuilder: (context, index) {
+            return Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(border: Border.all()),
+              child: Text(
+                '${inputList[index]}',
+                style: GoogleFonts.average(
+                  fontSize: 9,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
               ),
-            ),
-          );
-        });
+            );
+          }),
+    );
   }
 
   Widget customCard(
@@ -363,10 +363,13 @@ class _TotalUsersState extends State<TotalUsers> with TickerProviderStateMixin {
       elevation: 15,
       child: Container(
         decoration: BoxDecoration(
-            image: const DecorationImage(
-                image: AssetImage('assets/tata_power_card.jpeg'),
-                fit: BoxFit.cover),
-            borderRadius: BorderRadius.circular(10.0)),
+          image: const DecorationImage(
+              image: AssetImage('assets/tata_power_card.jpeg'),
+              fit: BoxFit.cover),
+          borderRadius: BorderRadius.circular(
+            10.0,
+          ),
+        ),
         height: 260,
         width: 180,
         child: Column(
@@ -456,7 +459,8 @@ class _TotalUsersState extends State<TotalUsers> with TickerProviderStateMixin {
                                                 child: const Text(
                                                   'Confirm',
                                                   style: TextStyle(
-                                                      color: Colors.white),
+                                                    color: Colors.white,
+                                                  ),
                                                 ),
                                               )
                                             ],
@@ -620,25 +624,37 @@ class _TotalUsersState extends State<TotalUsers> with TickerProviderStateMixin {
                 ),
               ),
               image: DecorationImage(
-                  image: AssetImage('assets/roleManagement/totalUsers.jpeg'),
-                  scale: 3.0,
-                  fit: BoxFit.fill),
+                image: AssetImage(
+                  'assets/roleManagement/totalUserCard.jpeg',
+                ),
+                scale: 3.0,
+                fit: BoxFit.fill,
+              ),
             ),
-            height: 450,
-            width: MediaQuery.of(context).size.width * 0.25,
+            height: 380,
+            width: MediaQuery.of(context).size.width * 0.2,
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10, bottom: 10),
-                    child: Text(
-                      user,
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.average(fontSize: 20, color: white),
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(
+                            top: 10.0, right: 5.0, bottom: 5.0),
+                        child: Text(
+                          user,
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.average(
+                            fontSize: 15,
+                            color: white,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 35.0, left: 5.0),
+                    margin: const EdgeInsets.only(top: 35.0, left: 8.0),
                     child: Container(
                       padding: const EdgeInsets.only(bottom: 5.0),
                       child: MouseRegion(
@@ -665,7 +681,7 @@ class _TotalUsersState extends State<TotalUsers> with TickerProviderStateMixin {
                                 style: GoogleFonts.average(
                                   decorationThickness: 2.0,
                                   color: Colors.black,
-                                  fontSize: 15,
+                                  fontSize: 13,
                                   letterSpacing: 1,
                                 ),
                               ),
@@ -687,7 +703,7 @@ class _TotalUsersState extends State<TotalUsers> with TickerProviderStateMixin {
                   ),
                   Container(
                     padding: const EdgeInsets.only(
-                        bottom: 5.0, top: 10.0, left: 5.0),
+                        bottom: 5.0, top: 10.0, left: 8.0),
                     child: MouseRegion(
                       cursor: SystemMouseCursors.click,
                       child: GestureDetector(
@@ -712,7 +728,7 @@ class _TotalUsersState extends State<TotalUsers> with TickerProviderStateMixin {
                               style: GoogleFonts.average(
                                   decorationThickness: 2.0,
                                   color: Colors.black,
-                                  fontSize: 15,
+                                  fontSize: 13,
                                   letterSpacing: 1),
                             ),
                           ],
@@ -724,10 +740,12 @@ class _TotalUsersState extends State<TotalUsers> with TickerProviderStateMixin {
                     sizeFactor: _animation2,
                     axisAlignment: 1.0,
                     child: Container(
-                      padding: const EdgeInsets.only(left: 15.0),
+                      padding: const EdgeInsets.only(
+                        left: 25.0,
+                      ),
                       child: Text(
                         currentreportingManager.toString().isNotEmpty
-                            ? currentreportingManager
+                            ? '- $currentreportingManager'
                             : '',
                         style: TextStyle(
                           color: Colors.grey[800],
@@ -738,7 +756,7 @@ class _TotalUsersState extends State<TotalUsers> with TickerProviderStateMixin {
                   ),
                   Container(
                     padding: const EdgeInsets.only(
-                        bottom: 5.0, top: 10.0, left: 5.0),
+                        bottom: 5.0, top: 10.0, left: 8.0),
                     child: MouseRegion(
                       cursor: SystemMouseCursors.click,
                       child: GestureDetector(
@@ -761,10 +779,11 @@ class _TotalUsersState extends State<TotalUsers> with TickerProviderStateMixin {
                             Text(
                               'Cities',
                               style: GoogleFonts.average(
-                                  decorationThickness: 2.0,
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  letterSpacing: 1),
+                                decorationThickness: 2.0,
+                                color: Colors.black,
+                                fontSize: 13,
+                                letterSpacing: 1,
+                              ),
                             ),
                           ],
                         ),
@@ -776,13 +795,18 @@ class _TotalUsersState extends State<TotalUsers> with TickerProviderStateMixin {
                     axisAlignment: 1.0,
                     child: Container(
                       child: customRowBuilderForDialog(
-                        cities,
+                        cities.isNotEmpty
+                            ? cities
+                            : ["All Cities Are Accessible to Admin"],
                       ),
                     ),
                   ),
                   Container(
                     padding: const EdgeInsets.only(
-                        bottom: 5.0, top: 10.0, left: 5.0),
+                      bottom: 5.0,
+                      top: 10.0,
+                      left: 10.0,
+                    ),
                     child: MouseRegion(
                       cursor: SystemMouseCursors.click,
                       child: GestureDetector(
@@ -807,7 +831,7 @@ class _TotalUsersState extends State<TotalUsers> with TickerProviderStateMixin {
                               style: GoogleFonts.average(
                                 decorationThickness: 2.0,
                                 color: Colors.black,
-                                fontSize: 15,
+                                fontSize: 13,
                                 letterSpacing: 1,
                               ),
                             ),
@@ -820,26 +844,23 @@ class _TotalUsersState extends State<TotalUsers> with TickerProviderStateMixin {
                     sizeFactor: _animation4,
                     axisAlignment: 1.0,
                     child: Container(
-                      margin: const EdgeInsets.only(left: 5.0, right: 5.0),
-                      padding: const EdgeInsets.all(5.0),
                       width: MediaQuery.of(context).size.width * 0.3,
                       height: 120,
-                      decoration: depots.isEmpty
-                          ? null
-                          : const BoxDecoration(
-                              border: Border(
-                                top: BorderSide(
-                                  color: Colors.blue,
-                                ),
-                                bottom: BorderSide(
-                                  color: Colors.blue,
-                                ),
-                              ),
-                            ),
                       child: SingleChildScrollView(
-                        child: customRowGridBuilder(
-                          depots,
-                        ),
+                        child: depots.isEmpty
+                            ? Container(
+                                margin: const EdgeInsets.only(
+                                  left: 20.0,
+                                ),
+                                child: Text(
+                                  "- All Depots Are Accessible to Admin",
+                                  style: TextStyle(
+                                    color: Colors.grey[800],
+                                    fontSize: 13,
+                                  ),
+                                ),
+                              )
+                            : customRowGridBuilder(depots),
                       ),
                     ),
                   )

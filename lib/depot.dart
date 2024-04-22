@@ -181,7 +181,7 @@ class _MydepotsState extends State<Mydepots> {
                         // }
                       },
                       style: ElevatedButton.styleFrom(),
-                      child: Text("CANCEL"),
+                      child: const Text("CANCEL"),
                     ),
                     ElevatedButton(
                       onPressed: () async {
@@ -248,7 +248,7 @@ class _MydepotsState extends State<Mydepots> {
                         }
                       },
                       style: ElevatedButton.styleFrom(),
-                      child: Text("ADD"),
+                      child: const Text("ADD"),
                     ),
                   ],
                 );
@@ -339,14 +339,15 @@ class _MydepotsState extends State<Mydepots> {
                       const SizedBox(height: 50),
                       Center(
                         child: Container(
-                          padding: const EdgeInsets.all(25),
+                          padding: const EdgeInsets.all(25,),
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(color: blue)),
+                              borderRadius: BorderRadius.circular(20,),
+                              border: Border.all(color: blue,),),
                           child: const Text(
                             'No depots available yet \n Please add to process',
                             style: TextStyle(
-                                fontSize: 30, fontWeight: FontWeight.bold),
+                                fontSize: 30, fontWeight: FontWeight.bold,
+                                ),
                           ),
                         ),
                       )
@@ -361,7 +362,8 @@ class _MydepotsState extends State<Mydepots> {
               }
             } else {
               return const Center(
-                child: Text("No Depot Available at This Time...."),
+                child: Text("No Depot Available at This Time....",
+                ),
               );
             }
           } else {

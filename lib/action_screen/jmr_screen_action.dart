@@ -37,7 +37,7 @@ class _JmrScreenActionState extends State<JmrScreenAction> {
     switch (widget.role) {
       case 'user':
         selectedUi = JmrUser(
-          role: widget.role,
+          role: widget.role,userId: widget.userId,
           cityName: widget.cityName,
           depoName: widget.depotName,
         );

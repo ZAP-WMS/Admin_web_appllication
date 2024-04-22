@@ -20,8 +20,13 @@ class SafetySummary extends StatefulWidget {
   final String? depoName;
   final String? id;
   String role;
-   SafetySummary(
-      {super.key, this.userId, this.cityName, required this.depoName, this.id,required this.role});
+  SafetySummary(
+      {super.key,
+      this.userId,
+      this.cityName,
+      required this.depoName,
+      this.id,
+      required this.role});
 
   @override
   State<SafetySummary> createState() => _SafetySummaryState();
@@ -46,11 +51,11 @@ class _SafetySummaryState extends State<SafetySummary> {
           child: CustomAppBar(
             isProjectManager: widget.role == 'projectManager' ? true : false,
             makeAnEntryPage: SafetyChecklistUser(
-          role: widget.role,
-          cityName: widget.cityName,
-          depoName: widget.depoName,
-          userId: widget.userId,
-        ),
+              role: widget.role,
+              cityName: widget.cityName,
+              depoName: widget.depoName,
+              userId: widget.userId,
+            ),
             role: widget.role,
             depoName: widget.depoName,
             toSafety: true,
@@ -249,39 +254,19 @@ class _SafetySummaryState extends State<SafetySummary> {
       isDate3Empty = true;
     }
 
-    dynamic installationDateToDateTime =
-        isDate1Empty ? "" : safetyMapData['InstallationDate'].toDate();
-    String date1 = isDate1Empty
-        ? ""
-        : "${installationDateToDateTime.day}-${installationDateToDateTime.month}-${installationDateToDateTime.year}";
-
-    dynamic EnegizationDateToDateTime =
-        isDate2Empty ? "" : safetyMapData['EnegizationDate'].toDate();
-
-    String date2 = isDate2Empty
-        ? ""
-        : "${EnegizationDateToDateTime.day}-${EnegizationDateToDateTime.month}-${EnegizationDateToDateTime.year}";
-
-    dynamic BoardingDateToDateTime =
-        isDate3Empty ? "" : safetyMapData['BoardingDate'].toDate();
-
-    String date3 = isDate3Empty
-        ? ""
-        : "${BoardingDateToDateTime.day}-${BoardingDateToDateTime.month}-${BoardingDateToDateTime.year}";
-
     List<List<dynamic>> fieldData = [
-      ['Installation Date', '$date1'],
-      ['Enegization Date', '$date2'],
-      ['On Boarding Date', '$date3'],
-      ['TPNo : ', '${safetyMapData['TPNo']}'],
-      ['Rev :', '${safetyMapData['Rev']}'],
-      ['Bus Depot Location :', '${safetyMapData['DepotLocation']}'],
-      ['Address :', '${safetyMapData['Address']}'],
-      ['Contact no / Mail Id :', '${safetyMapData['ContactNo']}'],
-      ['Latitude & Longitude :', '${safetyMapData['Latitude']}'],
-      ['State :', '${safetyMapData['State']}'],
-      ['Charger Type : ', '${safetyMapData['ChargerType']}'],
-      ['Conducted By :', '${safetyMapData['ConductedBy']}']
+      ['Installation Date', '${safetyMapData['InstallationDate']}'],
+      ['Enegization Date', '${safetyMapData['EnegizationDate']}'],
+      ['On Boarding Date', '${safetyMapData['BoardingDate']}'],
+      ['TPNo', '${safetyMapData['TPNo']}'],
+      ['Rev', '${safetyMapData['Rev']}'],
+      ['Bus Depot Location', '${safetyMapData['DepotLocation']}'],
+      ['Address', '${safetyMapData['Address']}'],
+      ['Contact no / Mail Id', '${safetyMapData['ContactNo']}'],
+      ['Latitude & Longitude', '${safetyMapData['Latitude']}'],
+      ['State', '${safetyMapData['State']}'],
+      ['Charger Type', '${safetyMapData['ChargerType']}'],
+      ['Conducted By', '${safetyMapData['ConductedBy']}']
     ];
 
     List<pw.TableRow> rows = [];
@@ -414,7 +399,7 @@ class _SafetySummaryState extends State<SafetySummary> {
         } else {
           isImageEmpty = true;
         }
-        
+
         result.items.clear();
 
         //Text Rows of PDF Table
