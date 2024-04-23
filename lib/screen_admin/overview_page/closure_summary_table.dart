@@ -25,7 +25,7 @@ class ClosureSummaryTable extends StatefulWidget {
 }
 
 class _ClosureSummaryTableState extends State<ClosureSummaryTable> {
-  //Daily Project Row List for view summary
+
   List<List<dynamic>> rowList = [];
   TextEditingController selectedDepoController = TextEditingController();
   TextEditingController selectedCityController = TextEditingController();
@@ -63,10 +63,8 @@ class _ClosureSummaryTableState extends State<ClosureSummaryTable> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
-                child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [LoadingPage()],
-            ));
+                child: LoadingPage(),
+                );
           } else if (snapshot.hasError) {
             return const Center(
               child: Text('Error fetching data'),

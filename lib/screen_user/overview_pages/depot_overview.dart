@@ -1003,12 +1003,13 @@ class _DepotOverviewUserState extends State<DepotOverviewUser> {
                                       onTap: () {
                                         Navigator.of(context).push(
                                           MaterialPageRoute(
-                                            builder: (context) => ViewAllPdfUser(
-                                                title: '/BOQElectrical',
-                                                cityName: widget.cityName!,
-                                                depoName: widget.depoName!,
-                                                userId: userId,
-                                                docId: 'electrical'),
+                                            builder: (context) =>
+                                                ViewAllPdfUser(
+                                                    title: '/BOQElectrical',
+                                                    cityName: widget.cityName!,
+                                                    depoName: widget.depoName!,
+                                                    userId: userId,
+                                                    docId: 'electrical'),
                                           ),
                                         );
                                       },

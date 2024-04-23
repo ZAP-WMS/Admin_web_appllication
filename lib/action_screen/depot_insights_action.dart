@@ -47,9 +47,11 @@ class _DepotInsightsActionState extends State<DepotInsightsAction> {
           cityName: widget.cityName,
           depoName: widget.depotName,
           userId: widget.userId,
-          title: 'Overview Page',
-          date: DateFormat.yMMMMd().format(DateTime.now()),
-          pagetitle:"Overview Page",
+          title: 'Depot Insights',
+          date: DateFormat.yMMMMd().format(
+            DateTime.now(),
+          ),
+          pagetitle: 'Depot Insights',
           fldrName: '',
         );
 
@@ -58,7 +60,7 @@ class _DepotInsightsActionState extends State<DepotInsightsAction> {
         selectedUi = ViewAllPdfAdmin(
           cityName: widget.cityName,
           depoName: widget.depotName,
-          title: widget.title,
+          title: 'Depot Insights',
           docId: widget.docId,
           userId: widget.userId,
           role: widget.role,
@@ -69,13 +71,12 @@ class _DepotInsightsActionState extends State<DepotInsightsAction> {
         selectedUi = ViewAllPdfAdmin(
           cityName: widget.cityName,
           depoName: widget.depotName,
-          title: widget.title,
+          title: 'Depot Insights',
           docId: widget.docId,
           userId: widget.userId,
           role: widget.role,
         );
         break;
-
     }
 
     return selectedUi;

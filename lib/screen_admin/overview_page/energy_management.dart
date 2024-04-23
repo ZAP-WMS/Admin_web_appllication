@@ -33,14 +33,13 @@ class EnergyManagementAdmin extends StatefulWidget {
   String role;
   String? userId;
 
-  EnergyManagementAdmin({
-    super.key,
-    // this.userId,
-    this.cityName,
-    required this.role,
-    required this.depoName,
-    this.userId
-  });
+  EnergyManagementAdmin(
+      {super.key,
+      // this.userId,
+      this.cityName,
+      required this.role,
+      required this.depoName,
+      this.userId});
 
   @override
   State<EnergyManagementAdmin> createState() => _EnergyManagementAdminState();
@@ -130,11 +129,11 @@ class _EnergyManagementAdminState extends State<EnergyManagementAdmin> {
           child: CustomAppBar(
             isProjectManager: widget.role == 'projectManager' ? true : false,
             makeAnEntryPage: EnergyManagementUser(
-          userId: widget.userId,
-          role:widget.role ,
-          depoName: widget.depoName,
-          cityName: widget.cityName,
-        ),
+              userId: widget.userId,
+              role: widget.role,
+              depoName: widget.depoName,
+              cityName: widget.cityName,
+            ),
             role: widget.role,
             showDepoBar: true,
             userId: currentUser,
@@ -250,18 +249,25 @@ class _EnergyManagementAdminState extends State<EnergyManagementAdmin> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
-                          padding: EdgeInsets.only(left: 10),
+                          padding: const EdgeInsets.only(left: 10),
                           width: 250,
                           height: 40,
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              border: Border.all(color: blue)),
+                            borderRadius: BorderRadius.circular(
+                              5,
+                            ),
+                            border: Border.all(
+                              color: blue,
+                            ),
+                          ),
                           child: Row(
                             children: [
                               Row(
                                 children: [
                                   Text(
-                                    DateFormat.yMMMMd().format(enddate!),
+                                    DateFormat.yMMMMd().format(
+                                      enddate!,
+                                    ),
                                     textAlign: TextAlign.center,
                                   )
                                 ],
@@ -288,14 +294,15 @@ class _EnergyManagementAdminState extends State<EnergyManagementAdmin> {
                       children: [
                         SfDataGridTheme(
                             data: SfDataGridThemeData(
-                                headerColor: white,
-                                gridLineStrokeWidth: 2,
-                                gridLineColor: blue,
-                                frozenPaneLineColor: blue,
-                                frozenPaneLineWidth: 4),
+                              headerColor: white,
+                              gridLineStrokeWidth: 2,
+                              gridLineColor: blue,
+                              frozenPaneLineColor: blue,
+                              frozenPaneLineWidth: 4,
+                            ),
                             child: SfDataGrid(
                               source: _energydatasource,
-                              allowEditing: true,
+                              allowEditing: false,
                               frozenColumnsCount: 2,
                               gridLinesVisibility: GridLinesVisibility.both,
                               headerGridLinesVisibility:
@@ -531,7 +538,7 @@ class _EnergyManagementAdminState extends State<EnergyManagementAdmin> {
                         return Container(
                           margin: const EdgeInsets.only(
                               top: 20.0, left: 10.0, right: 10.0),
-                          width: 100 *
+                          width: 150 *
                               _energydatasource.dataGridRows.length.toDouble(),
                           height: 220,
                           child: BarChart(

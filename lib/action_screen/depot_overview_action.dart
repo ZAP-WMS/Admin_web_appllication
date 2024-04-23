@@ -26,7 +26,6 @@ class _DepotOverviewActionState extends State<DepotOverviewAction> {
   @override
   void initState() {
     selectWidget();
-
     super.initState();
   }
 

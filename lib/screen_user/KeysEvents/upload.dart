@@ -249,15 +249,16 @@ class _UploadDocumentState extends State<UploadDocument> {
                                           String refname = (widget.title ==
                                                   'QualityChecklist'
                                               ? '${widget.title}/${widget.subtitle}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.fldrName}/${widget.date}/${widget.srNo}/${result!.files.first.name}'
-                                              :
-                                              //widget.pagetitle == 'ClosureReport' ||
-                                              widget.pagetitle ==
-                                                      'Overview Page'
+                                              : widget.pagetitle ==
+                                                      'Depot Insights'
                                                   ? '${widget.pagetitle}/${widget.cityName}/${widget.depoName}/${widget.userId}/${result!.files.first.name}'
                                                   : widget.pagetitle ==
-                                                          'ClosureReport'
-                                                      ? '${widget.pagetitle}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.fldrName}/${result!.files.first.name}'
-                                                      : '${widget.pagetitle}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.date}/${widget.fldrName}/${result!.files.first.name}');
+                                                          'Overview Page'
+                                                      ? '${widget.pagetitle}/${widget.cityName}/${widget.depoName}/'
+                                                      : widget.pagetitle ==
+                                                              'ClosureReport'
+                                                          ? '${widget.pagetitle}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.fldrName}/${result!.files.first.name}'
+                                                          : '${widget.pagetitle}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.date}/${widget.fldrName}/${result!.files.first.name}');
 
                                           // String? fileName = result!.files.first.name;
                                           print('refname - $refname');

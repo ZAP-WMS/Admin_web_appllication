@@ -63,15 +63,21 @@ class _ViewAllPdfAdminState extends State<ViewAllPdfAdmin> {
       setState(() {
         _isload = false;
       });
+    } else if (widget.title == 'Depot Insights') {
+      futureFiles = FirebaseApiAdmin.listAll(
+          'Depot Insights/${widget.cityName}/${widget.depoName}/DepotImages/');
+      setState(() {
+        _isload = false;
+      });
     } else {
       getrefdata().whenComplete(() {
         for (int i = 0; i < drawingRef.length; i++) {
-          if (widget.title == 'Overview Page') {
-            print(
-                '${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}/');
-            futureFiles = FirebaseApiAdmin.listAll(
-                '${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}');
-          }
+          // if (widget.title == 'Overview Page') {
+          //   print(
+          //       '${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}/');
+          //   futureFiles = FirebaseApiAdmin.listAll(
+          //       '${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}');
+          // }
           for (int j = 0; j < drawingfullpath.length; j++) {
             print('before ' + drawingfullpath[j]);
             print(

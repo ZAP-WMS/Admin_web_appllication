@@ -51,7 +51,6 @@ class EnergyManagementDatasource extends DataGridSource {
       _energyManagement.insert(index, rowData);
       buildDataGridRows();
       notifyListeners();
-      // notifyListeners(DataGridSourceChangeKind.rowAdd, rowIndexes: [index]);
     }
 
     void removeRowAtIndex(int index) {

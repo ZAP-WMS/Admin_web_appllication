@@ -25,7 +25,11 @@ class DepotOverviewAdmin extends StatefulWidget {
   String userId;
 
   DepotOverviewAdmin(
-      {super.key, required this.cityName, required this.depoName,required this.role,required this.userId});
+      {super.key,
+      required this.cityName,
+      required this.depoName,
+      required this.role,
+      required this.userId});
 
   @override
   State<DepotOverviewAdmin> createState() => _DepotOverviewAdminState();
@@ -151,10 +155,9 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
 
   @override
   Widget build(BuildContext context) {
-    print('Scaffold Rebuild');
     return Scaffold(
       appBar: PreferredSize(
-          // ignore: sort_child_properties_last
+          preferredSize: const Size.fromHeight(50),
           child: CustomAppBar(
             isProjectManager: false,
             role: widget.role,
@@ -185,21 +188,31 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
                 'ElectricalManagerName': _elctricalManagerNameController.text,
                 'ElectricalEng': _electricalEngineerController.text,
                 'ElectricalVendor': _electricalVendorController.text,
-              }, SetOptions(merge: true));
+              }, SetOptions(merge: true)).whenComplete(() {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: blue,
+                    content: const Text(
+                      'Data Sync Successfully',
+                    ),
+                  ),
+                );
+              });
               // FirebaseApi().defaultKeyEventsField(
               //     'OverviewCollectionTable', widget.depoName!);
               // FirebaseApi().nestedKeyEventsField('OverviewCollectionTable',
               //     widget.depoName!, 'OverviewTabledData', userId);
-              // storeData();
+              storeData();
             },
-          ),
-          preferredSize: const Size.fromHeight(50)),
+          )),
       body: _isloading
           ? LoadingPage()
           : Column(
               children: [
                 Container(
-                  margin: const EdgeInsets.all(5),
+                  margin: const EdgeInsets.all(
+                    5,
+                  ),
                   child: Text(
                     'Brief Overview of ${widget.depoName} E-Bus Depot',
                     textAlign: TextAlign.start,
@@ -208,7 +221,9 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
                   ),
                 ),
                 Container(
-                  margin: const EdgeInsets.only(bottom: 10),
+                  margin: const EdgeInsets.only(
+                    bottom: 10,
+                  ),
                   width: 360,
                   decoration: BoxDecoration(
                     border: Border(bottom: BorderSide(color: blue, width: 2)),
@@ -216,7 +231,10 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
                 ),
                 cards(),
                 Container(
-                  margin: const EdgeInsets.only(bottom: 5, top: 10),
+                  margin: const EdgeInsets.only(
+                    bottom: 5,
+                    top: 10,
+                  ),
                   child: Text(
                     'Risk Register',
                     textAlign: TextAlign.start,
@@ -855,33 +873,32 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
                                     ),
                                   ),
                                   const SizedBox(width: 10),
-                                  // ElevatedButton(
-                                  //   onPressed: isEdit == false
-                                  //       ? null
-                                  //       : () async {
-                                  //           result = await FilePicker.platform
-                                  //               .pickFiles(
-                                  //             type: FileType.any,
-                                  //             withData: true,
-                                  //           );
+                                  ElevatedButton(
+                                    onPressed: isEdit == false
+                                        ? null
+                                        : () async {
+                                            result = await FilePicker.platform
+                                                .pickFiles(
+                                              type: FileType.any,
+                                              withData: true,
+                                            );
 
-                                  //           fileBytes =
-                                  //               result!.files.first.bytes!;
-                                  //           if (result == null) {
-                                  //             print("No file selected");
-                                  //           } else {
-                                  //             setState(() {});
-                                  //             result!.files.forEach((element) {
-                                  //               print(element.name);
-                                  //               print(result!.files.first.name);
-                                  //             });
-                                  //           }
-                                  //         },
-                                  //   child: const Text(
-                                  //     'Pick file',
-                                  //     textAlign: TextAlign.end,
-                                  //   ),
-                                  // ),
+                                            fileBytes =
+                                                result!.files.first.bytes!;
+                                            if (result == null) {
+                                              print("No file selected");
+                                            } else {
+                                              result!.files.forEach((element) {
+                                                print(element.name);
+                                                print(result!.files.first.name);
+                                              });
+                                            }
+                                          },
+                                    child: const Text(
+                                      'Pick file',
+                                      textAlign: TextAlign.end,
+                                    ),
+                                  ),
                                   const SizedBox(width: 10)
                                 ],
                               ),
@@ -906,7 +923,6 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
                                           onHover: (value) {
                                             providerValue.addHoverBool(
                                                 0, value);
-                                            print(value);
                                           },
                                           hoverColor: const Color.fromARGB(
                                               255, 74, 164, 238),
@@ -977,33 +993,32 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
                                     ),
                                   ),
                                   const SizedBox(width: 10),
-                                  // ElevatedButton(
-                                  //     onPressed: isEdit == false
-                                  //         ? null
-                                  //         : () async {
-                                  //             result1 = await FilePicker
-                                  //                 .platform
-                                  //                 .pickFiles(
-                                  //               type: FileType.any,
-                                  //               withData: true,
-                                  //             );
+                                  ElevatedButton(
+                                      onPressed: isEdit == false
+                                          ? null
+                                          : () async {
+                                              result1 = await FilePicker
+                                                  .platform
+                                                  .pickFiles(
+                                                type: FileType.any,
+                                                withData: true,
+                                              );
 
-                                  //             fileBytes1 =
-                                  //                 result1!.files.first.bytes!;
-                                  //             if (result1 == null) {
-                                  //               print("No file selected");
-                                  //             } else {
-                                  //               setState(() {});
-                                  //               result1!.files
-                                  //                   .forEach((element) {
-                                  //                 print(element.name);
-                                  //               });
-                                  //             }
-                                  //           },
-                                  //     child: const Text(
-                                  //       'Pick file',
-                                  //       textAlign: TextAlign.end,
-                                  //     )),
+                                              fileBytes1 =
+                                                  result1!.files.first.bytes!;
+                                              if (result1 == null) {
+                                                print("No file selected");
+                                              } else {
+                                                result1!.files
+                                                    .forEach((element) {
+                                                  print(element.name);
+                                                });
+                                              }
+                                            },
+                                      child: const Text(
+                                        'Pick file',
+                                        textAlign: TextAlign.end,
+                                      )),
                                   const SizedBox(width: 10),
                                 ],
                               ),
@@ -1029,12 +1044,13 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
                                       onTap: () {
                                         Navigator.of(context).push(
                                           MaterialPageRoute(
-                                            builder: (context) => ViewAllPdfAdmin(
-                                                title: '/BOQElectrical',
-                                                cityName: widget.cityName!,
-                                                depoName: widget.depoName!,
-                                                userId: userId,
-                                                docId: 'electrical'),
+                                            builder: (context) =>
+                                                ViewAllPdfAdmin(
+                                                    title: '/BOQElectrical',
+                                                    cityName: widget.cityName!,
+                                                    depoName: widget.depoName!,
+                                                    userId: userId,
+                                                    docId: 'electrical'),
                                           ),
                                         );
                                       },
@@ -1087,33 +1103,32 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
                                     ),
                                   ),
                                   const SizedBox(width: 10),
-                                  // ElevatedButton(
-                                  //     onPressed: isEdit == false
-                                  //         ? null
-                                  //         : () async {
-                                  //             result2 = await FilePicker
-                                  //                 .platform
-                                  //                 .pickFiles(
-                                  //               type: FileType.any,
-                                  //               withData: true,
-                                  //             );
+                                  ElevatedButton(
+                                      onPressed: isEdit == false
+                                          ? null
+                                          : () async {
+                                              result2 = await FilePicker
+                                                  .platform
+                                                  .pickFiles(
+                                                type: FileType.any,
+                                                withData: true,
+                                              );
 
-                                  //             fileBytes2 =
-                                  //                 result2!.files.first.bytes!;
-                                  //             if (result2 == null) {
-                                  //               print("No file selected");
-                                  //             } else {
-                                  //               setState(() {});
-                                  //               result2!.files
-                                  //                   .forEach((element) {
-                                  //                 print(element.name);
-                                  //               });
-                                  //             }
-                                  //           },
-                                  //     child: const Text(
-                                  //       'Pick file',
-                                  //       textAlign: TextAlign.end,
-                                  //     )),
+                                              fileBytes2 =
+                                                  result2!.files.first.bytes!;
+                                              if (result2 == null) {
+                                                print("No file selected");
+                                              } else {
+                                                result2!.files
+                                                    .forEach((element) {
+                                                  print(element.name);
+                                                });
+                                              }
+                                            },
+                                      child: const Text(
+                                        'Pick file',
+                                        textAlign: TextAlign.end,
+                                      )),
                                   const SizedBox(width: 10),
                                 ],
                               ),

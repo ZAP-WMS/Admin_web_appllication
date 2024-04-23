@@ -24,7 +24,8 @@ class ClosureSummary extends StatefulWidget {
       required this.depoName,
       this.id,
       this.date,
-      this.user_id,required this.role});
+      this.user_id,
+      required this.role});
 
   @override
   State<ClosureSummary> createState() => _ClosureSummaryState();
@@ -62,11 +63,6 @@ class _ClosureSummaryState extends State<ClosureSummary> {
     ])
   ];
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
   Future<List<TableRow>> fetchData() async {
     await getRowsForFutureBuilder('${widget.date}', '${widget.user_id}');
     return rowOfWidget;
@@ -80,11 +76,11 @@ class _ClosureSummaryState extends State<ClosureSummary> {
           child: CustomAppBar(
             isProjectManager: widget.role == 'projectManager' ? true : false,
             makeAnEntryPage: ClosureReportUser(
-          role: widget.role,
-          depoName: widget.depoName,
-          cityName: widget.cityName,
-          userId: widget.userId,
-        ),
+              role: widget.role,
+              depoName: widget.depoName,
+              cityName: widget.cityName,
+              userId: widget.userId,
+            ),
             role: widget.role,
             toClosure: true,
             showDepoBar: true,
@@ -126,14 +122,17 @@ class _ClosureSummaryState extends State<ClosureSummary> {
             return SingleChildScrollView(
               padding: const EdgeInsets.only(left: 6.0, right: 6.0),
               child: AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
+                duration: const Duration(
+                  milliseconds: 300,
+                ),
                 child: Table(
-                    columnWidths: const {
-                      0: FixedColumnWidth(100),
-                      1: FlexColumnWidth()
-                    },
-                    border: TableBorder.all(color: Colors.black),
-                    children: rowOfWidget),
+                  columnWidths: const {
+                    0: FixedColumnWidth(100),
+                    1: FlexColumnWidth()
+                  },
+                  border: TableBorder.all(color: Colors.black),
+                  children: rowOfWidget,
+                ),
               ),
             );
           }
@@ -161,7 +160,12 @@ class _ClosureSummaryState extends State<ClosureSummary> {
 
     for (int i = 0; i < tableRows.length; i++) {
       List<Widget> url = [];
-      rowOfWidget.add(customTableTextRow(tableRows[i][0], tableRows[i][1]));
+      rowOfWidget.add(
+        customTableTextRow(
+          tableRows[i][0],
+          tableRows[i][1],
+        ),
+      );
 
       final path =
           'ClosureReport/${widget.cityName}/${widget.depoName}/$user_id/${tableRows[i][0]}';
@@ -173,25 +177,49 @@ class _ClosureSummaryState extends State<ClosureSummary> {
         for (var img in result.items) {
           final downloadUrl = await img.getDownloadURL();
           if (img.name.endsWith('.pdf')) {
-            url.add(IconButton(
-              hoverColor: Colors.transparent,
-              iconSize: 130,
-              onPressed: () {
-                openPdf(downloadUrl);
-              },
-              icon: Image(
-                image: pdfLogo,
+            url.add(Container(
+              margin: const EdgeInsets.all(5.0,),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    hoverColor: Colors.transparent,
+                    iconSize: 100,
+                    onPressed: () {
+                      openPdf(downloadUrl);
+                    },
+                    icon: Image(
+                      image: pdfLogo,
+                    ),
+                  ),
+                  Text(
+                    img.name,
+                    style: const TextStyle(fontSize: 13,),
+                  )
+                ],
               ),
             ));
           } else {
-            url.add(IconButton(
-              hoverColor: Colors.transparent,
-              iconSize: 200,
-              onPressed: () {
-                openPdf(downloadUrl);
-              },
-              icon: Image(
-                image: NetworkImage(downloadUrl),
+            url.add(Container(
+              margin: const EdgeInsets.all(5.0,),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    hoverColor: Colors.transparent,
+                    iconSize: 100,
+                    onPressed: () {
+                      openPdf(downloadUrl);
+                    },
+                    icon: Image(
+                      image: NetworkImage(downloadUrl),
+                    ),
+                  ),
+                  Text(
+                    img.name,
+                    style: const TextStyle(fontSize: 13),
+                  )
+                ],
               ),
             ));
           }
