@@ -144,7 +144,6 @@ class _DepotOverviewUserState extends State<DepotOverviewUser> {
   ];
   @override
   Widget build(BuildContext context) {
-    print('Scaffold Rebuild');
     return Scaffold(
       appBar: PreferredSize(
           // ignore: sort_child_properties_last
@@ -266,7 +265,7 @@ class _DepotOverviewUserState extends State<DepotOverviewUser> {
                             ),
                             GridColumn(
                               columnName: 'Date',
-                              width: 160,
+                              width: 140,
                               allowEditing: false,
                               label: Container(
                                 alignment: Alignment.center,
@@ -301,7 +300,7 @@ class _DepotOverviewUserState extends State<DepotOverviewUser> {
                             ),
                             GridColumn(
                               columnName: 'impactRisk',
-                              width: 150,
+                              width: 140,
                               allowEditing: false,
                               label: Container(
                                 alignment: Alignment.center,
@@ -538,7 +537,7 @@ class _DepotOverviewUserState extends State<DepotOverviewUser> {
                             ),
                             GridColumn(
                               columnName: 'Date',
-                              width: 120,
+                              width: 140,
                               allowEditing: false,
                               label: Container(
                                 alignment: Alignment.center,
@@ -570,7 +569,7 @@ class _DepotOverviewUserState extends State<DepotOverviewUser> {
                             ),
                             GridColumn(
                               columnName: 'impactRisk',
-                              width: 80,
+                              width: 140,
                               allowEditing: false,
                               label: Container(
                                 alignment: Alignment.center,

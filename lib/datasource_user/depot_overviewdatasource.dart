@@ -75,7 +75,7 @@ class DepotOverviewDatasource extends DataGridSource {
     DateTime? date1;
     DateTime? endDate1;
     DateRangePickerController _datecontroller = DateRangePickerController();
-    
+
     final int dataRowIndex = dataGridRows.indexOf(row);
 
     return DataGridRowAdapter(
@@ -127,6 +127,7 @@ class DepotOverviewDatasource extends DataGridSource {
                       ))
                   : (dataGridCell.columnName == 'Date')
                       ? Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             IconButton(
                               onPressed: () {

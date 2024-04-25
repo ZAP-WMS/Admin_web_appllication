@@ -234,7 +234,12 @@ class _SignInPageState extends State<SignInPage> {
             if (_pass == userData[0]['password'] &&
                 _id == userData[0]['userId']) {
               // print('ProjectManager here ${passWord}');
+
               List<dynamic> assignedDepots = pmData.docs[0]["depots"];
+              List<dynamic> assignedCities = pmData.docs[0]["cities"];
+              List<String> cities =
+                  assignedCities.map((e) => e.toString()).toList();
+              authService.storeCityList(cities);
               List<String> depots =
                   assignedDepots.map((e) => e.toString()).toList();
               await authService.storeDepoList(depots);
@@ -244,6 +249,14 @@ class _SignInPageState extends State<SignInPage> {
                 Navigator.pushReplacementNamed(context, 'login/EVDashboard/',
                     arguments: {'userId': _id, "role": "projectManager"});
               });
+            } else {
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text(
+                      'Password is not Correct or no roles are assigned to this user'),
+                ),
+              );
             }
           }
         } else {
@@ -267,6 +280,10 @@ class _SignInPageState extends State<SignInPage> {
                 _id == userQuery.docs[0]['userId'] &&
                 userQuery.docs.isNotEmpty) {
               List<dynamic> assignedDepots = userQuery.docs[0]["depots"];
+              List<dynamic> assignedCities = userQuery.docs[0]["cities"];
+              List<String> cities =
+                  assignedCities.map((e) => e.toString()).toList();
+              authService.storeCityList(cities);
               List<String> depots =
                   assignedDepots.map((e) => e.toString()).toList();
               await authService.storeDepoList(depots);
@@ -332,6 +349,10 @@ class _SignInPageState extends State<SignInPage> {
         if (_pass == dataList[0]['password'] &&
             _id == dataList[0]['userId'] &&
             dataList[0]['companyName'] == 'TATA POWER') {
+          List<dynamic> assignedCities = querySnapshot.docs[0]["cities"];
+          List<String> cities =
+              assignedCities.map((e) => e.toString()).toList();
+          authService.storeCityList(cities);
           List<dynamic> assignedDepots = querySnapshot.docs[0]["depots"];
           List<String> depots =
               assignedDepots.map((e) => e.toString()).toList();
@@ -346,6 +367,15 @@ class _SignInPageState extends State<SignInPage> {
             _id == dataList[0]['userId'] &&
             dataList[0]['companyName'] == 'TATA MOTOR') {
           authService.storeCompanyName(companyName);
+          List<dynamic> assignedDepots = querySnapshot.docs[0]["depots"];
+          List<String> depots =
+              assignedDepots.map((e) => e.toString()).toList();
+          await authService.storeDepoList(depots);
+          authService.storeUserRole("admin");
+          List<dynamic> assignedCities = querySnapshot.docs[0]["cities"];
+          List<String> cities =
+              assignedCities.map((e) => e.toString()).toList();
+          authService.storeCityList(cities);
           authService.storeEmployeeId(_id).then((_) {
             Navigator.pushReplacementNamed(context, 'login/EVDashboard/',
                 arguments: {'userId': _id, "role": "admin"});

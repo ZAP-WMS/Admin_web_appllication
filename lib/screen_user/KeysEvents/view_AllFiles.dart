@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:web_appllication/Authentication/admin/auth_service.dart';
 import 'package:web_appllication/FirebaseApi/firebase_api_user.dart';
 import 'package:web_appllication/components/loading_page.dart';
 import 'package:web_appllication/widgets/widgets_user/custom_appbar.dart';
@@ -35,32 +36,36 @@ class ViewAllPdfUser extends StatefulWidget {
 class _ViewAllPdfUserState extends State<ViewAllPdfUser> {
   late Future<List<FirebaseFile>> futureFiles;
   List<String> pdfFiles = [];
+  final AuthService authService = AuthService();
+  List<String> assignedDepots = [];
+  bool isFieldEditable = false;
+  String? role;
 
   @override
   void initState() {
-    futureFiles = widget.title == 'QualityChecklist'
-        ? FirebaseApiUser.listAll(
-            '${widget.title}/${widget.subtitle}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.fldrName}/${widget.date}/${widget.srNo}')
-        : widget.title == 'jmr'
-            ? FirebaseApiUser.listAll(widget.fldrName!)
-            : widget.title == 'ClosureReport'
-                ? FirebaseApiUser.listAll(
-                    '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.docId}')
-                : widget.title == 'Key Events' ||
-                        widget.title == 'Overview Page'
-                    ? FirebaseApiUser.listAll(
-                        '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.userId}')
-                    : widget.title == '/BOQSurvey' ||
-                            widget.title == '/BOQElectrical' ||
-                            widget.title == '/BOQCivil'
-                        ? FirebaseApiUser.listAll(
-                            '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.docId}')
-                        : FirebaseApiUser.listAll(
-                            '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.date}/${widget.docId}');
+    getAssignedDepots().whenComplete(() async {
+      role = await authService.getUserRole();
 
-    // print(
-    //     '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.docId}');
-
+      futureFiles = widget.title == 'QualityChecklist'
+          ? FirebaseApiUser.listAll(
+              '${widget.title}/${widget.subtitle}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.fldrName}/${widget.date}/${widget.srNo}')
+          : widget.title == 'jmr'
+              ? FirebaseApiUser.listAll(widget.fldrName!)
+              : widget.title == 'ClosureReport'
+                  ? FirebaseApiUser.listAll(
+                      '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.docId}')
+                  : widget.title == 'Key Events' ||
+                          widget.title == 'Overview Page'
+                      ? FirebaseApiUser.listAll(
+                          '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.userId}')
+                      : widget.title == '/BOQSurvey' ||
+                              widget.title == '/BOQElectrical' ||
+                              widget.title == '/BOQCivil'
+                          ? FirebaseApiUser.listAll(
+                              '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.docId}')
+                          : FirebaseApiUser.listAll(
+                              '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.date}/${widget.docId}');
+    });
     super.initState();
   }
 
@@ -133,23 +138,28 @@ class _ViewAllPdfUserState extends State<ViewAllPdfUser> {
     return Column(
       children: [
         InkWell(
-            child: Container(
-                padding: const EdgeInsets.all(10),
-                margin: const EdgeInsets.all(10),
-                alignment: Alignment.center,
-                height: 120,
-                width: 120,
-                child: isImage
-                    ? Image.network(
-                        file.url,
-                        fit: BoxFit.fill,
-                      )
-                    : isPdf
-                        ? Image.asset('assets/pdf_logo.png')
-                        : Image.asset('assets/excel.png')),
-            //PdfThumbnail.fromFile(file.ref.fullPath, currentPage: 2)),
-            onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => ImagePage(file: file)))),
+          child: Container(
+              padding: const EdgeInsets.all(10),
+              margin: const EdgeInsets.all(10),
+              alignment: Alignment.center,
+              height: 120,
+              width: 120,
+              child: isImage
+                  ? Image.network(
+                      file.url,
+                      fit: BoxFit.fill,
+                    )
+                  : isPdf
+                      ? Image.asset('assets/pdf_logo.png')
+                      : Image.asset('assets/excel.png')),
+          //PdfThumbnail.fromFile(file.ref.fullPath, currentPage: 2)),
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => ImagePage(
+                  file: file, isFieldEditable: isFieldEditable, role: role),
+            ),
+          ),
+        ),
         Text(
           file.name,
           textAlign: TextAlign.center,
@@ -177,4 +187,10 @@ class _ViewAllPdfUserState extends State<ViewAllPdfUser> {
           ),
         ),
       );
+
+  Future getAssignedDepots() async {
+    assignedDepots = await authService.getDepotList();
+    isFieldEditable =
+        authService.verifyAssignedDepot(widget.depoName!, assignedDepots);
+  }
 }

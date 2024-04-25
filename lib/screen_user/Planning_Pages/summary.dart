@@ -2470,7 +2470,6 @@ class _ViewSummaryState extends State<ViewSummary> {
     Map<String, dynamic> safetyMapData =
         safetyFieldDocSanpshot.data() as Map<String, dynamic>;
 
-
     List<List<dynamic>> fieldData = [
       ['Installation Date', '${safetyMapData['InstallationDate']}'],
       ['Enegization Date', '${safetyMapData['EnegizationDate']}'],
@@ -2485,7 +2484,6 @@ class _ViewSummaryState extends State<ViewSummary> {
       ['Charger Type', '${safetyMapData['ChargerType']}'],
       ['Conducted By', '${safetyMapData['ConductedBy']}']
     ];
-
 
     if (alldata.isNotEmpty) {
       List<pw.Widget> imageUrls = [];

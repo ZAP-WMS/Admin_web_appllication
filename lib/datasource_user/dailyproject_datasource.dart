@@ -50,7 +50,6 @@ class DailyDataSource extends DataGridSource {
 
   @override
   DataGridRowAdapter? buildRow(DataGridRow row) {
-
     final int dataRowIndex = dataGridRows.indexOf(row);
 
     return DataGridRowAdapter(
@@ -70,120 +69,117 @@ class DailyDataSource extends DataGridSource {
       String Pagetitle = 'Daily Report';
 
       return Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-          child: (dataGridCell.columnName == 'view')
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(left: 5.0),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              mainContext,
-                              MaterialPageRoute(
-                                builder: (context) => ViewAllPdfUser(
-                                  title: Pagetitle,
-                                  cityName: cityName,
-                                  depoName: depoName,
-                                  userId: userId,
-                                  date: selectedDate,
-                                  docId: globalRowIndex.isNotEmpty
-                                      ? globalRowIndex[
-                                          dataGridRows.indexOf(row)]
-                                      : dataGridRows.indexOf(row) + 1,
-                                ),
-                              ));
-                        },
-                        child: const Text(
-                          'View',
-                        ),
-                      ),
-                    ),
-                    Container(
-                      child: isShowPinIcon[dataGridRows.indexOf(row)]
-                          ? Icon(
-                              Icons.attach_file_outlined,
-                              color: blue,
-                              size: 18,
-                            )
-                          : Container(),
-                    ),
-                    Text(
-                      globalItemLengthList[dataGridRows.indexOf(row)] != 0
-                          ? globalItemLengthList[dataGridRows.indexOf(row)] > 9
-                              ? '${globalItemLengthList[dataGridRows.indexOf(row)]}+'
-                              : '${globalItemLengthList[dataGridRows.indexOf(row)]}'
-                          : '',
-                      style: TextStyle(
-                        color: blue,
-                        fontSize: 11,
-                      ),
-                    )
-                  ],
-                )
-              : (dataGridCell.columnName == 'upload')
-                  ? ElevatedButton(
+        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+        child: (dataGridCell.columnName == 'view')
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(left: 5.0),
+                    child: ElevatedButton(
                       onPressed: () {
                         Navigator.push(
-                          mainContext,
-                          MaterialPageRoute(
-                            builder: (context) => UploadDocument(
-                              pagetitle: Pagetitle,
-                              customizetype: const [
-                                'jpg',
-                                'jpeg',
-                                'png',
-                                'pdf'
-                              ],
-                              cityName: cityName,
-                              depoName: depoName,
-                              userId: userId,
-                              date: selectedDate,
-                              fldrName: '${dataGridRows.indexOf(row) + 1}',
-                            ),
-                          ),
-                        );
+                            mainContext,
+                            MaterialPageRoute(
+                              builder: (context) => ViewAllPdfUser(
+                                title: Pagetitle,
+                                cityName: cityName,
+                                depoName: depoName,
+                                userId: userId,
+                                date: selectedDate,
+                                docId: globalRowIndex.isNotEmpty
+                                    ? globalRowIndex[dataGridRows.indexOf(row)]
+                                    : dataGridRows.indexOf(row) + 1,
+                              ),
+                            ));
                       },
                       child: const Text(
-                        'Upload',
+                        'View',
                       ),
-                    )
-                  : (dataGridCell.columnName == 'Add')
-                      ? ElevatedButton(
-                          onPressed: () {
-                            isShowPinIcon.add(false);
-                            addRowAtIndex(
-                                dataRowIndex + 1,
-                                DailyProjectModelUser(
-                                    siNo: dataRowIndex + 2,
-                                    typeOfActivity: '',
-                                    activityDetails: '',
-                                    progress: '',
-                                    status: ''));
-                          },
-                          child: const Text(
-                            'Add',
+                    ),
+                  ),
+                  Container(
+                    child: isShowPinIcon[dataGridRows.indexOf(row)]
+                        ? Icon(
+                            Icons.attach_file_outlined,
+                            color: blue,
+                            size: 18,
+                          )
+                        : Container(),
+                  ),
+                  Text(
+                    globalItemLengthList[dataGridRows.indexOf(row)] != 0
+                        ? globalItemLengthList[dataGridRows.indexOf(row)] > 9
+                            ? '${globalItemLengthList[dataGridRows.indexOf(row)]}+'
+                            : '${globalItemLengthList[dataGridRows.indexOf(row)]}'
+                        : '',
+                    style: TextStyle(
+                      color: blue,
+                      fontSize: 11,
+                    ),
+                  )
+                ],
+              )
+            : (dataGridCell.columnName == 'upload')
+                ? ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        mainContext,
+                        MaterialPageRoute(
+                          builder: (context) => UploadDocument(
+                            pagetitle: Pagetitle,
+                            customizetype: const ['jpg', 'jpeg', 'png', 'pdf'],
+                            cityName: cityName,
+                            depoName: depoName,
+                            userId: userId,
+                            date: selectedDate,
+                            fldrName: '${dataGridRows.indexOf(row) + 1}',
                           ),
-                        )
-                      : (dataGridCell.columnName == 'Delete')
-                          ? IconButton(
-                              onPressed: () async {
-                                deleteFileFun(dataRowIndex);
-                                removeRowAtIndex(dataRowIndex);
-                              },
-                              icon: Icon(
-                                Icons.delete,
-                                color: red,
-                                size: 15,
-                              ))
-
-                          : Text(
-                              dataGridCell.value.toString(),
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(fontSize: 11,),
-                            ),);
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      'Upload',
+                    ),
+                  )
+                : (dataGridCell.columnName == 'Add')
+                    ? ElevatedButton(
+                        onPressed: () {
+                          globalItemLengthList.add(0);
+                          isShowPinIcon.add(false);
+                          addRowAtIndex(
+                              dataRowIndex + 1,
+                              DailyProjectModelUser(
+                                  siNo: dataRowIndex + 2,
+                                  typeOfActivity: '',
+                                  activityDetails: '',
+                                  progress: '',
+                                  status: ''));
+                        },
+                        child: const Text(
+                          'Add',
+                        ),
+                      )
+                    : (dataGridCell.columnName == 'Delete')
+                        ? IconButton(
+                            onPressed: () async {
+                              deleteFileFun(dataRowIndex);
+                              removeRowAtIndex(dataRowIndex);
+                            },
+                            icon: Icon(
+                              Icons.delete,
+                              color: red,
+                              size: 15,
+                            ))
+                        : Text(
+                            dataGridCell.value.toString(),
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 11,
+                            ),
+                          ),
+      );
     }).toList());
   }
 

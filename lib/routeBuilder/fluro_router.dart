@@ -74,7 +74,7 @@ class Flurorouter {
       }
     }
     return null;
-  });
+  },);
 
   // Handle the case where modalRoute or modelRoute is null
   // or return some default widget

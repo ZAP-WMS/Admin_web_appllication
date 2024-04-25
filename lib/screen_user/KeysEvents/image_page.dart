@@ -9,10 +9,14 @@ import 'package:web_appllication/widgets/widgets_user/user_style.dart';
 
 class ImagePage extends StatefulWidget {
   final FirebaseFile file;
+  final bool isFieldEditable;
+  final String? role;
 
   const ImagePage({
     Key? key,
     required this.file,
+    required this.isFieldEditable,
+    this.role
   }) : super(key: key);
 
   @override
@@ -58,17 +62,20 @@ class _ImagePageState extends State<ImagePage> {
           ),
           const SizedBox(width: 12),
           IconButton(
-              onPressed: () {
-                FirebaseStorage.instance
-                    .ref()
-                    .child(widget.file.url)
-                    .delete()
-                    .then((value) {
-                  print('Delete Successfull');
-                  Navigator.pop(context);
-                });
-              },
-              icon: const Icon(Icons.delete))
+            onPressed: () {
+              FirebaseStorage.instance
+                  .ref()
+                  .child(widget.file.url)
+                  .delete()
+                  .then((value) {
+                print('Delete Successfull');
+                Navigator.pop(context);
+              });
+            },
+            icon: const Icon(
+              Icons.delete,
+            ),
+          )
         ],
       ),
       body: isImage

@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -37,11 +38,15 @@ class DepotOverviewAdmin extends StatefulWidget {
 
 class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
   bool isHover = false;
+  bool checkTable = true;
   late DepotOverviewDatasource _employeeDataSource;
   bool isProjectManager = false;
   List<DepotOverviewModelAdmin> _employees = <DepotOverviewModelAdmin>[];
   late DataGridController _dataGridController;
   List<dynamic> tabledata2 = [];
+  final AuthService authService = AuthService();
+  List<String> assignedCities = [];
+  bool isFieldEditable = false;
 
   FilePickerResult? result;
   FilePickerResult? result1;
@@ -85,7 +90,6 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
   Uint8List? fileBytes;
   Uint8List? fileBytes1;
   Uint8List? fileBytes2;
-  dynamic userId;
   bool isEdit = true;
   bool isread = false;
   bool isVisible = true;
@@ -108,26 +112,15 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
 
   @override
   void initState() {
-    initializeController();
-    getUserId().whenComplete(() {
-      // _employees = getEmployeeData();
-      _employeeDataSource = DepotOverviewDatasource(_employees, context);
-      _dataGridController = DataGridController();
+    getAssignedDepots().whenComplete(() {
+      initializeController();
       verifyProjectManager().whenComplete(() {
-        setState(() {
-          if (isProjectManager) {
-            _stream = FirebaseFirestore.instance
-                .collection('OverviewCollectionTable')
-                .doc(widget.depoName)
-                .collection("OverviewTabledData")
-                .doc(projectManagerId)
-                .snapshots();
-          }
-          print('Project manager');
+        getTableData().whenComplete(() {
+          _employeeDataSource = DepotOverviewDatasource(_employees, context);
+          _dataGridController = DataGridController();
 
           _isloading = false;
-          isProjectManager == false ? isEdit = false : true;
-          isProjectManager == false ? isread = true : false;
+          setState(() {});
         });
       });
     });
@@ -164,7 +157,7 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
             showDepoBar: true,
             toOverview: true,
             depoName: widget.depoName,
-            userId: userId,
+            userId: widget.userId,
             cityName: widget.cityName,
             text: 'Depot Overview',
             haveSynced: isEdit ? isVisible : false,
@@ -173,7 +166,7 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
                   .collection('OverviewCollection')
                   .doc(widget.depoName)
                   .collection("OverviewFieldData")
-                  .doc(userId)
+                  .doc(widget.userId)
                   .set({
                 'address': _addressController.text,
                 'scope': _scopeController.text,
@@ -294,7 +287,7 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
                             ),
                             GridColumn(
                               columnName: 'Date',
-                              width: 160,
+                              width: 140,
                               allowEditing: false,
                               label: Container(
                                 alignment: Alignment.center,
@@ -330,7 +323,7 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
                             ),
                             GridColumn(
                               columnName: 'impactRisk',
-                              width: 150,
+                              width: 140,
                               allowEditing: false,
                               label: Container(
                                 alignment: Alignment.center,
@@ -517,15 +510,15 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
                         ),
                       );
                     } else {
-                      alldata = snapshot.data!['data'] as List<dynamic>;
-                      _employees.clear();
-                      alldata.forEach((element) {
-                        _employees
-                            .add(DepotOverviewModelAdmin.fromJson(element));
-                        _employeeDataSource =
-                            DepotOverviewDatasource(_employees, context);
-                        _dataGridController = DataGridController();
-                      });
+                      // alldata = snapshot.data!['data'] as List<dynamic>;
+                      // _employees.clear();
+                      // alldata.forEach((element) {
+                      //   _employees
+                      //       .add(DepotOverviewModelAdmin.fromJson(element));
+                      //   _employeeDataSource =
+                      //       DepotOverviewDatasource(_employees, context);
+                      //   _dataGridController = DataGridController();
+                      // });
                       return SfDataGridTheme(
                         data: SfDataGridThemeData(
                             gridLineStrokeWidth: 2,
@@ -571,7 +564,7 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
                             ),
                             GridColumn(
                               columnName: 'Date',
-                              width: 120,
+                              width: 140,
                               allowEditing: false,
                               label: Container(
                                 alignment: Alignment.center,
@@ -603,7 +596,7 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
                             ),
                             GridColumn(
                               columnName: 'impactRisk',
-                              width: 80,
+                              width: 140,
                               allowEditing: false,
                               label: Container(
                                 alignment: Alignment.center,
@@ -787,6 +780,35 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
                 )),
               ],
             ),
+      floatingActionButton: isProjectManager == true
+          ? FloatingActionButton(
+              heroTag: 'add',
+              onPressed: () {
+                _employees.add(
+                  DepotOverviewModelAdmin(
+                    srNo: 1,
+                    date: DateFormat('dd-MM-yyyy').format(DateTime.now()),
+                    riskDescription: '',
+                    typeRisk: 'Material Supply',
+                    impactRisk: 'High',
+                    owner: '',
+                    migrateAction: ' ',
+                    contigentAction: '',
+                    progressAction: '',
+                    reason: '',
+                    status: 'Close',
+                    TargetDate: DateFormat('dd-MM-yyyy').format(
+                      DateTime.now(),
+                    ),
+                  ),
+                );
+
+                _employeeDataSource.buildDataGridRows();
+                _employeeDataSource.updateDatagridSource();
+              },
+              child: const Icon(Icons.add),
+            )
+          : Container(),
     );
   }
 
@@ -847,346 +869,411 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
                     ],
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              // margin:
-                              //     const EdgeInsets.only(left: 28.0, right: 35),
                               width: MediaQuery.of(context).size.width * 0.15,
-                              margin: const EdgeInsets.only(right: 10),
-                              padding: EdgeInsets.all(
-                                  MediaQuery.of(context).size.width * 0.018),
-                              // height: 30,
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      'Details of Survey Report',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold,
-                                          color: black),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  ElevatedButton(
-                                    onPressed: isEdit == false
-                                        ? null
-                                        : () async {
-                                            result = await FilePicker.platform
-                                                .pickFiles(
-                                              type: FileType.any,
-                                              withData: true,
-                                            );
-
-                                            fileBytes =
-                                                result!.files.first.bytes!;
-                                            if (result == null) {
-                                              print("No file selected");
-                                            } else {
-                                              result!.files.forEach((element) {
-                                                print(element.name);
-                                                print(result!.files.first.name);
-                                              });
-                                            }
-                                          },
-                                    child: const Text(
-                                      'Pick file',
-                                      textAlign: TextAlign.end,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10)
-                                ],
+                              margin: const EdgeInsets.only(left: 25.0),
+                              child: Text(
+                                'Details of\nSurvey Report',
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: black),
                               ),
                             ),
-                            Row(
+                            ElevatedButton(
+                              onPressed: isEdit == false
+                                  ? null
+                                  : () async {
+                                      result =
+                                          await FilePicker.platform.pickFiles(
+                                        type: FileType.any,
+                                        withData: true,
+                                      );
+
+                                      fileBytes = result!.files.first.bytes!;
+                                      if (result == null) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            backgroundColor: red,
+                                            content: Text(
+                                              "File Not Selected",
+                                              style: TextStyle(color: white),
+                                            ),
+                                          ),
+                                        );
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            backgroundColor: blue,
+                                            content: Text(
+                                              "File Selected Sync to upload",
+                                              style: TextStyle(color: white),
+                                            ),
+                                          ),
+                                        );
+                                        setState(() {});
+                                        // result!.files.forEach((element) {
+                                        //   print(element.name);
+                                        //   print(result!.files.first.name);
+                                        // });
+                                      }
+                                    },
+                              child: const Text(
+                                'Pick file',
+                                textAlign: TextAlign.end,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10.0,
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.15,
-                                    height: 30,
-                                    margin: const EdgeInsets.only(right: 10),
-                                    // padding: const EdgeInsets.all(5.0),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: blue,
-                                      ),
-                                      borderRadius: BorderRadius.circular(2),
+                                  width: 120,
+                                  height: 30,
+                                  margin: const EdgeInsets.only(right: 10),
+                                  // padding: const EdgeInsets.all(5.0),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: blue,
                                     ),
-                                    child: Consumer<HoverProviderAdmin>(
-                                      builder: (context, providerValue, child) {
-                                        return InkWell(
-                                          onHover: (value) {
-                                            providerValue.addHoverBool(
-                                                0, value);
-                                          },
-                                          hoverColor: const Color.fromARGB(
-                                              255, 74, 164, 238),
-                                          onTap: () {
-                                            Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ViewAllPdfAdmin(
-                                                        title: '/BOQSurvey',
-                                                        cityName:
-                                                            widget.cityName!,
-                                                        depoName:
-                                                            widget.depoName!,
-                                                        userId: userId,
-                                                        docId: 'survey'),
-                                              ),
-                                            );
-                                          },
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Text(
-                                                'View File',
-                                                style: TextStyle(
-                                                    color:
-                                                        providerValue.hover[0]
-                                                            ? white
-                                                            : blue),
-                                              ),
-                                              Container(
-                                                  child: Icon(
-                                                Icons.folder,
+                                    borderRadius: BorderRadius.circular(2),
+                                  ),
+                                  child: Consumer<HoverProviderAdmin>(
+                                    builder: (context, providerValue, child) {
+                                      return InkWell(
+                                        onHover: (value) {
+                                          providerValue.addHoverBool(0, value);
+                                        },
+                                        hoverColor: const Color.fromARGB(
+                                            255, 74, 164, 238),
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ViewAllPdfAdmin(
+                                                      title: '/BOQSurvey',
+                                                      cityName:
+                                                          widget.cityName!,
+                                                      depoName:
+                                                          widget.depoName!,
+                                                      userId: widget.userId,
+                                                      docId: 'survey'),
+                                            ),
+                                          );
+                                        },
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Text(
+                                              'View File',
+                                              style: TextStyle(
                                                 color: providerValue.hover[0]
                                                     ? white
-                                                    : folderColor,
-                                              ))
-                                            ],
-                                          ),
-                                        );
-                                      },
-                                    ))
+                                                    : blue,
+                                              ),
+                                            ),
+                                            Icon(
+                                              Icons.folder,
+                                              color: providerValue.hover[0]
+                                                  ? white
+                                                  : folderColor,
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                Text(
+                                  result?.names.first ?? '',
+                                  style: TextStyle(
+                                    color: blue,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                )
                               ],
-                            ),
+                            )
                           ]),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.025,
+                      const SizedBox(
+                        width: 40,
                       ),
                       Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              // margin: const EdgeInsets.only(right: 10),
-                              // padding: EdgeInsets.all(
-                              //     MediaQuery.of(context).size.width * 0.02),
                               width: MediaQuery.of(context).size.width * 0.15,
-                              height: 35,
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      'BOQ Electrical',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold,
-                                          color: black),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  ElevatedButton(
-                                      onPressed: isEdit == false
-                                          ? null
-                                          : () async {
-                                              result1 = await FilePicker
-                                                  .platform
-                                                  .pickFiles(
-                                                type: FileType.any,
-                                                withData: true,
-                                              );
-
-                                              fileBytes1 =
-                                                  result1!.files.first.bytes!;
-                                              if (result1 == null) {
-                                                print("No file selected");
-                                              } else {
-                                                result1!.files
-                                                    .forEach((element) {
-                                                  print(element.name);
-                                                });
-                                              }
-                                            },
-                                      child: const Text(
-                                        'Pick file',
-                                        textAlign: TextAlign.end,
-                                      )),
-                                  const SizedBox(width: 10),
-                                ],
+                              margin: const EdgeInsets.only(left: 25.0),
+                              child: Text(
+                                'BOQ Electrical',
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: black),
                               ),
                             ),
-                            Container(
-                                width: MediaQuery.of(context).size.width * 0.15,
-                                height: 30,
-                                margin: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: blue,
-                                  ),
-                                  borderRadius: BorderRadius.circular(2),
-                                ),
-                                child: Consumer<HoverProviderAdmin>(
-                                  builder: (context, providerValue, child) {
-                                    return InkWell(
-                                      hoverColor: const Color.fromARGB(
-                                          255, 74, 164, 238),
-                                      onHover: (value) {
-                                        providerValue.addHoverBool(1, value);
-                                      },
-                                      onTap: () {
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                ViewAllPdfAdmin(
-                                                    title: '/BOQElectrical',
-                                                    cityName: widget.cityName!,
-                                                    depoName: widget.depoName!,
-                                                    userId: userId,
-                                                    docId: 'electrical'),
-                                          ),
+                            ElevatedButton(
+                                onPressed: isEdit == false
+                                    ? null
+                                    : () async {
+                                        result1 =
+                                            await FilePicker.platform.pickFiles(
+                                          type: FileType.any,
+                                          withData: true,
                                         );
-                                      },
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          Text(
-                                            'View File',
-                                            style: TextStyle(
-                                                color: providerValue.hover[1]
-                                                    ? white
-                                                    : blue),
-                                          ),
-                                          Container(
-                                              child: Icon(
-                                            Icons.folder,
-                                            color: providerValue.hover[1]
-                                                ? white
-                                                : folderColor,
-                                          ))
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                ))
-                          ]),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.025,
-                      ),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.only(right: 4),
-                              // padding: EdgeInsets.all(
-                              //     MediaQuery.of(context).size.width * 0.01),
-                              width: MediaQuery.of(context).size.width * 0.15,
-                              height: 35,
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      'BOQ Civil',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.bold,
-                                          color: black),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  ElevatedButton(
-                                      onPressed: isEdit == false
-                                          ? null
-                                          : () async {
-                                              result2 = await FilePicker
-                                                  .platform
-                                                  .pickFiles(
-                                                type: FileType.any,
-                                                withData: true,
-                                              );
 
-                                              fileBytes2 =
-                                                  result2!.files.first.bytes!;
-                                              if (result2 == null) {
-                                                print("No file selected");
-                                              } else {
-                                                result2!.files
-                                                    .forEach((element) {
-                                                  print(element.name);
-                                                });
-                                              }
-                                            },
-                                      child: const Text(
-                                        'Pick file',
-                                        textAlign: TextAlign.end,
-                                      )),
-                                  const SizedBox(width: 10),
-                                ],
-                              ),
+                                        fileBytes1 =
+                                            result1!.files.first.bytes!;
+                                        if (result1 == null) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              backgroundColor: blue,
+                                              content: Text(
+                                                "File Not Selected",
+                                                style: TextStyle(color: white),
+                                              ),
+                                            ),
+                                          );
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              backgroundColor: blue,
+                                              content: Text(
+                                                "File Selected Sync to upload",
+                                                style: TextStyle(color: white),
+                                              ),
+                                            ),
+                                          );
+                                          setState(() {});
+                                          // result1!.files.forEach((element) {
+                                          //   print(element.name);
+                                          // });
+                                        }
+                                      },
+                                child: const Text(
+                                  'Pick file',
+                                  textAlign: TextAlign.end,
+                                )),
+                            const SizedBox(
+                              width: 10.0,
                             ),
-                            Container(
-                                width: MediaQuery.of(context).size.width * 0.15,
-                                height: 30,
-                                margin: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
+                            Column(
+                              children: [
+                                Container(
+                                  width: 120,
+                                  height: 30,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: blue,
+                                    ),
+                                    borderRadius: BorderRadius.circular(2),
+                                  ),
+                                  child: Consumer<HoverProviderAdmin>(
+                                    builder: (context, providerValue, child) {
+                                      return InkWell(
+                                        hoverColor: const Color.fromARGB(
+                                            255, 74, 164, 238),
+                                        onHover: (value) {
+                                          providerValue.addHoverBool(1, value);
+                                        },
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ViewAllPdfAdmin(
+                                                      title: '/BOQElectrical',
+                                                      cityName:
+                                                          widget.cityName!,
+                                                      depoName:
+                                                          widget.depoName!,
+                                                      userId: widget.userId,
+                                                      docId: 'electrical'),
+                                            ),
+                                          );
+                                        },
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Text(
+                                              'View File',
+                                              style: TextStyle(
+                                                  color: providerValue.hover[1]
+                                                      ? white
+                                                      : blue),
+                                            ),
+                                            Container(
+                                                child: Icon(
+                                              Icons.folder,
+                                              color: providerValue.hover[1]
+                                                  ? white
+                                                  : folderColor,
+                                            ))
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                Text(
+                                  result1?.names.first ?? '',
+                                  style: TextStyle(
                                     color: blue,
                                   ),
-                                  borderRadius: BorderRadius.circular(2),
-                                ),
-                                child: Consumer<HoverProviderAdmin>(
-                                  builder: (context, providerValue, child) {
-                                    return InkWell(
-                                      hoverColor: const Color.fromARGB(
-                                          255, 74, 164, 238),
-                                      onHover: (value) {
-                                        providerValue.addHoverBool(2, value);
+                                  textAlign: TextAlign.center,
+                                )
+                              ],
+                            )
+                          ]),
+                      const SizedBox(
+                        width: 40.0,
+                      ),
+                      Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.15,
+                              margin: const EdgeInsets.only(left: 25.0),
+                              child: Text(
+                                'BOQ Civil',
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.bold,
+                                    color: black),
+                              ),
+                            ),
+                            ElevatedButton(
+                                onPressed: isEdit == false
+                                    ? null
+                                    : () async {
+                                        result2 =
+                                            await FilePicker.platform.pickFiles(
+                                          type: FileType.any,
+                                          withData: true,
+                                        );
+
+                                        fileBytes2 =
+                                            result2!.files.first.bytes!;
+                                        if (result2 == null) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              backgroundColor: blue,
+                                              content: Text(
+                                                "File Not Selected",
+                                                style: TextStyle(color: white),
+                                              ),
+                                            ),
+                                          );
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              backgroundColor: blue,
+                                              content: Text(
+                                                "File Selected Sync to upload",
+                                                style: TextStyle(color: white),
+                                              ),
+                                            ),
+                                          );
+                                          setState(() {});
+                                          // result2!.files.forEach((element) {
+                                          //   print(element.name);
+                                          // });
+                                        }
                                       },
-                                      onTap: () {
-                                        Navigator.of(context).push(
+                                child: const Text(
+                                  'Pick file',
+                                  textAlign: TextAlign.end,
+                                )),
+                            const SizedBox(
+                              width: 10.0,
+                            ),
+                            Column(
+                              children: [
+                                Container(
+                                  width: 120,
+                                  height: 30,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: blue,
+                                    ),
+                                    borderRadius: BorderRadius.circular(2),
+                                  ),
+                                  child: Consumer<HoverProviderAdmin>(
+                                    builder: (context, providerValue, child) {
+                                      return InkWell(
+                                        hoverColor: const Color.fromARGB(
+                                            255, 74, 164, 238),
+                                        onHover: (value) {
+                                          providerValue.addHoverBool(2, value);
+                                        },
+                                        onTap: () {
+                                          Navigator.of(context).push(
                                             MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ViewAllPdfAdmin(
-                                                        title: '/BOQCivil',
-                                                        cityName:
-                                                            widget.cityName!,
-                                                        depoName:
-                                                            widget.depoName!,
-                                                        userId: userId,
-                                                        docId: 'civil')));
-                                      },
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          Text(
-                                            'View File',
-                                            style: TextStyle(
-                                                color: providerValue.hover[2]
-                                                    ? white
-                                                    : blue),
-                                          ),
-                                          Container(
-                                              child: Icon(
-                                            Icons.folder,
-                                            color: providerValue.hover[2]
-                                                ? white
-                                                : folderColor,
-                                          ))
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                ))
+                                              builder: (context) =>
+                                                  ViewAllPdfAdmin(
+                                                title: '/BOQCivil',
+                                                cityName: widget.cityName!,
+                                                depoName: widget.depoName!,
+                                                userId: widget.userId,
+                                                docId: 'civil',
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Text(
+                                                  'View File',
+                                                  style: TextStyle(
+                                                      color:
+                                                          providerValue.hover[2]
+                                                              ? white
+                                                              : blue),
+                                                ),
+                                                Container(
+                                                    child: Icon(
+                                                  Icons.folder,
+                                                  color: providerValue.hover[2]
+                                                      ? white
+                                                      : folderColor,
+                                                ))
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                //Selected File Name
+                                Text(
+                                  result2?.names.first ?? '',
+                                  style: TextStyle(
+                                    color: blue,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                )
+                              ],
+                            )
                           ]),
                     ],
                   )
@@ -1249,7 +1336,7 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
         .collection('OverviewCollectionTable')
         .doc(widget.depoName)
         .collection("OverviewTabledData")
-        .doc(userId)
+        .doc(widget.userId)
         .set({
       'data': tabledata2,
     }).whenComplete(() async {
@@ -1266,7 +1353,7 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
       if (fileBytes1 != null) {
         await FirebaseStorage.instance
             .ref(
-                'BOQElectrical/${widget.cityName}/${widget.depoName}/$userId/electrical/${result1!.files.first.name}')
+                'BOQElectrical/${widget.cityName}/${widget.depoName}/electrical/${result1!.files.first.name}')
             .putData(
               fileBytes1!,
             );
@@ -1274,7 +1361,7 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
       if (fileBytes2 != null) {
         await FirebaseStorage.instance
             .ref(
-                'BOQCivil/${widget.cityName}/${widget.depoName}/$userId/civil/${result2!.files.first.name}')
+                'BOQCivil/${widget.cityName}/${widget.depoName}/civil/${result2!.files.first.name}')
             .putData(
               fileBytes2!,
               //  SettableMetadata(contentType: 'application/pdf')
@@ -1288,37 +1375,32 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
     ));
   }
 
-  void _fetchUserData() async {
+  void _fetchUserData(String user_id) async {
     await FirebaseFirestore.instance
         .collection('OverviewCollection')
         .doc(widget.depoName)
         .collection("OverviewFieldData")
-        .doc(projectManagerId)
+        .doc(user_id)
         .get()
         .then((ds) {
       setState(() {
         // managername = ds.data()!['ManagerName'];
-        _addressController.text = ds.data()!['address'] ?? '';
-        _scopeController.text = ds.data()!['scope'] ?? '';
-        _chargerController.text = ds.data()!['required'] ?? '';
-        _ratingController.text = ds.data()!['charger'] ?? '';
-        _loadController.text = ds.data()!['load'] ?? '';
-        _powersourceController.text = ds.data()!['powerSource'] ?? '';
-        _elctricalManagerNameController.text =
-            ds.data()!['ElectricalManagerName'] ?? '';
-        _electricalEngineerController.text = ds.data()!['ElectricalEng'] ?? '';
-        _electricalVendorController.text = ds.data()!['ElectricalVendor'] ?? '';
-        _civilManagerNameController.text = ds.data()!['CivilManagerName'] ?? '';
-        _civilEngineerController.text = ds.data()!['CivilEng'] ?? '';
-        _civilVendorController.text = ds.data()!['CivilVendor'] ?? '';
+        if (ds.exists) {
+          _addressController.text = ds.data()!['address'];
+          _scopeController.text = ds.data()!['scope'];
+          _chargerController.text = ds.data()!['required'];
+          _ratingController.text = ds.data()!['charger'];
+          _loadController.text = ds.data()!['load'];
+          _powersourceController.text = ds.data()!['powerSource'];
+          _elctricalManagerNameController.text =
+              ds.data()!['ElectricalManagerName'];
+          _electricalEngineerController.text = ds.data()!['ElectricalEng'];
+          _electricalVendorController.text = ds.data()!['ElectricalVendor'];
+          _civilManagerNameController.text = ds.data()!['CivilManagerName'];
+          _civilEngineerController.text = ds.data()!['CivilEng'];
+          _civilVendorController.text = ds.data()!['CivilVendor'];
+        }
       });
-    });
-    print('Fetch Data running');
-  }
-
-  Future<void> getUserId() async {
-    await AuthService().getCurrentUserId().then((value) {
-      userId = value;
     });
   }
 
@@ -1341,6 +1423,7 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
   // }
 
   Future<void> verifyProjectManager() async {
+    isProjectManager = false;
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('AssignedRole')
         .where('roles', arrayContains: 'Project Manager')
@@ -1349,12 +1432,11 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
     List<dynamic> tempList = querySnapshot.docs.map((e) => e.data()).toList();
 
     for (int i = 0; i < tempList.length; i++) {
-      if (tempList[i]['userId'].toString() == userId.toString()) {
+      if (tempList[i]['userId'].toString() == widget.userId) {
         for (int j = 0; j < tempList[i]['depots'].length; j++) {
           List<dynamic> depot = tempList[i]['depots'];
 
           if (depot[j].toString() == widget.depoName) {
-            print(depot);
             isProjectManager = true;
             projectManagerId = tempList[i]['userId'].toString();
             break;
@@ -1363,17 +1445,14 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
       } else {
         for (int j = 0; j < tempList[i]['depots'].length; j++) {
           List<dynamic> depot = tempList[i]['depots'];
-
           if (depot[j].toString() == widget.depoName) {
-            isProjectManager = false;
             projectManagerId = tempList[i]['userId'].toString();
             break;
           }
         }
       }
     }
-
-    _fetchUserData();
+    _fetchUserData(projectManagerId.toString());
   }
 
   OverviewField(String title, TextEditingController controller) {
@@ -1402,6 +1481,34 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
           ),
         ],
       ),
+    );
+  }
+
+  Future<void> getTableData() async {
+    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+        .collection('OverviewCollectionTable')
+        .doc(widget.depoName)
+        .collection("OverviewTabledData")
+        .doc(projectManagerId)
+        .get();
+
+    if (documentSnapshot.exists) {
+      Map<String, dynamic> tempData =
+          documentSnapshot.data() as Map<String, dynamic>;
+
+      List<dynamic> mapData = tempData['data'];
+
+      _employees =
+          mapData.map((map) => DepotOverviewModelAdmin.fromJson(map)).toList();
+      checkTable = false;
+    }
+  }
+
+  Future getAssignedDepots() async {
+    assignedCities = await authService.getCityList();
+    isFieldEditable = authService.verifyAssignedDepot(
+      widget.cityName!,
+      assignedCities,
     );
   }
 }

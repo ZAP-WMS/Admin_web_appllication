@@ -81,8 +81,7 @@ class DepotOverviewDatasource extends DataGridSource {
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((dataGridCell) {
       return Container(
-          alignment:
-              Alignment.center,
+          alignment: Alignment.center,
           // : Alignment.center,
           padding: const EdgeInsets.symmetric(horizontal: 5.0),
           child: (dataGridCell.columnName == 'Date')
@@ -93,7 +92,8 @@ class DepotOverviewDatasource extends DataGridSource {
                         showDialog(
                             context: mainContext,
                             builder: (context) => AlertDialog(
-                                  title: const Text('All Date',
+                                  title: const Text(
+                                    'All Date',
                                   ),
                                   content: Container(
                                       height: 400,
@@ -143,9 +143,13 @@ class DepotOverviewDatasource extends DataGridSource {
                                       )),
                                 ));
                       },
-                      icon: const Icon(Icons.calendar_today,size: 20,),
+                      icon: const Icon(
+                        Icons.calendar_today,
+                        size: 20,
+                      ),
                     ),
-                    Text(dataGridCell.value.toString(),
+                    Text(
+                      dataGridCell.value.toString(),
                     ),
                   ],
                 )
@@ -157,7 +161,8 @@ class DepotOverviewDatasource extends DataGridSource {
                             showDialog(
                                 context: mainContext,
                                 builder: (context) => AlertDialog(
-                                      title: const Text('All Date',
+                                      title: const Text(
+                                        'All Date',
                                       ),
                                       content: Container(
                                           height: 400,
@@ -214,7 +219,8 @@ class DepotOverviewDatasource extends DataGridSource {
                           },
                           icon: const Icon(Icons.calendar_today),
                         ),
-                        Text(dataGridCell.value.toString(),
+                        Text(
+                          dataGridCell.value.toString(),
                         ),
                       ],
                     )
@@ -373,7 +379,7 @@ class DepotOverviewDatasource extends DataGridSource {
     } else if (column.columnName == 'RiskDescription') {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
           DataGridCell<dynamic>(
-              columnName: 'RiskDescription', value: newCellValue as int);
+              columnName: 'RiskDescription', value: newCellValue);
       _employees[dataRowIndex].riskDescription = newCellValue;
     } else if (column.columnName == 'TypeRisk') {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
@@ -479,9 +485,9 @@ class DepotOverviewDatasource extends DataGridSource {
         textAlign: isNumericType ? TextAlign.right : TextAlign.left,
         autocorrect: false,
         decoration: const InputDecoration(
-          contentPadding: EdgeInsets.symmetric(horizontal: 10.0,
-          )
-        ),
+            contentPadding: EdgeInsets.symmetric(
+          horizontal: 10.0,
+        )),
         inputFormatters: <TextInputFormatter>[
           FilteringTextInputFormatter.allow(regExp),
         ],
@@ -490,6 +496,9 @@ class DepotOverviewDatasource extends DataGridSource {
             : isDateTimeType
                 ? TextInputType.datetime
                 : TextInputType.text,
+        onTapOutside: (event) {
+          newCellValue = editingController.text;
+        },
         onChanged: (String value) {
           if (value.isNotEmpty) {
             if (isNumericType) {
@@ -499,8 +508,6 @@ class DepotOverviewDatasource extends DataGridSource {
             } else {
               newCellValue = value;
             }
-          } else {
-            newCellValue = null;
           }
         },
         onSubmitted: (String value) {

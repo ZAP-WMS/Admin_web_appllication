@@ -1,6 +1,7 @@
 import 'dart:html';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:web_appllication/Authentication/admin/auth_service.dart';
 import 'package:web_appllication/components/loading_page.dart';
 import 'package:web_appllication/overview.dart';
 import 'package:web_appllication/screen_user/KeysEvents/upload.dart';
@@ -37,68 +38,50 @@ class _ViewAllPdfAdminState extends State<ViewAllPdfAdmin> {
   List<dynamic> drawingRef = [];
   List<dynamic> drawingfullpath = [];
   bool _isload = true;
+  final AuthService authService = AuthService();
+  List<String> assignedDepots = [];
+  bool isFieldEditable = false;
 
   @override
   void initState() {
-    futureFiles = FirebaseApiAdmin.listAll(
-        '${widget.title}/${widget.cityName}/${widget.depoName}/null/${widget.docId}');
-    if (widget.title == '/BOQSurvey' ||
-        widget.title == '/BOQElectrical' ||
-        widget.title == '/BOQCivil') {
+    getAssignedDepots().whenComplete(() async {
+      widget.role = await authService.getUserRole();
       futureFiles = FirebaseApiAdmin.listAll(
-          '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.docId}');
-      setState(() {
-        _isload = false;
-      });
-    } else if (widget.title == 'jmr') {
-      futureFiles = FirebaseApiAdmin.listAll(widget.docId);
-      setState(() {
-        _isload = false;
-      });
-    } else if (widget.title == 'Daily Report') {
-      futureFiles = FirebaseApiAdmin.listAll(
-          '/Daily Report/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.docId}');
-      print(
-          '/Daily Report/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.docId}');
-      setState(() {
-        _isload = false;
-      });
-    } else if (widget.title == 'Depot Insights') {
-      futureFiles = FirebaseApiAdmin.listAll(
-          'Depot Insights/${widget.cityName}/${widget.depoName}/DepotImages/');
-      setState(() {
-        _isload = false;
-      });
-    } else {
-      getrefdata().whenComplete(() {
-        for (int i = 0; i < drawingRef.length; i++) {
-          // if (widget.title == 'Overview Page') {
-          //   print(
-          //       '${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}/');
-          //   futureFiles = FirebaseApiAdmin.listAll(
-          //       '${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}');
-          // }
-          for (int j = 0; j < drawingfullpath.length; j++) {
-            print('before ' + drawingfullpath[j]);
-            print(
-                'after  ${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}/${widget.docId}');
+          '${widget.title}/${widget.cityName}/${widget.depoName}/null/${widget.docId}');
+      if (widget.title == '/BOQSurvey' ||
+          widget.title == '/BOQElectrical' ||
+          widget.title == '/BOQCivil') {
+        futureFiles = FirebaseApiAdmin.listAll(
+            '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.docId}');
+      } else if (widget.title == 'jmr') {
+        futureFiles = FirebaseApiAdmin.listAll(widget.docId);
+      } else if (widget.title == 'Daily Report') {
+        futureFiles = FirebaseApiAdmin.listAll(
+            '/Daily Report/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.docId}');
+      } else if (widget.title == 'Depot Insights') {
+        futureFiles = FirebaseApiAdmin.listAll(
+            'Depot Insights/${widget.cityName}/${widget.depoName}/DepotImages/');
+      } else {
+        getrefdata().whenComplete(() {
+          for (int i = 0; i < drawingRef.length; i++) {
+            for (int j = 0; j < drawingfullpath.length; j++) {
+              print('before ' + drawingfullpath[j]);
+              print(
+                  'after  ${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}/${widget.docId}');
 
-            if (drawingfullpath[j] ==
-                '${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}/${widget.docId}') {
-              // futureFiles = FirebaseApi.listAll(
-              //     '${widget.title}/${widget.cityName}/${widget.depoName}/RM7292/${widget.docId}');
-              futureFiles = FirebaseApiAdmin.listAll(drawingfullpath[j]);
+              if (drawingfullpath[j] ==
+                  '${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}/${widget.docId}') {
+                futureFiles = FirebaseApiAdmin.listAll(drawingfullpath[j]);
+              }
             }
           }
-        }
-
-        setState(() {
-          _isload = false;
         });
+      }
 
-        // futureFiles = data__[1];
+      setState(() {
+        _isload = false;
       });
-    }
+    });
 
     super.initState();
   }
@@ -136,7 +119,11 @@ class _ViewAllPdfAdminState extends State<ViewAllPdfAdmin> {
                     return const Center(child: CircularProgressIndicator());
                   default:
                     if (snapshot.hasError) {
-                      return const Center(child: Text('Some error occurred!'));
+                      return const Center(
+                        child: Text(
+                          'Some error occurred!',
+                        ),
+                      );
                     } else {
                       print('Else part is running');
                       final files = snapshot.data!;
@@ -197,8 +184,12 @@ class _ViewAllPdfAdminState extends State<ViewAllPdfAdmin> {
                       ? Image.asset('assets/pdf_logo.jpeg')
                       : Image.asset('assets/excel.png')),
           //PdfThumbnail.fromFile(file.ref.fullPath, currentPage: 2)),
-          onTap: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => ImagePage(file: file))),
+          onTap: () => Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => ImagePage(
+                    file: file,
+                    isFieldEditable: isFieldEditable,
+                    role: widget.role,
+                  ))),
         ),
         Text(file.name)
       ],
@@ -252,5 +243,11 @@ class _ViewAllPdfAdminState extends State<ViewAllPdfAdmin> {
         }
       }
     }
+  }
+
+  Future getAssignedDepots() async {
+    assignedDepots = await authService.getDepotList();
+    isFieldEditable =
+        authService.verifyAssignedDepot(widget.depoName, assignedDepots);
   }
 }

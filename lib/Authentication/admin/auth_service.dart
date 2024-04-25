@@ -139,6 +139,15 @@ class AuthService {
       print("Error While Storing AssginedDepots - $e");
     }
   }
+      Future storeCityList(List<String> cityList) async {
+    try {
+      final shared = await SharedPreferences.getInstance();
+      shared.setStringList("cityList", cityList);
+      print("cityList Stored - $cityList");
+    } catch (e) {
+      print("Error While Storing AssginedCities - $e");
+    }
+  }
 
   bool verifyAssignedDepot(String depotName, List<String> assignedDepots) {
     bool isEligibleUser = false;
@@ -152,6 +161,13 @@ class AuthService {
     final shared = await SharedPreferences.getInstance();
     List<String> depotList = shared.getStringList("depotList")!;
     return depotList;
+  }
+
+  
+    Future<List<String>> getCityList() async {
+    final shared = await SharedPreferences.getInstance();
+    List<String> cityList = shared.getStringList("cityList")!;
+    return cityList;
   }
 
   Future getcompany() async {

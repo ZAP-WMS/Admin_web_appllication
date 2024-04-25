@@ -55,7 +55,9 @@ class _DailyProjectUserState extends State<DailyProjectUser> {
   @override
   void initState() {
     getAssignedDepots();
-    selectedDate = DateFormat.yMMMMd().format(DateTime.now(),);
+    selectedDate = DateFormat.yMMMMd().format(
+      DateTime.now(),
+    );
     getUserId().whenComplete(() async {
       await checkIsImageAvail();
       getmonthlyReport();

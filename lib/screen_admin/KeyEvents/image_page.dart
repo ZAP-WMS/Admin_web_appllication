@@ -1,3 +1,4 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:web_appllication/screen_admin/KeyEvents/viewFIle.dart';
 import 'package:web_appllication/screen_admin/KeyEvents/view_excel.dart';
@@ -7,17 +8,17 @@ import '../../FirebaseApi/firebase_api_admin.dart';
 
 class ImagePage extends StatelessWidget {
   final FirebaseFile file;
+  final bool isFieldEditable;
+  final String? role;
 
-  const ImagePage({
-    Key? key,
-    required this.file,
-  }) : super(key: key);
+  const ImagePage(
+      {Key? key, required this.file, required this.isFieldEditable, this.role})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final isImage = ['.jpeg', '.jpg', '.png'].any(file.name.contains);
     final isPdf = ['.pdf'].any(file.name.contains);
-    print('fileurl' + file.url);
     return Scaffold(
         appBar: AppBar(
           title: Text(file.name),
@@ -36,6 +37,24 @@ class ImagePage extends StatelessWidget {
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
               },
             ),
+            const SizedBox(width: 12),
+            (isFieldEditable && role == "projectManager")
+                ? IconButton(
+                    onPressed: () {
+                      FirebaseStorage.instance
+                          .ref()
+                          .child(file.url)
+                          .delete()
+                          .then((value) {
+                        print('Delete Successfull');
+                        Navigator.pop(context);
+                      });
+                    },
+                    icon: const Icon(
+                      Icons.delete,
+                    ),
+                  )
+                : Container(),
             const SizedBox(width: 12),
           ],
         ),
