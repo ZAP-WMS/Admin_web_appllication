@@ -31,7 +31,7 @@ class ClosureReportUser extends StatefulWidget {
 
 class _ClosureReportUserState extends State<ClosureReportUser> {
   final AuthService authService = AuthService();
-  List<String> assignedDepots = [];
+  List<String> assignedCities = [];
   bool isFieldEditable = false;
 
   List<ClosureReportModelUser> closereport = <ClosureReportModelUser>[];
@@ -47,7 +47,7 @@ class _ClosureReportUserState extends State<ClosureReportUser> {
 
   @override
   void initState() {
-    getAssignedDepots();
+    getAssignedCities();
     checkAvailableImage().whenComplete(() {
       closereport = getcloseReport();
       _closeReportDataSource = CloseReportDataSource(
@@ -883,9 +883,9 @@ class _ClosureReportUserState extends State<ClosureReportUser> {
     }
   }
 
-  Future getAssignedDepots() async {
-    assignedDepots = await authService.getDepotList();
+  Future getAssignedCities() async {
+    assignedCities = await authService.getCityList();
     isFieldEditable =
-        authService.verifyAssignedDepot(widget.depoName!, assignedDepots);
+        authService.verifyAssignedDepot(widget.depoName!, assignedCities);
   }
 }

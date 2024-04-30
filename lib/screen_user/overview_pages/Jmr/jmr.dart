@@ -129,7 +129,7 @@ class _JmrUserState extends State<JmrUser> {
                             height: 20,
                             width: 20,
                           ),
-                          SizedBox(width: 5),
+                          const SizedBox(width: 5),
                           Text(
                             widget.userId ?? '',
                             style: const TextStyle(fontSize: 18),
@@ -170,7 +170,8 @@ class _JmrUserState extends State<JmrUser> {
                   bottomLeftRadius: 8,
                   bottomRightRadius: 8,
                   color: white,
-                  paintingStyle: PaintingStyle.fill),
+                  paintingStyle: PaintingStyle.fill,
+                  ),
               tabs: const [
                 Tab(text: 'Civil Engineer'),
                 Tab(text: 'Electrical Engineer'),

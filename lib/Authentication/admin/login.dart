@@ -6,11 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:web_appllication/Authentication/admin/auth_service.dart';
 import 'package:web_appllication/Authentication/admin/reset_password.dart';
 import 'package:web_appllication/components/loading_page.dart';
-import 'package:web_appllication/overview.dart';
 import 'package:web_appllication/widgets/widgets_admin/admin_style.dart';
 
 class SignInPage extends StatefulWidget {
-  SignInPage({Key? key}) : super(key: key);
+  const SignInPage({Key? key}) : super(key: key);
   @override
   State<SignInPage> createState() => _SignInPageState();
 }
@@ -125,22 +124,24 @@ class _SignInPageState extends State<SignInPage> {
                                     style: bodyText2White,
                                     children: <TextSpan>[
                                       TextSpan(
-                                          text: ' Forget Password ?',
-                                          recognizer: TapGestureRecognizer()
-                                            ..onTap = (() => Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        ResetPass(
-                                                            // email: FirebaseAuth
-                                                            //     .instance
-                                                            //     .currentUser!
-                                                            //     .email!,
-                                                            ),
-                                                  ),
-                                                )),
-                                          style: bodyText2White.copyWith(
-                                              color: blue))
+                                        text: ' Forget Password ?',
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = (() => Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ResetPass(
+                                                          // email: FirebaseAuth
+                                                          //     .instance
+                                                          //     .currentUser!
+                                                          //     .email!,
+                                                          ),
+                                                ),
+                                              )),
+                                        style: bodyText2White.copyWith(
+                                          color: blue,
+                                        ),
+                                      )
                                     ],
                                   ),
                                 ),
@@ -219,6 +220,7 @@ class _SignInPageState extends State<SignInPage> {
 
       try {
         isProjectManager = await verifyProjectManager(_id);
+        String roleCentre = "PMIS";
 
         if (isProjectManager == true) {
           QuerySnapshot pmData = await FirebaseFirestore.instance
@@ -226,13 +228,16 @@ class _SignInPageState extends State<SignInPage> {
               .where("userId", isEqualTo: _id)
               .get();
 
+          print("roleCentre - $roleCentre");
+
           //Search project Manager On User Collection
 
           if (pmData.docs.isNotEmpty) {
             List<dynamic> userData = pmData.docs.map((e) => e.data()).toList();
             companyName = 'TATA POWER';
             if (_pass == userData[0]['password'] &&
-                _id == userData[0]['userId']) {
+                _id == userData[0]['userId'] &&
+                roleCentre == userData[0]['roleCentre']) {
               // print('ProjectManager here ${passWord}');
 
               List<dynamic> assignedDepots = pmData.docs[0]["depots"];

@@ -31,7 +31,6 @@ class _DepotInsightsActionState extends State<DepotInsightsAction> {
   @override
   void initState() {
     selectWidget();
-
     super.initState();
   }
 

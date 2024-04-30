@@ -36,11 +36,12 @@ class _RoleScreenState extends State<RoleScreen> {
   final TextEditingController selectedUserController = TextEditingController();
   final TextEditingController designationController = TextEditingController();
   final TextEditingController depotController = TextEditingController();
+  final companyController = TextEditingController();
 
   List<String> gridTabLabels = [
     'Total',
     'Assigned',
-    'UnAssigned',
+    // 'UnAssigned',
   ];
 
   List<String> designationList = [
@@ -69,6 +70,7 @@ class _RoleScreenState extends State<RoleScreen> {
   String? selectedDesignation;
   String? selectedReportingManager;
   String? selectedDepot;
+  String? selectedManagementCentre;
 
   List<String> selectedDesignationList = [];
   List<String> selectedCitiesList = [];
@@ -77,6 +79,10 @@ class _RoleScreenState extends State<RoleScreen> {
   List<String> allUserList = [];
   List<String> allCityList = [];
   List<String> allDepotList = [];
+  List<String> managementCentre = [
+    'PMIS',
+    'O&M',
+  ];
 
   List<Widget> screens = [
     const TotalUsers(),
@@ -154,15 +160,18 @@ class _RoleScreenState extends State<RoleScreen> {
                           ),
                           Container(
                             alignment: Alignment.centerLeft,
-                            margin: const EdgeInsets.all(5.0),
-                            width: MediaQuery.of(context).size.width / 2.2,
+                            margin: const EdgeInsets.all(
+                              5.0,
+                            ),
+                            width: MediaQuery.of(context).size.width / 3.0,
+                            // height: 100,
                             child: GridView.builder(
-                                itemCount: 3,
+                                itemCount: 2,
                                 shrinkWrap: true,
                                 gridDelegate:
                                     const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 3,
-                                  childAspectRatio: 3.5,
+                                  crossAxisCount: 2,
+                                  childAspectRatio: 3.9,
                                 ),
                                 itemBuilder: (context, index) {
                                   return Consumer<
@@ -185,6 +194,60 @@ class _RoleScreenState extends State<RoleScreen> {
                                                     ? unAssignedUserNum
                                                     : 0,
                                         screens[index],
+                                      );
+                                    },
+                                  );
+                                }),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    //UnAssigned User
+
+                    Container(
+                      margin: const EdgeInsets.all(15.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: const Color.fromARGB(255, 84, 122, 230),
+                            width: 2.0),
+                        borderRadius: BorderRadius.circular(
+                          5.0,
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(top: 8.0),
+                            child: const Text(
+                              "PMIS + O & M Users",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromARGB(255, 84, 122, 230),
+                                  letterSpacing: 1.0),
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            margin: const EdgeInsets.all(5.0),
+                            width: MediaQuery.of(context).size.width / 5.2,
+                            child: GridView.builder(
+                                itemCount: 1,
+                                shrinkWrap: true,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 1,
+                                  childAspectRatio: 4.6,
+                                ),
+                                itemBuilder: (context, index) {
+                                  return Consumer<
+                                      RolePageTotalNumProviderAdmin>(
+                                    builder: (context, value, child) {
+                                      return gridTabs(
+                                        index,
+                                        Colors.red,
+                                        unAssignedUserNum,
+                                        const UnAssingedUsers(),
                                       );
                                     },
                                   );
@@ -221,14 +284,14 @@ class _RoleScreenState extends State<RoleScreen> {
                           Container(
                             alignment: Alignment.centerLeft,
                             margin: const EdgeInsets.all(5.0),
-                            width: MediaQuery.of(context).size.width / 2.2,
+                            width: MediaQuery.of(context).size.width / 3.0,
                             child: GridView.builder(
-                                itemCount: 3,
+                                itemCount: 2,
                                 shrinkWrap: true,
                                 gridDelegate:
                                     const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 3,
-                                  childAspectRatio: 3.5,
+                                  crossAxisCount: 2,
+                                  childAspectRatio: 3.9,
                                 ),
                                 itemBuilder: (context, index) {
                                   return Consumer<
@@ -284,7 +347,8 @@ class _RoleScreenState extends State<RoleScreen> {
                                 elevation: 5.0,
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    color: white,
+                                    color:
+                                        const Color.fromARGB(255, 85, 114, 245),
                                     borderRadius: BorderRadius.circular(
                                       3.0,
                                     ),
@@ -296,7 +360,7 @@ class _RoleScreenState extends State<RoleScreen> {
                                     "Select Reporting Manager:",
                                     style: TextStyle(
                                       fontSize: 11,
-                                      color: blue,
+                                      color: white,
                                     ),
                                   ),
                                 ),
@@ -331,7 +395,7 @@ class _RoleScreenState extends State<RoleScreen> {
                             ],
                           ),
                           const SizedBox(
-                            width: 100,
+                            width: 50,
                           ),
                           Row(
                             children: [
@@ -339,7 +403,8 @@ class _RoleScreenState extends State<RoleScreen> {
                                 elevation: 5.0,
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    color: white,
+                                    color:
+                                        const Color.fromARGB(255, 85, 114, 245),
                                     borderRadius: BorderRadius.circular(
                                       3.0,
                                     ),
@@ -349,7 +414,8 @@ class _RoleScreenState extends State<RoleScreen> {
                                   width: 180,
                                   child: Text(
                                     "Select User:",
-                                    style: TextStyle(fontSize: 11, color: blue),
+                                    style:
+                                        TextStyle(fontSize: 11, color: white),
                                   ),
                                 ),
                               ),
@@ -357,7 +423,6 @@ class _RoleScreenState extends State<RoleScreen> {
                                 width: 10,
                               ),
                               Container(
-                                margin: const EdgeInsets.only(top: 10.0),
                                 child: Column(
                                   children: [
                                     customDropDown(
@@ -366,6 +431,54 @@ class _RoleScreenState extends State<RoleScreen> {
                                       allUserList,
                                       "Search User",
                                       1,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            width: 50,
+                          ),
+                          Row(
+                            children: [
+                              Card(
+                                elevation: 5.0,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color:
+                                        const Color.fromARGB(255, 85, 114, 245),
+                                    borderRadius: BorderRadius.circular(
+                                      3.0,
+                                    ),
+                                  ),
+                                  alignment: Alignment.center,
+                                  height: 35,
+                                  width: 180,
+                                  child: Text(
+                                    "Role Management Centre:",
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(
+                                  top: 10.0,
+                                ),
+                                child: Column(
+                                  children: [
+                                    customDropDown(
+                                      "Select Centre",
+                                      false,
+                                      managementCentre,
+                                      "Select Centre",
+                                      5,
                                     ),
                                     Container(
                                       alignment: Alignment.topLeft,
@@ -602,17 +715,28 @@ class _RoleScreenState extends State<RoleScreen> {
         Provider.of<RolePageTotalNumProviderAdmin>(context, listen: false);
 
     return Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.0)),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(
+          5.0,
+        ),
+      ),
       child: Card(
         color: cardColor,
         elevation: 5,
         child: Column(
           children: [
             Container(
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(5.0)),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(
+                  5.0,
+                ),
+              ),
               margin: const EdgeInsets.only(
-                  left: 8.0, right: 8.0, bottom: 8.0, top: 3.0),
+                left: 8.0,
+                right: 8.0,
+                bottom: 8.0,
+                top: 3.0,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -701,10 +825,12 @@ class _RoleScreenState extends State<RoleScreen> {
                                 ? designationController
                                 : index == 3
                                     ? citiesController
-                                    : depotController,
+                                    : index == 4
+                                        ? depotController
+                                        : companyController,
                     searchInnerWidgetHeight: 50,
                     searchInnerWidget: Container(
-                      height: index == 4 ? 90 : 42,
+                      height: index == 4 ? 90 : 40,
                       child: Column(
                         children: [
                           Container(
@@ -786,7 +912,9 @@ class _RoleScreenState extends State<RoleScreen> {
                               ? selectedDesignation
                               : index == 3
                                   ? selectedCity
-                                  : selectedDepot,
+                                  : index == 4
+                                      ? selectedDepot
+                                      : selectedManagementCentre,
                   isExpanded: true,
                   onMenuStateChange: (isOpen) {
                     if (index == 0) messageForReportingManager = "";
@@ -848,6 +976,7 @@ class _RoleScreenState extends State<RoleScreen> {
                                                 : selectedDepotList
                                                     .remove(item);
                                         break;
+
                                       case false:
                                         index == 2
                                             ? selectedDesignationList.add(item)
@@ -922,7 +1051,9 @@ class _RoleScreenState extends State<RoleScreen> {
                             ? selectedUser = value
                             : index == 2
                                 ? selectedDesignation = value
-                                : selectedCity = value;
+                                : index == 3
+                                    ? selectedCity = value
+                                    : selectedManagementCentre = value;
                     if (index == 1) {
                       selectedUserId = '';
                       errorMessage = 'Role can be assigned ✔';
@@ -1014,6 +1145,7 @@ class _RoleScreenState extends State<RoleScreen> {
           .collection('AssignedRole')
           .doc(selectedUser)
           .set({
+        'roleCentre': selectedManagementCentre,
         "companyName": userPassAndCompany[1],
         'username': selectedUser,
         'userId': selectedUserId,
@@ -1036,6 +1168,7 @@ class _RoleScreenState extends State<RoleScreen> {
           .doc(selectedUser!.trim())
           .set(
         {
+          'roleCentre': selectedManagementCentre,
           "companyName": userPassAndCompany[1],
           'userId': selectedUserId,
           'alphabet': selectedUser![0][0].toUpperCase(),
@@ -1184,6 +1317,7 @@ class _RoleScreenState extends State<RoleScreen> {
         .collection('AssignedRole')
         .doc(selectedUser)
         .update({
+      'roleCentre': selectedManagementCentre,
       'username': selectedUser!.trim(),
       'userId': selectedUserId,
       'alphabet': selectedUser![0][0].toUpperCase(),
@@ -1203,6 +1337,7 @@ class _RoleScreenState extends State<RoleScreen> {
         .collection('TotalUsers')
         .doc(selectedUser)
         .update({
+      'roleCentre': selectedManagementCentre,
       'userId': selectedUserId,
       'alphabet': selectedUser![0][0].toUpperCase(),
       'position': 'Assigned',
@@ -1299,24 +1434,36 @@ class _RoleScreenState extends State<RoleScreen> {
   }
 
   Future customAlertBox(String message) async {
-    final provider =
-        Provider.of<RolePageTotalNumProviderAdmin>(context, listen: false);
+    final provider = Provider.of<RolePageTotalNumProviderAdmin>(
+      context,
+      listen: false,
+    );
     if (selectedUser == null ||
         selectedReportingManager == null ||
         selectedDepotList.isEmpty ||
         selectedDesignationList.isEmpty ||
-        selectedCitiesList.isEmpty) {
+        selectedCitiesList.isEmpty ||
+        selectedManagementCentre == null) {
       await showDialog(
           context: context,
           builder: (context) {
             return AlertDialog(
-              actionsPadding: const EdgeInsets.all(5.0),
-              iconPadding: const EdgeInsets.all(5.0),
-              contentPadding: const EdgeInsets.all(10.0),
+              actionsPadding: const EdgeInsets.all(
+                5.0,
+              ),
+              iconPadding: const EdgeInsets.all(
+                5.0,
+              ),
+              contentPadding: const EdgeInsets.all(
+                10.0,
+              ),
               elevation: 10,
               content: Text(
                 message,
-                style: const TextStyle(color: Colors.blue, fontSize: 14),
+                style: const TextStyle(
+                  color: Colors.blue,
+                  fontSize: 14,
+                ),
               ),
               backgroundColor: Colors.white,
               icon: Icon(

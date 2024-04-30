@@ -39,7 +39,7 @@ class DailyProjectUser extends StatefulWidget {
 
 class _DailyProjectUserState extends State<DailyProjectUser> {
   final AuthService authService = AuthService();
-  List<String> assignedDepots = [];
+  List<String> assignedCities = [];
   bool isFieldEditable = false;
   bool isImagesAvailable = false;
   List<DailyProjectModelUser> dailyproject = <DailyProjectModelUser>[];
@@ -54,7 +54,7 @@ class _DailyProjectUserState extends State<DailyProjectUser> {
 
   @override
   void initState() {
-    getAssignedDepots();
+    getAssignedCities();
     selectedDate = DateFormat.yMMMMd().format(
       DateTime.now(),
     );
@@ -680,9 +680,10 @@ class _DailyProjectUserState extends State<DailyProjectUser> {
     print("Files Deleted Successfully! ");
   }
 
-  Future getAssignedDepots() async {
-    assignedDepots = await authService.getDepotList();
+  Future getAssignedCities() async {
+    assignedCities = await authService.getCityList();
     isFieldEditable =
-        authService.verifyAssignedDepot(widget.depoName!, assignedDepots);
+        authService.verifyAssignedCities(widget.cityName!, assignedCities);
   }
+
 }

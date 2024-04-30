@@ -34,7 +34,6 @@ class _SafetyReportActionState extends State<SafetyReportAction> {
   }
 
   Widget selectWidget() {
-    
     switch (widget.role) {
       case 'user':
         selectedUi = SafetyChecklistUser(

@@ -37,15 +37,14 @@ class _ViewAllPdfUserState extends State<ViewAllPdfUser> {
   late Future<List<FirebaseFile>> futureFiles;
   List<String> pdfFiles = [];
   final AuthService authService = AuthService();
-  List<String> assignedDepots = [];
+  List<String> assignedCities = [];
   bool isFieldEditable = false;
   String? role;
 
   @override
   void initState() {
-    getAssignedDepots().whenComplete(() async {
+    getAssignedCities().whenComplete(() async {
       role = await authService.getUserRole();
-
       futureFiles = widget.title == 'QualityChecklist'
           ? FirebaseApiUser.listAll(
               '${widget.title}/${widget.subtitle}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.fldrName}/${widget.date}/${widget.srNo}')
@@ -188,9 +187,10 @@ class _ViewAllPdfUserState extends State<ViewAllPdfUser> {
         ),
       );
 
-  Future getAssignedDepots() async {
-    assignedDepots = await authService.getDepotList();
+  Future getAssignedCities() async {
+    assignedCities = await authService.getCityList();
     isFieldEditable =
-        authService.verifyAssignedDepot(widget.depoName!, assignedDepots);
+        authService.verifyAssignedCities(widget.cityName!, assignedCities);
   }
+
 }
