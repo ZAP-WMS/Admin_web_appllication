@@ -64,7 +64,11 @@ class _ViewExcelState extends State<ViewExcel> {
       for (var row in excel.tables[table]!.rows) {
         List rows = [];
         for (var cell in row) {
-          rows.add(cell!.value);
+          if (cell != null && cell.value != null) {
+            rows.add(cell.value);
+          } else {
+            rows.add('');
+          }
         }
         columns.add(rows);
       }
