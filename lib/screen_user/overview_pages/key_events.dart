@@ -4,7 +4,6 @@ import 'package:gantt_chart/gantt_chart.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:web_appllication/Authentication/admin/auth_service.dart';
 import 'package:web_appllication/components/loading_page.dart';
 import 'package:web_appllication/datasource_user/key_datasource.dart';

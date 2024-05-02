@@ -8,7 +8,6 @@ import 'package:web_appllication/model/user_model/quality_checklistModel.dart';
 import 'package:web_appllication/overview.dart';
 import '../../../screen_user/KeysEvents/upload.dart';
 import '../../../screen_user/KeysEvents/view_AllFiles.dart';
-import '../../../screen_user/Planning_Pages/quality_checklist.dart';
 
 class QualityMassonaryDataSource extends DataGridSource {
   // BuildContext mainContext;
@@ -132,9 +131,9 @@ class QualityMassonaryDataSource extends DataGridSource {
           DataGridCell<String>(
               columnName: 'responsibility', value: newCellValue);
       _checklistModel[dataRowIndex].responsibility = newCellValue.toString();
-    } else if (column.columnName == 'reference') {
+    } else if (column.columnName == 'Reference') {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
-          DataGridCell<dynamic>(columnName: 'reference', value: newCellValue);
+          DataGridCell<dynamic>(columnName: 'Reference', value: newCellValue);
       _checklistModel[dataRowIndex].reference = newCellValue;
     } else {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =

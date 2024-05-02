@@ -1597,7 +1597,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                                     _safetyChecklistDataSource,
                                                 //key: key,
 
-                                                allowEditing: true,
+                                                allowEditing: false,
                                                 frozenColumnsCount: 2,
                                                 gridLinesVisibility:
                                                     GridLinesVisibility.both,

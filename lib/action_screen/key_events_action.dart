@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:web_appllication/screen_admin/KeyEvents/key_events2.dart';
 import 'package:web_appllication/screen_user/overview_pages/key_events2.dart';
+import '../screen_admin/KeyEvents/key_eventsUser.dart';
 
 class PlanningActionScreen extends StatefulWidget {
   String role;
@@ -42,17 +43,15 @@ class _PlanningActionScreenState extends State<PlanningActionScreen> {
           cityName: widget.cityName,
           depoName: widget.depotName,
         );
-
         break;
       case 'admin':
-        selectedUi = KeyEvents2Admin(
+        selectedUi = KeyEventsUser(
           role: widget.role,
           cityName: widget.cityName,
           depoName: widget.depotName,
-          adminUserId: widget.userId,
+          userId: widget.userId,
         );
         break;
-      
       case 'projectManager':
         selectedUi = KeyEvents2Admin(
           role: widget.role,
@@ -61,7 +60,6 @@ class _PlanningActionScreenState extends State<PlanningActionScreen> {
           adminUserId: widget.userId,
         );
         break;
-
     }
 
     return selectedUi;

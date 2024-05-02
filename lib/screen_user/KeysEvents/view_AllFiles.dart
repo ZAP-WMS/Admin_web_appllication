@@ -43,6 +43,8 @@ class _ViewAllPdfUserState extends State<ViewAllPdfUser> {
 
   @override
   void initState() {
+    futureFiles = FirebaseApiUser.listAll(
+        '${widget.title}/${widget.cityName}/${widget.depoName}/null/${widget.docId}');
     getAssignedDepots().whenComplete(() async {
       role = await authService.getUserRole();
 
@@ -65,6 +67,7 @@ class _ViewAllPdfUserState extends State<ViewAllPdfUser> {
                               '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.docId}')
                           : FirebaseApiUser.listAll(
                               '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.date}/${widget.docId}');
+      setState(() {});
     });
     super.initState();
   }

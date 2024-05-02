@@ -2277,7 +2277,7 @@ class _KeyEvents2AdminState extends State<KeyEvents2Admin> {
                                                   //   return DateUtils.isSameDay(
                                                   //       DateTime(2023, 7, 1), day);
                                                   // },
-                                                  events: []),
+                                                  events: const []),
                                             )),
                                         SizedBox(
                                             width: 450,

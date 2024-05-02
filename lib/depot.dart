@@ -271,38 +271,17 @@ class _MydepotsState extends State<Mydepots> {
                     itemCount: snapshot.data!.docs.length,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 4, childAspectRatio: 1.3),
+                            crossAxisCount: 4, childAspectRatio: 1.2),
                     itemBuilder: (context, index) {
-                      return
-                          //GestureDetector(
-                          // onTap: () async {
-                          //   _sharedPreferences =
-                          //       await SharedPreferences.getInstance();
-                          //   _sharedPreferences
-                          //       .setString(
-                          //           'depotName',
-                          //           snapshot.data!.docs[index]
-                          //               ['DepoName'])
-                          //       .whenComplete(() {
-                          //     Navigator.pushNamed(context,
-                          //         'login/EVDashboard/Cities/EVBusDepot/overviewpage',
-                          //         arguments: {
-                          //           'cityName': widget.cityName,
-                          //           'depoName': snapshot.data!.docs[index]
-                          //               ['DepoName'],
-                          //         });
-                          //   });
-                          // },
-
-                          cards(
-                              context,
-                              snapshot.data!.docs[index]['DepoName'],
-                              snapshot.data!.docs[index]['DepoUrl'],
-                              index,
-                              'login/EVDashboard/Cities/EVBusDepot/OverviewPage/',
-                              role,
-                              widget.cityName!,
-                              widget.userId!);
+                      return cards(
+                          context,
+                          snapshot.data!.docs[index]['DepoName'],
+                          snapshot.data!.docs[index]['DepoUrl'],
+                          index,
+                          'login/EVDashboard/Cities/EVBusDepot/OverviewPage/',
+                          role,
+                          widget.cityName!,
+                          widget.userId!);
                     });
               } else {
                 return Center(
@@ -339,15 +318,23 @@ class _MydepotsState extends State<Mydepots> {
                       const SizedBox(height: 50),
                       Center(
                         child: Container(
-                          padding: const EdgeInsets.all(25,),
+                          padding: const EdgeInsets.all(
+                            25,
+                          ),
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20,),
-                              border: Border.all(color: blue,),),
+                            borderRadius: BorderRadius.circular(
+                              20,
+                            ),
+                            border: Border.all(
+                              color: blue,
+                            ),
+                          ),
                           child: const Text(
                             'No depots available yet \n Please add to process',
                             style: TextStyle(
-                                fontSize: 30, fontWeight: FontWeight.bold,
-                                ),
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       )
@@ -362,7 +349,8 @@ class _MydepotsState extends State<Mydepots> {
               }
             } else {
               return const Center(
-                child: Text("No Depot Available at This Time....",
+                child: Text(
+                  "No Depot Available at This Time....",
                 ),
               );
             }

@@ -15,8 +15,13 @@ class KeyEventsUser extends StatefulWidget {
   final String? depoName;
   final String? id;
   String role;
- KeyEventsUser(
-      {super.key, this.userId, this.cityName, required this.depoName, this.id, required this.role});
+  KeyEventsUser(
+      {super.key,
+      this.userId,
+      this.cityName,
+      required this.depoName,
+      this.id,
+      required this.role});
 
   @override
   State<KeyEventsUser> createState() => _KeyEventsUserState();
@@ -44,9 +49,11 @@ class _KeyEventsUserState extends State<KeyEventsUser> {
       appBar: PreferredSize(
           // ignore: sort_child_properties_last
           child: CustomAppBar(
-            cityName: widget.cityName,
+            isProjectManager: false,
+            role: widget.role,
+            cityName: widget.cityName, isdownload: false,
             showDepoBar: true,
-            toPlanning: true,
+            // toPlanning: true,
             depoName: widget.depoName,
             text: 'Key Events User',
             userId: widget.userId,

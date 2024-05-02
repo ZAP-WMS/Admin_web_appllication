@@ -134,7 +134,7 @@ class QualityBackFillingDataSource extends DataGridSource {
       _checklistModel[dataRowIndex].responsibility = newCellValue.toString();
     } else if (column.columnName == 'Reference') {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
-          DataGridCell<dynamic>(columnName: 'reference', value: newCellValue);
+          DataGridCell<dynamic>(columnName: 'Reference', value: newCellValue);
       _checklistModel[dataRowIndex].reference = newCellValue;
     } else {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
@@ -196,9 +196,9 @@ class QualityBackFillingDataSource extends DataGridSource {
             : isDateTimeType
                 ? TextInputType.datetime
                 : TextInputType.text,
-                onTapOutside: (event) {
-                  newCellValue = editingController.text;
-                },
+        onTapOutside: (event) {
+          newCellValue = editingController.text;
+        },
         onChanged: (String value) {
           if (value.isNotEmpty) {
             if (isNumericType) {

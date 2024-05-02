@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:web_appllication/widgets/widgets_user/user_style.dart';
 
-Widget cards(
-    BuildContext context, String desc, String img, int index, String path,String userId) {
-  late SharedPreferences _sharedPreferences;
+Widget cards(BuildContext context, String desc, String img, int index,
+    String path, String userId) {
   return Container(
     margin: const EdgeInsets.only(top: 20.0),
     child: Column(
@@ -31,7 +30,8 @@ Widget cards(
             onTap: () {
               // _sharedPreferences = await SharedPreferences.getInstance();
               // _sharedPreferences.setString('depotName', desc);
-              Navigator.pushNamed(context, path, arguments: {"cityName": desc,"userId":userId});
+              Navigator.pushNamed(context, path,
+                  arguments: {"cityName": desc, "userId": userId});
 
               // Navigator.push(
               //     context, MaterialPageRoute(builder: (context) => toPage));
