@@ -209,6 +209,7 @@ class _ResetPassState extends State<ResetPass> {
   }
 
   Future getNumber(dynamic id) async {
+    docss.clear;
     showCupertinoDialog(
       context: context,
       builder: (context) => CupertinoAlertDialog(
@@ -241,11 +242,13 @@ class _ResetPassState extends State<ResetPass> {
       docss.add(clnName);
     });
     for (int i = 0; i < docss.length; i++) {
+      print('ii$i');
       await FirebaseFirestore.instance
           .collection('Admin')
           .doc(docss[i])
           .get()
           .then((value) {
+        print(value.data()!['Employee Id']);
         if (value.data()!['Employee Id'] == id) {
           setState(() {
             name = value.data()!['FirstName'];

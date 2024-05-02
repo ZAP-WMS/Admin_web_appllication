@@ -53,56 +53,57 @@ class QualityrmuDataSource extends DataGridSource {
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((dataGridCell) {
       return Container(
-          alignment: Alignment.center,
-          // : Alignment.center,
-          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-          child: dataGridCell.columnName == 'Upload'
-              ? LayoutBuilder(
-                  builder: (BuildContext context, BoxConstraints constraints) {
-                  return ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => UploadDocument(
-                            title: 'QualityChecklist',
-                            subtitle: 'Electrical_Engineer',
-                            cityName: cityName,
-                            depoName: depoName,
-                            userId: userId,
-                            fldrName: 'RMU Table',
-                            date: currentDate,
-                            srNo: row.getCells()[0].value,
-                          ),
-                        ));
-                      },
-                      child: const Text('Upload'));
-                })
-              : dataGridCell.columnName == 'View'
-                  ? LayoutBuilder(builder:
-                      (BuildContext context, BoxConstraints constraints) {
-                      return ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => ViewAllPdfUser(
-                                title: 'QualityChecklist',
-                                subtitle: 'Electrical_Engineer',
-                                cityName: cityName,
-                                depoName: depoName,
-                                userId: userId,
-                                fldrName: 'RMU Table',
-                                date: currentDate,
-                                srNo: row.getCells()[0].value,
-                              ),
-                            ));
-                          },
-                          child: const Text('View'));
-                    })
-                  : Text(
-                      dataGridCell.value.toString(),
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 11,
-                          ),
+        alignment: Alignment.center,
+        // : Alignment.center,
+        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+        child: dataGridCell.columnName == 'Upload'
+            ? LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                return ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => UploadDocument(
+                          title: 'QualityChecklist',
+                          subtitle: 'Electrical_Engineer',
+                          cityName: cityName,
+                          depoName: depoName,
+                          userId: userId,
+                          fldrName: 'RMU Table',
+                          date: currentDate,
+                          srNo: row.getCells()[0].value,
+                        ),
+                      ));
+                    },
+                    child: const Text('Upload'));
+              })
+            : dataGridCell.columnName == 'View'
+                ? LayoutBuilder(builder:
+                    (BuildContext context, BoxConstraints constraints) {
+                    return ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ViewAllPdfUser(
+                              title: 'QualityChecklist',
+                              subtitle: 'Electrical_Engineer',
+                              cityName: cityName,
+                              depoName: depoName,
+                              userId: userId,
+                              fldrName: 'RMU Table',
+                              date: currentDate,
+                              srNo: row.getCells()[0].value,
+                            ),
+                          ));
+                        },
+                        child: const Text('View'));
+                  })
+                : Text(
+                    dataGridCell.value.toString(),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 11,
                     ),
-                    );
+                  ),
+      );
     }).toList());
   }
 
@@ -142,9 +143,9 @@ class QualityrmuDataSource extends DataGridSource {
           DataGridCell<String>(
               columnName: 'responsibility', value: newCellValue);
       _checklistModel[dataRowIndex].responsibility = newCellValue.toString();
-    } else if (column.columnName == 'reference') {
+    } else if (column.columnName == 'Reference') {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
-          DataGridCell<dynamic>(columnName: 'reference', value: newCellValue);
+          DataGridCell<dynamic>(columnName: 'Reference', value: newCellValue);
       _checklistModel[dataRowIndex].reference = newCellValue as dynamic;
     } else {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
@@ -210,9 +211,9 @@ class QualityrmuDataSource extends DataGridSource {
             : isDateTimeType
                 ? TextInputType.datetime
                 : TextInputType.text,
-                onTapOutside: (event) {
-                  newCellValue = editingController.text;
-                },
+        onTapOutside: (event) {
+          newCellValue = editingController.text;
+        },
         onChanged: (String value) {
           if (value.isNotEmpty) {
             if (isNumericType) {

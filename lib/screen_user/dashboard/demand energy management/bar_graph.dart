@@ -6,7 +6,6 @@ import 'package:web_appllication/provider/provider_user/All_Depo_Select_Provider
 import 'package:web_appllication/provider/provider_user/demandEnergyProvider.dart';
 import 'package:web_appllication/widgets/widgets_user/user_style.dart';
 
-
 class BarGraphScreen extends StatefulWidget {
   final List<dynamic> timeIntervalList;
   final List<dynamic> monthList;
@@ -120,7 +119,8 @@ class _BarGraphScreenState extends State<BarGraphScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<DemandEnergyProviderUser>(context, listen: false);
+    final provider =
+        Provider.of<DemandEnergyProviderUser>(context, listen: false);
     final allDepoProvider =
         Provider.of<AllDepoSelectProviderUser>(context, listen: false);
 
@@ -608,7 +608,8 @@ class _BarGraphScreenState extends State<BarGraphScreen> {
   }
 
   List<BarChartGroupData> getBarGroups() {
-    final provider = Provider.of<DemandEnergyProviderUser>(context, listen: false);
+    final provider =
+        Provider.of<DemandEnergyProviderUser>(context, listen: false);
     // print('Daily BarChart Data Extracting');
     return List.generate(
       provider.dailyEnergyConsumed?.length == null
@@ -633,7 +634,8 @@ class _BarGraphScreenState extends State<BarGraphScreen> {
   }
 
   List<BarChartGroupData> getMonthlyBarGroups() {
-    final provider = Provider.of<DemandEnergyProviderUser>(context, listen: false);
+    final provider =
+        Provider.of<DemandEnergyProviderUser>(context, listen: false);
     print('MonthlyBarGroup - ${provider.monthlyEnergyConsumed}');
     // print('Monthly BarChart Data Extracting');
     return List.generate(
@@ -656,7 +658,8 @@ class _BarGraphScreenState extends State<BarGraphScreen> {
   }
 
   List<BarChartGroupData> getQuaterlyBarData() {
-    final provider = Provider.of<DemandEnergyProviderUser>(context, listen: false);
+    final provider =
+        Provider.of<DemandEnergyProviderUser>(context, listen: false);
     // print('Quaterly BarChart Data Extracting');
     return List.generate(
       3,
@@ -685,7 +688,8 @@ class _BarGraphScreenState extends State<BarGraphScreen> {
   }
 
   List<BarChartGroupData> getYearlyBarData() {
-    final provider = Provider.of<DemandEnergyProviderUser>(context, listen: false);
+    final provider =
+        Provider.of<DemandEnergyProviderUser>(context, listen: false);
 
     // print('Yearly BarChart Data Extracting');
     return List.generate(
@@ -716,7 +720,8 @@ class _BarGraphScreenState extends State<BarGraphScreen> {
   }
 
   List<BarChartGroupData> getAllDepoDailyBarGroupData() {
-    final provider = Provider.of<DemandEnergyProviderUser>(context, listen: false);
+    final provider =
+        Provider.of<DemandEnergyProviderUser>(context, listen: false);
     // print('Daily BarChart Data Extracting');
     return List.generate(
       provider.depoList?.length ?? 5,
@@ -746,7 +751,8 @@ class _BarGraphScreenState extends State<BarGraphScreen> {
   }
 
   List<BarChartGroupData> getAllDepoMonthlyBarGroupData() {
-    final provider = Provider.of<DemandEnergyProviderUser>(context, listen: false);
+    final provider =
+        Provider.of<DemandEnergyProviderUser>(context, listen: false);
     print("MonthEnergy - ${widget.allDepotsMonthlyConsumedList}");
 
     return List.generate(
@@ -779,7 +785,8 @@ class _BarGraphScreenState extends State<BarGraphScreen> {
   }
 
   List<BarChartGroupData> getAllDepoQuarterlyBarGroupData() {
-    final provider = Provider.of<DemandEnergyProviderUser>(context, listen: false);
+    final provider =
+        Provider.of<DemandEnergyProviderUser>(context, listen: false);
     print('allDepoQuaterlyData - ${widget.allDepotsQuaterlyConsumedList}');
     // print('Daily BarChart Data Extracting');
     return List.generate(

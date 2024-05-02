@@ -59,7 +59,7 @@ class _CitiesPageState extends State<CitiesPage> {
                     itemCount: snapshot.data!.docs.length,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 4, childAspectRatio: 1.3),
+                            crossAxisCount: 4, childAspectRatio: 1.2),
                     itemBuilder: (context, index) {
                       return cards(
                           context,

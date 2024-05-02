@@ -7,7 +7,6 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:web_appllication/screen_user/KeysEvents/upload.dart';
 import 'package:web_appllication/model/user_model/detailed_engModel.dart';
-import 'package:web_appllication/screen_user/overview_pages/detailed_Eng.dart';
 import 'package:web_appllication/widgets/widgets_user/user_style.dart';
 
 import '../screen_user/KeysEvents/view_AllFiles.dart';
@@ -746,7 +745,7 @@ class DetailedEngSource extends DataGridSource {
     // The new cell value must be reset.
     // To avoid committing the [DataGridCell] value that was previously edited
     // into the current non-modified [DataGridCell].
-    newCellValue = '';
+    newCellValue = null;
 
     final bool isNumericType = column.columnName == 'SiNo';
     // || column.columnName == 'Number';

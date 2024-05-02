@@ -918,7 +918,7 @@ class _CivilQualityChecklistUser2State
                                     ),
                                   ),
                                   GridColumn(
-                                    columnName: 'reference',
+                                    columnName: 'Reference',
                                     allowEditing: true,
                                     width: 250,
                                     label: Container(
@@ -1096,12 +1096,12 @@ class _CivilQualityChecklistUser2State
                               ),
                             ),
                             GridColumn(
-                              columnName: 'reference',
+                              columnName: 'Reference',
                               allowEditing: true,
                               width: 250,
                               label: Container(
                                 alignment: Alignment.center,
-                                child: Text('DOCUMENT REFERENCE',
+                                child: Text('DOCUMENT Reference',
                                     overflow: TextOverflow.values.first,
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,

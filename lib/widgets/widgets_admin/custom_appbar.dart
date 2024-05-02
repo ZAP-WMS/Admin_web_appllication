@@ -134,7 +134,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 : widget.isDepoPage
                     ? Text(
                         widget.cityName ?? "",
-                        style: TextStyle(fontSize: 15),
+                        style: const TextStyle(fontSize: 15),
                       )
                     : Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

@@ -28,9 +28,9 @@ class KeyProviderAdmin extends ChangeNotifier {
   fetchDelayData(String depoName, dynamic userId) {
     // List<String> delayData = [];
     // List<String> durationData = [];
-    start_Date = '22-10-2024';
-    end_Date = '22-10-2024';
-    actual_end = '22-10-2024';
+    // start_Date = '22-10-2024';
+    // end_Date = '22-10-2024';
+    // actual_end = '22-10-2024';
     List<String> startDate = [];
     List<String> endDate = [];
     List<String> actualDate = [];

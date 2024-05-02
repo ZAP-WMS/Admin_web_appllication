@@ -755,7 +755,7 @@ class DetailedEngSourceShed extends DataGridSource {
     // The new cell value must be reset.
     // To avoid committing the [DataGridCell] value that was previously edited
     // into the current non-modified [DataGridCell].
-    newCellValue = '';
+    newCellValue = null;
 
     final bool isNumericType = column.columnName == 'SiNo';
     // || column.columnName == 'Number';
@@ -787,7 +787,9 @@ class DetailedEngSourceShed extends DataGridSource {
         style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
         autofocus: true,
         decoration: const InputDecoration(
-          contentPadding: EdgeInsets.symmetric(horizontal: 10.0,),
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 10.0,
+          ),
         ),
         controller: editingController..text = displayText,
         textAlign: isNumericType ? TextAlign.right : TextAlign.left,
@@ -800,7 +802,7 @@ class DetailedEngSourceShed extends DataGridSource {
             : isDateTimeType
                 ? TextInputType.datetime
                 : TextInputType.text,
-                onTapOutside: (event) {
+        onTapOutside: (event) {
           newCellValue = editingController.text;
         },
         onChanged: (String value) {
