@@ -38,7 +38,7 @@ class DetailedEngUser extends StatefulWidget {
 class _DetailedEngUsertState extends State<DetailedEngUser>
     with TickerProviderStateMixin {
   final AuthService authService = AuthService();
-  List<String> assignedDepots = [];
+  List<String> assignedCities = [];
   bool isFieldEditable = false;
   List<String> tabNames = [
     'RFC LAYOUT DRAWING',
@@ -69,7 +69,7 @@ class _DetailedEngUsertState extends State<DetailedEngUser>
   @override
   void initState() {
     checkAvailableImage().whenComplete(() async {
-      await getAssignedDepots();
+      await getAssignedCities();
       _detailedDataSource = DetailedEngSource(
           DetailedProject,
           context,
@@ -1804,9 +1804,10 @@ class _DetailedEngUsertState extends State<DetailedEngUser>
     }
   }
 
-  Future getAssignedDepots() async {
-    assignedDepots = await authService.getDepotList();
+  Future getAssignedCities() async {
+    assignedCities = await authService.getCityList();
     isFieldEditable =
-        authService.verifyAssignedDepot(widget.depoName!, assignedDepots);
+        authService.verifyAssignedCities(widget.cityName!, assignedCities);
   }
+  
 }

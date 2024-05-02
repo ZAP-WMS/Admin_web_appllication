@@ -33,7 +33,7 @@ class MonthlyProjectUser extends StatefulWidget {
 
 class _MonthlyProjectUserState extends State<MonthlyProjectUser> {
   final AuthService authService = AuthService();
-  List<String> assignedDepots = [];
+  List<String> assignedCities = [];
   bool isFieldEditable = false;
   List<MonthlyProjectModelUser> monthlyProject = <MonthlyProjectModelUser>[];
   late MonthlyDataSource monthlyDataSource;
@@ -46,7 +46,7 @@ class _MonthlyProjectUserState extends State<MonthlyProjectUser> {
 
   @override
   void initState() {
-    getAssignedDepots().whenComplete(() {
+    getAssignedCities().whenComplete(() {
       _stream = FirebaseFirestore.instance
           .collection('MonthlyProjectReport2')
           .doc('${widget.depoName}')
@@ -508,9 +508,10 @@ class _MonthlyProjectUserState extends State<MonthlyProjectUser> {
     );
   }
 
-  Future getAssignedDepots() async {
-    assignedDepots = await authService.getDepotList();
+  Future getAssignedCities() async {
+    assignedCities = await authService.getCityList();
     isFieldEditable =
-        authService.verifyAssignedDepot(widget.depoName!, assignedDepots);
+        authService.verifyAssignedCities(widget.cityName!, assignedCities);
   }
+
 }

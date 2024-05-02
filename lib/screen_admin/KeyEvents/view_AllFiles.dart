@@ -39,12 +39,12 @@ class _ViewAllPdfAdminState extends State<ViewAllPdfAdmin> {
   List<dynamic> drawingfullpath = [];
   bool _isload = true;
   final AuthService authService = AuthService();
-  List<String> assignedDepots = [];
+  List<String> assignedCities = [];
   bool isFieldEditable = false;
 
   @override
   void initState() {
-    getAssignedDepots().whenComplete(() async {
+    getAssignedCities().whenComplete(() async {
       widget.role = await authService.getUserRole();
       futureFiles = FirebaseApiAdmin.listAll(
           '${widget.title}/${widget.cityName}/${widget.depoName}/null/${widget.docId}');
@@ -245,9 +245,10 @@ class _ViewAllPdfAdminState extends State<ViewAllPdfAdmin> {
     }
   }
 
-  Future getAssignedDepots() async {
-    assignedDepots = await authService.getDepotList();
+  Future getAssignedCities() async {
+    assignedCities = await authService.getCityList();
     isFieldEditable =
-        authService.verifyAssignedDepot(widget.depoName, assignedDepots);
+        authService.verifyAssignedCities(widget.cityName!, assignedCities);
   }
+
 }

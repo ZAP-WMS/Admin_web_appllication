@@ -45,7 +45,7 @@ class KeyEvents2User extends StatefulWidget {
 
 class _KeyEvents2UserState extends State<KeyEvents2User> {
   final AuthService authService = AuthService();
-  List<String> assignedDepots = [];
+  List<String> assignedCities = [];
   bool isFieldEditable = false;
   late KeyDataSourceKeyEvents _KeyDataSourceKeyEvents;
   List<EmployeeUser> _employees = <EmployeeUser>[];
@@ -73,7 +73,7 @@ class _KeyEvents2UserState extends State<KeyEvents2User> {
   String? aedate;
   var alldata;
   bool _isLoading = true;
-  bool _isInit = true;
+  final bool _isInit = true;
   int? length;
   List<GanttEventBase> ganttdata = [];
   List<String> startDate = [];
@@ -258,8 +258,8 @@ class _KeyEvents2UserState extends State<KeyEvents2User> {
   double? totalPecProgress = 0.0;
   List<int> indicesToSkip = [0, 2, 6, 13, 18, 28, 32, 38, 64, 76];
   //[0, 2, 8, 12, 16, 27, 33, 39, 65, 76];
-  ScrollController _scrollController = ScrollController();
-  ScrollController _horizontalscrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
+  final ScrollController _horizontalscrollController = ScrollController();
   final ScrollController _verticalGridController = ScrollController();
   final ScrollController _dataGridScrollController = ScrollController();
   // final ScrollController _ganttChartController = ScrollController();
@@ -268,7 +268,7 @@ class _KeyEvents2UserState extends State<KeyEvents2User> {
 
   @override
   void initState() {
-    getAssignedDepots();
+    getAssignedCities();
     _keyProvider = Provider.of<KeyProviderUser>(context, listen: false);
 
     _KeyDataSourceKeyEvents = KeyDataSourceKeyEvents(_employees, context);
@@ -2954,10 +2954,10 @@ class _KeyEvents2UserState extends State<KeyEvents2User> {
     });
   }
 
-  Future getAssignedDepots() async {
-    assignedDepots = await authService.getDepotList();
+  Future getAssignedCities() async {
+    assignedCities = await authService.getCityList();
     isFieldEditable =
-        authService.verifyAssignedDepot(widget.depoName!, assignedDepots);
+        authService.verifyAssignedCities(widget.cityName!, assignedCities);
   }
 
   void _showDialog(BuildContext context) {

@@ -157,6 +157,14 @@ class AuthService {
     return isEligibleUser;
   }
 
+    bool verifyAssignedCities(String cityName, List<String> assignedDepots) {
+    bool isEligibleUser = false;
+    if (assignedDepots.contains(cityName)) {
+      isEligibleUser = true;
+    }
+    return isEligibleUser;
+  }
+
   Future<List<String>> getDepotList() async {
     final shared = await SharedPreferences.getInstance();
     List<String> depotList = shared.getStringList("depotList")!;

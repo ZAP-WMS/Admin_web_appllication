@@ -26,7 +26,6 @@ class _PlanningActionScreenState extends State<PlanningActionScreen> {
   @override
   void initState() {
     selectWidget();
-
     super.initState();
   }
 

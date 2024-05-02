@@ -48,7 +48,7 @@ int? _selectedIndex = 0;
 TextEditingController selectedDepoController = TextEditingController();
 
 final AuthService authService = AuthService();
-List<String> assignedDepots = [];
+List<String> assignedCities = [];
 bool isFieldEditable = false;
 List<bool> listToSelectTab = [];
 List<String> qualityFields = [
@@ -89,7 +89,7 @@ List<String> civil_title = [
 class _QualityChecklistUserState extends State<QualityChecklistUser> {
   @override
   void initState() {
-    getAssignedDepots();
+    getAssignedCities();
     super.initState();
   }
 
@@ -267,9 +267,10 @@ class _QualityChecklistUserState extends State<QualityChecklistUser> {
     return depoList;
   }
 
-  Future getAssignedDepots() async {
-    assignedDepots = await authService.getDepotList();
+  Future getAssignedCities() async {
+    assignedCities = await authService.getCityList();
     isFieldEditable =
-        authService.verifyAssignedDepot(widget.depoName!, assignedDepots);
+        authService.verifyAssignedCities(widget.cityName!, assignedCities);
   }
+
 }

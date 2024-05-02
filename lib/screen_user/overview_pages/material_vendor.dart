@@ -32,7 +32,7 @@ class MaterialProcurementUser extends StatefulWidget {
 
 class _MaterialProcurementUserState extends State<MaterialProcurementUser> {
   final AuthService authService = AuthService();
-  List<String> assignedDepots = [];
+  List<String> assignedCities = [];
   bool isFieldEditable = false;
   final List<MaterialProcurementModelUser> _materialprocurement =
       <MaterialProcurementModelUser>[];
@@ -45,7 +45,7 @@ class _MaterialProcurementUserState extends State<MaterialProcurementUser> {
 
   @override
   void initState() {
-    getAssignedDepots().whenComplete(() {
+    getAssignedCities().whenComplete(() {
       // _materialprocurement = getmonthlyReport();
       _materialDatasource = MaterialDatasource(_materialprocurement, context,
           widget.cityName, widget.depoName, removeRow);
@@ -714,10 +714,10 @@ class _MaterialProcurementUserState extends State<MaterialProcurementUser> {
     print('Selected Row Removed');
   }
 
-  Future getAssignedDepots() async {
-    assignedDepots = await authService.getDepotList();
+  Future getAssignedCities() async {
+    assignedCities = await authService.getCityList();
     isFieldEditable =
-        authService.verifyAssignedDepot(widget.depoName!, assignedDepots);
-    print("isFieldEditable - $isFieldEditable");
+        authService.verifyAssignedCities(widget.cityName!, assignedCities);
   }
+  
 }

@@ -44,14 +44,14 @@ class UploadDocument extends StatefulWidget {
 
 class _UploadDocumentState extends State<UploadDocument> {
   final AuthService authService = AuthService();
-  List<String> assignedDepots = [];
+  List<String> assignedCities = [];
   bool isFieldEditable = false;
   FilePickerResult? result;
   bool isLoading = true;
 
   @override
   void initState() {
-    getAssignedDepots().whenComplete(() {
+    getAssignedCities().whenComplete(() {
       setState(() {
         isLoading = false;
       });
@@ -321,10 +321,9 @@ class _UploadDocumentState extends State<UploadDocument> {
               ));
   }
 
-  Future getAssignedDepots() async {
-    assignedDepots = await authService.getDepotList();
+  Future getAssignedCities() async {
+    assignedCities = await authService.getCityList();
     isFieldEditable =
-        authService.verifyAssignedDepot(widget.depoName!, assignedDepots);
-    print(isFieldEditable);
+        authService.verifyAssignedCities(widget.cityName!, assignedCities);
   }
 }

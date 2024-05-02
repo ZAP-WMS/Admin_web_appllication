@@ -35,9 +35,9 @@ class EnergyManagementUser extends StatefulWidget {
 
 class _EnergyManagementUserState extends State<EnergyManagementUser> {
   final AuthService authService = AuthService();
-  List<String> assignedDepots = [];
+  List<String> assignedCities = [];
   bool isFieldEditable = false;
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
   late EnergyManagementDatasource _energyManagementdatasource;
   late DataGridController _dataGridController;
   final List<EnergyManagementModelUser> _energyManagement =
@@ -78,7 +78,7 @@ class _EnergyManagementUserState extends State<EnergyManagementUser> {
     _energyManagementdatasource = EnergyManagementDatasource(_energyManagement,
         context, widget.userId!, widget.cityName, widget.depoName);
     _dataGridController = DataGridController();
-    getAssignedDepots().whenComplete(() {
+    getAssignedCities().whenComplete(() {
       setState(() {});
       _isloading = false;
     });
@@ -767,9 +767,10 @@ class _EnergyManagementUserState extends State<EnergyManagementUser> {
     }));
   }
 
-  Future getAssignedDepots() async {
-    assignedDepots = await authService.getDepotList();
+  Future getAssignedCities() async {
+    assignedCities = await authService.getCityList();
     isFieldEditable =
-        authService.verifyAssignedDepot(widget.depoName!, assignedDepots);
+        authService.verifyAssignedCities(widget.cityName!, assignedCities);
   }
+  
 }

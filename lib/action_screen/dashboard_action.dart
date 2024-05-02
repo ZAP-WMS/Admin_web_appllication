@@ -30,6 +30,7 @@ class _DashboardActionState extends State<DashboardAction> {
 
   Widget selectWidget() {
     switch (widget.role) {
+      
       case 'user':
         selectedUi = SplitDashboard(
           userId: widget.userId,

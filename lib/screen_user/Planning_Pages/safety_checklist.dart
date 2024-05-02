@@ -37,7 +37,7 @@ class SafetyChecklistUser extends StatefulWidget {
 
 List<SafetyChecklistModelUser> safetylisttable = <SafetyChecklistModelUser>[];
 final AuthService authService = AuthService();
-List<String> assignedDepots = [];
+List<String> assignedCities = [];
 String? selectedDate = DateFormat.yMMMMd().format(DateTime.now());
 bool isFieldEditable = false;
 late SafetyChecklistDataSource _safetyChecklistDataSource;
@@ -65,7 +65,7 @@ DateTime? date2 = DateTime.now();
 class _SafetyChecklistUserState extends State<SafetyChecklistUser> {
   @override
   void initState() {
-    getAssignedDepots();
+    getAssignedCities();
     checkAvailableImage().whenComplete(() {
       safetylisttable = getData();
       _safetyChecklistDataSource = SafetyChecklistDataSource(safetylisttable,
@@ -1708,9 +1708,10 @@ class _SafetyChecklistUserState extends State<SafetyChecklistUser> {
     }
   }
 
-  Future getAssignedDepots() async {
-    assignedDepots = await authService.getDepotList();
+  Future getAssignedCities() async {
+    assignedCities = await authService.getCityList();
     isFieldEditable =
-        authService.verifyAssignedDepot(widget.depoName!, assignedDepots);
+        authService.verifyAssignedCities(widget.cityName!, assignedCities);
   }
+  
 }

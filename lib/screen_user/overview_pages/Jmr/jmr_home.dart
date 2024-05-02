@@ -51,7 +51,7 @@ class JmrHomeUser extends StatefulWidget {
 
 class _JmrHomeUserState extends State<JmrHomeUser> {
   final AuthService authService = AuthService();
-  List<String> assignedDepots = [];
+  List<String> assignedCities = [];
   bool isFieldEditable = false;
   final TextEditingController projectName = TextEditingController();
   final loiRefNum = TextEditingController();
@@ -92,7 +92,7 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
   @override
   void initState() {
     super.initState();
-    getAssignedDepots();
+    getAssignedCities();
     _stream = FirebaseFirestore.instance
         .collection('JMRCollection')
         .doc(widget.depoName)
@@ -1378,10 +1378,10 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
     });
   }
 
-  Future getAssignedDepots() async {
-    assignedDepots = await authService.getDepotList();
+  Future getAssignedCities() async {
+    assignedCities = await authService.getCityList();
     isFieldEditable =
-        authService.verifyAssignedDepot(widget.depoName!, assignedDepots);
+        authService.verifyAssignedCities(widget.cityName!, assignedCities);
   }
 
   HeaderValue(String title, String hintValue, TextEditingController fieldData) {
