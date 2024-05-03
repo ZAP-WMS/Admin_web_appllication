@@ -149,6 +149,21 @@ class AuthService {
     }
   }
 
+    Future storeRoleCentre(String roleCentre) async {
+    try {
+      final shared = await SharedPreferences.getInstance();
+      shared.setString("roleCentre", roleCentre);
+    } catch (e) {
+      print("Error While Storing RoleCentre - $e");
+    }
+  }
+
+  Future<String> getRoleCentre() async {
+    final shared = await SharedPreferences.getInstance();
+    String roleCentre = shared.getString("roleCentre")!;
+    return roleCentre;
+  }
+
   bool verifyAssignedDepot(String depotName, List<String> assignedDepots) {
     bool isEligibleUser = false;
     if (assignedDepots.contains(depotName)) {

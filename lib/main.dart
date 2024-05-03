@@ -27,7 +27,7 @@ import 'package:web_appllication/routeBuilder/fluro_router.dart';
 import 'package:web_appllication/widgets/widgets_admin/admin_style.dart';
 
 void main() async {
-  Flurorouter.setupRouter();
+  FluroRouting.setupRouter();
   setPathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -37,8 +37,6 @@ void main() async {
           messagingSenderId: '787886302853',
           storageBucket: "tp-zap-solz.appspot.com",
           projectId: 'tp-zap-solz'));
-  // listenToFirestoreChanges();
-
   runApp(const MyApp());
 }
 
@@ -84,7 +82,7 @@ class MyApp extends StatelessWidget {
           title: 'TATA POWER CONTROL PANEL',
           // initialRoute: 'login',
           //  onGenerateRoute:Flurorouter.router.
-          onGenerateRoute: Flurorouter.router.generator,
+          onGenerateRoute: FluroRouting.router.generator,
           theme: ThemeData(
             scrollbarTheme: ScrollbarThemeData(
               thumbVisibility: const MaterialStatePropertyAll(true),
@@ -117,7 +115,7 @@ class MyApp extends StatelessWidget {
               labelStyle: bodyText2White60,
             ),
           ),
-          home: const SplitScreen()
+          // home: const PmisAndOAndMScreen()
           //  RoleScreen()
           // LoginRegister()
           ),

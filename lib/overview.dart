@@ -7,19 +7,22 @@ import 'widgets/widgets_admin/custom_appbar.dart';
 String userId = '';
 
 class MyOverview extends StatefulWidget {
-  String? userId;
-  String depoName;
-  String cityName;
-  String role;
-  MyOverview(
-      {super.key,
+  final String? userId;
+  final String depoName;
+  final String cityName;
+  final String role;
+  
+  const MyOverview({
+      super.key,
       required this.depoName,
       required this.cityName,
       this.userId,
-      required this.role});
+      required this.role
+      });
 
   @override
   State<MyOverview> createState() => _MyOverviewState();
+
 }
 
 class _MyOverviewState extends State<MyOverview> {
@@ -83,6 +86,7 @@ class _MyOverviewState extends State<MyOverview> {
 
   @override
   Widget build(BuildContext context) {
+    
     List<String> desription = [
       'Overview of Project Progress Status of ${widget.depoName} EV Bus Charging Infra',
       'Project Planning & Scheduling Bus Depot Wise [Gant Chart] ',

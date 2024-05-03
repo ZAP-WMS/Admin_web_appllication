@@ -55,7 +55,7 @@ dependencies:
   flutter_widget_from_html: null
   gantt_chart: ^0.3.0
   get: ^4.6.5
-  google_fonts: ^3.0.1
+  google_fonts: ^4.0.4
   group_button: ^5.2.2
   http: ^0.13.5
   image_picker: ^0.8.6
