@@ -31,12 +31,14 @@ void main() async {
   setPathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-      options: const FirebaseOptions(
-          apiKey: 'AIzaSyCrSwVB12UIZ_wiLcsIqDeXb3cP6QKkMgM',
-          appId: '1:787886302853:web:a13e1fc1f32187fcc26bec',
-          messagingSenderId: '787886302853',
-          storageBucket: "tp-zap-solz.appspot.com",
-          projectId: 'tp-zap-solz'));
+    options: const FirebaseOptions(
+      apiKey: 'AIzaSyCrSwVB12UIZ_wiLcsIqDeXb3cP6QKkMgM',
+      appId: '1:787886302853:web:a13e1fc1f32187fcc26bec',
+      messagingSenderId: '787886302853',
+      storageBucket: "tp-zap-solz.appspot.com",
+      projectId: 'tp-zap-solz',
+    ),
+  );
   runApp(const MyApp());
 }
 
@@ -78,47 +80,48 @@ class MyApp extends StatelessWidget {
             create: (context) => RolePageTotalNumProviderAdmin()),
       ],
       child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'TATA POWER CONTROL PANEL',
-          // initialRoute: 'login',
-          //  onGenerateRoute:Flurorouter.router.
-          onGenerateRoute: FluroRouting.router.generator,
-          theme: ThemeData(
-            scrollbarTheme: ScrollbarThemeData(
-              thumbVisibility: const MaterialStatePropertyAll(true),
-              thumbColor: MaterialStatePropertyAll(blue),
-              thickness: const MaterialStatePropertyAll(5.0),
-              trackVisibility: const MaterialStatePropertyAll(true),
-            ),
-            primarySwatch: Colors.blue,
-            dividerColor: grey,
-            fontFamily: 'Montserrat',
-            inputDecorationTheme: InputDecorationTheme(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(
-                  6,
-                ),
-                borderSide: BorderSide(
-                  color: grey,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(
-                  6,
-                ),
-                borderSide: BorderSide(
-                  color: blue,
-                ),
-              ),
-              floatingLabelBehavior: FloatingLabelBehavior.auto,
-              focusColor: almostWhite,
-              labelStyle: bodyText2White60,
-            ),
+        debugShowCheckedModeBanner: false,
+        title: 'TATA POWER CONTROL PANEL',
+        // initialRoute: 'splashScreen',
+
+        //  onGenerateRoute:Flurorouter.router.
+        onGenerateRoute: FluroRouting.router.generator,
+        theme: ThemeData(
+          scrollbarTheme: ScrollbarThemeData(
+            thumbVisibility: const MaterialStatePropertyAll(true),
+            thumbColor: MaterialStatePropertyAll(blue),
+            thickness: const MaterialStatePropertyAll(5.0),
+            trackVisibility: const MaterialStatePropertyAll(true),
           ),
-          // home: const PmisAndOAndMScreen()
-          //  RoleScreen()
-          // LoginRegister()
+          primarySwatch: Colors.blue,
+          dividerColor: grey,
+          fontFamily: 'Montserrat',
+          inputDecorationTheme: InputDecorationTheme(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(
+                6,
+              ),
+              borderSide: BorderSide(
+                color: grey,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(
+                6,
+              ),
+              borderSide: BorderSide(
+                color: blue,
+              ),
+            ),
+            floatingLabelBehavior: FloatingLabelBehavior.auto,
+            focusColor: almostWhite,
+            labelStyle: bodyText2White60,
           ),
+        ),
+        // home: const PmisAndOAndMScreen()
+        //  RoleScreen()
+        // LoginRegister()
+      ),
     );
   }
 }

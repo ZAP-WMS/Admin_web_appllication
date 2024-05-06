@@ -38,7 +38,8 @@ class JmrHomeAdmin extends StatefulWidget {
       this.tabName,
       required this.showTable,
       this.dataFetchingIndex,
-      this.userId,required this.role});
+      this.userId,
+      required this.role});
 
   @override
   State<JmrHomeAdmin> createState() => _JmrHomeAdminState();
@@ -59,7 +60,7 @@ class _JmrHomeAdminState extends State<JmrHomeAdmin> {
 
   List<JMRModelAdmin> jmrtable = <JMRModelAdmin>[];
   late JmrDataSource _jmrDataSource;
-  late List<dynamic> jmrSyncList;
+  List<dynamic> jmrSyncList = [];
   late DataGridController _dataGridController;
   bool _isLoading = true;
   List<dynamic> tabledata2 = [];
@@ -91,7 +92,7 @@ class _JmrHomeAdminState extends State<JmrHomeAdmin> {
                         innerItem['Activity'],
                         innerItem['RefNo'],
                         innerItem['Abstract'],
-                        innerItem['Uom'],
+                        innerItem['UOM'],
                         innerItem['Rate'],
                         innerItem['TotalQty'],
                         innerItem['TotalAmount']
@@ -137,9 +138,7 @@ class _JmrHomeAdminState extends State<JmrHomeAdmin> {
           ? LoadingPage()
           : Scaffold(
               appBar: PreferredSize(
-              
                 preferredSize: const Size.fromHeight(50),
-              
                 child: CustomAppBar(
                   isProjectManager: false,
                   role: widget.role,

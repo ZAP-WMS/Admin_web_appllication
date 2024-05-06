@@ -139,7 +139,8 @@ class AuthService {
       print("Error While Storing AssginedDepots - $e");
     }
   }
-      Future storeCityList(List<String> cityList) async {
+
+  Future storeCityList(List<String> cityList) async {
     try {
       final shared = await SharedPreferences.getInstance();
       shared.setStringList("cityList", cityList);
@@ -149,7 +150,7 @@ class AuthService {
     }
   }
 
-    Future storeRoleCentre(String roleCentre) async {
+  Future storeRoleCentre(String roleCentre) async {
     try {
       final shared = await SharedPreferences.getInstance();
       shared.setString("roleCentre", roleCentre);
@@ -172,7 +173,7 @@ class AuthService {
     return isEligibleUser;
   }
 
-    bool verifyAssignedCities(String cityName, List<String> assignedDepots) {
+  bool verifyAssignedCities(String cityName, List<String> assignedDepots) {
     bool isEligibleUser = false;
     if (assignedDepots.contains(cityName)) {
       isEligibleUser = true;
@@ -186,8 +187,7 @@ class AuthService {
     return depotList;
   }
 
-  
-    Future<List<String>> getCityList() async {
+  Future<List<String>> getCityList() async {
     final shared = await SharedPreferences.getInstance();
     List<String> cityList = shared.getStringList("cityList")!;
     return cityList;

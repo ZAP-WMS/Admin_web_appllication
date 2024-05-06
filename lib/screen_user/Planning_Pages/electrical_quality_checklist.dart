@@ -1549,7 +1549,7 @@ class _ElectricalQualityChecklistUserState
           pw.Container(
               padding: const pw.EdgeInsets.all(2.0),
               child: pw.Center(
-                  child: pw.Text(mapData.reference.toString(),
+                  child: pw.Text(mapData.reference ?? '',
                       textAlign: pw.TextAlign.center,
                       style: const pw.TextStyle(fontSize: 14)))),
           pw.Container(

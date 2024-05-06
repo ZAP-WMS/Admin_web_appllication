@@ -172,7 +172,6 @@ class JmrDataSource extends DataGridSource {
         _getRegExp(isNumericType, isDateTimeType, column.columnName);
 
     return Container(
-      padding: const EdgeInsets.all(8.0),
       alignment: isNumericType ? Alignment.centerRight : Alignment.centerLeft,
       child: TextField(
         autofocus: true,
@@ -180,7 +179,9 @@ class JmrDataSource extends DataGridSource {
         textAlign: isNumericType ? TextAlign.right : TextAlign.left,
         autocorrect: false,
         decoration: const InputDecoration(
-          contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 16.0),
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 10.0,
+          ),
         ),
         inputFormatters: <TextInputFormatter>[
           FilteringTextInputFormatter.allow(regExp),
@@ -199,8 +200,6 @@ class JmrDataSource extends DataGridSource {
             } else {
               newCellValue = value;
             }
-          } else {
-            newCellValue = null;
           }
         },
         onSubmitted: (String value) {

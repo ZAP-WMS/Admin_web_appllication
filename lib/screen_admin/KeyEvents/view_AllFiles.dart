@@ -62,13 +62,9 @@ class _ViewAllPdfAdminState extends State<ViewAllPdfAdmin> {
         futureFiles = FirebaseApiAdmin.listAll(
             'Depot Insights/${widget.cityName}/${widget.depoName}/DepotImages/');
       } else {
-        getrefdata().whenComplete(() {
+        await getrefdata().whenComplete(() {
           for (int i = 0; i < drawingRef.length; i++) {
             for (int j = 0; j < drawingfullpath.length; j++) {
-              print('before ' + drawingfullpath[j]);
-              print(
-                  'after  ${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}/${widget.docId}');
-
               if (drawingfullpath[j] ==
                   '${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}/${widget.docId}') {
                 futureFiles = FirebaseApiAdmin.listAll(drawingfullpath[j]);
@@ -250,5 +246,4 @@ class _ViewAllPdfAdminState extends State<ViewAllPdfAdmin> {
     isFieldEditable =
         authService.verifyAssignedCities(widget.cityName!, assignedCities);
   }
-
 }

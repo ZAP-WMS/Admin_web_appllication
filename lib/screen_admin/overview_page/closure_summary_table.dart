@@ -25,7 +25,6 @@ class ClosureSummaryTable extends StatefulWidget {
 }
 
 class _ClosureSummaryTableState extends State<ClosureSummaryTable> {
-
   List<List<dynamic>> rowList = [];
   TextEditingController selectedDepoController = TextEditingController();
   TextEditingController selectedCityController = TextEditingController();
@@ -41,7 +40,6 @@ class _ClosureSummaryTableState extends State<ClosureSummaryTable> {
       appBar: PreferredSize(
           // ignore: sort_child_properties_last
           child: CustomAppBar(
-            
             makeAnEntryPage: ClosureReportUser(
               role: widget.role,
               cityName: widget.cityName,
@@ -63,8 +61,8 @@ class _ClosureSummaryTableState extends State<ClosureSummaryTable> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
-                child: LoadingPage(),
-                );
+              child: LoadingPage(),
+            );
           } else if (snapshot.hasError) {
             return const Center(
               child: Text('Error fetching data'),
@@ -140,7 +138,7 @@ class _ClosureSummaryTableState extends State<ClosureSummaryTable> {
                                         depoName: widget.depoName,
                                         cityName: widget.cityName,
                                         id: 'Closure Summary',
-                                        user_id: rowData[0],
+                                        userId: rowData[0],
                                       ),
                                     ),
                                   );

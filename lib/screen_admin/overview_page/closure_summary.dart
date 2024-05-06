@@ -14,7 +14,6 @@ class ClosureSummary extends StatefulWidget {
   final String? depoName;
   final String? id;
   final String? date;
-  final String? user_id;
   final String role;
 
   const ClosureSummary(
@@ -24,7 +23,6 @@ class ClosureSummary extends StatefulWidget {
       required this.depoName,
       this.id,
       this.date,
-      this.user_id,
       required this.role});
 
   @override
@@ -64,7 +62,7 @@ class _ClosureSummaryState extends State<ClosureSummary> {
   ];
 
   Future<List<TableRow>> fetchData() async {
-    await getRowsForFutureBuilder('${widget.date}', '${widget.user_id}');
+    await getRowsForFutureBuilder('${widget.date}', '${widget.userId}');
     return rowOfWidget;
   }
 
@@ -150,12 +148,12 @@ class _ClosureSummaryState extends State<ClosureSummary> {
 
     List<List<String>> tableRows = [
       ['1', 'Introduction of Project'],
-      ['1.1', 'RFP for DTC Bus Project '],
-      ['1.2', 'Project Purchase Order or LOI or LOA '],
-      ['1.3', 'Project Governance Structure'],
-      ['1.4', 'Site Location Details'],
-      ['1.5', 'Final  Site Survey Report'],
-      ['1.6', 'BOQ (Bill of Quantity)']
+      ['2', 'RFP for DTC Bus Project '],
+      ['3', 'Project Purchase Order or LOI or LOA '],
+      ['4', 'Project Governance Structure'],
+      ['5', 'Site Location Details'],
+      ['6', 'Final  Site Survey Report'],
+      ['7', 'BOQ (Bill of Quantity)']
     ];
 
     for (int i = 0; i < tableRows.length; i++) {
@@ -178,7 +176,9 @@ class _ClosureSummaryState extends State<ClosureSummary> {
           final downloadUrl = await img.getDownloadURL();
           if (img.name.endsWith('.pdf')) {
             url.add(Container(
-              margin: const EdgeInsets.all(5.0,),
+              margin: const EdgeInsets.all(
+                5.0,
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -192,16 +192,23 @@ class _ClosureSummaryState extends State<ClosureSummary> {
                       image: pdfLogo,
                     ),
                   ),
-                  Text(
-                    img.name,
-                    style: const TextStyle(fontSize: 13,),
+                  SizedBox(
+                    width: 120,
+                    child: Text(
+                      img.name,
+                      style: const TextStyle(
+                        fontSize: 13,
+                      ),
+                    ),
                   )
                 ],
               ),
             ));
           } else {
             url.add(Container(
-              margin: const EdgeInsets.all(5.0,),
+              margin: const EdgeInsets.all(
+                5.0,
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -215,9 +222,12 @@ class _ClosureSummaryState extends State<ClosureSummary> {
                       image: NetworkImage(downloadUrl),
                     ),
                   ),
-                  Text(
-                    img.name,
-                    style: const TextStyle(fontSize: 13),
+                  SizedBox(
+                    width: 120,
+                    child: Text(
+                      img.name,
+                      style: const TextStyle(fontSize: 13),
+                    ),
                   )
                 ],
               ),

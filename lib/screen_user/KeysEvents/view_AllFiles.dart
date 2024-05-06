@@ -48,22 +48,25 @@ class _ViewAllPdfUserState extends State<ViewAllPdfUser> {
       futureFiles = widget.title == 'QualityChecklist'
           ? FirebaseApiUser.listAll(
               '${widget.title}/${widget.subtitle}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.fldrName}/${widget.date}/${widget.srNo}')
-          : widget.title == 'jmr'
-              ? FirebaseApiUser.listAll(widget.fldrName!)
-              : widget.title == 'ClosureReport'
-                  ? FirebaseApiUser.listAll(
-                      '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.docId}')
-                  : widget.title == 'Key Events' ||
-                          widget.title == 'Overview Page'
+          : widget.title == 'Depot Insights'
+              ? FirebaseApiUser.listAll(
+                  '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.docId}')
+              : widget.title == 'jmr'
+                  ? FirebaseApiUser.listAll(widget.fldrName!)
+                  : widget.title == 'ClosureReport'
                       ? FirebaseApiUser.listAll(
-                          '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.userId}')
-                      : widget.title == '/BOQSurvey' ||
-                              widget.title == '/BOQElectrical' ||
-                              widget.title == '/BOQCivil'
+                          '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.docId}')
+                      : widget.title == 'Key Events' ||
+                              widget.title == 'Overview Page'
                           ? FirebaseApiUser.listAll(
-                              '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.docId}')
-                          : FirebaseApiUser.listAll(
-                              '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.date}/${widget.docId}');
+                              '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.userId}')
+                          : widget.title == '/BOQSurvey' ||
+                                  widget.title == '/BOQElectrical' ||
+                                  widget.title == '/BOQCivil'
+                              ? FirebaseApiUser.listAll(
+                                  '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.docId}')
+                              : FirebaseApiUser.listAll(
+                                  '${widget.title}/${widget.cityName}/${widget.depoName}/${widget.userId}/${widget.date}/${widget.docId}');
       setState(() {});
     });
     super.initState();
@@ -92,7 +95,11 @@ class _ViewAllPdfUserState extends State<ViewAllPdfUser> {
               return LoadingPage();
             default:
               if (snapshot.hasError) {
-                return const Center(child: Text('Some error occurred!'));
+                return const Center(
+                  child: Text(
+                    'Some error occurred!',
+                  ),
+                );
               } else {
                 final files = snapshot.data!;
 
@@ -193,5 +200,4 @@ class _ViewAllPdfUserState extends State<ViewAllPdfUser> {
     isFieldEditable =
         authService.verifyAssignedCities(widget.cityName!, assignedCities);
   }
-
 }

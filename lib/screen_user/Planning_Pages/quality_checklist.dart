@@ -271,6 +271,7 @@ class _QualityChecklistUserState extends State<QualityChecklistUser> {
     assignedCities = await authService.getCityList();
     isFieldEditable =
         authService.verifyAssignedCities(widget.cityName!, assignedCities);
+    print("Quality isFieldEditable: $isFieldEditable");
   }
-
+  
 }

@@ -1,11 +1,20 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:web_appllication/action_screen/dashboard_action.dart';
+import 'package:web_appllication/widgets/coming_soon_screen.dart';
 import 'package:web_appllication/widgets/widgets_admin/admin_style.dart';
 
 class PmisAndOAndMScreen extends StatefulWidget {
+  final String role;
+  final String userId;
+  final String roleCentre;
 
-  const PmisAndOAndMScreen({super.key
-  });
+  const PmisAndOAndMScreen(
+      {super.key,
+      required this.role,
+      required this.userId,
+      required this.roleCentre});
 
   @override
   State<PmisAndOAndMScreen> createState() => _PmisAndOAndMScreenState();
@@ -28,6 +37,7 @@ class _PmisAndOAndMScreenState extends State<PmisAndOAndMScreen> {
       child: Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
+          filterQuality: FilterQuality.low,
           fit: BoxFit.cover,
           image: AssetImage(
             "assets/pmis_oAndm/EV MONITORING_bg.jpg",
@@ -42,59 +52,61 @@ class _PmisAndOAndMScreenState extends State<PmisAndOAndMScreen> {
                   top: 50.0,
                 ),
                 alignment: Alignment.center,
-                // decoration: const BoxDecoration(
-                //     image: DecorationImage(
-                //   fit: BoxFit.cover,
-                //   image: AssetImage(
-                //     "assets/pmis_oAndm/electric_buc_bg.png",
-                //   ),
-                // )),
-                child: RichText(
-                  text: TextSpan(children: [
-                    TextSpan(
-                      text: "EV M",
-                      style: GoogleFonts.acme(
-                        fontSize: 55,
-                        color: const Color.fromARGB(255, 9, 12, 109),
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 2,
-                      ),
-                    ),
-                    const WidgetSpan(
-                      alignment: PlaceholderAlignment.middle,
-                      child: Icon(
-                        Icons.offline_bolt,
-                        size: 40,
-                        color: Color.fromARGB(255, 9, 12, 109),
-                      ),
-                    ),
-                    TextSpan(
-                      text: "nit",
-                      style: GoogleFonts.acme(
-                        fontSize: 55,
-                        color: const Color.fromARGB(255, 9, 12, 109),
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 2,
-                      ),
-                    ),
-                    const WidgetSpan(
-                      alignment: PlaceholderAlignment.middle,
-                      child: Icon(
-                        Icons.offline_bolt,
-                        size: 40,
-                        color: Color.fromARGB(255, 9, 12, 109),
-                      ),
-                    ),
-                    TextSpan(
-                      text: "ring",
-                      style: GoogleFonts.acme(
-                        fontSize: 55,
-                        color: const Color.fromARGB(255, 9, 12, 109),
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 2,
-                      ),
-                    )
-                  ]),
+                child: TweenAnimationBuilder(
+                  duration: const Duration(
+                    milliseconds: 1500,
+                  ),
+                  curve: Curves.easeInOut,
+                  tween: Tween<double>(begin: 0.0, end: 1.0),
+                  builder: (context, value, child) {
+                    return RichText(
+                      text: TextSpan(children: [
+                        TextSpan(
+                          text: "EV M",
+                          style: GoogleFonts.acme(
+                            fontSize: 55,
+                            color: const Color.fromARGB(255, 9, 12, 109),
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 2,
+                          ),
+                        ),
+                        const WidgetSpan(
+                          alignment: PlaceholderAlignment.middle,
+                          child: Icon(
+                            Icons.offline_bolt,
+                            size: 40,
+                            color: Color.fromARGB(255, 9, 12, 109),
+                          ),
+                        ),
+                        TextSpan(
+                          text: "nit",
+                          style: GoogleFonts.acme(
+                            fontSize: 55,
+                            color: const Color.fromARGB(255, 9, 12, 109),
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 2,
+                          ),
+                        ),
+                        const WidgetSpan(
+                          alignment: PlaceholderAlignment.middle,
+                          child: Icon(
+                            Icons.offline_bolt,
+                            size: 40,
+                            color: Color.fromARGB(255, 9, 12, 109),
+                          ),
+                        ),
+                        TextSpan(
+                          text: "ring",
+                          style: GoogleFonts.acme(
+                            fontSize: 55,
+                            color: const Color.fromARGB(255, 9, 12, 109),
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 2,
+                          ),
+                        )
+                      ]),
+                    );
+                  },
                 ),
               ),
             ),
@@ -104,13 +116,13 @@ class _PmisAndOAndMScreenState extends State<PmisAndOAndMScreen> {
                 margin: const EdgeInsets.only(top: 70, left: 10, right: 10),
                 padding: const EdgeInsets.only(top: 10),
                 color: white,
-                height: 270,
+                height: 210,
                 width: MediaQuery.of(context).size.width,
                 child: Stack(
                   children: [
                     AnimatedPositioned(
                       duration: const Duration(
-                        milliseconds: 600,
+                        milliseconds: 800,
                       ),
                       left: animateImages
                           ? 0
@@ -119,10 +131,23 @@ class _PmisAndOAndMScreenState extends State<PmisAndOAndMScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              // final route = FluroRouter();
+                              // route.navigateTo(context, "login",
+                              //     clearStack: true);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DashboardAction(
+                                    role: widget.role,
+                                    userId: widget.userId,
+                                  ),
+                                ),
+                              );
+                            },
                             child: Image.asset(
                               "assets/pmis_oAndm/pmis_new.png",
-                              height: 260,
+                              height: 220,
                             ),
                           ),
                         ],
@@ -141,7 +166,7 @@ class _PmisAndOAndMScreenState extends State<PmisAndOAndMScreen> {
                   bottom: 10.0,
                 ),
                 color: white,
-                height: 260,
+                height: 220,
                 width: MediaQuery.of(context).size.width,
                 child: Stack(
                   alignment: Alignment.center,
@@ -157,7 +182,7 @@ class _PmisAndOAndMScreenState extends State<PmisAndOAndMScreen> {
                     ),
                     AnimatedPositioned(
                       duration: const Duration(
-                        milliseconds: 600,
+                        milliseconds: 800,
                       ),
                       right: animateImages
                           ? 0
@@ -166,10 +191,18 @@ class _PmisAndOAndMScreenState extends State<PmisAndOAndMScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ComingSoonScreen(),
+                                ),
+                              );
+                            },
                             child: Image.asset(
                               "assets/pmis_oAndm/oAndM_new.png",
-                              height: 240,
+                              height: 210,
                             ),
                           ),
                         ],

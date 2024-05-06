@@ -20,19 +20,72 @@ import 'package:web_appllication/overview.dart';
 import 'package:web_appllication/cities.dart';
 import 'package:web_appllication/pmis_oAndm_split_screen.dart.dart';
 import 'package:web_appllication/screen_admin/MenuPage/role.dart';
+import 'package:web_appllication/screen_user/Splash/splash_screen.dart';
 import '../depot.dart';
 
 class FluroRouting {
   static final FluroRouter router = FluroRouter();
 
   static Handler loginHandler = Handler(
-    handlerFunc: (context, Map<String, dynamic> params) =>
-        const LoginRegister(),
+      handlerFunc: (context, Map<String, dynamic> params) =>
+          const LoginRegister());
+
+  static Handler splashScreen = Handler(
+    handlerFunc: (context, Map<String, dynamic> params) => const SplashScreen(),
   );
 
   static Handler pmisOandMhandle = Handler(
-    handlerFunc: (context, Map<String, dynamic> params) =>
-        const PmisAndOAndMScreen(),
+    handlerFunc: (context, Map<String, dynamic> params) {
+      ModalRoute? modalRoute = ModalRoute.of(context!);
+
+      print("params - ${params}");
+
+      if (modalRoute != null) {
+        Map<String, dynamic>? modelRoute =
+            modalRoute.settings.arguments as Map<String, dynamic>?;
+
+        if (modelRoute != null) {
+          final userId = modelRoute['userId'];
+          final role = modelRoute['role'];
+          final roleCentre = modelRoute['roleCentre'];
+
+          return PmisAndOAndMScreen(
+            roleCentre: roleCentre,
+            userId: userId,
+            role: role,
+          );
+        } else {
+          return FutureBuilder<Map<String, dynamic>?>(
+              future: _getCityDataFromSharedPreferences(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  // Do something with userId
+                  Map<String, dynamic>? cityData = snapshot.data;
+
+                  String userId = cityData?['userId'] ?? 'null';
+                  String role = cityData?['role'] ?? 'N/A';
+                  String roleCentre = cityData?['roleCentre'] ?? 'N/A';
+
+                  if (userId != 'null') {
+                    // User is logged in, return your widget
+                    return PmisAndOAndMScreen(
+                      roleCentre: roleCentre,
+                      userId: userId,
+                      role: role,
+                    );
+                  } else {
+                    // User is not logged in, navigate to login screen
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => const LoginRegister()));
+                    // Return an empty container or loading widget since you're navigating
+                  }
+                }
+                return LoadingPage();
+              });
+        }
+      }
+      return null;
+    },
   );
 
   static Handler navPagedHandler = Handler(
@@ -829,6 +882,7 @@ class FluroRouting {
   });
 
   static void setupRouter() {
+    router.define('splashScreen', handler: splashScreen);
     router.define(
       'login',
       handler: loginHandler,
@@ -879,6 +933,10 @@ class FluroRouting {
     router.define(
         'login/EVDashboard/Cities/EVBusDepot/OverviewPage/DemandEnergy/',
         handler: demandEnergyhandler);
+    router.notFoundHandler = Handler(
+        handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+      return const SplashScreen();
+    });
   }
 
   // static Future<String?> _getUserIdFromSharedPreferences() async {

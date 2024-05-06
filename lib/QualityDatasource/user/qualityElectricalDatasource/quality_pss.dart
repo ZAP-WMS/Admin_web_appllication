@@ -140,9 +140,9 @@ class QualityPSSDataSource extends DataGridSource {
           DataGridCell<String>(
               columnName: 'responsibility', value: newCellValue);
       _checklistModel[dataRowIndex].responsibility = newCellValue.toString();
-    } else if (column.columnName == 'Reference') {
+    } else if (column.columnName == 'reference') {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
-          DataGridCell<dynamic>(columnName: 'Reference', value: newCellValue);
+          DataGridCell<dynamic>(columnName: 'reference', value: newCellValue);
       _checklistModel[dataRowIndex].reference = newCellValue as dynamic;
     } else {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
@@ -208,9 +208,9 @@ class QualityPSSDataSource extends DataGridSource {
             : isDateTimeType
                 ? TextInputType.datetime
                 : TextInputType.text,
-                onTapOutside: (event) {
-                  newCellValue = editingController.text;
-                },
+        onTapOutside: (event) {
+          newCellValue = editingController.text;
+        },
         onChanged: (String value) {
           if (value.isNotEmpty) {
             if (isNumericType) {

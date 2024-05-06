@@ -125,7 +125,7 @@ class _UploadDocumentAdminState extends State<UploadDocumentAdmin> {
                           const SnackBar(content: Text('Image is Uploaded')));
                     }
                   },
-                  child: const Text('Upload file')),
+                  child: const Text('Upload file',),),
             ],
           ),
         ));

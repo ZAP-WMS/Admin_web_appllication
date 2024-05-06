@@ -219,8 +219,7 @@ class _SignInPageState extends State<SignInPage> {
       );
 
       try {
-        isProjectManager =
-            await verifyAndLoginProjectManager(_id);
+        isProjectManager = await verifyAndLoginProjectManager(_id);
 
         if (isProjectManager == false) {
           isAdmin = await verifyAndLoginAdmin(_id);
@@ -327,7 +326,7 @@ class _SignInPageState extends State<SignInPage> {
           authService.storeCompanyName(companyName);
           authService.storeRoleCentre(roleCentre);
           authService.storeEmployeeId(_id.trim()).then((_) {
-            Navigator.pushReplacementNamed(context, '/main_screen', arguments: {
+            Navigator.pushReplacementNamed(context, '/pmis_oAndm', arguments: {
               "roleCentre": roleCentre,
               'userId': _id.trim(),
               "role": "admin"
@@ -350,7 +349,7 @@ class _SignInPageState extends State<SignInPage> {
           await authService.storeDepoList(depots);
           authService.storeCompanyName(companyName);
           authService.storeEmployeeId(_id.trim()).then((_) {
-            Navigator.pushReplacementNamed(context, '/main_screen', arguments: {
+            Navigator.pushReplacementNamed(context, '/pmis_oAndm', arguments: {
               "roleCentre": roleCentre,
               'userId': _id.trim(),
               "role": "admin"
@@ -414,7 +413,7 @@ class _SignInPageState extends State<SignInPage> {
           authService.storeEmployeeId(_id.trim());
           authService.storeRoleCentre(roleCentre);
           authService.storeCompanyName(companyName).then((_) {
-            Navigator.pushReplacementNamed(context, '/main_screen', arguments: {
+            Navigator.pushReplacementNamed(context, '/pmis_oAndm', arguments: {
               "roleCentre": roleCentre,
               'userId': _id.trim(),
               "role": "projectManager"
@@ -426,8 +425,8 @@ class _SignInPageState extends State<SignInPage> {
             SnackBar(
               backgroundColor: blue,
               content: const Text(
-                  'Password is not Correct or no role is assigned to the user',
-                  ),
+                'Password is not Correct or no role is assigned to the user',
+              ),
             ),
           );
         }
@@ -439,11 +438,9 @@ class _SignInPageState extends State<SignInPage> {
     return userIsProjectManager;
   }
 
- 
   void _togglePasswordView() {
     setState(() {
       _isHidden = !_isHidden;
     });
   }
-
 }

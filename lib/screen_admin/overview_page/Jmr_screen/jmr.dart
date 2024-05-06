@@ -82,7 +82,6 @@ class _JmrAdminState extends State<JmrAdmin> {
               color: blue,
             ),
             actions: [
-
               Container(
                 padding: const EdgeInsets.all(5.0),
                 width: 200,
@@ -141,6 +140,7 @@ class _JmrAdminState extends State<JmrAdmin> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => JmrAdmin(
+                              userId: widget.userId,
                               role: widget.role,
                               cityName: widget.cityName,
                               depoName: suggestion.toString(),
@@ -160,9 +160,9 @@ class _JmrAdminState extends State<JmrAdmin> {
                       controller: selectedDepoController,
                     )),
               ),
-                            widget.role == "projectManager"
+              widget.role == "projectManager"
                   ? Container(
-                    margin: const EdgeInsets.all(8.0),
+                      margin: const EdgeInsets.all(8.0),
                       child: ElevatedButton(
                         onPressed: () {
                           Navigator.push(
@@ -171,6 +171,7 @@ class _JmrAdminState extends State<JmrAdmin> {
                               builder: (context) => JmrUser(
                                 role: widget.role,
                                 cityName: widget.cityName,
+                                userId: widget.userId,
                                 depoName: widget.depoName,
                               ),
                             ),
@@ -264,10 +265,18 @@ class _JmrAdminState extends State<JmrAdmin> {
               return Container(
                 margin: const EdgeInsets.all(5.0),
                 decoration: BoxDecoration(
-                    border: Border.all(color: blue),
-                    borderRadius: const BorderRadius.only(
-                        topRight: Radius.elliptical(10, 10),
-                        topLeft: Radius.elliptical(10, 10))),
+                  border: Border.all(color: blue),
+                  borderRadius: const BorderRadius.only(
+                    topRight: Radius.elliptical(
+                      10,
+                      10,
+                    ),
+                    topLeft: Radius.elliptical(
+                      10,
+                      10,
+                    ),
+                  ),
+                ),
                 child: Container(
                   margin: const EdgeInsets.all(5.0),
                   child: ExpansionTile(
@@ -319,7 +328,11 @@ class _JmrAdminState extends State<JmrAdmin> {
                                     const SizedBox(
                                       width: 10.0,
                                     ),
-                                    jmrTabList(userList[index], index2, index),
+                                    jmrTabList(
+                                      userList[index],
+                                      index2,
+                                      index,
+                                    ),
                                   ],
                                 ),
                               ),
@@ -363,23 +376,23 @@ class _JmrAdminState extends State<JmrAdmin> {
                       ),
                       onPressed: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => JmrHomeAdmin(
-                                role: widget.role,
-                                title:
-                                    '${tabName[_selectedIndex]}-${title[index3]}-JMR${index3 + 1}',
-                                jmrTab: title[secondIndex],
-                                cityName: widget.cityName,
-                                depoName: widget.depoName,
-                                showTable: true,
-                                dataFetchingIndex: index3 + 1,
-                                tabName: tabName[_selectedIndex],
-                                userId: currentUserId,
-                              ),
-                             ),
-                            );
-                           },
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => JmrHomeAdmin(
+                              role: widget.role,
+                              title:
+                                  '${tabName[_selectedIndex]}-${title[index3]}-JMR${index3 + 1}',
+                              jmrTab: title[secondIndex],
+                              cityName: widget.cityName,
+                              depoName: widget.depoName,
+                              showTable: true,
+                              dataFetchingIndex: index3 + 1,
+                              tabName: tabName[_selectedIndex],
+                              userId: currentUserId,
+                            ),
+                          ),
+                        );
+                      },
                       child: Text(
                         'JMR${index3 + 1}',
                         style: TextStyle(color: white),
@@ -411,6 +424,7 @@ class _JmrAdminState extends State<JmrAdmin> {
   // Function to calculate Length of JMR all components with ID
 
   Future<List<dynamic>> generateAllJmrList() async {
+    jmrTabLen.clear();
     isDataAvailable = true;
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('JMRCollection')

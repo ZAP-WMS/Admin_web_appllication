@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "tp-zap-solz"
-  }
+  },
+  "targets": {
+    "tp-zap-solz": {
+      "hosting": {
+        "tr": [
+          "tp-zap-solz"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }

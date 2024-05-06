@@ -142,7 +142,6 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
     _civilManagerNameController.dispose();
     _civilEngineerController.dispose();
     _civilVendorController.dispose();
-
     super.dispose();
   }
 
@@ -994,18 +993,21 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
                                     },
                                   ),
                                 ),
-                                Text(
-                                  result?.names.first ?? '',
-                                  style: TextStyle(
-                                    color: blue,
+                                SizedBox(
+                                  width: 110,
+                                  child: Text(
+                                    result?.names.first ?? '',
+                                    style: TextStyle(
+                                      color: blue,
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
-                                  textAlign: TextAlign.center,
                                 )
                               ],
                             )
                           ]),
                       const SizedBox(
-                        width: 40,
+                        width: 10,
                       ),
                       Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1070,6 +1072,7 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
                               width: 10.0,
                             ),
                             Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
                                   width: 120,
@@ -1115,30 +1118,34 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
                                                       : blue),
                                             ),
                                             Container(
-                                                child: Icon(
-                                              Icons.folder,
-                                              color: providerValue.hover[1]
-                                                  ? white
-                                                  : folderColor,
-                                            ))
+                                              child: Icon(
+                                                Icons.folder,
+                                                color: providerValue.hover[1]
+                                                    ? white
+                                                    : folderColor,
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       );
                                     },
                                   ),
                                 ),
-                                Text(
-                                  result1?.names.first ?? '',
-                                  style: TextStyle(
-                                    color: blue,
+                                SizedBox(
+                                  width: 110,
+                                  child: Text(
+                                    result1?.names.first ?? '',
+                                    style: TextStyle(
+                                      color: blue,
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
-                                  textAlign: TextAlign.center,
                                 )
                               ],
                             )
                           ]),
                       const SizedBox(
-                        width: 40.0,
+                        width: 10.0,
                       ),
                       Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1265,12 +1272,15 @@ class _DepotOverviewAdminState extends State<DepotOverviewAdmin> {
                                   ),
                                 ),
                                 //Selected File Name
-                                Text(
-                                  result2?.names.first ?? '',
-                                  style: TextStyle(
-                                    color: blue,
+                                SizedBox(
+                                  width: 110,
+                                  child: Text(
+                                    result2?.names.first ?? '',
+                                    style: TextStyle(
+                                      color: blue,
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
-                                  textAlign: TextAlign.center,
                                 )
                               ],
                             )
