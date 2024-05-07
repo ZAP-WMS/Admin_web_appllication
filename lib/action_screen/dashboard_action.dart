@@ -6,8 +6,10 @@ import 'package:web_appllication/screen_user/screen/split_dashboard/split_dashbo
 class DashboardAction extends StatefulWidget {
   String role;
   String userId;
+  String roleCentre;
 
-  DashboardAction({super.key, required this.role, required this.userId});
+  DashboardAction({super.key, required this.role, required this.userId,
+  required this.roleCentre});
 
   @override
   State<DashboardAction> createState() => _DashboardActionState();
@@ -30,7 +32,6 @@ class _DashboardActionState extends State<DashboardAction> {
 
   Widget selectWidget() {
     switch (widget.role) {
-      
       case 'user':
         selectedUi = SplitDashboard(
           userId: widget.userId,

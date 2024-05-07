@@ -1,32 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:web_appllication/screen_admin/overview_page/closure_summary_table.dart';
-import 'package:web_appllication/screen_user/overview_pages/closure_report.dart';
+import 'package:web_appllication/overview_oAndM.dart';
+import 'package:web_appllication/overview_pmis.dart';
 
-class ClosureReportAction extends StatefulWidget {
+class OverviewAction extends StatefulWidget {
   final String role;
   final String cityName;
   final String depotName;
   final String userId;
   final String roleCentre;
 
-  const ClosureReportAction(
+  const OverviewAction(
       {super.key,
       required this.roleCentre,
       required this.role,
       required this.cityName,
       required this.depotName,
-      required this.userId}
-      );
+      required this.userId});
 
   @override
-  State<ClosureReportAction> createState() => _ClosureReportActionState();
+  State<OverviewAction> createState() => _OverviewActionState();
 }
 
-class _ClosureReportActionState extends State<ClosureReportAction> {
+class _OverviewActionState extends State<OverviewAction> {
   Widget selectedUi = Container();
 
   @override
   void initState() {
+    print("OverviewAction - ${widget.roleCentre}");
     selectWidget();
     super.initState();
   }
@@ -37,10 +37,9 @@ class _ClosureReportActionState extends State<ClosureReportAction> {
   }
 
   Widget selectWidget() {
-
-          switch (widget.role) {
-      case 'user':
-        selectedUi = ClosureReportUser(
+    switch (widget.roleCentre) {
+      case 'PMIS':
+        selectedUi = MyOverview(
           role: widget.role,
           depoName: widget.depotName,
           cityName: widget.cityName,
@@ -48,27 +47,15 @@ class _ClosureReportActionState extends State<ClosureReportAction> {
         );
 
         break;
-      case 'admin':
-        selectedUi = ClosureSummaryTable(
+      case 'O&M':
+        selectedUi = OverviewOAndM(
           depoName: widget.depotName,
           role: widget.role,
           cityName: widget.cityName,
           userId: widget.userId,
-          id: 'Closure Page',
-        );
-        break;
-
-      case 'projectManager':
-        selectedUi = ClosureSummaryTable(
-          depoName: widget.depotName,
-          role: widget.role,
-          cityName: widget.cityName,
-          userId: widget.userId,
-          id: 'Closure Page',
         );
         break;
     }
-
 
     return selectedUi;
   }

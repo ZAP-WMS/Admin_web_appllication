@@ -1,7 +1,8 @@
-import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:toast/toast.dart';
 import 'package:web_appllication/action_screen/dashboard_action.dart';
+import 'package:web_appllication/cities.dart';
 import 'package:web_appllication/widgets/coming_soon_screen.dart';
 import 'package:web_appllication/widgets/widgets_admin/admin_style.dart';
 
@@ -26,6 +27,7 @@ class _PmisAndOAndMScreenState extends State<PmisAndOAndMScreen> {
 
   @override
   void initState() {
+    ToastContext().init(context);
     _animate();
     super.initState();
   }
@@ -130,26 +132,95 @@ class _PmisAndOAndMScreenState extends State<PmisAndOAndMScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          InkWell(
-                            onTap: () {
-                              // final route = FluroRouter();
-                              // route.navigateTo(context, "login",
-                              //     clearStack: true);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => DashboardAction(
-                                    role: widget.role,
-                                    userId: widget.userId,
+                          (widget.roleCentre == "PMIS" ||
+                                  widget.role == "admin" ||
+                                  widget.role == "projectManager")
+                              ? InkWell(
+                                  onTap: () {
+                                    if (widget.role == "projectManager" &&
+                                        widget.roleCentre != "PMIS") {
+                                      Toast.show(
+                                        "PMIS is availabe in view mode only for this user",
+                                        duration: Toast.lengthLong,
+                                        backgroundColor: blue,
+                                        gravity: Toast.bottom,
+                                        textStyle: TextStyle(
+                                          color: white,
+                                        ),
+                                      );
+                                      Future.delayed(
+                                        const Duration(
+                                          seconds: 2,
+                                        ),
+                                        () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  DashboardAction(
+                                                roleCentre: "PMIS",
+                                                role: widget.role,
+                                                userId: widget.userId,
+                                              ),
+                                            ),
+                                          );
+                                          // Navigator.pushNamedAndRemoveUntil(
+                                          //   context,
+                                          //   '/splitDashboard',
+                                          //   arguments: {
+                                          //     "roleCentre": "PMIS",
+                                          //     'userId': widget.userId,
+                                          //     "role": widget.role
+                                          //   },
+                                          //   (route) => false,
+                                          // );
+                                        },
+                                      );
+                                    } else {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => DashboardAction(
+                                            roleCentre: "PMIS",
+                                            role: widget.role,
+                                            userId: widget.userId,
+                                          ),
+                                        ),
+                                      );
+                                      // Navigator.pushNamedAndRemoveUntil(
+                                      //   context,
+                                      //   '/splitDashboard',
+                                      //   arguments: {
+                                      //     "roleCentre": "PMIS",
+                                      //     'userId': widget.userId,
+                                      //     "role": widget.role
+                                      //   },
+                                      //   (route) => false,
+                                      // );
+                                    }
+                                  },
+                                  child: Image.asset(
+                                    "assets/pmis_oAndm/pmis_new.png",
+                                    height: 220,
+                                  ),
+                                )
+                              : InkWell(
+                                  onTap: () async {
+                                    Toast.show(
+                                      "Please Select O&M and Proceed",
+                                      duration: Toast.lengthLong,
+                                      backgroundColor: blue,
+                                      gravity: Toast.bottom,
+                                      textStyle: TextStyle(
+                                        color: white,
+                                      ),
+                                    );
+                                  },
+                                  child: Image.asset(
+                                    "assets/pmis_oAndm/pmis_new.png",
+                                    height: 220,
                                   ),
                                 ),
-                              );
-                            },
-                            child: Image.asset(
-                              "assets/pmis_oAndm/pmis_new.png",
-                              height: 220,
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -190,21 +261,93 @@ class _PmisAndOAndMScreenState extends State<PmisAndOAndMScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const ComingSoonScreen(),
+                          (widget.roleCentre == "O&M" ||
+                                  widget.role == "admin" ||
+                                  widget.role == "projectManager")
+                              ? InkWell(
+                                  onTap: () {
+                                    if (widget.role == "projectManager" &&
+                                        widget.roleCentre != "O&M") {
+                                      Toast.show(
+                                        "O&M is availabe in view mode only for this user",
+                                        duration: Toast.lengthLong,
+                                        backgroundColor: blue,
+                                        gravity: Toast.bottom,
+                                        textStyle: TextStyle(
+                                          color: white,
+                                        ),
+                                      );
+                                      Future.delayed(
+                                        const Duration(
+                                          seconds: 2,
+                                        ),
+                                        () {
+                                          Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => CitiesPage(
+                                                roleCentre: "O&M",
+                                              ),
+                                            ),
+                                            (route) => false,
+                                          );
+                                          // Navigator.pushNamedAndRemoveUntil(
+                                          //   context,
+                                          //   '/cities-page',
+                                          //   arguments: {
+                                          //     // "roleCentre": roleCentre,
+                                          //     'userId': widget.userId,
+                                          //     "role": widget.role,
+                                          //     "roleCentre": "O&M"
+                                          //   },
+                                          //   (route) => false,
+                                          // );
+                                        },
+                                      );
+                                    } else {
+                                      Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => CitiesPage(
+                                              roleCentre: "O&M",
+                                            ),
+                                          ),
+                                          (route) => false);
+                                      // Navigator.pushNamedAndRemoveUntil(
+                                      //   context,
+                                      //   '/cities-page',
+                                      //   arguments: {
+                                      //     // "roleCentre": roleCentre,
+                                      //     'userId': widget.userId,
+                                      //     "role": widget.role,
+                                      //     "roleCentre": "O&M"
+                                      //   },
+                                      //   (route) => false,
+                                      // );
+                                    }
+                                  },
+                                  child: Image.asset(
+                                    "assets/pmis_oAndm/oAndM_new.png",
+                                    height: 210,
+                                  ),
+                                )
+                              : InkWell(
+                                  onTap: () {
+                                    Toast.show(
+                                      "Please Select PMIS and Proceed",
+                                      duration: Toast.lengthLong,
+                                      backgroundColor: blue,
+                                      gravity: Toast.bottom,
+                                      textStyle: TextStyle(
+                                        color: white,
+                                      ),
+                                    );
+                                  },
+                                  child: Image.asset(
+                                    "assets/pmis_oAndm/oAndM_new.png",
+                                    height: 210,
+                                  ),
                                 ),
-                              );
-                            },
-                            child: Image.asset(
-                              "assets/pmis_oAndm/oAndM_new.png",
-                              height: 210,
-                            ),
-                          ),
                         ],
                       ),
                     ),

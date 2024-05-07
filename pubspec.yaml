@@ -85,6 +85,7 @@ dependencies:
   dropdown_button2:
   audioplayers: 
   progress_dialog_null_safe: ^2.0.0
+  toast:
 
 
 dev_dependencies:

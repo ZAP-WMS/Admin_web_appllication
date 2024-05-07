@@ -4,7 +4,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_strategy/url_strategy.dart';
-import 'package:web_appllication/pmis_oAndm_split_screen.dart.dart';
 import 'package:web_appllication/provider/provider_admin/All_Depo_Select_Provider.dart';
 import 'package:web_appllication/provider/provider_admin/assigned_user_provider.dart';
 import 'package:web_appllication/provider/provider_admin/date_provider.dart';
@@ -44,8 +43,6 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  // This widget is the root of your application.
 
   @override
   Widget build(BuildContext context) {
@@ -88,10 +85,14 @@ class MyApp extends StatelessWidget {
         onGenerateRoute: FluroRouting.router.generator,
         theme: ThemeData(
           scrollbarTheme: ScrollbarThemeData(
-            thumbVisibility: const MaterialStatePropertyAll(true),
-            thumbColor: MaterialStatePropertyAll(blue),
-            thickness: const MaterialStatePropertyAll(5.0),
-            trackVisibility: const MaterialStatePropertyAll(true),
+            thumbVisibility: const MaterialStatePropertyAll(true,
+            ),
+            thumbColor: MaterialStatePropertyAll(blue,
+            ),
+            thickness: const MaterialStatePropertyAll(5.0,
+            ),
+            trackVisibility: const MaterialStatePropertyAll(true,
+            ),
           ),
           primarySwatch: Colors.blue,
           dividerColor: grey,
@@ -124,6 +125,7 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+  
 }
 
 void listenToFirestoreChanges() async {

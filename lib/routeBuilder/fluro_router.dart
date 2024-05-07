@@ -13,10 +13,11 @@ import 'package:web_appllication/action_screen/jmr_screen_action.dart';
 import 'package:web_appllication/action_screen/key_events_action.dart';
 import 'package:web_appllication/action_screen/material_procurement_action.dart';
 import 'package:web_appllication/action_screen/monthly_report_action.dart';
+import 'package:web_appllication/action_screen/overview_action.dart';
 import 'package:web_appllication/action_screen/quality_checklist_action.dart';
 import 'package:web_appllication/action_screen/safety_report_action.dart';
 import 'package:web_appllication/components/loading_page.dart';
-import 'package:web_appllication/overview.dart';
+import 'package:web_appllication/overview_pmis.dart';
 import 'package:web_appllication/cities.dart';
 import 'package:web_appllication/pmis_oAndm_split_screen.dart.dart';
 import 'package:web_appllication/screen_admin/MenuPage/role.dart';
@@ -94,13 +95,15 @@ class FluroRouting {
 
       if (modalRoute != null) {
         Map<String, dynamic>? modelRoute =
-            modalRoute.settings.arguments as Map<String, dynamic>?;
+            modalRoute.settings.arguments as Map<String, dynamic>;
 
         if (modelRoute != null) {
           final userId = modelRoute['userId'];
           final role = modelRoute['role'];
+          final roleCentre = modelRoute[""];
 
           return DashboardAction(
+            roleCentre: roleCentre,
             userId: userId,
             role: role,
           );
@@ -114,10 +117,12 @@ class FluroRouting {
 
                   String userId = cityData?['userId'] ?? 'null';
                   String role = cityData?['role'] ?? 'N/A';
+                  String roleCentre = cityData?['roleCentre'] ?? 'N/A';
 
                   if (userId != 'null') {
                     // User is logged in, return your widget
                     return DashboardAction(
+                      roleCentre: roleCentre,
                       userId: userId,
                       role: role,
                     );
@@ -128,6 +133,7 @@ class FluroRouting {
                     // Return an empty container or loading widget since you're navigating
                   }
                 }
+
                 return LoadingPage();
               });
         }
@@ -161,8 +167,10 @@ class FluroRouting {
         final cityName = modelRoute['cityName'];
         final role = modelRoute["role"];
         final userId = modelRoute['userId'];
+        final roleCentre = modelRoute['roleCentre'];
 
         return Mydepots(
+          roleCentre: roleCentre,
           cityName: cityName,
           userId: userId,
         );
@@ -175,11 +183,14 @@ class FluroRouting {
                 String userId = cityData?['userId'] ?? 'null';
                 String cityName = cityData?['cityName'] ?? 'defaultCityName';
                 String role = cityData?["role"] ?? "N/A";
+                String roleCentre = cityData?["roleCentre"] ?? "N/A";
 
                 // Return your widget here using userId
                 if (userId != 'null') {
                   return Mydepots(
+                    roleCentre: roleCentre,
                     cityName: cityName,
+                    userId: userId,
                   );
                 } else {
                   // User is not logged in, navigate to login screen
@@ -206,9 +217,11 @@ class FluroRouting {
         final cityName = modelRoute['cityName'];
         final role = modelRoute['role'];
         final userId = modelRoute['userId'];
+        final roleCentre = modelRoute['roleCentre'];
 
-        return MyOverview(
-          depoName: depoName,
+        return OverviewAction(
+          roleCentre: roleCentre,
+          depotName: depoName,
           cityName: cityName,
           role: role,
           userId: userId,
@@ -224,10 +237,12 @@ class FluroRouting {
                 String cityName = cityData?['cityName'] ?? 'defaultCityName';
                 String depoName = cityData?['depotName'] ?? 'defaultDepotName';
                 String role = cityData?['role'] ?? "N/A";
+                String roleCentre = cityData?['roleCentre'] ?? "N/A";
 
                 if (userId != 'null') {
-                  return MyOverview(
-                    depoName: depoName,
+                  return OverviewAction(
+                    roleCentre: roleCentre,
+                    depotName: depoName,
                     cityName: cityName,
                     role: role,
                     userId: userId,
@@ -783,8 +798,10 @@ class FluroRouting {
         final cityName = modelRoute['cityName'];
         final depoName = modelRoute['depoName'];
         final role = modelRoute['role'];
+        final roleCentre = modelRoute['roleCentre'];
 
         return ClosureReportAction(
+          roleCentre: roleCentre,
           depotName: depoName,
           role: role,
           userId: userId,
@@ -802,14 +819,15 @@ class FluroRouting {
                 String cityName = cityData?['cityName'] ?? 'defaultCityName';
                 String depotName = cityData?['depotName'] ?? 'defaultDepotName';
                 String role = cityData?['role'] ?? 'user';
+                String roleCentre = cityData?['roleCentre'];
 
                 if (userId != 'null') {
                   // Return your widget here using userId
                   return ClosureReportAction(
+                    roleCentre: roleCentre,
                     depotName: depotName,
                     role: role,
                     userId: userId,
-                    // userId: widget.userid,
                     cityName: cityName,
                   );
                 } else {

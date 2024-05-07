@@ -8,7 +8,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_appllication/Authentication/admin/auth_service.dart';
 import 'package:web_appllication/components/loading_page.dart';
-import 'package:web_appllication/overview.dart';
 import 'package:web_appllication/widgets/widgets_admin/custom_appbar.dart';
 
 import 'widgets/widgets_admin/admin_style.dart';
@@ -17,8 +16,9 @@ import 'widgets/widgets_admin/custom_container.dart';
 class Mydepots extends StatefulWidget {
   String? cityName;
   String? userId;
+  String? roleCentre;
 
-  Mydepots({super.key, required this.cityName, this.userId});
+  Mydepots({super.key, required this.cityName, this.userId, this.roleCentre});
 
   @override
   State<Mydepots> createState() => _MydepotsState();
@@ -281,7 +281,8 @@ class _MydepotsState extends State<Mydepots> {
                           'login/EVDashboard/Cities/EVBusDepot/OverviewPage/',
                           role,
                           widget.cityName!,
-                          widget.userId!);
+                          widget.userId!,
+                          widget.roleCentre!);
                     });
               } else {
                 return Center(

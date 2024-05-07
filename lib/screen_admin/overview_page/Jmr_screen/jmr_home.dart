@@ -11,7 +11,7 @@ import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:web_appllication/components/loading_page.dart';
 import 'package:web_appllication/model/admin_model/jmr.dart';
-import 'package:web_appllication/overview.dart';
+import 'package:web_appllication/overview_pmis.dart';
 import 'package:web_appllication/widgets/widgets_admin/admin_style.dart';
 import 'package:web_appllication/widgets/widgets_admin/custom_appbar.dart';
 import 'package:web_appllication/widgets/widgets_admin/nodata_available.dart';
