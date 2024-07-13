@@ -6,13 +6,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:web_appllication/components/loading_page.dart';
+import 'package:web_appllication/widgets/widgets_user/custom_appbar.dart';
 import 'Authentication/admin/auth_service.dart';
 import 'screen_admin/Service/database_service.dart';
 import 'widgets/widgets_user/custom_container.dart';
 import 'widgets/widgets_user/user_style.dart';
 
 class CitiesPage extends StatefulWidget {
-  CitiesPage({super.key});
+  String? role;
+  CitiesPage({super.key, this.role});
 
   @override
   State<CitiesPage> createState() => _CitiesPageState();
@@ -26,6 +28,8 @@ class _CitiesPageState extends State<CitiesPage> {
   bool _isLoading = true;
   dynamic userId;
   String? companyName;
+
+  String appBarValue = 'user';
 
   @override
   void initState() {
@@ -48,6 +52,21 @@ class _CitiesPageState extends State<CitiesPage> {
                     child: const Icon(Icons.add),
                   )
                 : Container(),
+            appBar: appBarValue == widget.role
+                ? PreferredSize(
+                    // ignore: sort_child_properties_last
+                    child: CustomAppBar(
+                      role: 'user',
+                      isDepoPage: true,
+                      userId: userId,
+                      isCitiesPage: true,
+
+                      // userid: widget.userid,
+                    ),
+                    preferredSize: const Size.fromHeight(50))
+                : PreferredSize(
+                    child: Container(),
+                    preferredSize: const Size.fromHeight(0)),
             body: StreamBuilder(
               stream: FirebaseFirestore.instance
                   .collection('CityName')

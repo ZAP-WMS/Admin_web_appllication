@@ -294,14 +294,10 @@ class _RegisterPageState extends State<RegisterPage> {
                           }
 
                           if (!RegExp(
-                                  r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
+                                  r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$')
                               .hasMatch(value)) {
                             return 'Password should contain alphabate , numbers & special character';
                           }
-
-                          // if (value.length < 5 || value.length > 20) {
-                          //   return 'Password must be betweem 5 and 20 characters';
-                          // }
 
                           return null;
                         },

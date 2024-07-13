@@ -80,10 +80,6 @@ class _ViewAllPdfUserState extends State<ViewAllPdfUser> {
             depotName: widget.depoName,
             text: 'File List',
           )),
-      //  AppBar(
-      //   title: const Text('File List'),
-      //   backgroundColor: blue,
-      // ),
       body: FutureBuilder<List<FirebaseFile>>(
         future: futureFiles,
         builder: (context, snapshot) {
@@ -111,16 +107,7 @@ class _ViewAllPdfUserState extends State<ViewAllPdfUser> {
                         final file = files[index];
                         return buildFile(context, file);
                       },
-                    )
-                        //  ListView.builder(
-                        //   itemCount: files.length,
-                        //   itemBuilder: (context, index) {
-                        //     final file = files[index];
-
-                        //     return buildFile(context, file);
-                        //   },
-                        // ),
-                        ),
+                    )),
                   ],
                 );
               }
@@ -193,5 +180,4 @@ class _ViewAllPdfUserState extends State<ViewAllPdfUser> {
     isFieldEditable =
         authService.verifyAssignedCities(widget.cityName!, assignedCities);
   }
-
 }

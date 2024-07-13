@@ -48,7 +48,7 @@ class _DashboardActionState extends State<DashboardAction> {
       case 'projectManager':
         selectedUi = NavigationPage(
           userId: widget.userId,
-          role: widget.role,
+          role: widget.role, 
         );
         break;
     }

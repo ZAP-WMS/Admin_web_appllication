@@ -1845,12 +1845,14 @@ class _KeyEvents2AdminState extends State<KeyEvents2Admin> {
                               //         KeyDataSourceKeyEvents(_employees, context);
                               //     _dataGridController = DataGridController();
 
-                              List<String> dateParts = sd!.split('-');
-                              int day = int.parse(dateParts[0]);
-                              int month = int.parse(dateParts[1]);
-                              int year = int.parse(dateParts[2]);
+                              if (sd != null) {
+                                List<String> dateParts = sd!.split('-');
+                                int day = int.parse(dateParts[0]);
+                                int month = int.parse(dateParts[1]);
+                                int year = int.parse(dateParts[2]);
 
-                              dateTime = DateTime(year, month, day);
+                                dateTime = DateTime(year, month, day);
+                              }
 
                               // ganttdata.add(GanttAbsoluteEvent(
                               //   extra: 'hd',

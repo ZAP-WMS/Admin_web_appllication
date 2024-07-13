@@ -198,7 +198,7 @@ class _SignInPageState extends State<SignInPage> {
         builder: (context) => CupertinoAlertDialog(
           content: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
+            children: [ 
               SizedBox(
                 height: 50,
                 width: 50,

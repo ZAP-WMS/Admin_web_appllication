@@ -17,6 +17,7 @@ import 'package:web_appllication/provider/provider_admin/role_page_totalNum_prov
 import 'package:web_appllication/provider/provider_admin/selected_row_index.dart';
 import 'package:web_appllication/provider/provider_admin/text_provider.dart';
 import 'package:web_appllication/provider/provider_admin/user_provider.dart';
+import 'package:web_appllication/provider/provider_user/All_Depo_Select_Provider.dart';
 import 'package:web_appllication/provider/provider_user/checkbox_provider.dart';
 import 'package:web_appllication/provider/provider_user/energy_provider.dart';
 import 'package:web_appllication/provider/provider_user/hover_provider.dart';
@@ -24,6 +25,9 @@ import 'package:web_appllication/provider/provider_user/key_provider.dart';
 import 'package:web_appllication/provider/provider_user/summary_provider.dart';
 import 'package:web_appllication/routeBuilder/fluro_router.dart';
 import 'package:web_appllication/widgets/widgets_admin/admin_style.dart';
+
+import 'provider/provider_user/demandEnergyProvider.dart';
+import 'provider/provider_user/selected_row_index.dart';
 
 void main() async {
   Flurorouter.setupRouter();
@@ -75,6 +79,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => CheckboxProviderUser()),
         ChangeNotifierProvider(create: (context) => SummaryProviderUser()),
         ChangeNotifierProvider(create: (context) => SummaryProviderAdmin()),
+        ChangeNotifierProvider(
+            create: (context) => SelectedRowIndexModelUser()),
+        ChangeNotifierProvider(create: (context) => DemandEnergyProviderUser()),
+                ChangeNotifierProvider(create: (context) => AllDepoSelectProviderUser()),
         ChangeNotifierProvider(
             create: (context) => RolePageTotalNumProviderAdmin()),
       ],

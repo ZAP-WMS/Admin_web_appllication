@@ -25,56 +25,56 @@ class Flurorouter {
   static final FluroRouter router = FluroRouter();
 
   static Handler loginHandler = Handler(
-    handlerFunc: (context, Map<String, dynamic> params) =>
-        const LoginRegister(),
-  );
+      handlerFunc: (context, Map<String, dynamic> params) =>
+          const LoginRegister());
 
-  static Handler navPagedHandler =
-      Handler(handlerFunc: (context, Map<String, dynamic> params) {
-    ModalRoute? modalRoute = ModalRoute.of(context!);
+  static Handler navPagedHandler = Handler(
+    handlerFunc: (context, Map<String, dynamic> params) {
+      ModalRoute? modalRoute = ModalRoute.of(context!);
 
-    if (modalRoute != null) {
-      Map<String, dynamic>? modelRoute =
-          modalRoute.settings.arguments as Map<String, dynamic>?;
+      if (modalRoute != null) {
+        Map<String, dynamic>? modelRoute =
+            modalRoute.settings.arguments as Map<String, dynamic>?;
 
-      if (modelRoute != null) {
-        final userId = modelRoute['userId'];
-        final role = modelRoute['role'];
+        if (modelRoute != null) {
+          final userId = modelRoute['userId'];
+          final role = modelRoute['role'];
 
-        return DashboardAction(
-          userId: userId,
-          role: role,
-        );
-      } else {
-        return FutureBuilder<Map<String, dynamic>?>(
-            future: _getCityDataFromSharedPreferences(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                // Do something with userId
-                Map<String, dynamic>? cityData = snapshot.data;
+          return DashboardAction(
+            userId: userId,
+            role: role,
+          );
+        } else {
+          return FutureBuilder<Map<String, dynamic>?>(
+              future: _getCityDataFromSharedPreferences(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  // Do something with userId
+                  Map<String, dynamic>? cityData = snapshot.data;
 
-                String userId = cityData?['userId'] ?? 'null';
-                String role = cityData?['role'] ?? 'N/A';
+                  String userId = cityData?['userId'] ?? 'null';
+                  String role = cityData?['role'] ?? 'N/A';
 
-                if (userId != 'null') {
-                  // User is logged in, return your widget
-                  return DashboardAction(
-                    userId: userId,
-                    role: role,
-                  );
-                } else {
-                  // User is not logged in, navigate to login screen
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => const LoginRegister()));
-                  // Return an empty container or loading widget since you're navigating
+                  if (userId != 'null') {
+                    // User is logged in, return your widget
+                    return DashboardAction(
+                      userId: userId,
+                      role: role,
+                    );
+                  } else {
+                    // User is not logged in, navigate to login screen
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => const LoginRegister()));
+                    // Return an empty container or loading widget since you're navigating
+                  }
                 }
-              }
-              return LoadingPage();
-            });
+                return LoadingPage();
+              });
+        }
       }
-    }
-    return null;
-  },);
+      return null;
+    },
+  );
 
   // Handle the case where modalRoute or modelRoute is null
   // or return some default widget
@@ -82,8 +82,10 @@ class Flurorouter {
   static Handler evBusDepotHandler = Handler(
       handlerFunc: (context, Map<String, dynamic> params) => Container());
 
-  static Handler citiesHandler = Handler(
-      handlerFunc: (context, Map<String, dynamic> params) => CitiesPage());
+  static Handler citiesHandler =
+      Handler(handlerFunc: (context, Map<String, dynamic> params) {
+    return CitiesPage();
+  });
 
   static Handler userHandler = Handler(
       handlerFunc: (context, Map<String, dynamic> params) =>
@@ -779,11 +781,10 @@ class Flurorouter {
         final role = modelRoute['role'];
 
         return EnergyManagementAction(
-          // userId: widget.userId,
-          cityName: cityName,
-          depotName: depoName,
-          role: role, userId: userId,
-        );
+            userId: userId,
+            cityName: cityName,
+            depotName: depoName,
+            role: role);
       } else {
         return FutureBuilder<Map<String, dynamic>?>(
             future: _getCityDataFromSharedPreferences(),

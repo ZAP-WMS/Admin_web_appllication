@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:web_appllication/cities.dart';
 import 'package:web_appllication/screen_user/KeysEvents/Grid_DataTable.dart';
+import 'package:web_appllication/screen_user/dashboard/demand%20energy%20management/demandScreen.dart';
 import 'package:web_appllication/widgets/widgets_user/user_style.dart';
+import '../../dashboard/ev_dashboard/ev_dashboard.dart';
 
 // ignore: must_be_immutable
 class SplitDashboard extends StatelessWidget {
@@ -82,8 +85,14 @@ class SplitDashboard extends StatelessWidget {
                                 backgroundColor:
                                     MaterialStatePropertyAll(blue)),
                             onPressed: () {
-                              Navigator.pushNamed(context, '/evDashboard',
-                                  arguments: userId);
+                              Navigator.push(context, MaterialPageRoute(
+                                builder: (context) {
+                                  return EvDashboardScreen(
+                                    userId: userId,
+                                    role: "user",
+                                  );
+                                },
+                              ));
                             },
                             child: const Text(
                                 'EV Bus Project Analysis Dashboard')),
@@ -123,8 +132,14 @@ class SplitDashboard extends StatelessWidget {
                           style: ButtonStyle(
                               backgroundColor: MaterialStatePropertyAll(blue)),
                           onPressed: () {
-                            Navigator.pushNamed(context, '/demand',
-                                arguments: userId);
+                            Navigator.push(context, MaterialPageRoute(
+                              builder: (context) {
+                                return DemandEnergyScreen(
+                                  userId: userId,
+                                  role: "user",
+                                );
+                              },
+                            ));
                           },
                           child: const Text('EV Bus Depot Management System'),
                         ),
@@ -147,7 +162,15 @@ class SplitDashboard extends StatelessWidget {
               style:
                   ButtonStyle(backgroundColor: MaterialStatePropertyAll(blue)),
               onPressed: () {
-                Navigator.pushNamed(context, 'login/EVDashboard/Cities/');
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return CitiesPage(
+                      role: 'user',
+                    );
+                  },
+                ));
+                // Navigator.pushNamed(context, 'login/EVDashboard/Cities/',
+                //     arguments: {role: role});
                 // Navigator.push(context, CustomPageRoute(page: CitiesPage()));
                 // Navigator.pushNamed(context, '/cities');
               },
