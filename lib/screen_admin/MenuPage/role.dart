@@ -229,7 +229,8 @@ class _RoleScreenState extends State<RoleScreen> {
                           ),
                           Container(
                             alignment: Alignment.centerLeft,
-                            margin: const EdgeInsets.all(5.0,
+                            margin: const EdgeInsets.all(
+                              5.0,
                             ),
                             width: MediaQuery.of(context).size.width / 5.2,
                             child: GridView.builder(
@@ -255,7 +256,6 @@ class _RoleScreenState extends State<RoleScreen> {
                                 }),
                           ),
                         ],
-                      
                       ),
                     ),
 
@@ -1824,5 +1824,4 @@ class _RoleScreenState extends State<RoleScreen> {
     depotList.removeWhere((element) => filteredDepots.contains(element));
     return filteredDepots;
   }
-  
 }

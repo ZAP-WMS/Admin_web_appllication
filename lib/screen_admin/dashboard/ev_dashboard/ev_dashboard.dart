@@ -20,11 +20,14 @@ class EVDashboardScreen extends StatefulWidget {
   String userId;
   final bool showAppBar;
   final Function? callbackFun;
+  String roleCenter;
   EVDashboardScreen(
       {Key? key,
       this.callbackFun,
       this.showAppBar = false,
-      required this.userId})
+      required this.userId ,
+      required this.roleCenter,
+      })
       : super(key: key);
 
   static const String id = 'admin-page';

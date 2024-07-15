@@ -26,6 +26,7 @@ class _NavigationPageState extends State<NavigationPage> {
   var currentPage = DrawerSection.evDashboard;
   var container;
   String title = '';
+  String? roleCenter;
 
   List<String> pageNames = [
     'EV Dashboard Project',
@@ -42,6 +43,23 @@ class _NavigationPageState extends State<NavigationPage> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    initialization();
+  }
+
+  initialization() async {
+    String? centerTitle = await authService.getRoleCentre();
+    if (centerTitle != null) {
+      print('Role Centre: $centerTitle');
+      roleCenter = centerTitle;
+      setState(() {});
+    } else {
+      print('No Role Centre found');
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     // setState(() {});
     if (mounted) {
@@ -50,7 +68,8 @@ class _NavigationPageState extends State<NavigationPage> {
           case DrawerSection.evDashboard:
             showStartEndDatePanel = false;
             title = 'EV BUS Project Performance Analysis Dashboard';
-            container = EVDashboardScreen(userId: widget.userId);
+            container = EVDashboardScreen(
+                userId: widget.userId, roleCenter: roleCenter!);
             //'login/EVDashboard';
             // Navigator.pushNamed(context, 'login/EVDashboard');
             break;
@@ -59,14 +78,17 @@ class _NavigationPageState extends State<NavigationPage> {
             title = 'EV Bus Depot Management System';
             container = DemandEnergyScreen(
               role: widget.role,
+              roleCenter: roleCenter!,
               userId: widget.userId,
             );
             break;
           case DrawerSection.cities:
             showStartEndDatePanel = false;
-
             title = 'Cities';
-            container = CitiesPage();
+            container = CitiesPage(
+              role: widget.role,
+              roleCentre: roleCenter,
+            );
             // Navigator.pushNamed(
             //     context, 'login/EVDashboard/EVBusDepot/Cities');
             break;

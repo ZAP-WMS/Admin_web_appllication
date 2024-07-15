@@ -14,12 +14,14 @@ class DemandEnergyScreen extends StatefulWidget {
   String role;
   bool showStartEndDatePanel;
   String userId;
-  DemandEnergyScreen({
-    super.key,
-    this.showStartEndDatePanel = false,
-    required this.userId,
-    required this.role
-  });
+  String roleCenter;
+  DemandEnergyScreen(
+      {super.key,
+      this.showStartEndDatePanel = false,
+      required this.userId,
+      required this.role,
+      required this.roleCenter
+      });
 
   @override
   State<DemandEnergyScreen> createState() => _DemandEnergyScreenState();
@@ -228,7 +230,10 @@ class _DemandEnergyScreenState extends State<DemandEnergyScreen> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => CitiesPage(),
+                      builder: (context) => CitiesPage(
+                        role: widget.role,
+                        roleCentre: widget.roleCenter,
+                      ),
                     ));
               },
               child: Row(

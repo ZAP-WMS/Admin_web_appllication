@@ -8,7 +8,6 @@ import 'package:pie_chart/pie_chart.dart';
 import 'package:provider/provider.dart';
 import 'package:web_appllication/cities.dart';
 import 'package:web_appllication/components/loading_page.dart';
-import 'package:web_appllication/provider/provider_admin/selected_row_index.dart';
 import 'package:web_appllication/provider/provider_user/selected_row_index.dart';
 import 'package:web_appllication/screen_user/KeysEvents/Grid_DataTable.dart';
 import 'package:web_appllication/widgets/widgets_user/table_loading.dart';
@@ -18,8 +17,13 @@ class EvDashboardScreen extends StatefulWidget {
   final Function? callbackFun;
   String userId;
   String role;
+  String roleCenter;
   EvDashboardScreen(
-      {Key? key, this.callbackFun, required this.userId, required this.role})
+      {Key? key,
+      this.callbackFun,
+      required this.userId,
+      required this.role,
+      required this.roleCenter})
       : super(key: key);
 
   static const String id = 'admin-page';
@@ -242,7 +246,11 @@ class _EvDashboardScreenState extends State<EvDashboardScreen> {
       'Approved\nJMR Amount',
       'Pending\nJMR Amount'
     ],
-    ['Project Name', "Planned\nChargers", 'Chargers\nCommissioned']
+    [
+      'Project Name',
+      "Planned\nChargers",
+      'Chargers\nCommissioned',
+    ]
   ];
 
   int touchIndex = 0;
@@ -1984,7 +1992,8 @@ class _EvDashboardScreenState extends State<EvDashboardScreen> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => CitiesPage(),
+                      builder: (context) => CitiesPage(
+                          role: widget.role, roleCentre: widget.roleCenter),
                     ));
               },
               child: Row(

@@ -8,8 +8,11 @@ class DashboardAction extends StatefulWidget {
   String userId;
   String roleCentre;
 
-  DashboardAction({super.key, required this.role, required this.userId,
-  required this.roleCentre});
+  DashboardAction(
+      {super.key,
+      required this.role,
+      required this.userId,
+      required this.roleCentre});
 
   @override
   State<DashboardAction> createState() => _DashboardActionState();
@@ -36,6 +39,7 @@ class _DashboardActionState extends State<DashboardAction> {
         selectedUi = SplitDashboard(
           userId: widget.userId,
           role: widget.role,
+          roleCenter: widget.roleCentre,
         );
 
         break;
@@ -49,7 +53,7 @@ class _DashboardActionState extends State<DashboardAction> {
       case 'projectManager':
         selectedUi = NavigationPage(
           userId: widget.userId,
-          role: widget.role, 
+          role: widget.role,
         );
         break;
     }

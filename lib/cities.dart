@@ -13,7 +13,8 @@ import 'widgets/widgets_user/custom_container.dart';
 import 'widgets/widgets_user/user_style.dart';
 
 class CitiesPage extends StatefulWidget {
-  CitiesPage({super.key, this.roleCentre});
+  CitiesPage({super.key, this.role, this.roleCentre});
+  String? role;
   String? roleCentre;
 
   @override
@@ -56,7 +57,7 @@ class _CitiesPageState extends State<CitiesPage> {
                 ? PreferredSize(
                     // ignore: sort_child_properties_last
                     child: CustomAppBar(
-                      role: 'user',
+                      role: widget.roleCentre,
                       isDepoPage: true,
                       userId: userId,
                       isCitiesPage: true,

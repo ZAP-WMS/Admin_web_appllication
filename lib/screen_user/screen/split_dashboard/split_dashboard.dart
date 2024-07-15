@@ -9,10 +9,17 @@ import '../../dashboard/ev_dashboard/ev_dashboard.dart';
 class SplitDashboard extends StatelessWidget {
   String userId;
   String role;
-  SplitDashboard({super.key, required this.userId, required this.role});
+  String roleCenter;
+  SplitDashboard(
+      {super.key,
+      required this.userId,
+      required this.role,
+      required this.roleCenter});
 
   @override
   Widget build(BuildContext context) {
+    print(userId);
+    print(role);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(
@@ -89,7 +96,8 @@ class SplitDashboard extends StatelessWidget {
                                 builder: (context) {
                                   return EvDashboardScreen(
                                     userId: userId,
-                                    role: "user",
+                                    role: role,
+                                    roleCenter: roleCenter,
                                   );
                                 },
                               ));
@@ -136,7 +144,8 @@ class SplitDashboard extends StatelessWidget {
                               builder: (context) {
                                 return DemandEnergyScreen(
                                   userId: userId,
-                                  role: "user",
+                                  role: role,
+                                  roleCenter: roleCenter,
                                 );
                               },
                             ));
@@ -165,7 +174,8 @@ class SplitDashboard extends StatelessWidget {
                 Navigator.push(context, MaterialPageRoute(
                   builder: (context) {
                     return CitiesPage(
-                      role: 'user',
+                      roleCentre: roleCenter,
+                      role: role,
                     );
                   },
                 ));
