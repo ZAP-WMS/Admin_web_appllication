@@ -405,8 +405,8 @@ class DepotOverviewDatasource extends DataGridSource {
       _employees[dataRowIndex].contigentAction = newCellValue;
     } else if (column.columnName == 'ProgressionAction') {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
-          DataGridCell<int>(
-              columnName: 'ProgressionAction', value: newCellValue as int);
+          DataGridCell<String>(
+              columnName: 'ProgressionAction', value: newCellValue);
       _employees[dataRowIndex].progressAction = newCellValue;
     } else if (column.columnName == 'Reason') {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
@@ -525,6 +525,6 @@ class DepotOverviewDatasource extends DataGridSource {
         ? RegExp('[0-9.]')
         : isDateTimeBoard
             ? RegExp('[0-9-]')
-            : RegExp('[a-zA-Z ]');
+            : RegExp('[a-zA-Z0-9.@!#^&*(){+-}%|<>?_=+,/ )]');
   }
 }

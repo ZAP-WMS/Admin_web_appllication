@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_appllication/Authentication/admin/auth_service.dart';
+import 'package:web_appllication/Authentication/admin/login_register.dart';
+import 'package:web_appllication/pmis_oAndm_split_screen.dart.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   SplashScreenState createState() => SplashScreenState();
@@ -18,25 +22,8 @@ class SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    getUserId();
+    // getUserId();
     _getCurrentUser();
-    // user = FirebaseAuth.instance.currentUser == null;
-    Timer(
-      const Duration(milliseconds: 1500,),
-      () => user
-          ? Navigator.pushNamedAndRemoveUntil(
-              context,
-              '/splitDashboard',
-              arguments: userId,
-              (route) => false,
-            )
-          : Navigator.pushNamedAndRemoveUntil(
-              context,
-              '/login',
-              (route) => false,
-            ),
-    );
-    // user ? const LoginRegister() : const HomePage())));
   }
 
   @override
@@ -46,9 +33,10 @@ class SplashScreenState extends State<SplashScreen> {
       body: Stack(
         children: [
           Positioned.fill(
-              child: Center(
-            child: Image.asset("assets/Tata-Power.jpeg"),
-          )),
+            child: Center(
+              child: Image.asset("assets/Tata-Power.jpeg"),
+            ),
+          ),
           Positioned(
             bottom: 70,
             left: 0,
@@ -70,22 +58,53 @@ class SplashScreenState extends State<SplashScreen> {
   }
 
   void _getCurrentUser() async {
+    String? role;
+    String? roleCentre;
+    bool user = false;
+
     sharedPreferences = await SharedPreferences.getInstance();
     try {
       if (sharedPreferences.getString('employeeId') != null) {
-        setState(() {
-          user = true;
-        });
+        userId = sharedPreferences.getString('employeeId') ?? '';
+        role = await AuthService().getUserRole();
+        roleCentre = await AuthService().getRoleCentre();
+        user = true;
       }
+
+      // Add a delay before navigating to the main page
+      await Future.delayed(
+        const Duration(
+          milliseconds: 1500,
+        ),
+        () {
+          //   final routes = FluroRouter();
+
+          //         user
+          // ? routes.navigateTo(
+          //     context,
+          //     "/pmis_oAndm?userId=$userId&role=$role&roleCentre=$roleCentre",
+          //   )
+          // : routes.navigateTo(
+          //     context,
+          //     "splashScreen/login",
+          //   );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => user
+                  ? PmisAndOAndMScreen(
+                      role: role!,
+                      roleCentre: roleCentre!,
+                      userId: userId,
+                    )
+                  : const LoginRegister(),
+            ),
+          );
+        },
+      );
     } catch (e) {
-      user = false;
+      print("Error Occured on Spash Screen - $e");
     }
-    // Timer(
-    //     const Duration(milliseconds: 1000),
-    //     () => Navigator.of(context).pushReplacement(
-    //         MaterialPageRoute(builder: (BuildContext context) => LoginRegister()
-    //             // user ? const HomePage() : const LoginRegister()
-    //             )));
   }
 
   Future<void> getUserId() async {

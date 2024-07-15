@@ -13,8 +13,8 @@ import 'widgets/widgets_user/custom_container.dart';
 import 'widgets/widgets_user/user_style.dart';
 
 class CitiesPage extends StatefulWidget {
-  String? role;
-  CitiesPage({super.key, this.role});
+  CitiesPage({super.key, this.roleCentre});
+  String? roleCentre;
 
   @override
   State<CitiesPage> createState() => _CitiesPageState();
@@ -89,7 +89,8 @@ class _CitiesPageState extends State<CitiesPage> {
                           //     userId: userId),
                           index,
                           'login/EVDashboard/Cities/EVBusDepot/',
-                          userId);
+                          userId,
+                          widget.roleCentre!);
                     },
                   );
                 } else {
@@ -199,8 +200,8 @@ class _CitiesPageState extends State<CitiesPage> {
                         //   Navigator.pop(context);
                         // }
                       },
-                      child: const Text("CANCEL"),
                       style: ElevatedButton.styleFrom(),
+                      child: const Text("CANCEL"),
                     ),
                     ElevatedButton(
                       onPressed: () async {
@@ -290,7 +291,8 @@ class _CitiesPageState extends State<CitiesPage> {
                             //     userId: userId),
                             index,
                             'login/EVDashboard/Cities/EVBusDepot/',
-                            userId),
+                            userId,
+                            widget.roleCentre!),
                       )
                     ],
                   );

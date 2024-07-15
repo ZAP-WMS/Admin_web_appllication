@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_appllication/widgets/widgets_admin/admin_style.dart';
 
 Widget cards(BuildContext context, String desc, String img, int index,
-    String path, String role, String cityName, String userId) {
+    String path, String role, String cityName, String userId,String roleCentre) {
   late SharedPreferences _sharedPreferences;
 
   return Container(
@@ -34,7 +34,8 @@ Widget cards(BuildContext context, String desc, String img, int index,
                 "role": role,
                 "depoName": desc,
                 "cityName": cityName,
-                "userId": userId
+                "userId": userId,
+                "roleCentre":roleCentre
               });
             },
             child: Column(

@@ -30,7 +30,7 @@ class JMRModelUser {
         Activity: json['Activity'],
         RefNo: json['RefNo'],
         JmrAbstract: json['Abstract'],
-        Uom: json['Uom'],
+        Uom: json['UOM'],
         rate: json['Rate'],
         TotalQty: json['TotalQty'],
         TotalAmount: json['TotalAmount']);
@@ -43,7 +43,7 @@ class JMRModelUser {
       DataGridCell<dynamic>(columnName: 'Activity', value: Activity),
       DataGridCell<dynamic>(columnName: 'RefNo', value: RefNo),
       DataGridCell<dynamic>(columnName: 'Abstract', value: JmrAbstract),
-      DataGridCell<dynamic>(columnName: 'Uom', value: Uom),
+      DataGridCell<dynamic>(columnName: 'UOM', value: Uom),
       DataGridCell<dynamic>(columnName: 'Rate', value: rate),
       DataGridCell<dynamic>(columnName: 'TotalQty', value: TotalQty),
       DataGridCell<dynamic>(columnName: 'TotalAmount', value: TotalAmount),

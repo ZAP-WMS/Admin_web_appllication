@@ -3,7 +3,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:web_appllication/Authentication/admin/auth_service.dart';
 import 'package:web_appllication/components/loading_page.dart';
-import 'package:web_appllication/overview.dart';
+import 'package:web_appllication/overview_pmis.dart';
 import 'package:web_appllication/screen_user/KeysEvents/upload.dart';
 import 'package:web_appllication/widgets/widgets_admin/custom_appbar.dart';
 import '../../FirebaseApi/firebase_api_admin.dart';
@@ -62,13 +62,9 @@ class _ViewAllPdfAdminState extends State<ViewAllPdfAdmin> {
         futureFiles = FirebaseApiAdmin.listAll(
             'Depot Insights/${widget.cityName}/${widget.depoName}/DepotImages/');
       } else {
-        getrefdata().whenComplete(() {
+        await getrefdata().whenComplete(() {
           for (int i = 0; i < drawingRef.length; i++) {
             for (int j = 0; j < drawingfullpath.length; j++) {
-              print('before ' + drawingfullpath[j]);
-              print(
-                  'after  ${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}/${widget.docId}');
-
               if (drawingfullpath[j] ==
                   '${widget.title}/${widget.cityName}/${widget.depoName}/${drawingRef[i]}/${widget.docId}') {
                 futureFiles = FirebaseApiAdmin.listAll(drawingfullpath[j]);
@@ -250,5 +246,4 @@ class _ViewAllPdfAdminState extends State<ViewAllPdfAdmin> {
     isFieldEditable =
         authService.verifyAssignedCities(widget.cityName!, assignedCities);
   }
-
 }

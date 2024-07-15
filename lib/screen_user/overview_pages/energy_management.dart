@@ -88,6 +88,8 @@ class _EnergyManagementUserState extends State<EnergyManagementUser> {
 
   @override
   Widget build(BuildContext context) {
+    _energyProvider!
+        .fetchGraphData(widget.cityName!, widget.depoName!, widget.userId);
     return Scaffold(
       appBar: PreferredSize(
           preferredSize: const Size.fromHeight(50),
@@ -573,9 +575,6 @@ class _EnergyManagementUserState extends State<EnergyManagementUser> {
                   color: Colors.blue,
                 ),
                 Consumer<EnergyProviderUser>(builder: (context, value, child) {
-                  _energyProvider!.fetchGraphData(
-                      widget.cityName!, widget.depoName!, widget.userId);
-
                   return Container(
                     margin: const EdgeInsets.only(bottom: 10.0),
                     width: 2000,
@@ -742,7 +741,6 @@ class _EnergyManagementUserState extends State<EnergyManagementUser> {
 
   List<BarChartGroupData> barChartGroupData(List<dynamic> data) {
     return List.generate(data.length, ((index) {
-      print('$index${data[index]}');
       return BarChartGroupData(
         x: index,
         barRods: [
@@ -772,5 +770,4 @@ class _EnergyManagementUserState extends State<EnergyManagementUser> {
     isFieldEditable =
         authService.verifyAssignedCities(widget.cityName!, assignedCities);
   }
-  
 }

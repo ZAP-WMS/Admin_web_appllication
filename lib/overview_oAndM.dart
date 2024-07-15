@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_appllication/Authentication/admin/auth_service.dart';
+import 'package:web_appllication/widgets/widgets_admin/custom_appbar.dart';
 
-import 'widgets/widgets_admin/custom_appbar.dart';
-
-String userId = '';
-
-class MyOverview extends StatefulWidget {
-  String? userId;
-  String depoName;
-  String cityName;
-  String role;
-  MyOverview(
-      {super.key,
+class OverviewOAndM extends StatefulWidget {
+  final String? userId;
+  final String depoName;
+  final String cityName;
+  final String role;
+  
+  const OverviewOAndM({
+      super.key,
       required this.depoName,
       required this.cityName,
-      this.userId,
-      required this.role});
+      required this.userId,
+      required this.role
+      });
 
   @override
-  State<MyOverview> createState() => _MyOverviewState();
+  State<OverviewOAndM> createState() => _OverviewOAndMState();
+
 }
 
-class _MyOverviewState extends State<MyOverview> {
+class _OverviewOAndMState extends State<OverviewOAndM> {
   List<String> assignedDepots = [];
   final AuthService authService = AuthService();
 
@@ -76,13 +76,13 @@ class _MyOverviewState extends State<MyOverview> {
   @override
   void initState() {
     getAssignedDepots();
-    getUserId();
     setSharePrefence();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    
     List<String> desription = [
       'Overview of Project Progress Status of ${widget.depoName} EV Bus Charging Infra',
       'Project Planning & Scheduling Bus Depot Wise [Gant Chart] ',
@@ -201,12 +201,6 @@ class _MyOverviewState extends State<MyOverview> {
     _sharedPreferences.setString('depotName', widget.depoName);
   }
 
-  Future<void> getUserId() async {
-    await AuthService().getCurrentUserId().then((value) {
-      userId = value;
-      setState(() {});
-    });
-  }
 
   Future getAssignedDepots() async {
     assignedDepots = await authService.getDepotList();

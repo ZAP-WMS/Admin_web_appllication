@@ -139,7 +139,8 @@ class AuthService {
       print("Error While Storing AssginedDepots - $e");
     }
   }
-      Future storeCityList(List<String> cityList) async {
+
+  Future storeCityList(List<String> cityList) async {
     try {
       final shared = await SharedPreferences.getInstance();
       shared.setStringList("cityList", cityList);
@@ -147,6 +148,21 @@ class AuthService {
     } catch (e) {
       print("Error While Storing AssginedCities - $e");
     }
+  }
+
+  Future storeRoleCentre(String roleCentre) async {
+    try {
+      final shared = await SharedPreferences.getInstance();
+      shared.setString("roleCentre", roleCentre);
+    } catch (e) {
+      print("Error While Storing RoleCentre - $e");
+    }
+  }
+
+  Future<String> getRoleCentre() async {
+    final shared = await SharedPreferences.getInstance();
+    String roleCentre = shared.getString("roleCentre")!;
+    return roleCentre;
   }
 
   bool verifyAssignedDepot(String depotName, List<String> assignedDepots) {
@@ -157,7 +173,7 @@ class AuthService {
     return isEligibleUser;
   }
 
-    bool verifyAssignedCities(String cityName, List<String> assignedDepots) {
+  bool verifyAssignedCities(String cityName, List<String> assignedDepots) {
     bool isEligibleUser = false;
     if (assignedDepots.contains(cityName)) {
       isEligibleUser = true;
@@ -171,8 +187,7 @@ class AuthService {
     return depotList;
   }
 
-  
-    Future<List<String>> getCityList() async {
+  Future<List<String>> getCityList() async {
     final shared = await SharedPreferences.getInstance();
     List<String> cityList = shared.getStringList("cityList")!;
     return cityList;

@@ -63,19 +63,6 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
   final endDate = TextEditingController();
 
   List nextJmrIndex = [];
-  List<List<dynamic>> data = [
-    [
-      '1',
-      '                    ',
-      '                                                                ',
-      '                ',
-      '                                                               ',
-      '                 ',
-      '       ',
-      '       ',
-      '       '
-    ],
-  ];
 
   List<JMRModelUser> jmrtable = <JMRModelUser>[];
   int _excelRowNextIndex = 0;
@@ -86,53 +73,47 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
   List<dynamic> tabledata2 = [];
   Stream? _stream;
   var alldata;
-  List<dynamic> totalAmountList = [];
-  num totalAmount = num.parse('0.0');
 
   @override
   void initState() {
     super.initState();
-    getAssignedCities();
     _stream = FirebaseFirestore.instance
         .collection('JMRCollection')
         .doc(widget.depoName)
         .collection('userId')
         .doc(widget.userId)
         .snapshots();
-    if (widget.showTable == true) {
-      _fetchDataFromFirestore().then((value) => {
-            setState(() {
-              for (dynamic item in jmrSyncList) {
-                List<dynamic> tempData = [];
-                if (item is List<dynamic>) {
-                  for (dynamic innerItem in item) {
-                    if (innerItem is Map<String, dynamic>) {
-                      tempData = [
-                        innerItem['srNo'],
-                        innerItem['Description'],
-                        innerItem['Activity'],
-                        innerItem['RefNo'],
-                        innerItem['Abstract'],
-                        innerItem['Uom'],
-                        innerItem['Rate'],
-                        innerItem['TotalQty'],
-                        innerItem['TotalAmount']
-                      ];
-                      totalAmountList.add(
-                        innerItem['TotalAmount'],
-                      );
-                    }
-                    data.add(tempData);
-                  }
-                }
+    getAssignedCities().whenComplete(() {
+      if (widget.showTable == true) {
+        _fetchDataFromFirestore().then((value) {
+          for (dynamic item in jmrSyncList) {
+            if (item is List<dynamic>) {
+              for (dynamic innerItem in item) {
+                jmrtable.add(
+                  JMRModelUser(
+                    srNo: innerItem['srNo'],
+                    Description: innerItem['Description'],
+                    Activity: innerItem['Activity'],
+                    RefNo: innerItem['RefNo'],
+                    JmrAbstract: innerItem['Abstract'],
+                    Uom: innerItem['UOM'],
+                    rate: innerItem['Rate'],
+                    TotalQty: innerItem['TotalQty'],
+                    TotalAmount: innerItem['TotalAmount'],
+                  ),
+                );
               }
-              _isLoading = false;
-            })
-          });
-    } else {
-      _isLoading = false;
-      setState(() {});
-    }
+            }
+            print(item);
+          }
+          _jmrDataSource.buildDataGridRows();
+          _jmrDataSource.updateDatagridSource();
+        });
+      }
+      setState(() {
+        _isLoading = false;
+      });
+    });
   }
 
   @override
@@ -300,7 +281,7 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
                                 ),
                               ),
                               GridColumn(
-                                width: 200,
+                                width: 300,
                                 columnName: 'Description',
                                 allowEditing: true,
                                 label: Container(
@@ -316,6 +297,7 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
                                 ),
                               ),
                               GridColumn(
+                                width: 220,
                                 columnName: 'Activity',
                                 allowEditing: true,
                                 label: Container(
@@ -347,7 +329,7 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
                               GridColumn(
                                 columnName: 'Abstract',
                                 allowEditing: true,
-                                width: 180,
+                                width: 250,
                                 label: Container(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),
@@ -413,7 +395,8 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
                                 allowEditing: true,
                                 label: Container(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
+                                    horizontal: 8.0,
+                                  ),
                                   alignment: Alignment.center,
                                   child: Text('Amount',
                                       overflow: TextOverflow.values.first,
@@ -425,8 +408,9 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
                               ),
                               GridColumn(
                                 columnName: 'Delete',
-                                autoFitPadding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
+                                autoFitPadding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                ),
                                 allowEditing: false,
                                 width: 120,
                                 label: Container(
@@ -447,7 +431,7 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
                           ),
                         );
                       } else if (snapshot.hasData) {
-                        jmrtable = convertListToJmrModel(data);
+                        // jmrtable = convertListToJmrModel(data);
                         _jmrDataSource =
                             JmrDataSource(jmrtable, deleteRow, context);
                         _dataGridController = DataGridController();
@@ -493,7 +477,7 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
                                 ),
                               ),
                               GridColumn(
-                                width: 200,
+                                width: 300,
                                 columnName: 'Description',
                                 allowEditing: true,
                                 label: Container(
@@ -509,6 +493,7 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
                                 ),
                               ),
                               GridColumn(
+                                width: 220,
                                 columnName: 'Activity',
                                 allowEditing: true,
                                 label: Container(
@@ -662,7 +647,7 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
                           onPressed: () {
                             jmrtable.add(
                               JMRModelUser(
-                                srNo: data.length + 1,
+                                srNo: jmrtable.length + 1,
                                 Description: '',
                                 Activity: '',
                                 RefNo: '',
@@ -681,7 +666,9 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(5.0),
+                      padding: const EdgeInsets.all(
+                        5.0,
+                      ),
                       child: Visibility(
                         visible: widget.showTable ? false : true,
                         child: FloatingActionButton.extended(
@@ -695,7 +682,9 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
                               _jmrDataSource.updateDatagridSource();
                             });
                           },
-                          label: const Text('Upload Excel'),
+                          label: const Text(
+                            'Upload Excel',
+                          ),
                         ),
                       ),
                     )
@@ -708,7 +697,7 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
     );
   }
 
-  Future<List<List<dynamic>>> selectExcelFile() async {
+  Future<void> selectExcelFile() async {
     final input = html.FileUploadInputElement()..accept = '.xlsx';
     input.click();
 
@@ -726,30 +715,56 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
       final excel = Excel.decodeBytes(reader.result as List<int>);
       for (var table in excel.tables.keys) {
         final sheet = excel.tables[table];
-        for (var rows in sheet!.rows.skip(1)) {
-          List<dynamic> rowData = [];
-          for (var cell in rows) {
-            rowData.add(cell?.value.toString());
+        if (sheet!.rows.first.length == 9) {
+          for (var rows in sheet!.rows.skip(1)) {
+            List<dynamic> rowData = [];
+            for (var cell in rows) {
+              rowData.add(cell?.value.toString());
+            }
+            jmrtable.add(
+              JMRModelUser(
+                srNo: rowData[0],
+                Description: rowData[1],
+                Activity: rowData[2],
+                RefNo: rowData[3],
+                JmrAbstract: rowData[4],
+                Uom: rowData[5],
+                rate: rowData[6],
+                TotalQty: rowData[7],
+                TotalAmount: rowData[8],
+              ),
+            );
+            // data.add(rowData);
           }
-          jmrtable.add(
-            JMRModelUser(
-              srNo: rowData[0],
-              Description: rowData[1],
-              Activity: rowData[2],
-              RefNo: rowData[3],
-              JmrAbstract: rowData[4],
-              Uom: rowData[5],
-              rate: rowData[6],
-              TotalQty: rowData[7],
-              TotalAmount: rowData[8],
+        } else {
+          await showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              icon: Icon(
+                Icons.warning_amber,
+                color: blue,
+                size: 60,
+              ),
+              actionsPadding: EdgeInsets.only(
+                top: 20.0,
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(
+                    "OK",
+                  ),
+                ),
+              ],
+              title: const Text(
+                "Please Check There Must Be 9 Columns",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
             ),
           );
-          // data.add(rowData);
         }
       }
     }
-
-    return data;
   }
 
   List<JMRModelUser> convertListToJmrModel(List<List<dynamic>> data) {
@@ -918,7 +933,7 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
   //Function to fetch data and show in JMR view
 
   Future<List<dynamic>> _fetchDataFromFirestore() async {
-    data.clear();
+    jmrtable.clear();
     getFieldData();
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('JMRCollection')
@@ -1016,7 +1031,7 @@ class _JmrHomeUserState extends State<JmrHomeUser> {
   }
 
   void deleteRow(dynamic removeIndex) async {
-    data.removeAt(removeIndex);
+    jmrtable.removeAt(removeIndex);
     print('Row Removed $removeIndex');
   }
 

@@ -287,7 +287,7 @@ class _CivilQualityChecklistAdminState extends State<CivilQualityChecklistAdmin>
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                  LoadingPage(),
+                      LoadingPage(),
                     ],
                   ),
                 );
@@ -647,7 +647,7 @@ class _CivilQualityChecklistAdminState extends State<CivilQualityChecklistAdmin>
           pw.Container(
               padding: const pw.EdgeInsets.all(2.0),
               child: pw.Center(
-                  child: pw.Text(mapData['reference'].toString(),
+                  child: pw.Text(mapData['Reference'].toString(),
                       textAlign: pw.TextAlign.center,
                       style: const pw.TextStyle(fontSize: 14)))),
           pw.Container(

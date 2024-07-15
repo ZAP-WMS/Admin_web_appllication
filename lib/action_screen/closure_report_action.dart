@@ -3,17 +3,20 @@ import 'package:web_appllication/screen_admin/overview_page/closure_summary_tabl
 import 'package:web_appllication/screen_user/overview_pages/closure_report.dart';
 
 class ClosureReportAction extends StatefulWidget {
-  String role;
-  String cityName;
-  String depotName;
-  String userId;
+  final String role;
+  final String cityName;
+  final String depotName;
+  final String userId;
+  final String roleCentre;
 
-  ClosureReportAction(
+  const ClosureReportAction(
       {super.key,
+      required this.roleCentre,
       required this.role,
       required this.cityName,
       required this.depotName,
-      required this.userId});
+      required this.userId}
+      );
 
   @override
   State<ClosureReportAction> createState() => _ClosureReportActionState();
@@ -34,7 +37,8 @@ class _ClosureReportActionState extends State<ClosureReportAction> {
   }
 
   Widget selectWidget() {
-    switch (widget.role) {
+
+          switch (widget.role) {
       case 'user':
         selectedUi = ClosureReportUser(
           role: widget.role,
@@ -64,6 +68,7 @@ class _ClosureReportActionState extends State<ClosureReportAction> {
         );
         break;
     }
+
 
     return selectedUi;
   }

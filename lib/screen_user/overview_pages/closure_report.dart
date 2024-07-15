@@ -47,22 +47,22 @@ class _ClosureReportUserState extends State<ClosureReportUser> {
 
   @override
   void initState() {
-    getAssignedCities();
-    checkAvailableImage().whenComplete(() {
-      closereport = getcloseReport();
-      _closeReportDataSource = CloseReportDataSource(
-        closereport, context,
-          widget.depoName!, widget.cityName!, widget.userId);
-      _dataGridController = DataGridController();
-      _stream = FirebaseFirestore.instance
-          .collection('ClosureReport')
-          .doc('${widget.depoName}')
-          .collection('userId')
-          .doc(widget.userId)
-          .snapshots();
+    getAssignedCities().whenComplete(() {
+      checkAvailableImage().whenComplete(() {
+        closereport = getcloseReport();
+        _closeReportDataSource = CloseReportDataSource(closereport, context,
+            widget.depoName!, widget.cityName!, widget.userId);
+        _dataGridController = DataGridController();
+        _stream = FirebaseFirestore.instance
+            .collection('ClosureReport')
+            .doc('${widget.depoName}')
+            .collection('userId')
+            .doc(widget.userId)
+            .snapshots();
 
-      _isloading = false;
-      setState(() {});
+        _isloading = false;
+        setState(() {});
+      });
     });
 
     super.initState();
@@ -426,7 +426,6 @@ class _ClosureReportUserState extends State<ClosureReportUser> {
                           columnWidthMode: ColumnWidthMode.auto,
                           editingGestureType: EditingGestureType.tap,
                           controller: _dataGridController,
-
                           columns: [
                             GridColumn(
                               columnName: 'srNo',
@@ -886,6 +885,7 @@ class _ClosureReportUserState extends State<ClosureReportUser> {
   Future getAssignedCities() async {
     assignedCities = await authService.getCityList();
     isFieldEditable =
-        authService.verifyAssignedDepot(widget.depoName!, assignedCities);
+        authService.verifyAssignedCities(widget.cityName!, assignedCities);
+    print("isFieldEditable - $isFieldEditable");
   }
 }

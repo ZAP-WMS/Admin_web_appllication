@@ -106,28 +106,30 @@ class _QualityChecklistAdminState extends State<QualityChecklistAdmin> {
               ),
 
               actions: [
-              widget.role =="projectManager" ? Container(
-                margin:const EdgeInsets.all(8.0),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => QualityChecklistUser(
-                            cityName: widget.cityName,
-                            depoName: widget.depoName,
-                            userId: widget.userId,
-                            currentDate: widget.currentDate,
-                            role: widget.role,
+                widget.role == "projectManager"
+                    ? Container(
+                        margin: const EdgeInsets.all(8.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => QualityChecklistUser(
+                                  cityName: widget.cityName,
+                                  depoName: widget.depoName,
+                                  userId: widget.userId,
+                                  currentDate: widget.currentDate,
+                                  role: widget.role,
+                                ),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'Make An Entry',
                           ),
                         ),
-                      );
-                    },
-                    child: const Text(
-                      'Make An Entry',
-                    ),
-                  ),
-                ) : Container(),
+                      )
+                    : Container(),
                 Container(
                   padding: const EdgeInsets.all(5.0),
                   width: 200,
@@ -190,6 +192,7 @@ class _QualityChecklistAdminState extends State<QualityChecklistAdmin> {
                                 depoName: suggestion.toString(),
                                 cityName: widget.cityName,
                                 userId: widget.userId,
+                                isHeader: true,
                               ),
                             ));
                       },

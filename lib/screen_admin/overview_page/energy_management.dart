@@ -46,7 +46,7 @@ class EnergyManagementAdmin extends StatefulWidget {
 }
 
 class _EnergyManagementAdminState extends State<EnergyManagementAdmin> {
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
   String? currentUser;
   List<dynamic> dataForPdf = [];
   DateTime? startdate = DateTime.now();
@@ -123,9 +123,19 @@ class _EnergyManagementAdminState extends State<EnergyManagementAdmin> {
 
   @override
   Widget build(BuildContext context) {
+    _energyProvider!.fetchEnergyUsedId(
+        widget.cityName!,
+        widget.depoName!,
+        DateTime.parse(startdate.toString()),
+        DateTime.parse(enddate.toString()));
+    _energyProvider!.fetchEnergyData(
+        widget.cityName!,
+        widget.depoName!,
+        DateTime.parse(startdate.toString()),
+        DateTime.parse(enddate.toString()));
     return Scaffold(
       appBar: PreferredSize(
-          // ignore: sort_child_properties_last
+          preferredSize: const Size.fromHeight(50),
           child: CustomAppBar(
             isProjectManager: widget.role == 'projectManager' ? true : false,
             makeAnEntryPage: EnergyManagementUser(
@@ -161,8 +171,7 @@ class _EnergyManagementAdminState extends State<EnergyManagementAdmin> {
             // store: () {
             //   storeData();
             // },
-          ),
-          preferredSize: const Size.fromHeight(50)),
+          )),
       body: _isLoading
           ? LoadingPage()
           : Column(children: [
@@ -506,17 +515,6 @@ class _EnergyManagementAdminState extends State<EnergyManagementAdmin> {
                 },
               ),
               Consumer<EnergyProviderAdmin>(builder: (context, value, child) {
-                _energyProvider!.fetchEnergyUsedId(
-                    widget.cityName!,
-                    widget.depoName!,
-                    DateTime.parse(startdate.toString()),
-                    DateTime.parse(enddate.toString()));
-                _energyProvider!.fetchEnergyData(
-                    widget.cityName!,
-                    widget.depoName!,
-                    DateTime.parse(startdate.toString()),
-                    DateTime.parse(enddate.toString()));
-
                 return Container(
                   margin: const EdgeInsets.only(bottom: 10.0),
                   width: 2000,
@@ -1092,7 +1090,7 @@ class _EnergyManagementAdminState extends State<EnergyManagementAdmin> {
 
   List<BarChartGroupData> barChartGroupData(List<dynamic> data) {
     return List.generate(data.length, ((index) {
-      print('$index${data[index]}');
+      print('value - $index${data[index]}');
       return BarChartGroupData(
         x: index,
         barRods: [

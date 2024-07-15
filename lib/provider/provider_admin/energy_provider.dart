@@ -16,8 +16,6 @@ class EnergyProviderAdmin extends ChangeNotifier {
       String cityName, String depoName, DateTime date, DateTime endDate) async {
     List id = [];
     id.clear();
-    print(date);
-    print(endDate);
 
     for (DateTime initialdate = date;
         initialdate.isBefore(endDate.add(const Duration(days: 1)));
@@ -47,7 +45,6 @@ class EnergyProviderAdmin extends ChangeNotifier {
         value.docs.forEach((element) {
           String documentId = element.id;
           id.add(documentId);
-          print('userId - $id');
         });
         energyUserId = id;
         notifyListeners();
@@ -66,6 +63,7 @@ class EnergyProviderAdmin extends ChangeNotifier {
     _energydata.clear();
     timeIntervalList.clear();
     energyConsumedList.clear();
+
     for (DateTime initialdate = endDate;
         initialdate.isAfter(date.subtract(const Duration(days: 1)));
         initialdate = initialdate.subtract(const Duration(days: 1))) {
@@ -104,7 +102,6 @@ class EnergyProviderAdmin extends ChangeNotifier {
           } else {
             intervalListData = timeIntervalList;
             energyListData = energyConsumedList;
-
             notifyListeners();
           }
         });

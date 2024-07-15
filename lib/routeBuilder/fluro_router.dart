@@ -13,68 +13,71 @@ import 'package:web_appllication/action_screen/jmr_screen_action.dart';
 import 'package:web_appllication/action_screen/key_events_action.dart';
 import 'package:web_appllication/action_screen/material_procurement_action.dart';
 import 'package:web_appllication/action_screen/monthly_report_action.dart';
+import 'package:web_appllication/action_screen/overview_action.dart';
 import 'package:web_appllication/action_screen/quality_checklist_action.dart';
 import 'package:web_appllication/action_screen/safety_report_action.dart';
 import 'package:web_appllication/components/loading_page.dart';
-import 'package:web_appllication/overview.dart';
+import 'package:web_appllication/overview_pmis.dart';
 import 'package:web_appllication/cities.dart';
+import 'package:web_appllication/pmis_oAndm_split_screen.dart.dart';
 import 'package:web_appllication/screen_admin/MenuPage/role.dart';
+import 'package:web_appllication/screen_user/Splash/splash_screen.dart';
 import '../depot.dart';
 
-class Flurorouter {
+class FluroRouting {
   static final FluroRouter router = FluroRouter();
 
   static Handler loginHandler = Handler(
-      handlerFunc: (context, Map<String, dynamic> params) =>
-          const LoginRegister());
+    handlerFunc: (context, Map<String, dynamic> params) =>
+        const LoginRegister(),
+  );
 
-  static Handler navPagedHandler = Handler(
-    handlerFunc: (context, Map<String, dynamic> params) {
-      ModalRoute? modalRoute = ModalRoute.of(context!);
+  static Handler navPagedHandler =
+      Handler(handlerFunc: (context, Map<String, dynamic> params) {
+    ModalRoute? modalRoute = ModalRoute.of(context!);
 
       if (modalRoute != null) {
         Map<String, dynamic>? modelRoute =
             modalRoute.settings.arguments as Map<String, dynamic>?;
 
-        if (modelRoute != null) {
-          final userId = modelRoute['userId'];
-          final role = modelRoute['role'];
+      if (modelRoute != null) {
+        final userId = modelRoute['userId'];
+        final role = modelRoute['role'];
 
-          return DashboardAction(
-            userId: userId,
-            role: role,
-          );
-        } else {
-          return FutureBuilder<Map<String, dynamic>?>(
-              future: _getCityDataFromSharedPreferences(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  // Do something with userId
-                  Map<String, dynamic>? cityData = snapshot.data;
+        return DashboardAction(
+          userId: userId,
+          role: role,
+        );
+      } else {
+        return FutureBuilder<Map<String, dynamic>?>(
+            future: _getCityDataFromSharedPreferences(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                // Do something with userId
+                Map<String, dynamic>? cityData = snapshot.data;
 
-                  String userId = cityData?['userId'] ?? 'null';
-                  String role = cityData?['role'] ?? 'N/A';
+                String userId = cityData?['userId'] ?? 'null';
+                String role = cityData?['role'] ?? 'N/A';
 
-                  if (userId != 'null') {
-                    // User is logged in, return your widget
-                    return DashboardAction(
-                      userId: userId,
-                      role: role,
-                    );
-                  } else {
-                    // User is not logged in, navigate to login screen
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => const LoginRegister()));
-                    // Return an empty container or loading widget since you're navigating
-                  }
+                if (userId != 'null') {
+                  // User is logged in, return your widget
+                  return DashboardAction(
+                    userId: userId,
+                    role: role,
+                  );
+                } else {
+                  // User is not logged in, navigate to login screen
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => const LoginRegister()));
+                  // Return an empty container or loading widget since you're navigating
                 }
-                return LoadingPage();
-              });
-        }
+              }
+              return LoadingPage();
+            });
       }
-      return null;
-    },
-  );
+    }
+    return null;
+  },);
 
   // Handle the case where modalRoute or modelRoute is null
   // or return some default widget
@@ -103,8 +106,10 @@ class Flurorouter {
         final cityName = modelRoute['cityName'];
         final role = modelRoute["role"];
         final userId = modelRoute['userId'];
+        final roleCentre = modelRoute['roleCentre'];
 
         return Mydepots(
+          roleCentre: roleCentre,
           cityName: cityName,
           userId: userId,
         );
@@ -117,11 +122,14 @@ class Flurorouter {
                 String userId = cityData?['userId'] ?? 'null';
                 String cityName = cityData?['cityName'] ?? 'defaultCityName';
                 String role = cityData?["role"] ?? "N/A";
+                String roleCentre = cityData?["roleCentre"] ?? "N/A";
 
                 // Return your widget here using userId
                 if (userId != 'null') {
                   return Mydepots(
+                    roleCentre: roleCentre,
                     cityName: cityName,
+                    userId: userId,
                   );
                 } else {
                   // User is not logged in, navigate to login screen
@@ -148,9 +156,11 @@ class Flurorouter {
         final cityName = modelRoute['cityName'];
         final role = modelRoute['role'];
         final userId = modelRoute['userId'];
+        final roleCentre = modelRoute['roleCentre'];
 
-        return MyOverview(
-          depoName: depoName,
+        return OverviewAction(
+          roleCentre: roleCentre,
+          depotName: depoName,
           cityName: cityName,
           role: role,
           userId: userId,
@@ -166,10 +176,12 @@ class Flurorouter {
                 String cityName = cityData?['cityName'] ?? 'defaultCityName';
                 String depoName = cityData?['depotName'] ?? 'defaultDepotName';
                 String role = cityData?['role'] ?? "N/A";
+                String roleCentre = cityData?['roleCentre'] ?? "N/A";
 
                 if (userId != 'null') {
-                  return MyOverview(
-                    depoName: depoName,
+                  return OverviewAction(
+                    roleCentre: roleCentre,
+                    depotName: depoName,
                     cityName: cityName,
                     role: role,
                     userId: userId,
@@ -725,8 +737,10 @@ class Flurorouter {
         final cityName = modelRoute['cityName'];
         final depoName = modelRoute['depoName'];
         final role = modelRoute['role'];
+        final roleCentre = modelRoute['roleCentre'];
 
         return ClosureReportAction(
+          roleCentre: roleCentre,
           depotName: depoName,
           role: role,
           userId: userId,
@@ -744,14 +758,15 @@ class Flurorouter {
                 String cityName = cityData?['cityName'] ?? 'defaultCityName';
                 String depotName = cityData?['depotName'] ?? 'defaultDepotName';
                 String role = cityData?['role'] ?? 'user';
+                String roleCentre = cityData?['roleCentre'];
 
                 if (userId != 'null') {
                   // Return your widget here using userId
                   return ClosureReportAction(
+                    roleCentre: roleCentre,
                     depotName: depotName,
                     role: role,
                     userId: userId,
-                    // userId: widget.userid,
                     cityName: cityName,
                   );
                 } else {
@@ -823,9 +838,14 @@ class Flurorouter {
   });
 
   static void setupRouter() {
+    router.define('splashScreen', handler: splashScreen);
     router.define(
       'login',
       handler: loginHandler,
+    );
+    router.define(
+      '/pmis_oAndm',
+      handler: pmisOandMhandle,
     );
     router.define('login/EVDashboard/', handler: navPagedHandler);
     router.define('login/EVDashboard/Cities/', handler: citiesHandler);
@@ -869,6 +889,10 @@ class Flurorouter {
     router.define(
         'login/EVDashboard/Cities/EVBusDepot/OverviewPage/DemandEnergy/',
         handler: demandEnergyhandler);
+    router.notFoundHandler = Handler(
+        handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+      return const SplashScreen();
+    });
   }
 
   // static Future<String?> _getUserIdFromSharedPreferences() async {

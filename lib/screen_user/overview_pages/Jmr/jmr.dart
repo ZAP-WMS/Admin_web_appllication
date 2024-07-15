@@ -33,6 +33,9 @@ class JmrUser extends StatefulWidget {
 }
 
 class _JmrUserState extends State<JmrUser> {
+  final AuthService authService = AuthService();
+  List<String> assignedCities = [];
+  bool isFieldEditable = false;
   String fileName = '';
   TextEditingController selectedDepoController = TextEditingController();
   List currentTabList = [];
@@ -56,7 +59,9 @@ class _JmrUserState extends State<JmrUser> {
 
   @override
   void initState() {
-    getJmrLen(5);
+    getAssignedCities().whenComplete(
+      () => getJmrLen(5),
+    );
     super.initState();
   }
 
@@ -166,12 +171,12 @@ class _JmrUserState extends State<JmrUser> {
               unselectedLabelColor: Colors.black,
               //indicatorSize: TabBarIndicatorSize.label,
               indicator: MaterialIndicator(
-                  horizontalPadding: 24,
-                  bottomLeftRadius: 8,
-                  bottomRightRadius: 8,
-                  color: white,
-                  paintingStyle: PaintingStyle.fill,
-                  ),
+                horizontalPadding: 24,
+                bottomLeftRadius: 8,
+                bottomRightRadius: 8,
+                color: white,
+                paintingStyle: PaintingStyle.fill,
+              ),
               tabs: const [
                 Tab(text: 'Civil Engineer'),
                 Tab(text: 'Electrical Engineer'),
@@ -246,77 +251,82 @@ class _JmrUserState extends State<JmrUser> {
                         ),
                       )),
                   ElevatedButton(
-                    onPressed: () {
-                      index != 0
-                          ? currentTabList[index - 1] == 0
-                              ? showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                        backgroundColor: Colors.blue[600],
-                                        icon: const Icon(
-                                          Icons.warning_amber,
-                                          size: 30,
-                                          color: Colors.white,
+                    onPressed: isFieldEditable == false
+                        ? null
+                        : () {
+                            index != 0
+                                ? currentTabList[index - 1] == 0
+                                    ? showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                              backgroundColor: Colors.blue[600],
+                                              icon: const Icon(
+                                                Icons.warning_amber,
+                                                size: 30,
+                                                color: Colors.white,
+                                              ),
+                                              title: const Text(
+                                                'Please Create Jmr Orderly',
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 13),
+                                              ));
+                                        },
+                                      )
+                                    : Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => JmrHomeUser(
+                                            role: widget.role,
+                                            userId: widget.userId!,
+                                            showTable: false,
+                                            title: '$Designation-$title',
+                                            jmrTab: title,
+                                            cityName: widget.cityName,
+                                            depoName: widget.depoName,
+                                            jmrIndex: index + 1,
+                                            tabName: tabsForJmr[_selectedIndex],
+                                          ),
                                         ),
-                                        title: const Text(
-                                          'Please Create Jmr Orderly',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 13),
-                                        ));
-                                  },
-                                )
-                              : Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => JmrHomeUser(
-                                      role: widget.role,
-                                      userId: widget.userId!,
-                                      showTable: false,
-                                      title: '$Designation-$title',
-                                      jmrTab: title,
-                                      cityName: widget.cityName,
-                                      depoName: widget.depoName,
-                                      jmrIndex: index + 1,
-                                      tabName: tabsForJmr[_selectedIndex],
+                                      ).then((_) {
+                                        setState(() {
+                                          currentTabList.clear();
+                                          getJmrLen(5);
+                                        });
+                                      })
+                                : Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => JmrHomeUser(
+                                        role: widget.role,
+                                        userId: widget.userId!,
+                                        showTable: false,
+                                        title: '$Designation-$title',
+                                        jmrTab: title,
+                                        cityName: widget.cityName,
+                                        depoName: widget.depoName,
+                                        jmrIndex: index + 1,
+                                        tabName: tabsForJmr[_selectedIndex],
+                                      ),
                                     ),
-                                  ),
-                                ).then((_) {
-                                  setState(() {
-                                    currentTabList.clear();
-                                    getJmrLen(5);
+                                  ).then((_) {
+                                    setState(() {
+                                      currentTabList.clear();
+                                      getJmrLen(5);
+                                    });
                                   });
-                                })
-                          : Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => JmrHomeUser(
-                                  role: widget.role,
-                                  userId: widget.userId!,
-                                  showTable: false,
-                                  title: '$Designation-$title',
-                                  jmrTab: title,
-                                  cityName: widget.cityName,
-                                  depoName: widget.depoName,
-                                  jmrIndex: index + 1,
-                                  tabName: tabsForJmr[_selectedIndex],
-                                ),
-                              ),
-                            ).then((_) {
-                              setState(() {
-                                currentTabList.clear();
-                                getJmrLen(5);
-                              });
-                            });
-                    },
-                    style: ElevatedButton.styleFrom(backgroundColor: blue),
+                          },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: isFieldEditable ? blue : grey,
+                    ),
                     child: const Text(
                       'Create New JMR',
                       style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
+                        fontSize: 15,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
@@ -376,12 +386,15 @@ class _JmrUserState extends State<JmrUser> {
                 children: [
                   ElevatedButton(
                       style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.blue),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                          isFieldEditable ? Colors.blue : grey,
+                        ),
                       ),
-                      onPressed: () async {
-                        uploadFile(index, tabsForJmr[_selectedIndex]);
-                      },
+                      onPressed: isFieldEditable == false
+                          ? null
+                          : () async {
+                              uploadFile(index, tabsForJmr[_selectedIndex]);
+                            },
                       child: Text(
                         'Upload',
                         style: TextStyle(color: white),
@@ -478,6 +491,12 @@ class _JmrUserState extends State<JmrUser> {
     }
 
     return depoList;
+  }
+
+  Future getAssignedCities() async {
+    assignedCities = await authService.getCityList();
+    isFieldEditable =
+        authService.verifyAssignedCities(widget.cityName!, assignedCities);
   }
 
   uploadFile(int index, String tabName) async {

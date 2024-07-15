@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:web_appllication/model/user_model/quality_checklistModel.dart';
-import 'package:web_appllication/overview.dart';
+import 'package:web_appllication/overview_pmis.dart';
 import '../../../screen_user/KeysEvents/upload.dart';
 import '../../../screen_user/KeysEvents/view_AllFiles.dart';
 import '../../../screen_user/Planning_Pages/quality_checklist.dart';
@@ -140,9 +140,9 @@ class QualityPSSDataSource extends DataGridSource {
           DataGridCell<String>(
               columnName: 'responsibility', value: newCellValue);
       _checklistModel[dataRowIndex].responsibility = newCellValue.toString();
-    } else if (column.columnName == 'Reference') {
+    } else if (column.columnName == 'reference') {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
-          DataGridCell<dynamic>(columnName: 'Reference', value: newCellValue);
+          DataGridCell<dynamic>(columnName: 'reference', value: newCellValue);
       _checklistModel[dataRowIndex].reference = newCellValue as dynamic;
     } else {
       dataGridRows[dataRowIndex].getCells()[rowColumnIndex.columnIndex] =
@@ -208,9 +208,9 @@ class QualityPSSDataSource extends DataGridSource {
             : isDateTimeType
                 ? TextInputType.datetime
                 : TextInputType.text,
-                onTapOutside: (event) {
-                  newCellValue = editingController.text;
-                },
+        onTapOutside: (event) {
+          newCellValue = editingController.text;
+        },
         onChanged: (String value) {
           if (value.isNotEmpty) {
             if (isNumericType) {

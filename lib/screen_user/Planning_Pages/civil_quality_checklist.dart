@@ -179,7 +179,6 @@ class _CivilQualityChecklistUser2State
   @override
   void initState() {
     getAssignedDepots();
-
     pr = ProgressDialog(
       context,
       customBody: Container(
@@ -1238,6 +1237,40 @@ class _CivilQualityChecklistUser2State
       setState(() {
         _isloading = true;
       });
+      _selectedIndex == 0
+          ? _qualityExcavationDataSource.dataGridRows.clear()
+          : _selectedIndex == 1
+              ? _qualityBackFillingDataSource.dataGridRows.clear()
+              : _selectedIndex == 2
+                  ? _qualityMassonaryDataSource.dataGridRows.clear()
+                  : _selectedIndex == 3
+                      ? _qualityGlazzingDataSource.dataGridRows.clear()
+                      : _selectedIndex == 4
+                          ? _qualityCeillingDataSource.dataGridRows.clear()
+                          : _selectedIndex == 5
+                              ? _qualityflooringDataSource.dataGridRows.clear()
+                              : _selectedIndex == 6
+                                  ? _qualityInspectionDataSource.dataGridRows
+                                      .clear()
+                                  : _selectedIndex == 7
+                                      ? _qualityIroniteflooringDataSource
+                                          .dataGridRows
+                                          .clear()
+                                      : _selectedIndex == 8
+                                          ? _qualityPaintingDataSource
+                                              .dataGridRows
+                                              .clear()
+                                          : _selectedIndex == 9
+                                              ? _qualityPavingDataSource
+                                                  .dataGridRows
+                                                  .clear()
+                                              : _selectedIndex == 10
+                                                  ? _qualityRoofingDataSource
+                                                      .dataGridRows
+                                                      .clear()
+                                                  : _qualityProofingDataSource
+                                                      .dataGridRows
+                                                      .clear();
     }
 
     DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
@@ -1331,8 +1364,9 @@ class _CivilQualityChecklistUser2State
       checkTable = true;
     }
 
-    _isloading = false;
-    setState(() {});
+    setState(() {
+      _isloading = false;
+    });
   }
 
   Future<List<int>> _generateCivilPdf() async {
