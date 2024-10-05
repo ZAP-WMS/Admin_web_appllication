@@ -182,6 +182,7 @@ class _DetailedEngUsertState extends State<DetailedEngUser>
                           builder: (context) => DetailedEngUser(
                             cityName: widget.cityName,
                             depoName: suggestion.toString(),
+                            userId: widget.userId,
                           ),
                         ));
                   },
@@ -1809,5 +1810,4 @@ class _DetailedEngUsertState extends State<DetailedEngUser>
     isFieldEditable =
         authService.verifyAssignedCities(widget.cityName!, assignedCities);
   }
-  
 }

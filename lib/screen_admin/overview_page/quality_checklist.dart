@@ -99,7 +99,6 @@ class _QualityChecklistAdminState extends State<QualityChecklistAdmin> {
               automaticallyImplyLeading:
                   widget.isHeader! ? widget.isHeader! : false,
               backgroundColor: white,
-
               flexibleSpace: Container(
                 height: 55,
                 color: blue,

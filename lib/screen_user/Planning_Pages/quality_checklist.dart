@@ -142,6 +142,7 @@ class _QualityChecklistUserState extends State<QualityChecklistUser> {
                                 role: widget.role,
                                 cityName: widget.cityName,
                                 depoName: selectedDepot,
+                                userId: widget.userId,
                               ),
                             ));
                       },
@@ -273,5 +274,4 @@ class _QualityChecklistUserState extends State<QualityChecklistUser> {
         authService.verifyAssignedCities(widget.cityName!, assignedCities);
     print("Quality isFieldEditable: $isFieldEditable");
   }
-  
 }

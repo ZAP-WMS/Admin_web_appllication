@@ -215,12 +215,12 @@ class _ViewSummaryState extends State<ViewSummary> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
-                                width: 200,
+                                width: 250,
                                 height: 40,
                                 child: Row(
                                   children: [
                                     SizedBox(
-                                      width: 170,
+                                      width: 220,
                                       height: 40,
                                       child: Form(
                                         key: _formkey,
@@ -371,7 +371,7 @@ class _ViewSummaryState extends State<ViewSummary> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 5),
+                              const SizedBox(width: 10),
                               Container(
                                 width: 200,
                                 height: 40,
@@ -1067,219 +1067,86 @@ class _ViewSummaryState extends State<ViewSummary> {
 
                                                 return Column(
                                                   children: [
-                                                    SfDataGridTheme(
-                                                        data:
-                                                            SfDataGridThemeData(
-                                                                headerColor:
-                                                                    white,
-                                                                gridLineColor:
-                                                                    blue),
-                                                        child: SfDataGrid(
-                                                          source:
-                                                              _energyManagementDatasource,
-                                                          allowEditing: false,
-                                                          frozenColumnsCount: 2,
-                                                          rowHeight: 50,
-                                                          headerRowHeight: 50,
-                                                          gridLinesVisibility:
-                                                              GridLinesVisibility
-                                                                  .both,
-                                                          headerGridLinesVisibility:
-                                                              GridLinesVisibility
-                                                                  .both,
-                                                          selectionMode:
-                                                              SelectionMode
-                                                                  .single,
-                                                          navigationMode:
-                                                              GridNavigationMode
-                                                                  .cell,
-                                                          columnWidthMode:
-                                                              ColumnWidthMode
-                                                                  .auto,
-                                                          editingGestureType:
-                                                              EditingGestureType
-                                                                  .tap,
-                                                          controller:
-                                                              _dataGridController,
-                                                          onQueryRowHeight:
-                                                              (details) {
-                                                            return details
-                                                                .getIntrinsicRowHeight(
-                                                                    details
-                                                                        .rowIndex);
-                                                          },
-                                                          columns: [
-                                                            GridColumn(
-                                                              visible: false,
-                                                              columnName:
-                                                                  'srNo',
-                                                              allowEditing:
-                                                                  false,
-                                                              label: Container(
-                                                                alignment:
-                                                                    Alignment
-                                                                        .center,
-                                                                child: Text(
-                                                                    'Sr No',
-                                                                    overflow: TextOverflow
-                                                                        .values
-                                                                        .first,
-                                                                    style:
-                                                                        tableheaderwhitecolor
-                                                                    //    textAlign: TextAlign.center,
-                                                                    ),
-                                                              ),
-                                                            ),
-                                                            GridColumn(
-                                                              columnName:
-                                                                  'DepotName',
-                                                              width: 180,
-                                                              allowEditing:
-                                                                  false,
-                                                              label: Container(
-                                                                alignment:
-                                                                    Alignment
-                                                                        .center,
-                                                                child: Text(
-                                                                    'Depot Name',
-                                                                    overflow: TextOverflow
-                                                                        .values
-                                                                        .first,
-                                                                    style:
-                                                                        tableheaderwhitecolor),
-                                                              ),
-                                                            ),
-                                                            GridColumn(
-                                                              columnName:
-                                                                  'VehicleNo',
-                                                              width: 180,
-                                                              allowEditing:
-                                                                  true,
-                                                              label: Container(
-                                                                alignment:
-                                                                    Alignment
-                                                                        .center,
-                                                                child: Text(
-                                                                    'Vehicle No',
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .center,
-                                                                    style:
-                                                                        tableheaderwhitecolor),
-                                                              ),
-                                                            ),
-                                                            GridColumn(
-                                                              columnName:
-                                                                  'pssNo',
-                                                              width: 80,
-                                                              allowEditing:
-                                                                  true,
-                                                              label: Container(
-                                                                alignment:
-                                                                    Alignment
-                                                                        .center,
-                                                                child: Text(
-                                                                    'PSS No',
-                                                                    style:
-                                                                        tableheaderwhitecolor),
-                                                              ),
-                                                            ),
-                                                            GridColumn(
-                                                              columnName:
-                                                                  'chargerId',
-                                                              width: 80,
-                                                              allowEditing:
-                                                                  true,
-                                                              label: Container(
-                                                                alignment:
-                                                                    Alignment
-                                                                        .center,
-                                                                child: Text(
-                                                                    'Charger ID',
-                                                                    overflow: TextOverflow
-                                                                        .values
-                                                                        .first,
-                                                                    style:
-                                                                        tableheaderwhitecolor),
-                                                              ),
-                                                            ),
-                                                            GridColumn(
-                                                              columnName:
-                                                                  'startSoc',
-                                                              allowEditing:
-                                                                  true,
-                                                              width: 80,
-                                                              label: Container(
-                                                                alignment:
-                                                                    Alignment
-                                                                        .center,
-                                                                child: Text(
-                                                                    'Start SOC',
-                                                                    overflow: TextOverflow
-                                                                        .values
-                                                                        .first,
-                                                                    style:
-                                                                        tableheaderwhitecolor),
-                                                              ),
-                                                            ),
-                                                            GridColumn(
-                                                              columnName:
-                                                                  'endSoc',
-                                                              allowEditing:
-                                                                  true,
-                                                              columnWidthMode:
-                                                                  ColumnWidthMode
-                                                                      .fitByCellValue,
-                                                              width: 80,
-                                                              label: Container(
-                                                                alignment:
-                                                                    Alignment
-                                                                        .center,
-                                                                child: Text(
-                                                                    'End SOC',
-                                                                    overflow: TextOverflow
-                                                                        .values
-                                                                        .first,
-                                                                    style:
-                                                                        tableheaderwhitecolor),
-                                                              ),
-                                                            ),
-                                                            GridColumn(
-                                                              columnName:
-                                                                  'startDate',
-                                                              allowEditing:
-                                                                  false,
-                                                              width: 230,
-                                                              label: Container(
-                                                                alignment:
-                                                                    Alignment
-                                                                        .center,
-                                                                child: Text(
-                                                                    'Start Date & Time',
-                                                                    overflow: TextOverflow
-                                                                        .values
-                                                                        .first,
-                                                                    style:
-                                                                        tableheaderwhitecolor),
-                                                              ),
-                                                            ),
-                                                            GridColumn(
-                                                              columnName:
-                                                                  'endDate',
-                                                              allowEditing:
-                                                                  false,
-                                                              width: 230,
-                                                              label: Container(
-                                                                alignment:
-                                                                    Alignment
-                                                                        .center,
-                                                                child:
+                                                    Flexible(
+                                                      flex: 2,
+                                                      child: SfDataGridTheme(
+                                                          data:
+                                                              SfDataGridThemeData(
+                                                                  headerColor:
+                                                                      white,
+                                                                  gridLineColor:
+                                                                      blue),
+                                                          child: SfDataGrid(
+                                                            source:
+                                                                _energyManagementDatasource,
+                                                            allowEditing: false,
+                                                            frozenColumnsCount:
+                                                                2,
+                                                            rowHeight: 50,
+                                                            headerRowHeight: 50,
+                                                            gridLinesVisibility:
+                                                                GridLinesVisibility
+                                                                    .both,
+                                                            headerGridLinesVisibility:
+                                                                GridLinesVisibility
+                                                                    .both,
+                                                            selectionMode:
+                                                                SelectionMode
+                                                                    .single,
+                                                            navigationMode:
+                                                                GridNavigationMode
+                                                                    .cell,
+                                                            columnWidthMode:
+                                                                ColumnWidthMode
+                                                                    .auto,
+                                                            editingGestureType:
+                                                                EditingGestureType
+                                                                    .tap,
+                                                            controller:
+                                                                _dataGridController,
+                                                            onQueryRowHeight:
+                                                                (details) {
+                                                              return details
+                                                                  .getIntrinsicRowHeight(
+                                                                      details
+                                                                          .rowIndex);
+                                                            },
+                                                            columns: [
+                                                              GridColumn(
+                                                                visible: false,
+                                                                columnName:
+                                                                    'srNo',
+                                                                allowEditing:
+                                                                    false,
+                                                                label:
                                                                     Container(
                                                                   alignment:
                                                                       Alignment
                                                                           .center,
                                                                   child: Text(
-                                                                      'End Date & Time',
+                                                                      'Sr No',
+                                                                      overflow: TextOverflow
+                                                                          .values
+                                                                          .first,
+                                                                      style:
+                                                                          tableheaderwhitecolor
+                                                                      //    textAlign: TextAlign.center,
+                                                                      ),
+                                                                ),
+                                                              ),
+                                                              GridColumn(
+                                                                columnName:
+                                                                    'DepotName',
+                                                                width: 180,
+                                                                allowEditing:
+                                                                    false,
+                                                                label:
+                                                                    Container(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .center,
+                                                                  child: Text(
+                                                                      'Depot Name',
                                                                       overflow: TextOverflow
                                                                           .values
                                                                           .first,
@@ -1287,259 +1154,410 @@ class _ViewSummaryState extends State<ViewSummary> {
                                                                           tableheaderwhitecolor),
                                                                 ),
                                                               ),
-                                                            ),
-                                                            GridColumn(
-                                                              columnName:
-                                                                  'totalTime',
-                                                              allowEditing:
-                                                                  false,
-                                                              width: 180,
-                                                              label: Container(
-                                                                alignment:
-                                                                    Alignment
-                                                                        .center,
-                                                                child: Text(
-                                                                    'Total time of Charging',
-                                                                    overflow: TextOverflow
-                                                                        .values
-                                                                        .first,
-                                                                    style:
-                                                                        tableheaderwhitecolor),
+                                                              GridColumn(
+                                                                columnName:
+                                                                    'VehicleNo',
+                                                                width: 180,
+                                                                allowEditing:
+                                                                    true,
+                                                                label:
+                                                                    Container(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .center,
+                                                                  child: Text(
+                                                                      'Vehicle No',
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      style:
+                                                                          tableheaderwhitecolor),
+                                                                ),
                                                               ),
-                                                            ),
-                                                            GridColumn(
-                                                              columnName:
-                                                                  'energyConsumed',
-                                                              allowEditing:
-                                                                  true,
-                                                              width: 160,
-                                                              label: Container(
-                                                                padding: const EdgeInsets
-                                                                        .symmetric(
-                                                                    horizontal:
-                                                                        16.0),
-                                                                alignment:
-                                                                    Alignment
-                                                                        .center,
-                                                                child: Text(
-                                                                    'Engery Consumed (inkW)',
-                                                                    overflow: TextOverflow
-                                                                        .values
-                                                                        .first,
-                                                                    textAlign:
-                                                                        TextAlign
+                                                              GridColumn(
+                                                                columnName:
+                                                                    'pssNo',
+                                                                width: 80,
+                                                                allowEditing:
+                                                                    true,
+                                                                label:
+                                                                    Container(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .center,
+                                                                  child: Text(
+                                                                      'PSS No',
+                                                                      style:
+                                                                          tableheaderwhitecolor),
+                                                                ),
+                                                              ),
+                                                              GridColumn(
+                                                                columnName:
+                                                                    'chargerId',
+                                                                width: 80,
+                                                                allowEditing:
+                                                                    true,
+                                                                label:
+                                                                    Container(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .center,
+                                                                  child: Text(
+                                                                      'Charger ID',
+                                                                      overflow: TextOverflow
+                                                                          .values
+                                                                          .first,
+                                                                      style:
+                                                                          tableheaderwhitecolor),
+                                                                ),
+                                                              ),
+                                                              GridColumn(
+                                                                columnName:
+                                                                    'startSoc',
+                                                                allowEditing:
+                                                                    true,
+                                                                width: 80,
+                                                                label:
+                                                                    Container(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .center,
+                                                                  child: Text(
+                                                                      'Start SOC',
+                                                                      overflow: TextOverflow
+                                                                          .values
+                                                                          .first,
+                                                                      style:
+                                                                          tableheaderwhitecolor),
+                                                                ),
+                                                              ),
+                                                              GridColumn(
+                                                                columnName:
+                                                                    'endSoc',
+                                                                allowEditing:
+                                                                    true,
+                                                                columnWidthMode:
+                                                                    ColumnWidthMode
+                                                                        .fitByCellValue,
+                                                                width: 80,
+                                                                label:
+                                                                    Container(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .center,
+                                                                  child: Text(
+                                                                      'End SOC',
+                                                                      overflow: TextOverflow
+                                                                          .values
+                                                                          .first,
+                                                                      style:
+                                                                          tableheaderwhitecolor),
+                                                                ),
+                                                              ),
+                                                              GridColumn(
+                                                                columnName:
+                                                                    'startDate',
+                                                                allowEditing:
+                                                                    false,
+                                                                width: 230,
+                                                                label:
+                                                                    Container(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .center,
+                                                                  child: Text(
+                                                                      'Start Date & Time',
+                                                                      overflow: TextOverflow
+                                                                          .values
+                                                                          .first,
+                                                                      style:
+                                                                          tableheaderwhitecolor),
+                                                                ),
+                                                              ),
+                                                              GridColumn(
+                                                                columnName:
+                                                                    'endDate',
+                                                                allowEditing:
+                                                                    false,
+                                                                width: 230,
+                                                                label:
+                                                                    Container(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .center,
+                                                                  child:
+                                                                      Container(
+                                                                    alignment:
+                                                                        Alignment
                                                                             .center,
-                                                                    style:
-                                                                        tableheaderwhitecolor),
-                                                              ),
-                                                            ),
-                                                            GridColumn(
-                                                              columnName:
-                                                                  'timeInterval',
-                                                              allowEditing:
-                                                                  false,
-                                                              width: 150,
-                                                              label: Container(
-                                                                alignment:
-                                                                    Alignment
-                                                                        .center,
-                                                                child: Text(
-                                                                    'Interval',
-                                                                    overflow: TextOverflow
-                                                                        .values
-                                                                        .first,
-                                                                    style:
-                                                                        tableheaderwhitecolor),
-                                                              ),
-                                                            ),
-                                                            GridColumn(
-                                                              columnName: 'Add',
-                                                              autoFitPadding:
-                                                                  const EdgeInsets
-                                                                          .symmetric(
-                                                                      horizontal:
-                                                                          16),
-                                                              allowEditing:
-                                                                  false,
-                                                              width: 120,
-                                                              label: Container(
-                                                                padding: const EdgeInsets
-                                                                        .symmetric(
-                                                                    horizontal:
-                                                                        8.0),
-                                                                alignment:
-                                                                    Alignment
-                                                                        .center,
-                                                                child: Text(
-                                                                    'Add Row',
-                                                                    overflow: TextOverflow
-                                                                        .values
-                                                                        .first,
-                                                                    style:
-                                                                        tableheaderwhitecolor
-                                                                    //    textAlign: TextAlign.center,
-                                                                    ),
-                                                              ),
-                                                            ),
-                                                            GridColumn(
-                                                              columnName:
-                                                                  'Delete',
-                                                              autoFitPadding:
-                                                                  const EdgeInsets
-                                                                          .symmetric(
-                                                                      horizontal:
-                                                                          16),
-                                                              allowEditing:
-                                                                  false,
-                                                              width: 120,
-                                                              label: Container(
-                                                                padding: const EdgeInsets
-                                                                        .symmetric(
-                                                                    horizontal:
-                                                                        8.0),
-                                                                alignment:
-                                                                    Alignment
-                                                                        .center,
-                                                                child: Text(
-                                                                    'Delete Row',
-                                                                    overflow: TextOverflow
-                                                                        .values
-                                                                        .first,
-                                                                    style:
-                                                                        tableheaderwhitecolor
-                                                                    //    textAlign: TextAlign.center,
-                                                                    ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        )),
-                                                    Consumer<
-                                                            SummaryProviderUser>(
-                                                        builder: (context,
-                                                            value, child) {
-                                                      return Container(
-                                                        width: MediaQuery.of(
-                                                                context)
-                                                            .size
-                                                            .width,
-                                                        height: 200,
-                                                        child: BarChart(
-                                                          swapAnimationCurve:
-                                                              Curves.linear,
-                                                          swapAnimationDuration:
-                                                              const Duration(
-                                                            milliseconds: 1000,
-                                                          ),
-                                                          BarChartData(
-                                                            backgroundColor:
-                                                                white,
-                                                            barTouchData:
-                                                                BarTouchData(
-                                                              enabled: true,
-                                                              allowTouchBarBackDraw:
-                                                                  true,
-                                                              touchTooltipData:
-                                                                  BarTouchTooltipData(
-                                                                tooltipRoundedRadius:
-                                                                    5,
-                                                                tooltipBgColor:
-                                                                    Colors
-                                                                        .transparent,
-                                                                tooltipMargin:
-                                                                    5,
-                                                              ),
-                                                            ),
-                                                            minY: 0,
-                                                            titlesData:
-                                                                FlTitlesData(
-                                                              bottomTitles:
-                                                                  AxisTitles(
-                                                                sideTitles:
-                                                                    SideTitles(
-                                                                  showTitles:
-                                                                      true,
-                                                                  getTitlesWidget:
-                                                                      (data1,
-                                                                          meta) {
-                                                                    return Text(
-                                                                      value.intervalData[
-                                                                          data1
-                                                                              .toInt()],
-                                                                      style: const TextStyle(
-                                                                          fontWeight: FontWeight
-                                                                              .bold,
-                                                                          fontSize:
-                                                                              12),
-                                                                    );
-                                                                  },
+                                                                    child: Text(
+                                                                        'End Date & Time',
+                                                                        overflow: TextOverflow
+                                                                            .values
+                                                                            .first,
+                                                                        style:
+                                                                            tableheaderwhitecolor),
+                                                                  ),
                                                                 ),
                                                               ),
-                                                              rightTitles:
-                                                                  AxisTitles(
-                                                                sideTitles:
-                                                                    SideTitles(
-                                                                        showTitles:
-                                                                            false),
-                                                              ),
-                                                              topTitles:
-                                                                  AxisTitles(
-                                                                sideTitles:
-                                                                    SideTitles(
-                                                                  showTitles:
-                                                                      false,
-                                                                  getTitlesWidget:
-                                                                      (data2,
-                                                                          meta) {
-                                                                    return Text(
-                                                                      value.energyConsumedData[
-                                                                          data2
-                                                                              .toInt()],
-                                                                      style: const TextStyle(
-                                                                          fontWeight:
-                                                                              FontWeight.bold),
-                                                                    );
-                                                                  },
+                                                              GridColumn(
+                                                                columnName:
+                                                                    'totalTime',
+                                                                allowEditing:
+                                                                    false,
+                                                                width: 180,
+                                                                label:
+                                                                    Container(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .center,
+                                                                  child: Text(
+                                                                      'Total time of Charging',
+                                                                      overflow: TextOverflow
+                                                                          .values
+                                                                          .first,
+                                                                      style:
+                                                                          tableheaderwhitecolor),
                                                                 ),
                                                               ),
-                                                            ),
-                                                            gridData:
-                                                                FlGridData(
-                                                              drawHorizontalLine:
-                                                                  false,
-                                                              drawVerticalLine:
-                                                                  false,
-                                                            ),
-                                                            borderData:
-                                                                FlBorderData(
-                                                              border:
-                                                                  const Border(
-                                                                left:
-                                                                    BorderSide(),
-                                                                bottom:
-                                                                    BorderSide(),
+                                                              GridColumn(
+                                                                columnName:
+                                                                    'energyConsumed',
+                                                                allowEditing:
+                                                                    true,
+                                                                width: 160,
+                                                                label:
+                                                                    Container(
+                                                                  padding: const EdgeInsets
+                                                                          .symmetric(
+                                                                      horizontal:
+                                                                          16.0),
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .center,
+                                                                  child: Text(
+                                                                      'Engery Consumed (inkW)',
+                                                                      overflow: TextOverflow
+                                                                          .values
+                                                                          .first,
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      style:
+                                                                          tableheaderwhitecolor),
+                                                                ),
                                                               ),
+                                                              GridColumn(
+                                                                columnName:
+                                                                    'timeInterval',
+                                                                allowEditing:
+                                                                    false,
+                                                                width: 150,
+                                                                label:
+                                                                    Container(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .center,
+                                                                  child: Text(
+                                                                      'Interval',
+                                                                      overflow: TextOverflow
+                                                                          .values
+                                                                          .first,
+                                                                      style:
+                                                                          tableheaderwhitecolor),
+                                                                ),
+                                                              ),
+                                                              GridColumn(
+                                                                columnName:
+                                                                    'Add',
+                                                                autoFitPadding:
+                                                                    const EdgeInsets
+                                                                            .symmetric(
+                                                                        horizontal:
+                                                                            16),
+                                                                allowEditing:
+                                                                    false,
+                                                                width: 120,
+                                                                label:
+                                                                    Container(
+                                                                  padding: const EdgeInsets
+                                                                          .symmetric(
+                                                                      horizontal:
+                                                                          8.0),
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .center,
+                                                                  child: Text(
+                                                                      'Add Row',
+                                                                      overflow: TextOverflow
+                                                                          .values
+                                                                          .first,
+                                                                      style:
+                                                                          tableheaderwhitecolor
+                                                                      //    textAlign: TextAlign.center,
+                                                                      ),
+                                                                ),
+                                                              ),
+                                                              GridColumn(
+                                                                columnName:
+                                                                    'Delete',
+                                                                autoFitPadding:
+                                                                    const EdgeInsets
+                                                                            .symmetric(
+                                                                        horizontal:
+                                                                            16),
+                                                                allowEditing:
+                                                                    false,
+                                                                width: 120,
+                                                                label:
+                                                                    Container(
+                                                                  padding: const EdgeInsets
+                                                                          .symmetric(
+                                                                      horizontal:
+                                                                          8.0),
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .center,
+                                                                  child: Text(
+                                                                      'Delete Row',
+                                                                      overflow: TextOverflow
+                                                                          .values
+                                                                          .first,
+                                                                      style:
+                                                                          tableheaderwhitecolor
+                                                                      //    textAlign: TextAlign.center,
+                                                                      ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          )),
+                                                    ),
+                                                    SizedBox(height: 40),
+                                                    Container(
+                                                      width: 2000,
+                                                      child: Consumer<
+                                                              SummaryProviderUser>(
+                                                          builder: (context,
+                                                              value, child) {
+                                                        return Container(
+                                                          width: 150 *
+                                                              value.energyData
+                                                                  .length
+                                                                  .toDouble(),
+                                                          height: 200,
+                                                          child: BarChart(
+                                                            swapAnimationCurve:
+                                                                Curves.linear,
+                                                            swapAnimationDuration:
+                                                                const Duration(
+                                                              milliseconds:
+                                                                  1000,
                                                             ),
-                                                            maxY: (value.intervalData
-                                                                        .isEmpty &&
-                                                                    value
-                                                                        .energyConsumedData
-                                                                        .isEmpty)
-                                                                ? 50000
-                                                                : value
-                                                                    .energyConsumedData
-                                                                    .reduce((max,
-                                                                            current) =>
-                                                                        max > current
-                                                                            ? max
-                                                                            : current),
-                                                            barGroups:
-                                                                barChartGroupData(
-                                                                    value
-                                                                        .energyConsumedData),
+                                                            BarChartData(
+                                                              backgroundColor:
+                                                                  white,
+                                                              barTouchData:
+                                                                  BarTouchData(
+                                                                enabled: true,
+                                                                allowTouchBarBackDraw:
+                                                                    true,
+                                                                touchTooltipData:
+                                                                    BarTouchTooltipData(
+                                                                  tooltipRoundedRadius:
+                                                                      5,
+                                                                  tooltipBgColor:
+                                                                      Colors
+                                                                          .transparent,
+                                                                  tooltipMargin:
+                                                                      5,
+                                                                ),
+                                                              ),
+                                                              minY: 0,
+                                                              titlesData:
+                                                                  FlTitlesData(
+                                                                bottomTitles:
+                                                                    AxisTitles(
+                                                                  sideTitles:
+                                                                      SideTitles(
+                                                                    showTitles:
+                                                                        true,
+                                                                    getTitlesWidget:
+                                                                        (data1,
+                                                                            meta) {
+                                                                      return Text(
+                                                                        value.intervalData[
+                                                                            data1.toInt()],
+                                                                        style: const TextStyle(
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
+                                                                            fontSize: 12),
+                                                                      );
+                                                                    },
+                                                                  ),
+                                                                ),
+                                                                rightTitles:
+                                                                    AxisTitles(
+                                                                  sideTitles: SideTitles(
+                                                                      showTitles:
+                                                                          false),
+                                                                ),
+                                                                topTitles:
+                                                                    AxisTitles(
+                                                                  sideTitles:
+                                                                      SideTitles(
+                                                                    showTitles:
+                                                                        false,
+                                                                    getTitlesWidget:
+                                                                        (data2,
+                                                                            meta) {
+                                                                      return Text(
+                                                                        value.energyConsumedData[
+                                                                            data2.toInt()],
+                                                                        style: const TextStyle(
+                                                                            fontWeight:
+                                                                                FontWeight.bold),
+                                                                      );
+                                                                    },
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              gridData:
+                                                                  FlGridData(
+                                                                drawHorizontalLine:
+                                                                    false,
+                                                                drawVerticalLine:
+                                                                    false,
+                                                              ),
+                                                              borderData:
+                                                                  FlBorderData(
+                                                                border:
+                                                                    const Border(
+                                                                  left:
+                                                                      BorderSide(),
+                                                                  bottom:
+                                                                      BorderSide(),
+                                                                ),
+                                                              ),
+                                                              maxY: (value.intervalData
+                                                                          .isEmpty &&
+                                                                      value
+                                                                          .energyConsumedData
+                                                                          .isEmpty)
+                                                                  ? 50000
+                                                                  : value.energyConsumedData.reduce((max,
+                                                                          current) =>
+                                                                      max > current
+                                                                          ? max
+                                                                          : current),
+                                                              barGroups:
+                                                                  barChartGroupData(
+                                                                      value
+                                                                          .energyConsumedData),
+                                                            ),
                                                           ),
-                                                        ),
-                                                      );
-                                                    })
+                                                        );
+                                                      }),
+                                                    )
                                                   ],
                                                 );
                                               }

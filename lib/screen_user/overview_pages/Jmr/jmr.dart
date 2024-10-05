@@ -108,6 +108,7 @@ class _JmrUserState extends State<JmrUser> {
                               role: widget.role,
                               cityName: widget.cityName,
                               depoName: selectedDepot,
+                              userId: widget.userId,
                             ),
                           ));
                     },

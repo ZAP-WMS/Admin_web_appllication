@@ -7,16 +7,15 @@ class ClosureReportAction extends StatefulWidget {
   final String cityName;
   final String depotName;
   final String userId;
-  final String roleCentre;
+  // final String roleCentre;
 
   const ClosureReportAction(
       {super.key,
-      required this.roleCentre,
+      //     required this.roleCentre,
       required this.role,
       required this.cityName,
       required this.depotName,
-      required this.userId}
-      );
+      required this.userId});
 
   @override
   State<ClosureReportAction> createState() => _ClosureReportActionState();
@@ -37,8 +36,7 @@ class _ClosureReportActionState extends State<ClosureReportAction> {
   }
 
   Widget selectWidget() {
-
-          switch (widget.role) {
+    switch (widget.role) {
       case 'user':
         selectedUi = ClosureReportUser(
           role: widget.role,
@@ -68,7 +66,6 @@ class _ClosureReportActionState extends State<ClosureReportAction> {
         );
         break;
     }
-
 
     return selectedUi;
   }

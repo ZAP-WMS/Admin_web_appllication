@@ -22,6 +22,7 @@ import 'package:web_appllication/screen_user/overview_pages/key_events2.dart';
 import 'package:web_appllication/screen_user/overview_pages/material_vendor.dart';
 import 'package:web_appllication/screen_user/overview_pages/monthly_project.dart';
 import 'package:web_appllication/screen_user/overview_pages/testing_report.dart';
+import '../../screen_user/overview_pages/energy_management.dart';
 import 'user_style.dart';
 
 class CustomAppBar extends StatefulWidget {
@@ -41,6 +42,7 @@ class CustomAppBar extends StatefulWidget {
   bool toTesting;
   bool toClosure;
   bool toEasyMonitoring;
+  bool toenergyManagement;
   bool isDownload;
   VoidCallback? donwloadFunction;
   bool isprogress;
@@ -50,7 +52,7 @@ class CustomAppBar extends StatefulWidget {
   final bool haveSend;
   final void Function()? sendEmail;
   String? role;
-  String? userId;
+//  String? userId;
 
   // final IconData? icon;
   final bool haveSynced;
@@ -64,44 +66,46 @@ class CustomAppBar extends StatefulWidget {
   TabBar? tabBar;
   bool isDepoPage;
 
-  CustomAppBar(
-      {this.cityname,
-      super.key,
-      this.text,
-      this.haveSynced = false,
-      this.haveSummary = false,
-      this.store,
-      this.onTap,
-      this.havedropdown = false,
-      this.havebottom = false,
-      this.isdetailedTab = false,
-      this.tabBar,
-      this.showDepoBar = false,
-      this.toChecklist = false,
-      this.toTesting = false,
-      this.toClosure = false,
-      this.toEasyMonitoring = false,
-      this.toSubmission = false,
-      this.toOverviewPage = false,
-      this.toOverview = false,
-      this.toPlanning = false,
-      this.toMaterial = false,
-      this.toMonthly = false,
-      this.toDetailEngineering = false,
-      this.toJmr = false,
-      this.toSafety = false,
-      this.isprogress = false,
-      this.totalValue,
-      this.isDownload = false,
-      this.donwloadFunction,
-      this.progress,
-      this.depotName,
-      this.isCitiesPage = false,
-      this.isDepoPage = false,
-      this.sendEmail,
-      this.haveSend = false,
-      this.role,
-      this.userId});
+  CustomAppBar({
+    this.cityname,
+    super.key,
+    this.text,
+    this.haveSynced = false,
+    this.haveSummary = false,
+    this.store,
+    this.onTap,
+    this.havedropdown = false,
+    this.havebottom = false,
+    this.isdetailedTab = false,
+    this.tabBar,
+    this.showDepoBar = false,
+    this.toChecklist = false,
+    this.toTesting = false,
+    this.toClosure = false,
+    this.toEasyMonitoring = false,
+    this.toSubmission = false,
+    this.toOverviewPage = false,
+    this.toOverview = false,
+    this.toPlanning = false,
+    this.toMaterial = false,
+    this.toMonthly = false,
+    this.toDetailEngineering = false,
+    this.toenergyManagement = false,
+    this.toJmr = false,
+    this.toSafety = false,
+    this.isprogress = false,
+    this.totalValue,
+    this.isDownload = false,
+    this.donwloadFunction,
+    this.progress,
+    this.depotName,
+    this.isCitiesPage = false,
+    this.isDepoPage = false,
+    this.sendEmail,
+    this.haveSend = false,
+    this.role,
+    // this.userId
+  });
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
@@ -259,7 +263,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                           builder: (context) =>
                                               DepotOverviewUser(
                                             role: widget.role!,
-                                            userId: widget.userId!,
+                                            userId: userId,
                                             cityName: widget.cityname,
                                             depoName: selectedDepot,
                                           ),
@@ -282,6 +286,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                                   builder: (context) =>
                                                       MaterialProcurementUser(
                                                     role: widget.role!,
+                                                    userId: userId,
                                                     depoName: suggestion,
                                                     cityName: widget.cityname,
                                                   ),
@@ -305,6 +310,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                                           builder: (context) =>
                                                               MonthlyProjectUser(
                                                             role: widget.role!,
+                                                            userId: userId!,
                                                             depoName:
                                                                 suggestion,
                                                             cityName:
@@ -319,6 +325,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                                                   builder:
                                                                       (context) =>
                                                                           DetailedEngUser(
+                                                                    userId:
+                                                                        userId,
                                                                     cityName: widget
                                                                         .cityname,
                                                                     depoName:
@@ -339,6 +347,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                                                             widget.cityname,
                                                                         depoName:
                                                                             suggestion,
+                                                                        userId:
+                                                                            userId,
                                                                       ),
                                                                     ))
                                                             : widget.toSafety
@@ -354,6 +364,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                                                                 widget.cityname,
                                                                             depoName:
                                                                                 suggestion,
+                                                                            userId:
+                                                                                userId,
                                                                           ),
                                                                         ))
                                                                 : widget.toChecklist
@@ -368,6 +380,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                                                                 widget.cityname,
                                                                             depoName:
                                                                                 suggestion,
+                                                                            userId:
+                                                                                userId,
                                                                           ),
                                                                         ))
                                                                     : widget.toTesting
@@ -388,6 +402,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                                                                     role: widget.role!,
                                                                                     depoName: suggestion,
                                                                                     cityName: widget.cityname,
+                                                                                    userId: userId,
                                                                                   ),
                                                                                 ))
                                                                             : widget.toEasyMonitoring
@@ -400,7 +415,18 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                                                                         cityName: widget.cityname,
                                                                                       ),
                                                                                     ))
-                                                                                : ' ';
+                                                                                : widget.toenergyManagement
+                                                                                    ? Navigator.pushReplacement(
+                                                                                        context,
+                                                                                        MaterialPageRoute(
+                                                                                          builder: (context) => EnergyManagementUser(
+                                                                                            userId: userId,
+                                                                                            role: widget.role!,
+                                                                                            depoName: selectedDepot,
+                                                                                            cityName: widget.cityname,
+                                                                                          ),
+                                                                                        ))
+                                                                                    : ' ';
                           },
                           textFieldConfiguration: TextFieldConfiguration(
                             decoration: const InputDecoration(

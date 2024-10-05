@@ -195,68 +195,69 @@ class _CivilQualityChecklistUser2State
     }
 
     getControllersData();
-    getTableData().whenComplete(() {
-      qualitylisttable1 = checkTable ? excavation_getData() : data;
-      _qualityExcavationDataSource = QualityExcavationDataSource(
-          qualitylisttable1, widget.cityName!, widget.depoName!);
-      _dataGridController = DataGridController();
+    getTableData();
+    // .whenComplete(() {
+    //   qualitylisttable1 = checkTable ? excavation_getData() : data;
+    //   _qualityExcavationDataSource = QualityExcavationDataSource(
+    //       qualitylisttable1, widget.cityName!, widget.depoName!);
+    //   _dataGridController = DataGridController();
 
-      qualitylisttable2 = checkTable ? backfilling_getData() : data;
-      _qualityBackFillingDataSource = QualityBackFillingDataSource(
-        qualitylisttable2,
-        widget.cityName!,
-        widget.depoName!,
-      );
-      _dataGridController = DataGridController();
-      qualitylisttable3 = checkTable ? massonary_getData() : data;
-      _qualityMassonaryDataSource = QualityMassonaryDataSource(
-        qualitylisttable3,
-        widget.cityName!,
-        widget.depoName!,
-      );
-      _dataGridController = DataGridController();
-      qualitylisttable4 = checkTable ? glazzing_getData() : data;
-      _qualityGlazzingDataSource = QualityGlazzingDataSource(
-        qualitylisttable4,
-        widget.cityName!,
-        widget.depoName!,
-      );
-      _dataGridController = DataGridController();
-      qualitylisttable5 = checkTable ? ceilling_getData() : data;
-      _qualityCeillingDataSource = QualityCeillingDataSource(
-          qualitylisttable5, widget.cityName!, widget.depoName!);
-      qualitylisttable6 = checkTable ? florring_getData() : data;
-      _qualityflooringDataSource = QualityflooringDataSource(
-        qualitylisttable6,
-        widget.cityName!,
-        widget.depoName!,
-      );
-      _dataGridController = DataGridController();
-      qualitylisttable7 = checkTable ? inspection_getData() : data;
-      _qualityInspectionDataSource = QualityInspectionDataSource(
-          qualitylisttable7, widget.cityName!, widget.depoName!);
-      _dataGridController = DataGridController();
-      qualitylisttable8 = checkTable ? ironite_florring_getData() : data;
-      _qualityIroniteflooringDataSource = QualityIroniteflooringDataSource(
-          qualitylisttable8, widget.cityName!, widget.depoName!);
-      _dataGridController = DataGridController();
-      qualitylisttable9 = checkTable ? painting_getData() : data;
-      _qualityPaintingDataSource = QualityPaintingDataSource(
-          qualitylisttable9, widget.cityName!, widget.depoName!);
-      _dataGridController = DataGridController();
-      qualitylisttable10 = checkTable ? paving_getData() : data;
-      _qualityPavingDataSource = QualityPavingDataSource(
-          qualitylisttable10, widget.cityName!, widget.depoName!);
-      _dataGridController = DataGridController();
-      qualitylisttable11 = checkTable ? roofing_getData() : data;
-      _qualityRoofingDataSource = QualityRoofingDataSource(
-          qualitylisttable11, widget.cityName!, widget.depoName!);
-      _dataGridController = DataGridController();
-      qualitylisttable12 = checkTable ? proofing_getData() : data;
-      _qualityProofingDataSource = QualityProofingDataSource(
-          qualitylisttable12, widget.cityName!, widget.depoName!);
-      _dataGridController = DataGridController();
-    });
+    //   qualitylisttable2 = checkTable ? backfilling_getData() : data;
+    //   _qualityBackFillingDataSource = QualityBackFillingDataSource(
+    //     qualitylisttable2,
+    //     widget.cityName!,
+    //     widget.depoName!,
+    //   );
+    //   _dataGridController = DataGridController();
+    //   qualitylisttable3 = checkTable ? massonary_getData() : data;
+    //   _qualityMassonaryDataSource = QualityMassonaryDataSource(
+    //     qualitylisttable3,
+    //     widget.cityName!,
+    //     widget.depoName!,
+    //   );
+    //   _dataGridController = DataGridController();
+    //   qualitylisttable4 = checkTable ? glazzing_getData() : data;
+    //   _qualityGlazzingDataSource = QualityGlazzingDataSource(
+    //     qualitylisttable4,
+    //     widget.cityName!,
+    //     widget.depoName!,
+    //   );
+    //   _dataGridController = DataGridController();
+    //   qualitylisttable5 = checkTable ? ceilling_getData() : data;
+    //   _qualityCeillingDataSource = QualityCeillingDataSource(
+    //       qualitylisttable5, widget.cityName!, widget.depoName!);
+    //   qualitylisttable6 = checkTable ? florring_getData() : data;
+    //   _qualityflooringDataSource = QualityflooringDataSource(
+    //     qualitylisttable6,
+    //     widget.cityName!,
+    //     widget.depoName!,
+    //   );
+    //   _dataGridController = DataGridController();
+    //   qualitylisttable7 = checkTable ? inspection_getData() : data;
+    //   _qualityInspectionDataSource = QualityInspectionDataSource(
+    //       qualitylisttable7, widget.cityName!, widget.depoName!);
+    //   _dataGridController = DataGridController();
+    //   qualitylisttable8 = checkTable ? ironite_florring_getData() : data;
+    //   _qualityIroniteflooringDataSource = QualityIroniteflooringDataSource(
+    //       qualitylisttable8, widget.cityName!, widget.depoName!);
+    //   _dataGridController = DataGridController();
+    //   qualitylisttable9 = checkTable ? painting_getData() : data;
+    //   _qualityPaintingDataSource = QualityPaintingDataSource(
+    //       qualitylisttable9, widget.cityName!, widget.depoName!);
+    //   _dataGridController = DataGridController();
+    //   qualitylisttable10 = checkTable ? paving_getData() : data;
+    //   _qualityPavingDataSource = QualityPavingDataSource(
+    //       qualitylisttable10, widget.cityName!, widget.depoName!);
+    //   _dataGridController = DataGridController();
+    //   qualitylisttable11 = checkTable ? roofing_getData() : data;
+    //   _qualityRoofingDataSource = QualityRoofingDataSource(
+    //       qualitylisttable11, widget.cityName!, widget.depoName!);
+    //   _dataGridController = DataGridController();
+    //   qualitylisttable12 = checkTable ? proofing_getData() : data;
+    //   _qualityProofingDataSource = QualityProofingDataSource(
+    //       qualitylisttable12, widget.cityName!, widget.depoName!);
+    //   _dataGridController = DataGridController();
+    // });
 
     super.initState();
   }
@@ -1187,10 +1188,11 @@ class _CivilQualityChecklistUser2State
     );
 
     if (picked != null && picked != currentDate) {
+      checkTable = true;
       currentDate = picked;
       selectedDate = DateFormat.yMMMMd().format(currentDate);
       getControllersData();
-      getTableData();
+      await getTableData();
     }
   }
 
@@ -1237,40 +1239,42 @@ class _CivilQualityChecklistUser2State
       setState(() {
         _isloading = true;
       });
-      _selectedIndex == 0
-          ? _qualityExcavationDataSource.dataGridRows.clear()
-          : _selectedIndex == 1
-              ? _qualityBackFillingDataSource.dataGridRows.clear()
-              : _selectedIndex == 2
-                  ? _qualityMassonaryDataSource.dataGridRows.clear()
-                  : _selectedIndex == 3
-                      ? _qualityGlazzingDataSource.dataGridRows.clear()
-                      : _selectedIndex == 4
-                          ? _qualityCeillingDataSource.dataGridRows.clear()
-                          : _selectedIndex == 5
-                              ? _qualityflooringDataSource.dataGridRows.clear()
-                              : _selectedIndex == 6
-                                  ? _qualityInspectionDataSource.dataGridRows
-                                      .clear()
-                                  : _selectedIndex == 7
-                                      ? _qualityIroniteflooringDataSource
-                                          .dataGridRows
-                                          .clear()
-                                      : _selectedIndex == 8
-                                          ? _qualityPaintingDataSource
-                                              .dataGridRows
-                                              .clear()
-                                          : _selectedIndex == 9
-                                              ? _qualityPavingDataSource
-                                                  .dataGridRows
-                                                  .clear()
-                                              : _selectedIndex == 10
-                                                  ? _qualityRoofingDataSource
-                                                      .dataGridRows
-                                                      .clear()
-                                                  : _qualityProofingDataSource
-                                                      .dataGridRows
-                                                      .clear();
+
+      //   _selectedIndex == 0
+      //       ? _qualityExcavationDataSource.dataGridRows.clear()
+      //       : _selectedIndex == 1
+      //           ? _qualityBackFillingDataSource.dataGridRows.clear()
+      //           : _selectedIndex == 2
+      //               ? _qualityMassonaryDataSource.dataGridRows.clear()
+      //               : _selectedIndex == 3
+      //                   ? _qualityGlazzingDataSource.dataGridRows.clear()
+      //                   : _selectedIndex == 4
+      //                       ? _qualityCeillingDataSource.dataGridRows.clear()
+      //                       : _selectedIndex == 5
+      //                           ? _qualityflooringDataSource.dataGridRows.clear()
+      //                           : _selectedIndex == 6
+      //                               ? _qualityInspectionDataSource.dataGridRows
+      //                                   .clear()
+      //                               : _selectedIndex == 7
+      //                                   ? _qualityIroniteflooringDataSource
+      //                                       .dataGridRows
+      //                                       .clear()
+      //                                   : _selectedIndex == 8
+      //                                       ? _qualityPaintingDataSource
+      //                                           .dataGridRows
+      //                                           .clear()
+      //                                       : _selectedIndex == 9
+      //                                           ? _qualityPavingDataSource
+      //                                               .dataGridRows
+      //                                               .clear()
+      //                                           : _selectedIndex == 10
+      //                                               ? _qualityRoofingDataSource
+      //                                                   .dataGridRows
+      //                                                   .clear()
+      //                                               : _qualityProofingDataSource
+      //                                                   .dataGridRows
+      //                                                   .clear();
+      //
     }
 
     DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
@@ -1293,80 +1297,86 @@ class _CivilQualityChecklistUser2State
           .toList();
       checkTable = false;
     }
+    if (_selectedIndex == 0) {
+      qualitylisttable1 = checkTable ? excavation_getData() : data;
+      _qualityExcavationDataSource = QualityExcavationDataSource(
+          qualitylisttable1, widget.cityName!, widget.depoName!);
+      _dataGridController = DataGridController();
+      // checkTable = false;
+    }
 
     if (_selectedIndex == 1) {
       qualitylisttable2 = checkTable ? backfilling_getData() : data;
       _qualityBackFillingDataSource = QualityBackFillingDataSource(
           qualitylisttable2, widget.cityName!, widget.depoName!);
       _dataGridController = DataGridController();
-      checkTable = true;
+      // checkTable = false;
     } else if (_selectedIndex == 2) {
       qualitylisttable3 = checkTable ? massonary_getData() : data;
       _qualityMassonaryDataSource = QualityMassonaryDataSource(
           qualitylisttable3, widget.cityName!, widget.depoName!);
       _dataGridController = DataGridController();
-      checkTable = true;
+      // checkTable = false;
     } else if (_selectedIndex == 3) {
       qualitylisttable4 = checkTable ? glazzing_getData() : data;
       _qualityGlazzingDataSource = QualityGlazzingDataSource(
           qualitylisttable4, widget.cityName!, widget.depoName!);
       _dataGridController = DataGridController();
-      checkTable = true;
+      // checkTable = false;
     } else if (_selectedIndex == 4) {
       qualitylisttable5 = checkTable ? ceilling_getData() : data;
       _qualityCeillingDataSource = QualityCeillingDataSource(
           qualitylisttable5, widget.cityName!, widget.depoName!);
       _dataGridController = DataGridController();
-      checkTable = true;
+      // checkTable = false;
     } else if (_selectedIndex == 5) {
       qualitylisttable6 = checkTable ? florring_getData() : data;
       _qualityflooringDataSource = QualityflooringDataSource(
           qualitylisttable6, widget.cityName!, widget.depoName!);
       _dataGridController = DataGridController();
-      checkTable = true;
+      // checkTable = false;
     } else if (_selectedIndex == 6) {
       qualitylisttable7 = checkTable ? inspection_getData() : data;
       _qualityInspectionDataSource = QualityInspectionDataSource(
           qualitylisttable7, widget.cityName!, widget.depoName!);
       _dataGridController = DataGridController();
-      checkTable = true;
+      // checkTable = false;
     } else if (_selectedIndex == 7) {
       qualitylisttable8 = checkTable ? ironite_florring_getData() : data;
       _qualityIroniteflooringDataSource = QualityIroniteflooringDataSource(
           qualitylisttable8, widget.cityName!, widget.depoName!);
       _dataGridController = DataGridController();
-      checkTable = true;
+      // checkTable = false;
     } else if (_selectedIndex == 8) {
       qualitylisttable9 = checkTable ? painting_getData() : data;
       _qualityPaintingDataSource = QualityPaintingDataSource(
           qualitylisttable9, widget.cityName!, widget.depoName!);
       _dataGridController = DataGridController();
-      checkTable = true;
+      // checkTable = false;
     } else if (_selectedIndex == 9) {
       qualitylisttable10 = checkTable ? paving_getData() : data;
       _qualityPavingDataSource = QualityPavingDataSource(
           qualitylisttable10, widget.cityName!, widget.depoName!);
       _dataGridController = DataGridController();
-      checkTable = true;
+      // checkTable = false;
     } else if (_selectedIndex == 10) {
       print('roofing');
       qualitylisttable11 = checkTable ? roofing_getData() : data;
       _qualityRoofingDataSource = QualityRoofingDataSource(
           qualitylisttable11, widget.cityName!, widget.depoName!);
       _dataGridController = DataGridController();
-      checkTable = true;
+      // checkTable = false;
     } else if (_selectedIndex == 11) {
       print('Proofing');
       qualitylisttable12 = checkTable ? proofing_getData() : data;
       _qualityProofingDataSource = QualityProofingDataSource(
           qualitylisttable12, widget.cityName!, widget.depoName!);
       _dataGridController = DataGridController();
-      checkTable = true;
+      // checkTable = false;
     }
 
-    setState(() {
-      _isloading = false;
-    });
+    _isloading = false;
+    setState(() {});
   }
 
   Future<List<int>> _generateCivilPdf() async {

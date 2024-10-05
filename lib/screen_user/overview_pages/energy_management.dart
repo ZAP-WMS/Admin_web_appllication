@@ -97,7 +97,7 @@ class _EnergyManagementUserState extends State<EnergyManagementUser> {
             role: widget.role,
             depotName: widget.depoName,
             showDepoBar: true,
-            toOverview: true,
+            toenergyManagement: true,
             cityname: widget.cityName,
             text: 'Depot Energy Management',
             haveSummary: true,
@@ -595,9 +595,7 @@ class _EnergyManagementUserState extends State<EnergyManagementUser> {
                         itemBuilder: (context, index) {
                           return Container(
                             margin: const EdgeInsets.only(top: 20.0),
-                            width: 150 *
-                                _energyManagementdatasource.dataGridRows.length
-                                    .toDouble(),
+                            width: 150 * value.energyData.length.toDouble(),
                             height: 220,
                             child: BarChart(
                               swapAnimationCurve: Curves.linear,
@@ -732,6 +730,8 @@ class _EnergyManagementUserState extends State<EnergyManagementUser> {
     }).whenComplete(() async {
       tabledata2.clear();
       Navigator.pop(context);
+      _energyProvider!
+          .fetchGraphData(widget.cityName!, widget.depoName!, widget.userId);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Data are synced'),
         backgroundColor: blue,

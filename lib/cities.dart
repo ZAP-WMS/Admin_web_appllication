@@ -59,7 +59,7 @@ class _CitiesPageState extends State<CitiesPage> {
                     child: CustomAppBar(
                       role: widget.roleCentre,
                       isDepoPage: true,
-                      userId: userId,
+                      // userId: userId,
                       isCitiesPage: true,
 
                       // userid: widget.userid,

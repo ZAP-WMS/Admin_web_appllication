@@ -467,8 +467,15 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       );
       await authService
-          .registerUserWithEmailAndPassword(firstname!, lastname!, phone!,
-              email!, designation!, department!, password!, confpassword!)
+          .registerUserWithEmailAndPassword(
+              firstname!.trim(),
+              lastname!.trim(),
+              phone!.trim(),
+              email!.trim(),
+              designation!.trim(),
+              department!.trim(),
+              password!.trim(),
+              confpassword!.trim())
           .then((value) {
         if (value == true) {
           authService

@@ -10,18 +10,16 @@ class MyOverview extends StatefulWidget {
   final String depoName;
   final String cityName;
   final String role;
-  
-  const MyOverview({
-      super.key,
+
+  const MyOverview(
+      {super.key,
       required this.depoName,
       required this.cityName,
       this.userId,
-      required this.role
-      });
+      required this.role});
 
   @override
   State<MyOverview> createState() => _MyOverviewState();
-
 }
 
 class _MyOverviewState extends State<MyOverview> {
@@ -85,7 +83,6 @@ class _MyOverviewState extends State<MyOverview> {
 
   @override
   Widget build(BuildContext context) {
-    
     List<String> desription = [
       'Overview of Project Progress Status of ${widget.depoName} EV Bus Charging Infra',
       'Project Planning & Scheduling Bus Depot Wise [Gant Chart] ',
@@ -215,6 +212,4 @@ class _MyOverviewState extends State<MyOverview> {
     assignedDepots = await authService.getDepotList();
     print("AssignedDepots - $assignedDepots");
   }
-
-  
 }

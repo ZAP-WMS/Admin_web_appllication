@@ -701,7 +701,7 @@ class _RoleScreenState extends State<RoleScreen> {
 
     QuerySnapshot userQuery =
         await FirebaseFirestore.instance.collection('User').get();
-    List<String> userList = userQuery.docs.map((e) => e.id).toList();
+    List<String> userList = userQuery.docs.map((e) => e.id.trim()).toList();
 
     allUserList = userList;
 
@@ -1423,7 +1423,7 @@ class _RoleScreenState extends State<RoleScreen> {
   Future<void> getSelectedUserId(String username) async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('User')
-        .where('fullName', isEqualTo: username)
+        .where('fullName', isEqualTo: username.trim())
         .get();
 
     if (querySnapshot.docs.isNotEmpty) {

@@ -741,7 +741,7 @@ class FluroRouting {
         final roleCentre = modelRoute['roleCentre'];
 
         return ClosureReportAction(
-          roleCentre: roleCentre,
+          //  roleCentre: roleCentre,
           depotName: depoName,
           role: role,
           userId: userId,
@@ -764,7 +764,7 @@ class FluroRouting {
                 if (userId != 'null') {
                   // Return your widget here using userId
                   return ClosureReportAction(
-                    roleCentre: roleCentre,
+                    //  roleCentre: roleCentre,
                     depotName: depotName,
                     role: role,
                     userId: userId,
@@ -893,7 +893,6 @@ class FluroRouting {
     });
   }
 
- 
   // static Future<String?> _getUserIdFromSharedPreferences() async {
   //   SharedPreferences prefs = await SharedPreferences.getInstance();
   //   String? userId = prefs.getString('employeeId');

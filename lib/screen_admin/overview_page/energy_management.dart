@@ -299,215 +299,217 @@ class _EnergyManagementAdminState extends State<EnergyManagementAdmin> {
                     return LoadingPage();
                   } else if (!snapshot.hasData ||
                       snapshot.data.exists == false) {
-                    return Column(
-                      children: [
-                        SfDataGridTheme(
-                            data: SfDataGridThemeData(
-                              headerColor: white,
-                              gridLineStrokeWidth: 2,
-                              gridLineColor: blue,
-                              frozenPaneLineColor: blue,
-                              frozenPaneLineWidth: 4,
-                            ),
-                            child: SfDataGrid(
-                              source: _energydatasource,
-                              allowEditing: false,
-                              frozenColumnsCount: 2,
-                              gridLinesVisibility: GridLinesVisibility.both,
-                              headerGridLinesVisibility:
-                                  GridLinesVisibility.both,
-                              rowHeight: 40,
-                              selectionMode: SelectionMode.multiple,
-                              navigationMode: GridNavigationMode.cell,
-                              columnWidthMode: ColumnWidthMode.auto,
-                              editingGestureType: EditingGestureType.tap,
-                              controller: _dataGridController,
+                    return Expanded(
+                      child: Column(
+                        children: [
+                          SfDataGridTheme(
+                              data: SfDataGridThemeData(
+                                headerColor: white,
+                                gridLineStrokeWidth: 2,
+                                gridLineColor: blue,
+                                frozenPaneLineColor: blue,
+                                frozenPaneLineWidth: 4,
+                              ),
+                              child: SfDataGrid(
+                                source: _energydatasource,
+                                allowEditing: false,
+                                frozenColumnsCount: 2,
+                                gridLinesVisibility: GridLinesVisibility.both,
+                                headerGridLinesVisibility:
+                                    GridLinesVisibility.both,
+                                rowHeight: 40,
+                                selectionMode: SelectionMode.multiple,
+                                navigationMode: GridNavigationMode.cell,
+                                columnWidthMode: ColumnWidthMode.auto,
+                                editingGestureType: EditingGestureType.tap,
+                                controller: _dataGridController,
 
-                              // onQueryRowHeight: (details) {
-                              //   return details.rowIndex == 0 ? 60.0 : 49.0;
-                              // },
-                              columns: [
-                                GridColumn(
-                                  visible: false,
-                                  columnName: 'srNo',
-                                  allowEditing: false,
-                                  label: Container(
-                                    alignment: Alignment.center,
-                                    child: Text('Sr No',
-                                        overflow: TextOverflow.values.first,
-                                        style: tableheader
-                                        //    textAlign: TextAlign.center,
-                                        ),
-                                  ),
-                                ),
-                                GridColumn(
-                                  columnName: 'DepotName',
-                                  width: 180,
-                                  allowEditing: false,
-                                  label: Container(
-                                    alignment: Alignment.center,
-                                    child: Text('Depot Name',
-                                        overflow: TextOverflow.values.first,
-                                        style: tableheader),
-                                  ),
-                                ),
-                                GridColumn(
-                                  columnName: 'VehicleNo',
-                                  width: 180,
-                                  allowEditing: true,
-                                  label: Container(
-                                    padding: const EdgeInsets.all(8.0),
-                                    alignment: Alignment.center,
-                                    child: Text('Vehicle No',
-                                        textAlign: TextAlign.center,
-                                        style: tableheader),
-                                  ),
-                                ),
-                                GridColumn(
-                                  columnName: 'pssNo',
-                                  width: 80,
-                                  allowEditing: true,
-                                  label: Container(
-                                    padding: const EdgeInsets.all(8.0),
-                                    alignment: Alignment.center,
-                                    child: Text('PSS No', style: tableheader),
-                                  ),
-                                ),
-                                GridColumn(
-                                  columnName: 'chargerId',
-                                  width: 80,
-                                  allowEditing: true,
-                                  label: Container(
-                                    alignment: Alignment.center,
-                                    child: Text('Charger ID',
-                                        overflow: TextOverflow.values.first,
-                                        style: tableheader),
-                                  ),
-                                ),
-                                GridColumn(
-                                  columnName: 'startSoc',
-                                  allowEditing: true,
-                                  width: 80,
-                                  label: Container(
-                                    alignment: Alignment.center,
-                                    child: Text('Start SOC',
-                                        overflow: TextOverflow.values.first,
-                                        style: tableheader),
-                                  ),
-                                ),
-                                GridColumn(
-                                  columnName: 'endSoc',
-                                  allowEditing: true,
-                                  columnWidthMode:
-                                      ColumnWidthMode.fitByCellValue,
-                                  width: 80,
-                                  label: Container(
-                                    alignment: Alignment.center,
-                                    child: Text('End SOC',
-                                        overflow: TextOverflow.values.first,
-                                        style: tableheader),
-                                  ),
-                                ),
-                                GridColumn(
-                                  columnName: 'startDate',
-                                  allowEditing: false,
-                                  width: 230,
-                                  label: Container(
-                                    alignment: Alignment.center,
-                                    child: Text('Start Date & Time',
-                                        overflow: TextOverflow.values.first,
-                                        style: tableheader),
-                                  ),
-                                ),
-                                GridColumn(
-                                  columnName: 'endDate',
-                                  allowEditing: false,
-                                  width: 230,
-                                  label: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16.0),
-                                    alignment: Alignment.center,
-                                    child: Container(
+                                // onQueryRowHeight: (details) {
+                                //   return details.rowIndex == 0 ? 60.0 : 49.0;
+                                // },
+                                columns: [
+                                  GridColumn(
+                                    visible: false,
+                                    columnName: 'srNo',
+                                    allowEditing: false,
+                                    label: Container(
                                       alignment: Alignment.center,
-                                      child: Text('End Date & Time',
+                                      child: Text('Sr No',
+                                          overflow: TextOverflow.values.first,
+                                          style: tableheader
+                                          //    textAlign: TextAlign.center,
+                                          ),
+                                    ),
+                                  ),
+                                  GridColumn(
+                                    columnName: 'DepotName',
+                                    width: 180,
+                                    allowEditing: false,
+                                    label: Container(
+                                      alignment: Alignment.center,
+                                      child: Text('Depot Name',
                                           overflow: TextOverflow.values.first,
                                           style: tableheader),
                                     ),
                                   ),
-                                ),
-                                GridColumn(
-                                  columnName: 'totalTime',
-                                  allowEditing: false,
-                                  width: 180,
-                                  label: Container(
-                                    alignment: Alignment.center,
-                                    child: Text('Total time of Charging',
-                                        overflow: TextOverflow.values.first,
-                                        style: tableheader),
+                                  GridColumn(
+                                    columnName: 'VehicleNo',
+                                    width: 180,
+                                    allowEditing: true,
+                                    label: Container(
+                                      padding: const EdgeInsets.all(8.0),
+                                      alignment: Alignment.center,
+                                      child: Text('Vehicle No',
+                                          textAlign: TextAlign.center,
+                                          style: tableheader),
+                                    ),
                                   ),
-                                ),
-                                GridColumn(
-                                  columnName: 'energyConsumed',
-                                  allowEditing: true,
-                                  width: 160,
-                                  label: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16.0),
-                                    alignment: Alignment.center,
-                                    child: Text('Engery Consumed (inkW)',
-                                        overflow: TextOverflow.values.first,
-                                        textAlign: TextAlign.center,
-                                        style: tableheader),
+                                  GridColumn(
+                                    columnName: 'pssNo',
+                                    width: 80,
+                                    allowEditing: true,
+                                    label: Container(
+                                      padding: const EdgeInsets.all(8.0),
+                                      alignment: Alignment.center,
+                                      child: Text('PSS No', style: tableheader),
+                                    ),
                                   ),
-                                ),
-                                GridColumn(
-                                  columnName: 'timeInterval',
-                                  allowEditing: false,
-                                  width: 150,
-                                  label: Container(
-                                    alignment: Alignment.center,
-                                    child: Text('Interval',
-                                        overflow: TextOverflow.values.first,
-                                        style: tableheader),
+                                  GridColumn(
+                                    columnName: 'chargerId',
+                                    width: 80,
+                                    allowEditing: true,
+                                    label: Container(
+                                      alignment: Alignment.center,
+                                      child: Text('Charger ID',
+                                          overflow: TextOverflow.values.first,
+                                          style: tableheader),
+                                    ),
                                   ),
-                                ),
-                                GridColumn(
-                                  columnName: 'Add',
-                                  autoFitPadding: const EdgeInsets.symmetric(
-                                      horizontal: 16),
-                                  allowEditing: false,
-                                  width: 120,
-                                  label: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0),
-                                    alignment: Alignment.center,
-                                    child: Text('Add Row',
-                                        overflow: TextOverflow.values.first,
-                                        style: tableheader
-                                        //    textAlign: TextAlign.center,
-                                        ),
+                                  GridColumn(
+                                    columnName: 'startSoc',
+                                    allowEditing: true,
+                                    width: 80,
+                                    label: Container(
+                                      alignment: Alignment.center,
+                                      child: Text('Start SOC',
+                                          overflow: TextOverflow.values.first,
+                                          style: tableheader),
+                                    ),
                                   ),
-                                ),
-                                GridColumn(
-                                  columnName: 'Delete',
-                                  autoFitPadding: const EdgeInsets.symmetric(
-                                      horizontal: 16),
-                                  allowEditing: false,
-                                  width: 120,
-                                  label: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0),
-                                    alignment: Alignment.center,
-                                    child: Text('Delete Row',
-                                        overflow: TextOverflow.values.first,
-                                        style: tableheader
-                                        //    textAlign: TextAlign.center,
-                                        ),
+                                  GridColumn(
+                                    columnName: 'endSoc',
+                                    allowEditing: true,
+                                    columnWidthMode:
+                                        ColumnWidthMode.fitByCellValue,
+                                    width: 80,
+                                    label: Container(
+                                      alignment: Alignment.center,
+                                      child: Text('End SOC',
+                                          overflow: TextOverflow.values.first,
+                                          style: tableheader),
+                                    ),
                                   ),
-                                ),
-                              ],
-                            )),
-                      ],
+                                  GridColumn(
+                                    columnName: 'startDate',
+                                    allowEditing: false,
+                                    width: 230,
+                                    label: Container(
+                                      alignment: Alignment.center,
+                                      child: Text('Start Date & Time',
+                                          overflow: TextOverflow.values.first,
+                                          style: tableheader),
+                                    ),
+                                  ),
+                                  GridColumn(
+                                    columnName: 'endDate',
+                                    allowEditing: false,
+                                    width: 230,
+                                    label: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16.0),
+                                      alignment: Alignment.center,
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        child: Text('End Date & Time',
+                                            overflow: TextOverflow.values.first,
+                                            style: tableheader),
+                                      ),
+                                    ),
+                                  ),
+                                  GridColumn(
+                                    columnName: 'totalTime',
+                                    allowEditing: false,
+                                    width: 180,
+                                    label: Container(
+                                      alignment: Alignment.center,
+                                      child: Text('Total time of Charging',
+                                          overflow: TextOverflow.values.first,
+                                          style: tableheader),
+                                    ),
+                                  ),
+                                  GridColumn(
+                                    columnName: 'energyConsumed',
+                                    allowEditing: true,
+                                    width: 160,
+                                    label: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16.0),
+                                      alignment: Alignment.center,
+                                      child: Text('Engery Consumed (inkW)',
+                                          overflow: TextOverflow.values.first,
+                                          textAlign: TextAlign.center,
+                                          style: tableheader),
+                                    ),
+                                  ),
+                                  GridColumn(
+                                    columnName: 'timeInterval',
+                                    allowEditing: false,
+                                    width: 150,
+                                    label: Container(
+                                      alignment: Alignment.center,
+                                      child: Text('Interval',
+                                          overflow: TextOverflow.values.first,
+                                          style: tableheader),
+                                    ),
+                                  ),
+                                  GridColumn(
+                                    columnName: 'Add',
+                                    autoFitPadding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
+                                    allowEditing: false,
+                                    width: 120,
+                                    label: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0),
+                                      alignment: Alignment.center,
+                                      child: Text('Add Row',
+                                          overflow: TextOverflow.values.first,
+                                          style: tableheader
+                                          //    textAlign: TextAlign.center,
+                                          ),
+                                    ),
+                                  ),
+                                  GridColumn(
+                                    columnName: 'Delete',
+                                    autoFitPadding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
+                                    allowEditing: false,
+                                    width: 120,
+                                    label: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0),
+                                      alignment: Alignment.center,
+                                      child: Text('Delete Row',
+                                          overflow: TextOverflow.values.first,
+                                          style: tableheader
+                                          //    textAlign: TextAlign.center,
+                                          ),
+                                    ),
+                                  ),
+                                ],
+                              )),
+                        ],
+                      ),
                     );
                   } else {
                     return const NodataAvailable();

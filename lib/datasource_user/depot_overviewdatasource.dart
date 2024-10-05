@@ -350,7 +350,7 @@ class DepotOverviewDatasource extends DataGridSource {
                                         dataGridRows[dataRowIndex]
                                                 .getCells()[4] =
                                             DataGridCell<String>(
-                                                columnName: 'impactRisk',
+                                                columnName: '   ',
                                                 value: value);
                                         _depotOverview[dataRowIndex]
                                             .impactRisk = value.toString();
